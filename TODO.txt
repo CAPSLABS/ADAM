@@ -1,0 +1,13 @@
+- make boomerangs flip
+- use spritemaps instead of images, then
+	- find more animals and make hero turn with q/e
+
+- make goblins move to player and swing a sword
+- make HP bar 
+- make goblins have 2 hp and blink red upon hit
+- display money
+- create levels and shop in between where you can buy shorter cooldowns
+- display fire/berserk cooldown
+- d and f abilities
+- make stronger enemies for later levels
+- sort code
