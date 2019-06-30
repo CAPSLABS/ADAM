@@ -10,7 +10,6 @@ canBreathTimer = canBreathTimerMax
 
 fireImg = nil
 fires = {
-
 }
 
 canShoot = true
@@ -24,10 +23,11 @@ boomerangs = {
 }
 
 berserkMode = false
-berserkDuration = 3
+berserkDurationMax = 3
+berserkDuration = berserkDurationMax
 
 canBerserk = true
-canBerserkTimerMax = 20
+canBerserkTimerMax = 15
 canBerserkTimer = canBerserkTimerMax
 
 --goblin Timer:
@@ -47,20 +47,23 @@ money = 0
 
 
 function love.load(arg)
+    --Animations
+    animation = newAnimation(love.graphics.newImage("assets/boomerang.png"), 48, 48, 0.3)
 
-    _G.map = loadTiledMap("assets/tile/ebene1", "ebene1tilemap")
+    --hit the bodies
     player = { x = 200, y = 710, speed = 200, img = nil }
-    player.img = love.graphics.newImage("assets/up.png")
+    player.img = love.graphics.newImage("assets/HeroUp.png")
 
     berserkParticle = { x = 200, y = 710, speed = 150, img = nil }
-    berserkParticle.img = love.graphics.newImage("assets/berserk.png")
+    berserkParticle.img = love.graphics.newImage("assets/berserk.png") 
 
-    grass = { x = 200, y = 710, speed = 150, img = nil }
-    grass.img = love.graphics.newImage("assets/berserk.png")
+    --hit the floor:
+    _G.map = loadTiledMap("assets/tile/ebene1", "ebene1tilemap")
 
 
-
+    --particles (currently enemies are particles)
     goblinImg = love.graphics.newImage("assets/goblinsword.png")
+
 
     boomImg = love.graphics.newImage("assets/bullet006.0000.png")
     fireImg = love.graphics.newImage("assets/fire.png")
@@ -76,7 +79,8 @@ function reset()
     canBerserkTimer = canBerserkTimerMax
     canBreathTimer = canBreathTimerMax
     berserkMode = false
-    berserkDuration = 5
+    berserkDuration = berserkDurationMax
+    canBerserkTimer = canBerserkTimerMax
 
     -- reset position
     player.x = 50
@@ -87,7 +91,31 @@ function reset()
     isAlive = true
 end
 
+
+function newAnimation(image, width, height, duration)
+    local animation = {}
+    animation.spriteSheet = image;
+    animation.quads = {};
+
+    for y = 0, image:getHeight() - height, height do
+        for x =0, image:getWidth() - width, width do
+            table.insert(animation.quads, love.graphics.newQuad(x,y, width, height, image:getDimensions()))
+        end
+    end
+
+    animation.duration = duration or 1
+    animation.currentTime = 0
+
+    return animation
+end
+
+
 function love.update(dt)
+    --TODO: change to handle multiple animations
+    animation.currentTime = animation.currentTime+dt
+    if animation.currentTime >= animation.duration then
+        animation.currentTime = animation.currentTime - animation.duration
+    end
 
     -- BOUNDARY
     if love.keyboard.isDown("escape") then
@@ -121,30 +149,30 @@ function love.update(dt)
     end
 
     canBerserkTimer = canBerserkTimer - (1 * dt)
-    if canBerserkTimer < 0 then
-      canBerserk = true
+        if canBerserkTimer < 0 then
+          canBerserk = true
     end
 
-    if berserkMode==true then
+
+    if berserkMode == true then
         berserkDuration = berserkDuration - (1*dt)
         if berserkDuration < 0 then
-            canBerserkTimer = canBerserkTimerMax
-            berserkDuration = 5
             berserkMode=false
+            berserkDuration = berserkDurationMax
         end
     end
 
-    
     if love.keyboard.isDown("a") then
         if berserkMode==false then
             if canShoot then 
-                newBoomerang = { x = player.x + (player.img:getWidth()/2), y = player.y, img =boomImg}
+                newBoomerang = { x = player.x, y = player.y, img =boomImg}
+                
                 table.insert(boomerangs, newBoomerang)
                 canShoot=false
                 canShootTimer = canShootTimerMax
             end
         else
-            newBoomerang = { x = player.x + (player.img:getWidth()/2), y = player.y, img =boomImg}
+            newBoomerang = { x = player.x, y = player.y, img =boomImg}
             table.insert(boomerangs, newBoomerang)
             canShoot=false
             canShootTimer = canShootTimerMax
@@ -152,13 +180,16 @@ function love.update(dt)
     end
 
     if love.keyboard.isDown("s") and canBreath then 
-        newFire = { x = player.x + (player.img:getWidth()/2)-100, y = player.y-300, img =fireImg}
+        newFire = { x = player.x + (player.img:getWidth()/2)-140, y = player.y-300, img =fireImg}
         table.insert(fires, newFire)
         canBreath=false
         canBreathTimer = canBreathTimerMax
     end
+    --be able to go into mode, reset timer
     if love.keyboard.isDown("space") and canBerserk then 
         berserkMode=true
+        canBerserk=false
+        canBerserkTimer = canBerserkTimerMax
     end
 
     -- ENEMIES
@@ -210,25 +241,38 @@ function love.update(dt)
                 money = money+1
             end
         end
-    
+        
+        for j, fire in ipairs(fires) do
+            if CheckCollision(goblin.x, goblin.y, goblin.img:getWidth(), goblin.img:getHeight(),
+                            fire.x, fire.y, fire.img:getWidth(), fire.img:getHeight()) then
+                table.remove(goblins, i)
+                money = money+1
+            end
+            money = money+1
+        end
+
         if CheckCollision(goblin.x, goblin.y, goblin.img:getWidth(), goblin.img:getHeight(), 
                             player.x, player.y, player.img:getWidth(), player.img:getHeight()) 
         and isAlive then
             table.remove(goblins, i)
-            isAlive = false
+            -- add this line for actual game
+            -- isAlive = false
+
         end
     end
 end
 
 function love.draw(dt)
-
     _G.map:draw()
+
+    local spriteNum = math.floor(animation.currentTime / animation.duration * #animation.quads) + 1
+    love.graphics.draw(animation.spriteSheet, animation.quads[spriteNum])
 
     --PLAYER
     if isAlive then
-    love.graphics.draw(player.img, player.x, player.y)
+    love.graphics.draw(player.img, player.x, player.y, 0, 0.3, 0.3)
     else
-        love.graphics.print("Press F to pay respect.\n\nPress 'R' to restart", love.graphics:getWidth()/2-50, love.graphics:getHeight()/2-10)
+        love.graphics.print("Press 'F' to pay respect.\n\nPress 'R' to restart", love.graphics:getWidth()/2-50, love.graphics:getHeight()/2-10)
     end
     --WEAPONS
     for i, boomerang in ipairs(boomerangs) do
