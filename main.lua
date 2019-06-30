@@ -1,6 +1,5 @@
-require("src.physix");
-local sti = require("Simple-Tiled-Implementation.sti")
-
+require("src.physix")
+require("src.tiledmap")
 debug = true
 
 
@@ -49,8 +48,7 @@ money = 0
 
 function love.load(arg)
 
-    map = sti("map.lua")
-
+    _G.map = loadTiledMap("assets/tile/ebene1", "ebene1tilemap")
     player = { x = 200, y = 710, speed = 200, img = nil }
     player.img = love.graphics.newImage("assets/up.png")
 
@@ -69,29 +67,27 @@ function love.load(arg)
 end
 
 function reset()
-        boomerangs = {}
-        goblins = {}
+    boomerangs = {}
+    goblins = {}
 
-        -- reset timers
-        canShootTimer = canShootTimerMax
-        createEnemyTimer = createEnemyTimerMax
-        canBerserkTimer = canBerserkTimerMax
-        canBreathTimer = canBreathTimerMax
-        berserkMode = false
-        berserkDuration = 5
+    -- reset timers
+    canShootTimer = canShootTimerMax
+    createEnemyTimer = createEnemyTimerMax
+    canBerserkTimer = canBerserkTimerMax
+    canBreathTimer = canBreathTimerMax
+    berserkMode = false
+    berserkDuration = 5
 
-        -- reset position
-        player.x = 50
-        player.y = 710
+    -- reset position
+    player.x = 50
+    player.y = 710
 
-        -- reset our game state
-        money = 0
-        isAlive = true
+    -- reset our game state
+    money = 0
+    isAlive = true
 end
 
 function love.update(dt)
-
-    map:update(dt)
 
     -- BOUNDARY
     if love.keyboard.isDown("escape") then
@@ -170,8 +166,8 @@ function love.update(dt)
     if createGoblinTimer < 0 then
         createGoblinTimer = createGoblinTimerMax
         --create a goblin
-        randomNumber = math.random(10, love.graphics.getWidth() - 20)
-        newGoblin = { x = randomNumber, y = -10, img = goblinImg }
+        randomNumber = math.random(10, love.graphics.getWidth() - 10)
+        newGoblin = { x = randomNumber-20, y = -10, img = goblinImg }
         table.insert(goblins, newGoblin)
     end
 
@@ -226,7 +222,7 @@ end
 
 function love.draw(dt)
 
-    map:draw()
+    _G.map:draw()
 
     --PLAYER
     if isAlive then
