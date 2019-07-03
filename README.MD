@@ -2,12 +2,10 @@ Welcome to ADAM, the **A**wesome **D**efender **A**ction **M**urderer Game
 
 How to install/play?
 
-In terminal. do:
+In terminal, download the source:
 
-```
-git clone 
-cd awesome_defender_action_murderer
-```
+`git clone git@gitlab.com:DavidLeonardWenzel/awesomedefenderactionmurderer.git`
+
 
 If you have LUA and LOVE installed skip the following steps, otherwise do:    
 **ARCH:**  
@@ -18,7 +16,7 @@ If you have LUA and LOVE installed skip the following steps, otherwise do:
 `sudo apt install love`
 
 then:  
-`love .`
+`love awesomedefenderactionmurderer`
 
 
 I used [TILED](https://www.mapeditor.org/) for creating the levels. 

@@ -45,6 +45,7 @@ goblins = {} -- array of current enemies on screen
 isAlive = true
 money = 0
 
+player_scale = 0.3
 
 function love.load(arg)
     --Animations
@@ -132,7 +133,7 @@ function love.update(dt)
             player.x = player.x - (player.speed*dt)
         end
     elseif love.keyboard.isDown("right") then
-        if player.x < (love.graphics.getWidth() - player.img:getWidth()) then
+        if player.x < (love.graphics.getWidth() - 30) then
             player.x = player.x + (player.speed*dt)
         end
     end
@@ -252,11 +253,11 @@ function love.update(dt)
         end
 
         if CheckCollision(goblin.x, goblin.y, goblin.img:getWidth(), goblin.img:getHeight(), 
-                            player.x, player.y, player.img:getWidth(), player.img:getHeight()) 
+                            player.x, player.y, player.img:getWidth()*player_scale, player.img:getHeight()*player_scale) 
         and isAlive then
             table.remove(goblins, i)
             -- add this line for actual game
-            -- isAlive = false
+            isAlive = false
 
         end
     end
@@ -270,7 +271,7 @@ function love.draw(dt)
 
     --PLAYER
     if isAlive then
-    love.graphics.draw(player.img, player.x, player.y, 0, 0.3, 0.3)
+    love.graphics.draw(player.img, player.x, player.y, 0, player_scale, player_scale)
     else
         love.graphics.print("Press 'F' to pay respect.\n\nPress 'R' to restart", love.graphics:getWidth()/2-50, love.graphics:getHeight()/2-10)
     end
