@@ -1,12 +1,15 @@
 function loadTiledMap(path, luamap)
-    local map = require(path .."/"..luamap)
+    local map = require(path ..luamap)
 
     map.quads = {}
     
     local tileset = map.tilesets[1]
 
+    print("tileset:\n")
+    print(tileset)
+
     map.tileset = tileset
-    map.image = love.graphics.newImage(path .."/".. tileset.image)
+    map.image = love.graphics.newImage(path .. tileset.image)
 
     map.animatedTiles = {}
     for i, tile in ipairs(tileset.tiles) do

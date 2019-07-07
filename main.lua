@@ -59,7 +59,7 @@ function love.load(arg)
     berserkParticle.img = love.graphics.newImage("assets/berserk.png") 
 
     --hit the floor:
-    _G.map = loadTiledMap("assets/tile/ebene1", "ebene1tilemap")
+    _G.map = loadTiledMap("assets/tile/ebene1/", "ebene1tilemap")
 
 
     --particles (currently enemies are particles)
