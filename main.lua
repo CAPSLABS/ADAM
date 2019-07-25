@@ -1,14 +1,14 @@
 require("src.physix")
 require("src.tiledmap")
 debug = true
-
+local anim8 = require "anim8"
 
 -- Weapon Timer
 canBreath = true
 canBreathTimerMax = 5
 canBreathTimer = canBreathTimerMax
 
-fireImg = nil
+
 fires = {
 }
 
@@ -17,10 +17,8 @@ canShootTimerMax = 0.3
 -- upgrade possibility: timer down 
 canShootTimer = canShootTimerMax
 
-boomImg = nil   
-boomerangs = {
 
-}
+booms = {}
 
 berserkMode = false
 berserkDurationMax = 3
@@ -34,10 +32,7 @@ canBerserkTimer = canBerserkTimerMax
 createGoblinTimerMax = 0.4
 createGoblinTimer = createGoblinTimerMax
   
--- More images
-goblinImg = nil -- Like other images we'll pull this in during out love.load function
-  
--- More storage
+
 goblins = {} -- array of current enemies on screen
 
 
@@ -49,7 +44,8 @@ player_scale = 0.3
 
 function love.load(arg)
     --Animations
-    animation = newAnimation(love.graphics.newImage("assets/boomerang.png"), 48, 48, 0.3)
+    boomerangImg = love.graphics.newImage('assets/boomerang.png')
+    g = anim8.newGrid(48, 48, boomerangImg:getWidth(), boomerangImg:getHeight())
 
     --hit the bodies
     player = { x = 200, y = 710, speed = 200, img = nil }
@@ -66,9 +62,12 @@ function love.load(arg)
     goblinImg = love.graphics.newImage("assets/goblinsword.png")
 
 
-    boomImg = love.graphics.newImage("assets/bullet006.0000.png")
+    --boomImg = love.graphics.newImage("assets/bullet006.0000.png")
     fireImg = love.graphics.newImage("assets/fire.png")
 end
+
+
+
 
 function reset()
     boomerangs = {}
@@ -93,31 +92,7 @@ function reset()
 end
 
 
-function newAnimation(image, width, height, duration)
-    local animation = {}
-    animation.spriteSheet = image;
-    animation.quads = {};
-
-    for y = 0, image:getHeight() - height, height do
-        for x =0, image:getWidth() - width, width do
-            table.insert(animation.quads, love.graphics.newQuad(x,y, width, height, image:getDimensions()))
-        end
-    end
-
-    animation.duration = duration or 1
-    animation.currentTime = 0
-
-    return animation
-end
-
-
 function love.update(dt)
-    --TODO: change to handle multiple animations
-    animation.currentTime = animation.currentTime+dt
-    if animation.currentTime >= animation.duration then
-        animation.currentTime = animation.currentTime - animation.duration
-    end
-
     -- BOUNDARY
     if love.keyboard.isDown("escape") then
         love.event.push("quit")
@@ -166,15 +141,14 @@ function love.update(dt)
     if love.keyboard.isDown("a") then
         if berserkMode==false then
             if canShoot then 
-                newBoomerang = { x = player.x, y = player.y, img =boomImg}
-                
-                table.insert(boomerangs, newBoomerang)
+                newBoom = { anim = anim8.newAnimation(g('1-8',1), 0.03), x = player.x, y = player.y}
+                table.insert(booms, newBoom)
                 canShoot=false
                 canShootTimer = canShootTimerMax
             end
         else
-            newBoomerang = { x = player.x, y = player.y, img =boomImg}
-            table.insert(boomerangs, newBoomerang)
+            newBoom = { anim = anim8.newAnimation(g('1-8',1), 0.01), x = player.x, y = player.y}
+            table.insert(booms, newBoom)
             canShoot=false
             canShootTimer = canShootTimerMax
         end
@@ -205,11 +179,12 @@ function love.update(dt)
 
     -- POSITIONS
     --move boomerangs
-    for i , boomerang in ipairs(boomerangs) do
+    for i, boomerang in ipairs(booms) do
+    	boomerang.anim:update(dt)
         boomerang.y = boomerang.y - (350 * dt)
     -- delete boomerangs
         if boomerang.y < 0 then 
-            table.remove(boomerangs, i)
+            table.remove(booms, i)
         end
     end
 
@@ -233,11 +208,11 @@ function love.update(dt)
     -- COLLISION
     -- loop through shorter stuff first!
     for i, goblin in ipairs(goblins) do
-        for j, boomerang in ipairs(boomerangs) do
+        for j, boom in ipairs(booms) do
             if CheckCollision(goblin.x, goblin.y, goblin.img:getWidth(), goblin.img:getHeight(), 
-                            boomerang.x, boomerang.y, boomerang.img:getWidth(), boomerang.img:getHeight()) then
+                            boom.x, boom.y, boomerangImg:getWidth(), boomerangImg:getHeight()) then
 
-                table.remove(boomerangs, j)
+                table.remove(booms, j)
                 table.remove(goblins, i)
                 money = money+1
             end
@@ -265,10 +240,6 @@ end
 
 function love.draw(dt)
     _G.map:draw()
-
-    local spriteNum = math.floor(animation.currentTime / animation.duration * #animation.quads) + 1
-    love.graphics.draw(animation.spriteSheet, animation.quads[spriteNum])
-
     --PLAYER
     if isAlive then
     love.graphics.draw(player.img, player.x, player.y, 0, player_scale, player_scale)
@@ -276,8 +247,8 @@ function love.draw(dt)
         love.graphics.print("Press 'F' to pay respect.\n\nPress 'R' to restart", love.graphics:getWidth()/2-50, love.graphics:getHeight()/2-10)
     end
     --WEAPONS
-    for i, boomerang in ipairs(boomerangs) do
-        love.graphics.draw(boomerang.img, boomerang.x, boomerang.y)
+    for i, boom in ipairs(booms) do
+        boom.anim:draw(boomerangImg, boom.x, boom.y)
     end
     for i, fire in ipairs(fires) do
         love.graphics.draw(fire.img, fire.x, fire.y, 0,0.5, 0.5)
