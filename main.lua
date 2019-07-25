@@ -9,8 +9,7 @@ canBreathTimerMax = 5
 canBreathTimer = canBreathTimerMax
 
 fireImg = nil
-fires = {
-}
+fires = {}
 
 canShoot = true
 canShootTimerMax = 0.3
@@ -18,9 +17,7 @@ canShootTimerMax = 0.3
 canShootTimer = canShootTimerMax
 
 boomImg = nil   
-boomerangs = {
-
-}
+boomerangs = {}
 
 berserkMode = false
 berserkDurationMax = 3
@@ -40,8 +37,6 @@ goblinImg = nil -- Like other images we'll pull this in during out love.load fun
 -- More storage
 goblins = {} -- array of current enemies on screen
 
-
-
 isAlive = true
 money = 0
 
@@ -50,6 +45,10 @@ player_scale = 0.3
 function love.load(arg)
     --Animations
     animation = newAnimation(love.graphics.newImage("assets/boomerang.png"), 48, 48, 0.3)
+    animation2 = newAnimation(love.graphics.newImage("assets/boomerang.png"), 48, 48, 0.3)
+
+    animation2.startx = 100
+    animation2.starty = 100
 
     --hit the bodies
     player = { x = 200, y = 710, speed = 200, img = nil }
@@ -59,13 +58,10 @@ function love.load(arg)
     berserkParticle.img = love.graphics.newImage("assets/berserk.png") 
 
     --hit the floor:
-    _G.map = loadTiledMap("assets/tile/ebene1/", "ebene1tilemap")
-
+    _G.map = loadTiledMap("assets/tile/", "ebene1tilemap")
 
     --particles (currently enemies are particles)
     goblinImg = love.graphics.newImage("assets/goblinsword.png")
-
-
     boomImg = love.graphics.newImage("assets/bullet006.0000.png")
     fireImg = love.graphics.newImage("assets/fire.png")
 end
@@ -116,6 +112,10 @@ function love.update(dt)
     animation.currentTime = animation.currentTime+dt
     if animation.currentTime >= animation.duration then
         animation.currentTime = animation.currentTime - animation.duration
+    end
+    animation2.currentTime = animation2.currentTime+dt
+    if animation2.currentTime >= animation2.duration then
+        animation2.currentTime = animation2.currentTime - animation2.duration
     end
 
     -- BOUNDARY
@@ -268,6 +268,7 @@ function love.draw(dt)
 
     local spriteNum = math.floor(animation.currentTime / animation.duration * #animation.quads) + 1
     love.graphics.draw(animation.spriteSheet, animation.quads[spriteNum])
+    love.graphics.draw(animation2.spriteSheet, animation2.quads[spriteNum])
 
     --PLAYER
     if isAlive then
