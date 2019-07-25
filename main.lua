@@ -29,8 +29,8 @@ canBerserkTimer = canBerserkTimerMax
 createGoblinTimerMax = 0.4
 createGoblinTimer = createGoblinTimerMax
   
-
 goblins = {} -- array of current enemies on screen
+ded_goblins = {}
 
 isAlive = true
 money = 0
@@ -40,7 +40,15 @@ player_scale = 0.3
 function love.load(arg)
     --Animations
     boomerangImg = love.graphics.newImage('assets/boomerang.png')
-    g = anim8.newGrid(48, 48, boomerangImg:getWidth(), boomerangImg:getHeight())
+    boomGrid = anim8.newGrid(48, 48, boomerangImg:getWidth(), boomerangImg:getHeight())
+
+    goblinImg = love.graphics.newImage('assets/goblinswordMap.png')
+    goblinGrid = anim8.newGrid(65, 64, goblinImg:getWidth(), goblinImg:getHeight())
+    dedAnim = anim8.newAnimation(goblinGrid('1-4',5, '4-1', 5), 0.1)
+    --1 down, 2 right, 3 up, 4 left, 5 ded
+    --1-7 walk, 8-10 stab
+
+
 
     --hit the bodies
     player = { x = 200, y = 710, speed = 200, img = nil }
@@ -52,8 +60,6 @@ function love.load(arg)
     --hit the floor:
     _G.map = loadTiledMap("assets/tile/", "ebene1tilemap")
 
-    --particles (currently enemies are particles)
-    goblinImg = love.graphics.newImage("assets/goblinsword.png")
     fireImg = love.graphics.newImage("assets/fire.png")
 end
 
@@ -81,6 +87,7 @@ end
 
 
 function love.update(dt)
+    dedAnim:update(dt)
     -- BOUNDARY
     if love.keyboard.isDown("escape") then
         love.event.push("quit")
@@ -129,13 +136,13 @@ function love.update(dt)
     if love.keyboard.isDown("a") then
         if berserkMode==false then
             if canShoot then 
-                newBoom = { anim = anim8.newAnimation(g('1-8',1), 0.03), x = player.x, y = player.y}
+                newBoom = { anim = anim8.newAnimation(boomGrid('1-8',1), 0.03), x = player.x, y = player.y}
                 table.insert(booms, newBoom)
                 canShoot=false
                 canShootTimer = canShootTimerMax
             end
         else
-            newBoom = { anim = anim8.newAnimation(g('1-8',1), 0.01), x = player.x, y = player.y}
+            newBoom = { anim = anim8.newAnimation(boomGrid('1-8',1), 0.01), x = player.x, y = player.y}
             table.insert(booms, newBoom)
             canShoot=false
             canShootTimer = canShootTimerMax
@@ -161,7 +168,7 @@ function love.update(dt)
         createGoblinTimer = createGoblinTimerMax
         --create a goblin
         randomNumber = math.random(10, love.graphics.getWidth() - 10)
-        newGoblin = { x = randomNumber-20, y = -10, img = goblinImg }
+        newGoblin = {anim = anim8.newAnimation(goblinGrid('1-7', 1), 0.07), x = randomNumber-20, y = -10}
         table.insert(goblins, newGoblin)
     end
 
@@ -187,6 +194,7 @@ function love.update(dt)
     --move goblin
     for i, goblin in ipairs(goblins) do
         goblin.y = goblin.y + (200*dt)
+        goblin.anim:update(dt)
 
         if goblin.y > 850 then
             table.remove(goblins, i)
@@ -197,9 +205,10 @@ function love.update(dt)
     -- loop through shorter stuff first!
     for i, goblin in ipairs(goblins) do
         for j, boom in ipairs(booms) do
-            if CheckCollision(goblin.x, goblin.y, goblin.img:getWidth(), goblin.img:getHeight(), 
-                            boom.x, boom.y, boomerangImg:getWidth(), boomerangImg:getHeight()) then
+            if CheckCollision(goblin.x, goblin.y, 64, 64, 
+                            boom.x, boom.y, 48, boomerangImg:getHeight()) then
 
+                table.insert(ded_goblins, {x=goblin.x, y=goblin.y})
                 table.remove(booms, j)
                 table.remove(goblins, i)
                 money = money+1
@@ -207,7 +216,7 @@ function love.update(dt)
         end
         
         for j, fire in ipairs(fires) do
-            if CheckCollision(goblin.x, goblin.y, goblin.img:getWidth(), goblin.img:getHeight(),
+            if CheckCollision(goblin.x, goblin.y, 64, 64,
                             fire.x, fire.y, fire.img:getWidth(), fire.img:getHeight()) then
                 table.remove(goblins, i)
                 money = money+1
@@ -215,7 +224,7 @@ function love.update(dt)
             money = money+1
         end
 
-        if CheckCollision(goblin.x, goblin.y, goblin.img:getWidth(), goblin.img:getHeight(), 
+        if CheckCollision(goblin.x, goblin.y, 64, 64, 
                             player.x, player.y, player.img:getWidth()*player_scale, player.img:getHeight()*player_scale) 
         and isAlive then
             table.remove(goblins, i)
@@ -224,6 +233,7 @@ function love.update(dt)
 
         end
     end
+    dedAnim:update(dt)
 end
 
 function love.draw(dt)
@@ -241,9 +251,15 @@ function love.draw(dt)
     for i, fire in ipairs(fires) do
         love.graphics.draw(fire.img, fire.x, fire.y, 0,0.5, 0.5)
     end
+    
     for i, goblin in ipairs(goblins) do
-        love.graphics.draw(goblin.img, goblin.x, goblin.y)
+        goblin.anim:draw(goblinImg, goblin.x, goblin.y)
     end
+    
+    for i, ded_goblin in ipairs(ded_goblins) do
+        dedAnim:draw(goblinImg,  ded_goblin.x, ded_goblin.y)
+    end
+    
     if berserkMode == true then
         love.graphics.draw(berserkParticle.img, player.x, player.y-5, 0,1.5,1.5)
     end

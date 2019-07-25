@@ -1,5 +1,4 @@
-- use the animated boomerang (only for non berserk mode)
-- make hero turn left/right with q/e
+- make hero turn left/right with q/e -> or rather look down
 - make goblins move to cities and swing at them sword
 - display money and city hp
 - make goblins have 2 hp and blink red upon hit
