@@ -58,7 +58,7 @@ function love.load(arg)
     berserkParticle.img = love.graphics.newImage("assets/berserk.png") 
 
     --hit the floor:
-    _G.map = loadTiledMap("assets/tile/", "ebene1tilemap")
+    _G.map = loadTiledMap("assets/tile/", "ebene2tilemap")
 
     fireImg = love.graphics.newImage("assets/fire.png")
 end
