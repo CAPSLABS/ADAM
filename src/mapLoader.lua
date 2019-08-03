@@ -5,9 +5,6 @@ function loadTiledMap(path, luamap)
     
     local tileset = map.tilesets[1]
 
-    print("tileset:\n")
-    print(tileset)
-
     map.tileset = tileset
     map.image = love.graphics.newImage(path .. tileset.image)
 

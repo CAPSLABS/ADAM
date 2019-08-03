@@ -30,3 +30,6 @@ If you have LUA and LOVE installed skip the following steps, otherwise do:
 ## Run the game:  
 `love awesomedefenderactionmurderer`
 
+Art Credits:  
+- Stephen Challener (Redshrike) 				
+- http://opengameart.org/users/varkalandar	
