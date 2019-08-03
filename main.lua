@@ -72,14 +72,11 @@ function love.update(dt)
 end
 
 function love.draw(dt)
-    --should entities draw themselves?
-    --should the environment draw everyone?
-    --or do we have a dedicated drawer?
-
     _G.map:draw()
-    --PLAYER
-
     env:drawPlayerStuff()
-
     env:drawEnemyStuff()
+    
+    love.graphics.print("FPS: "..tostring(love.timer.getFPS( )), 10, 10)
+    local delta = love.timer.getAverageDelta()
+    love.graphics.print(string.format("\t\t\tAverage DT: %.3f ms", 1000 * delta), 10, 10)
 end
