@@ -12,6 +12,7 @@
 - proper death animation
 - TODO berserk animation, sonic animation, player walk animation
 -  load specific levels with load arg? 
+- PRESS F TO PAY RESPECT AIR HORN SOUND GIMMICK NOW PLEASE I NEED IT
 
 MAYBE check out ECSing our game?
 https://github.com/Hooodini/HooECS

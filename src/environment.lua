@@ -6,7 +6,7 @@ return {
     currentLvl=1,
     levels = {
         --level1
-        {mapPath = "ebene1tilemap",
+        {mapPath = "ebene1small",
         spawnTimer =
             {
                 goblin=0.4, --enemyType&spawnRate
