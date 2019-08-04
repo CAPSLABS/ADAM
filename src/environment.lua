@@ -10,7 +10,6 @@ return {
         spawnTimer =
             {
                 goblin=0.4, --enemyType&spawnRate
-                zombie=2.0,
             }
         },
         --level 2
@@ -18,7 +17,7 @@ return {
         spawnTimer=
             {
                 goblin=0.2,
-                --zombie=0.8,
+                zombie=1.5,
             }
         }
     }, 
