@@ -33,9 +33,9 @@ function initGame(levelID)
 end
 
 function love.load(arg)
-    --if gamestate == "menu" then
-        --local menu = Menu:init()
-    if gamestate == "gameStart" then
+    if gamestate == "menu" then
+        local menu = Menu:init()
+    elseif gamestate == "gameStart" then
         initGame(arg)
     --elseif gamestate == "gameOver" then
     end
@@ -135,9 +135,9 @@ function love.draw(dt)
         _G.map:draw()
         env:drawPlayerStuff()
         env:drawEnemyStuff()
-        love.graphics.print("FPS: "..tostring(love.timer.getFPS( )), 10, 10)
-        local delta = love.timer.getAverageDelta()
-        love.graphics.print(string.format("\t\t\tAverage DT: %.3f ms", 1000 * delta), 10, 10)
+        --love.graphics.print("FPS: "..tostring(love.timer.getFPS( )), 10, 10)
+        --local delta = love.timer.getAverageDelta()
+        --love.graphics.print(string.format("\t\t\tAverage DT: %.3f ms", 1000 * delta), 10, 10)
     elseif gamestate == "gameOver" then
         love.graphics.setColor(1,0,0,1)
         love.graphics.print("YOU DIED",100,100)
