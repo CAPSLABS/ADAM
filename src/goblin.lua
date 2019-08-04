@@ -1,7 +1,7 @@
 return {
     hp = 1,
     dmg = 1,
-    speed = 0.27,
+    speed = 0.7,
     x = 0,
     y = 0,
     alive = true,

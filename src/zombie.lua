@@ -7,6 +7,7 @@ return {
     alive = true,
     reward = 3, --possibly function with variable reward?
     anim = nil,
+    takingDmg = false, --TODO add iFrames and redBlink
     curAnim = "leftPump",
     width = 64, 
     height = 64,
@@ -27,8 +28,9 @@ return {
       if self.hp <= 0 then
         self:die()
       else
-        print("this is where i would display a dmg feedback animation")
-        print("IF I HAD ONE")
+
+        --print("this is where i would display a dmg feedback animation")
+        --print("IF I HAD ONE")
       end
 
     end,

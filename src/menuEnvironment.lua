@@ -48,6 +48,12 @@ return {
         zombie = require("src.zombie")
     },
 
+    loadLevel = function(self, lvl) --loads images and animations
+        self.currentLvl=lvl
+        self:loadEnemies()  
+        self:loadPlayer() 
+    end,
+
     --enemies are expected to implement: 
         --media.img(path string)
         --width (the width of the enemy in pixels, int)
@@ -119,9 +125,12 @@ return {
 
     drawPlayerStuff = function(self)
     --TODO check if we want to draw up or down
-        love.graphics.draw(self.player.media.imgUp, self.player.x, self.player.y, 0, self.player.scale, self.player.scale)
-        
-        --WEAPONS
+        if self.player.alive then
+            love.graphics.draw(self.player.media.imgUp, self.player.x, self.player.y, 0, self.player.scale, self.player.scale)
+        else
+            love.graphics.print("Press 'F' to pay respect.\n\nPress 'R' to restart", love.graphics:getWidth()/2-50, love.graphics:getHeight()/2-10)
+        end
+            --WEAPONS
         for i, boom in ipairs(self.player.booms) do
             boom.anim:draw(self.player.media.boom, boom.x, boom.y)
         end
