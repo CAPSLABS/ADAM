@@ -48,17 +48,15 @@ function love.load(arg)
     --1 down, 2 right, 3 up, 4 left, 5 ded
     --1-7 walk, 8-10 stab
 
-
-
     --hit the bodies
-    player = { x = 200, y = 710, speed = 200, img = nil }
+    player = { x = 480, y = 800, speed = 200, img = nil }
     player.img = love.graphics.newImage("assets/HeroUp.png")
 
     berserkParticle = { x = 200, y = 710, speed = 150, img = nil }
     berserkParticle.img = love.graphics.newImage("assets/berserk.png") 
 
     --hit the floor:
-    _G.map = loadTiledMap("assets/tile/", "ebene2tilemap")
+    _G.map = loadTiledMap("assets/tile/", "smallertestmap")
 
     fireImg = love.graphics.newImage("assets/fire.png")
 end

@@ -8,3 +8,4 @@
 - d and f abilities (fast move and shockwave)
 - make stronger enemies for later levels
 - sort code
+- How to load turned tiles from tileset? (Problem: tile id gets weird)
