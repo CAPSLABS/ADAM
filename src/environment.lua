@@ -4,6 +4,9 @@ return {
     x = 32*15,
     y = 32*30,
     currentLvl=nil,
+    media = {
+        explosion = "assets/explosion.png"
+    },
     levels = {
         --level1
         {mapPath = "ebene1tilemap",
@@ -64,6 +67,13 @@ return {
             self.player.media[key] = love.graphics.newImage(imgPath) 
         end
         self.player.media.boomGrid= anim8.newGrid(48, 48, playerRaw.media.boom:getWidth(), playerRaw.media.boom:getHeight())
+    end,
+
+    loadMedia = function(self)
+        for key, imgPath in pairs(self.media) do
+            -- Up to now the only media is the explosion pic. If animations are involved, change all of this
+            self.media[key] = love.graphics.newImage(imgPath)
+        end
     end,
 
     --enemies are expected to implement: 
