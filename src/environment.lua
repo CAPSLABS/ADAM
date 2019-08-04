@@ -117,7 +117,7 @@ return {
         end
     end,
 
-    checkInput = function(self,dt)
+    checkPlayerActionInput = function(self,dt)
         -- MOVEMENT
         if love.keyboard.isDown("left") then
             self.player:moveLeft(dt)

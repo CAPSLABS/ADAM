@@ -58,7 +58,7 @@ function love.update(dt)
 
     elseif gamestate == 2 then --GAME
         menu:checkRestartInput()
-        env:checkInput(dt)
+        env:checkPlayerActionInput(dt)
         env.player:updateCooldowns(dt) 
         env.player:updateModeDurations(dt) 
         env.player:updateBooms(dt) --moves,animates&deletes boomerangs
