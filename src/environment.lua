@@ -30,7 +30,7 @@ return {
             },
         },
         --menu (always last)
-        {mapPath = "ebene1small",
+        {mapPath = "ebene1tilemap",
         spawnTimer=
             {
                 goblin=0,

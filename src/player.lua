@@ -47,12 +47,14 @@ return {
         if self.x > 0 then --TODO better check left side of sized player
             self.x = self.x - (self.speed*dt)
         end
+        self.anim:update(dt)
     end,
 
     moveRight = function(self,dt)
         if (self.x + self.media.img:getWidth()*self.scale) < env.x then --TODO check right side of sized self
            self.x = self.x + (self.speed*dt) 
         end
+        self.anim:update(dt)
     end,
 
     --a
@@ -146,9 +148,9 @@ return {
         end
     end,
 
-    updateSelf = function(self,dt)
-        self.anim:update(dt)
-    end,
+    --updateSelf = function(self,dt)
+        --self.anim:update(dt)
+    --end,
 
     die = function(self)
         self.alive = false

@@ -63,7 +63,7 @@ function love.update(dt)
         env.player:updateModeDurations(dt) 
         env.player:updateBooms(dt) --moves,animates&deletes boomerangs
         env.player:updateFire(dt)
-        env.player:updateSelf(dt)
+        --env.player:updateSelf(dt)
 
         env:spawnEnemies(dt)
         env:updateEnemies(dt) --moves, animates&deletes enemies
@@ -86,7 +86,12 @@ function love.draw(dt)
 
     elseif gamestate == 2 then
         _G.map:draw()
+
+        love.graphics.push()
+        love.graphics.scale(0.3, 0.3)
         env:drawPlayerStuff()
+        love.graphics.pop() -- so the scale doesn't affect anything else
+        
         env:drawEnemyStuff()
         
     
@@ -101,3 +106,4 @@ function love.draw(dt)
     if debug then
         drawPerformance()
     end
+end
