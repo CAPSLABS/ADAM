@@ -25,8 +25,12 @@ If you have LUA and LOVE installed skip the following steps, otherwise do:
 `sudo apt install lua`  
 `sudo apt install love`  
 **WINDOWS:**  
-[please look here for how-to-install LÖVE and run stuff from source](https://love2d.org/wiki/Getting_Started)
+[please see the instructions for downloading LÖVE and running games here](https://love2d.org/wiki/Getting_Started). 
+After downloading LÖVE you can download the game folder and drag it on top of the love.exe!
 
 ## Run the game:  
 `love awesomedefenderactionmurderer`
 
+Art Credits:  
+- Stephen Challener (Redshrike) 				
+- http://opengameart.org/users/varkalandar	

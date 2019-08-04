@@ -7,5 +7,16 @@
 - starting menu, maybe with character selection if i find more sprites
 - d and f abilities (fast move and shockwave)
 - make stronger enemies for later levels
-- sort code
 - How to load turned tiles from tileset? (Problem: tile id gets weird)
+- have environment collect out of screen garbage in one function
+- proper death animation
+- TODO berserk animation, sonic animation, player walk animation
+-  load specific levels with load arg? 
+
+MAYBE check out ECSing our game?
+https://github.com/Hooodini/HooECS
+
+PROBABLY  should check out hump for several gamestates: menu, levels, gameOver
+https://hump.readthedocs.io/en/latest/gamestate.html
+(or alternative gamestate implementations)
+>>>>>>> d02529dc782ac368bc314eef430368fbab2b2172
