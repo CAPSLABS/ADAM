@@ -1,7 +1,7 @@
 return {
     hp = 1,
     dmg = 1,
-    speed = 1,
+    speed = 0.7,
     x = 0,
     y = 0,
     alive = true,
@@ -15,11 +15,11 @@ return {
     },
     
     --instantiator:
-    newSelf =function(self, startX, walkAnim)
-      babyGoblin=shallowcopy(self)
-      babyGoblin.x = startX
-      babyGoblin.anim = walkAnim
-      return babyGoblin
+    newSelf =function(self)
+      baby=shallowcopy(self)
+      baby.x = math.random(0, (env.x - self.width)) -- substracting width avoids clipping out to the right
+      baby.anim = anim8.newAnimation(self.media.imgGrid('1-7', 1), 0.07)
+      return baby
     end,
 
     getHit = function(self, dmg)
@@ -52,7 +52,7 @@ return {
     update = function(self,dt) 
       self.anim:update(dt)
       if self.alive then
-        self.y = self.y + (200*dt)
+        self.y = self.y + (self.speed*200*dt)
        
         if self.y > self.y then
            self.alive = false

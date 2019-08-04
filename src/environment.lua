@@ -10,14 +10,14 @@ return {
         spawnTimer =
             {
                 goblin=0.4, --enemyType&spawnRate
-                --zombie=2.0,
+                zombie=2.0,
             }
         },
         --level 2
         {mapPath = "assets/tile/ebene2tilemap",
         spawnTimer=
             {
-                goblin=0.1,
+                goblin=0.2,
                 --zombie=0.8,
             }
         }
@@ -26,7 +26,7 @@ return {
         --TODO could reduce initial load time here be making a func that checks which 
         --enemies have currentLvl.spawnTime values and only load those  
         goblin = require("src.goblin"),
-        --zombie = require("src.zombie")
+        zombie = require("src.zombie")
     },
 
     loadLevel = function(self) --loads images and animations
@@ -70,9 +70,7 @@ return {
             self.levels[self.currentLvl].spawnTimer[enemy] = timer - (1*dt)
             if timer < 0 then --put enemy in the table and reset timer:[self.currentLvl].spawnTimer[enemy])
                 self.levels[self.currentLvl].spawnTimer[enemy] = envRaw.levels[self.currentLvl].spawnTimer[enemy]
-                local randomStartX = math.random(0, self.x - self.statsRaw[enemy].width) -- substracting width avoids clipping out to the right
-                local walkAnim = anim8.newAnimation(self.statsRaw[enemy].media.imgGrid('1-7', 1), 0.07)
-                local newEnemy = self.statsRaw[enemy]:newSelf(randomStartX, walkAnim) 
+                local newEnemy = self.statsRaw[enemy]:newSelf() 
                 table.insert(self.enemies, newEnemy)
             end
         end

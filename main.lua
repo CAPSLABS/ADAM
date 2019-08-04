@@ -12,7 +12,7 @@ function love.load(arg)
     
     --mutable environment with loaded player,enemies&animations:
     env = deepcopy(envRaw)
-    _G.map = loadTiledMap("assets/tile/", "smallertestmap") 
+    _G.map = loadTiledMap("assets/tile/", "ebene1tilemap") 
     --TODO load map using env.lvl.path
 end
 
