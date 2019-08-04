@@ -9,15 +9,16 @@
 --      @authors David L. Wenzel, Phillip Tse
 --]]
 
-require("src.physix")
 require("src.mapLoader")
 require("src.util")
 anim8 = require "src.anim8"
 
---1 menu 2 game 3 gameOver 4 shop
+debug = true
+
+--1=menu, 2=game, 3=gameOver, 4=shop
 Gamestates = {1,2,3,4}
 gamestate = Gamestates[1]
-    
+
 ------------ LOADING --------------
 
 function love.load(startLvl)
@@ -45,7 +46,6 @@ function initGame(startLvl)
     playerRaw = require("src.player")   
     env.player = shallowcopy(playerRaw)
     env:loadPlayer()
-
     _G.map = loadTiledMap("assets/tile/", env.levels[startLvl].mapPath) 
 end
 
@@ -60,10 +60,13 @@ function love.update(dt)
     elseif gamestate == 2 then --GAME
         menu:checkRestartInput()
         env:checkPlayerActionInput(dt)
+
         env.player:updateCooldowns(dt) 
         env.player:updateModeDurations(dt) 
         env.player:updateBooms(dt) --moves,animates&deletes boomerangs
         env.player:updateFire(dt)
+        --env.player:updateSelf(dt)
+
         env:spawnEnemies(dt)
         env:updateEnemies(dt) --moves, animates&deletes enemies
         env:handleCollisions()
@@ -85,11 +88,14 @@ function love.draw(dt)
 
     elseif gamestate == 2 then
         _G.map:draw()
+
+        love.graphics.push()
+        love.graphics.scale(0.3, 0.3)
         env:drawPlayerStuff()
+        love.graphics.pop() -- so the scale doesn't affect anything else
+        
         env:drawEnemyStuff()
-        love.graphics.print("FPS: "..tostring(love.timer.getFPS( )), 10, 10)
-        local delta = love.timer.getAverageDelta()
-        love.graphics.print(string.format("\t\t\tAverage DT: %.3f ms", 1000 * delta), 10, 10)
+        
     
     elseif gamestate == 3 then
         love.graphics.setColor(1,0,0,1)
@@ -97,5 +103,9 @@ function love.draw(dt)
         love.graphics.print("Press ESC to quit.",100,150)
         love.graphics.print("Press R to restart.",100,175)
         love.graphics.print("Press F to pay respect.",100,200)
+    end
+
+    if debug then
+        drawPerformance()
     end
 end

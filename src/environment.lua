@@ -66,7 +66,10 @@ return {
         for key, imgPath in pairs(self.player.media) do
             self.player.media[key] = love.graphics.newImage(imgPath) 
         end
-        self.player.media.boomGrid= anim8.newGrid(48, 48, playerRaw.media.boom:getWidth(), playerRaw.media.boom:getHeight())
+        self.player.media.boomGrid= anim8.newGrid(48, 48, self.player.media.boom:getWidth(), self.player.media.boom:getHeight())
+        self.player.media.playerGrid= anim8.newGrid(256, 256, self.player.media.img:getWidth(), self.player.media.img:getHeight())
+        
+        self.player.anim = anim8.newAnimation(self.player.media.playerGrid('1-4',2), 0.1)
     end,
 
     loadMedia = function(self)
@@ -120,8 +123,8 @@ return {
             -- check player collision:
             if CheckCollision(enemy.x, enemy.y, enemy.width, enemy.height, 
                                 self.player.x, self.player.y, 
-                                self.player.media.imgUp:getWidth()*self.player.scale, 
-                                self.player.media.imgUp:getHeight()*self.player.scale) then
+                                self.player.media.img:getWidth()*self.player.scale, 
+                                self.player.media.img:getHeight()*self.player.scale) then
                 self.player:die()
             end
         end
@@ -145,8 +148,8 @@ return {
 
     drawPlayerStuff = function(self)
     --TODO check if we want to draw up or down
-        love.graphics.draw(self.player.media.imgUp, self.player.x, self.player.y, 0, self.player.scale, self.player.scale)
-        
+
+        self.player.anim:draw(self.player.media.img, self.player.x, self.player.y)
         --WEAPONS
         for i, boom in ipairs(self.player.booms) do
             boom.anim:draw(self.player.media.boom, boom.x, boom.y)
