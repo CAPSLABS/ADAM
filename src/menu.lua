@@ -5,6 +5,8 @@
 --]]
 
 return {
+
+	-- Menu Text
     options = function(self)
         love.graphics.print("This is the menu.",10,810)
         love.graphics.print(" Press C to start to play awesomedefenderactionmurderer!",10,820)
@@ -12,14 +14,7 @@ return {
         love.graphics.print(" Press 2 to play only level 2!",10,840)
     end,
 
-    checkRestartInput = function(self)
-    	if love.keyboard.isDown("escape") then
-            love.event.push("quit") 
-        elseif love.keyboard.isDown("r") and (env.player.alive==false) then
-            love.event.quit("restart")
-        end
-	end,
-
+    -- Controls in Menu screen
     checkLoadingInput = function(self)
     	if love.keyboard.isDown("c") then
             gamestate=2
@@ -31,5 +26,15 @@ return {
             gamestate=2
             love.load(2)
         end
-	end
+	end,
+
+	-- Controls during game or during gameover
+	checkRestartInput = function(self)
+    	if love.keyboard.isDown("escape") then
+            love.event.push("quit") 
+        elseif love.keyboard.isDown("r") and (env.player.alive==false) then
+            love.event.quit("restart")
+        end
+	end,
+
 }

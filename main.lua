@@ -18,8 +18,8 @@ anim8 = require "src.anim8"
 Gamestates = {1,2,3,4}
 gamestate = Gamestates[1]
     
-
 ------------ LOADING --------------
+
 function love.load(startLvl)
     if gamestate == 1 then
         initMenu()
@@ -38,7 +38,6 @@ function initMenu()
     _G.map = loadTiledMap("assets/tile/",env.levels[env.currentLvl].mapPath) 
 end
 
-
 function initGame(startLvl)
     env.enemies={}
     env.currentLvl = startLvl
@@ -49,6 +48,8 @@ function initGame(startLvl)
 
     _G.map = loadTiledMap("assets/tile/", env.levels[startLvl].mapPath) 
 end
+
+------------ UPDATING --------------
 
 function love.update(dt)
     if gamestate == 1 then --MENU
