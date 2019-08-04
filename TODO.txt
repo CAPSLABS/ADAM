@@ -8,6 +8,9 @@
 - d and f abilities (fast move and shockwave)
 - make stronger enemies for later levels
 - have environment collect out of screen garbage in one function
+- proper death animation
+- TODO berserk animation, sonic animation, player walk animation
+-  load specific levels with load arg? 
 
 MAYBE check out ECSing our game?
 https://github.com/Hooodini/HooECS

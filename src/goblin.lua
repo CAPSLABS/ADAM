@@ -5,22 +5,21 @@ return {
     x = 0,
     y = 0,
     alive = true,
+    reward = 1, --possibly function with variable reward?
     anim = nil,
     dmgAnim = nil,
+    width = 65, 
+    height = 64,
     media = {
         img = 'assets/goblinSword.png'
     },
     
     --instantiator:
-    newGoblin =function(self, startX, walkAnim)
+    newSelf =function(self, startX, walkAnim)
       babyGoblin=shallowcopy(self)
       babyGoblin.x = startX
       babyGoblin.anim = walkAnim
       return babyGoblin
-    end,
-
-    getWidth = function(self)
-      return 64 --this is not the image width, thus hardcoded
     end,
 
     getHit = function(self, dmg)
@@ -38,7 +37,7 @@ return {
     --ok, so its kinda hard to replace the animation with dying
     --and continue with the logic straight away
     --you need to be alive to not get removed 
-    --so, you could set alive to "dying", a third state
+    --so, you could set alive to sth like "dying", a third state
     --during dying, should collisison happen with boomerangs?
     --with other goblins?
     --during updating the animation, we need to check

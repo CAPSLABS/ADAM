@@ -1,64 +1,102 @@
 return {
     player = nil,
-    goblins = {},
-    zombies = {},
+    enemies = {},
     x = 32*15,
     y = 32*30,
-    l1 = {
-        mapPath = "assets/tile/ebene1tilemap",
-        goblinTimer=0.4,
-        goblinTimerMax = 0.4
-        --TODO start slower and rather add goblin spawn acceleration
-        --time based or ded enemy/money based?
+    currentLvl=1,
+    levels = {
+        --level1
+        {mapPath = "assets/tile/ebene1tilemap",
+        spawnTimer =
+            {
+                goblin=0.4, --enemyType&spawnRate
+                --zombie=2.0,
+            }
+        },
+        --level 2
+        {mapPath = "assets/tile/ebene2tilemap",
+        spawnTimer=
+            {
+                goblin=0.1,
+                --zombie=0.8,
+            }
+        }
     }, 
-    l2 = {
-        mapPath = "assets/tile/ebene2tilemap",
-        goblinTimer=0.3,
-        goblinTimerMax = 0.3
-    }, 
+    statsRaw = { --used for creating new instances with max values
+        --TODO could reduce initial load time here be making a func that checks which 
+        --enemies have currentLvl.spawnTime values and only load those  
+        goblin = require("src.goblin"),
+        --zombie = require("src.zombie")
+    },
 
-    updateEnemies = function(self, dt) --TODO put enemies in collection class
-        for i, goblin in ipairs(self.goblins) do
-            goblin:update(dt)
-            if not goblin.alive then
-                table.remove(self.goblins, i)
-                self.player.money = self.player.money+1
+    loadLevel = function(self) --loads images and animations
+        self:loadEnemies()  
+        self:loadPlayer() 
+    end,
+
+    --enemies are expected to implement: 
+        --media.img(path string)
+        --width (the width of the enemy in pixels, int)
+        --height (the height of the enemy in pixels, int)
+    loadEnemies = function(self)
+        for key, enemy in pairs(self.statsRaw) do
+            enemy.media.img = love.graphics.newImage(enemy.media.img) 
+            enemy.media.imgGrid = anim8.newGrid(enemy.width, enemy.height, enemy.media.img:getWidth(), enemy.media.img:getHeight())
+        end
+    end,
+
+    loadPlayer = function(self)
+        for key, imgPath in pairs(self.player.media) do
+            self.player.media[key] = love.graphics.newImage(imgPath) 
+        end
+        self.player.media.boomGrid= anim8.newGrid(48, 48, playerRaw.media.boom:getWidth(), playerRaw.media.boom:getHeight())
+    end,
+
+    --enemies are expected to implement: 
+        --update(anim function)
+        --alive (bool) & reward (int) 
+    updateEnemies = function(self, dt) 
+        for i, enemy in ipairs(self.enemies) do
+            enemy:update(dt)
+            if not enemy.alive then
+                table.remove(self.enemies, i)
+                self.player.money = self.player.money+enemy.reward
             end
         end
     end,
 
-    spawnEnemies = function(self,dt) --todo, make non goblin specific
-        self.l1.goblinTimer = self.l1.goblinTimer - (1*dt)
-        if self.l1.goblinTimer < 0 then
-            --create a goblin and reset timer
-            self.l1.goblinTimer = self.l1.goblinTimerMax
-            local randomStartX = math.random(0, self.x - goblinRaw:getWidth()) -- substr. width avoids clipping out to the right
-            local walkAnim = anim8.newAnimation(goblinRaw.media.imgGrid('1-7', 1), 0.07)
-            local newGoblin = goblinRaw:newGoblin(randomStartX, walkAnim)
-            table.insert(self.goblins, newGoblin)
+    spawnEnemies = function(self,dt)
+        for enemy,timer in pairs(self.levels[self.currentLvl].spawnTimer) do
+            self.levels[self.currentLvl].spawnTimer[enemy] = timer - (1*dt)
+            if timer < 0 then --put enemy in the table and reset timer:[self.currentLvl].spawnTimer[enemy])
+                self.levels[self.currentLvl].spawnTimer[enemy] = envRaw.levels[self.currentLvl].spawnTimer[enemy]
+                local randomStartX = math.random(0, self.x - self.statsRaw[enemy].width) -- substracting width avoids clipping out to the right
+                local walkAnim = anim8.newAnimation(self.statsRaw[enemy].media.imgGrid('1-7', 1), 0.07)
+                local newEnemy = self.statsRaw[enemy]:newSelf(randomStartX, walkAnim) 
+                table.insert(self.enemies, newEnemy)
+            end
         end
     end,
 
     handleCollisions = function(self)
-        --per goblin
-        for i, goblin in ipairs(self.goblins) do
+        for i, enemy in ipairs(self.enemies) do
             --check boom collision:
             for j, boom in ipairs(self.player.booms) do
-                if CheckCollision(goblin.x, goblin.y, 64, 64, 
+                if CheckCollision(enemy.x, enemy.y, enemy.width, enemy.height, 
                                 boom.x, boom.y, 48, 48) then
-                    goblin:getHit(1)
+                    enemy:getHit(1)
                     table.remove(self.player.booms, j)
                 end
             end
             -- check fire collision:
             for j, fire in ipairs(self.player.fires) do
-                if CheckCollision(goblin.x, goblin.y, 64, 64,
-                                fire.x, fire.y, fire.img:getWidth(), fire.img:getHeight()) then
-                    goblin:getHit(2)
+                if CheckCollision(enemy.x, enemy.y, enemy.width, enemy.height,
+                                fire.x, fire.y, fire.img:getWidth()*0.5, fire.img:getHeight()*0.5) then
+                    enemy:getHit(2)
                 end
             end
             -- check player collision:
-            if CheckCollision(goblin.x, goblin.y, 64, 64, 
+            if CheckCollision(enemy.x, enemy.y, enemy.width, enemy.height, 
                                 self.player.x, self.player.y, 
                                 self.player.media.imgUp:getWidth()*self.player.scale, 
                                 self.player.media.imgUp:getHeight()*self.player.scale) then
@@ -68,6 +106,7 @@ return {
     end,
 
     drawPlayerStuff = function(self)
+    --TODO check if we want to draw up or down
         if self.player.alive then
             love.graphics.draw(self.player.media.imgUp, self.player.x, self.player.y, 0, self.player.scale, self.player.scale)
         else
@@ -87,8 +126,8 @@ return {
     end,
 
     drawEnemyStuff = function(self)
-        for i, goblin in ipairs(self    .goblins) do
-            goblin.anim:draw(goblinRaw.media.img, goblin.x, goblin.y)
+        for i, enemy in ipairs(self.enemies) do
+            enemy.anim:draw(enemy.media.img, enemy.x, enemy.y)
         end
     end,
 }
