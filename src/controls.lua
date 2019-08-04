@@ -7,8 +7,6 @@
 --adv like this: entity and logic control is seperated
 --disAdv: everything here calls the player anyway, is seperation even good when semantic is this close?
 
-
-
 function goBerserk(dt)
     player.inBerserk=true
     player.canBerserk=false

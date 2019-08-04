@@ -17,7 +17,7 @@ anim8 = require "src.anim8"
 --1 menu 2 game 3 gameOver 4 shop
 Gamestates = {1,2,3,4}
 gamestate = Gamestates[1]
-
+    
 
 ------------ LOADING --------------
 function love.load(startLvl)
@@ -54,58 +54,24 @@ function love.update(dt)
     if gamestate == 1 then --MENU
         env:spawnEnemies(dt)
         env:updateEnemies(dt) --moves, animates&deletes enemies
-        if love.keyboard.isDown("c") then
-            gamestate=2
-            love.load(1)
-        elseif love.keyboard.isDown("1") then
-            gamestate=2
-            love.load(1)
-        elseif love.keyboard.isDown("2") then
-            gamestate=2
-            love.load(2)
-        end
-
+        menu:checkLoadingInput()
 
     elseif gamestate == 2 then --GAME
-        -- BOUNDARY
-        if love.keyboard.isDown("escape") then
-            love.event.push("quit") 
-        elseif love.keyboard.isDown("r") and (env.player.alive==false) then
-            love.event.quit("restart")
-        -- MOVEMENT
-        elseif love.keyboard.isDown("left") then
-            env.player:moveLeft(dt)
-        elseif love.keyboard.isDown("right") then
-            env.player:moveRight(dt)
-        end
-        -- ATTACKS (do not elseif or one cannot activate skills simultaniously!)
-        if love.keyboard.isDown("a") then
-            env.player:throwBoom(dt) end
-        if love.keyboard.isDown("s") and env.player.canBreath then
-            env.player:spitFire(dt) end
-        if love.keyboard.isDown("d") and env.player.canBerserk then 
-            env.player:goBerserk(dt) end
-
+        menu:checkRestartInput()
+        env:checkInput(dt)
         env.player:updateCooldowns(dt) 
         env.player:updateModeDurations(dt) 
-
         env.player:updateBooms(dt) --moves,animates&deletes boomerangs
         env.player:updateFire(dt)
-
         env:spawnEnemies(dt)
         env:updateEnemies(dt) --moves, animates&deletes enemies
         env:handleCollisions()
 
     elseif gamestate == 3 then --GAME OVER
-         -- BOUNDARY
-        if love.keyboard.isDown("escape") then
-            love.event.push("quit") 
-        elseif love.keyboard.isDown("r") and (env.player.alive==false) then
-            love.event.quit("restart")
-        end
+        menu:checkRestartInput()
+
     elseif gamestate == 4 then --shop
     end
-
 end
 
 ------------ DRAWING --------------
