@@ -143,4 +143,10 @@ return {
             end
         end
     end,
+
+    die = function(self)
+        self.alive = false
+        gamestate = 3
+
+    end
 }   

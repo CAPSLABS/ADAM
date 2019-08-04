@@ -6,7 +6,7 @@ return {
     currentLvl=nil,
     levels = {
         --level1
-        {mapPath = "ebene1small",
+        {mapPath = "ebene1tilemap",
         spawnTimer =
             {
                 goblin=0.4, --enemyType&spawnRate
@@ -47,6 +47,12 @@ return {
         goblin = require("src.goblin"),
         zombie = require("src.zombie")
     },
+
+    loadLevel = function(self, lvl) --loads images and animations
+        self.currentLvl=lvl
+        self:loadEnemies()  
+        self:loadPlayer() 
+    end,
 
     --enemies are expected to implement: 
         --media.img(path string)
@@ -119,9 +125,12 @@ return {
 
     drawPlayerStuff = function(self)
     --TODO check if we want to draw up or down
-        love.graphics.draw(self.player.media.imgUp, self.player.x, self.player.y, 0, self.player.scale, self.player.scale)
-        
-        --WEAPONS
+        if self.player.alive then
+            love.graphics.draw(self.player.media.imgUp, self.player.x, self.player.y, 0, self.player.scale, self.player.scale)
+        else
+            love.graphics.print("Press 'F' to pay respect.\n\nPress 'R' to restart", love.graphics:getWidth()/2-50, love.graphics:getHeight()/2-10)
+        end
+            --WEAPONS
         for i, boom in ipairs(self.player.booms) do
             boom.anim:draw(self.player.media.boom, boom.x, boom.y)
         end
