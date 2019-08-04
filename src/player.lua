@@ -39,7 +39,6 @@ return {
         fire = "assets/fire.png",
 
         berserk = "assets/berserk.png",
-        --sonic = "assets/explosions.png",
     },
 
 
