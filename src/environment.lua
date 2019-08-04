@@ -6,7 +6,7 @@ return {
     currentLvl=nil,
     levels = {
         --level1
-        {mapPath = "ebene1small",
+        {mapPath = "ebene1tilemap",
         spawnTimer =
             {
                 goblin=0.4, --enemyType&spawnRate
@@ -118,6 +118,22 @@ return {
                 self.player:die()
             end
         end
+    end,
+
+    checkPlayerActionInput = function(self,dt)
+        -- MOVEMENT
+        if love.keyboard.isDown("left") then
+            self.player:moveLeft(dt)
+        elseif love.keyboard.isDown("right") then
+            self.player:moveRight(dt)
+        end
+        -- ATTACKS (do not elseif or one cannot activate skills simultaniously!)
+        if love.keyboard.isDown("a") then
+            self.player:throwBoom(dt) end
+        if love.keyboard.isDown("s") and self.player.canBreath then
+            self.player:spitFire(dt) end
+        if love.keyboard.isDown("d") and self.player.canBerserk then 
+            self.player:goBerserk(dt) end
     end,
 
     drawPlayerStuff = function(self)
