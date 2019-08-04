@@ -15,7 +15,7 @@ return {
     canThrow = true,
     booms = {},
     -- s
-    breathCooldown = 5,
+    breathCooldown = 8,
     canBreath = true,
     fires = {},
     -- d
@@ -26,6 +26,7 @@ return {
     canRunFast = true,
 
     -- MODES
+    fireDuration = 3,
     berserkDuration = 3,
     inBerserk = false,
     --
@@ -33,7 +34,7 @@ return {
     inSonic = false,
 
     media = {
-        imgUp = "assets/HeroUp.png",
+        img = "assets/HeroFull.png",
             
         boom = "assets/boomerang.png",
         fire = "assets/fire.png",
@@ -49,7 +50,7 @@ return {
     end,
 
     moveRight = function(self,dt)
-        if (self.x + self.media.imgUp:getWidth()*self.scale) < env.x then --TODO check right side of sized self
+        if (self.x + self.media.img:getWidth()*self.scale) < env.x then --TODO check right side of sized self
            self.x = self.x + (self.speed*dt) 
         end
     end,
@@ -67,12 +68,11 @@ return {
         end
     end,
 
-
     --s
     spitFire = function(self,dt)
         --TODO self should have leftside/middle/rightside functions for such things and collision 
         -- and not calculate image width here
-        table.insert(self.fires, {img = self.media.fire, x = self.x + (self.media.imgUp:getWidth()/2)-140, y = self.y-300})
+        table.insert(self.fires, {img = self.media.fire, time=self.fireDuration, x = self.x + (self.media.img:getWidth()/2)-140, y = self.y-300})
         self.canBreath=false
         self.breathCooldown = playerRaw.breathCooldown
     end,
@@ -121,6 +121,7 @@ return {
             end
         end
         --TODO sonic mode
+
     end,
 
 
@@ -137,11 +138,16 @@ return {
 
     updateFire = function(self,dt) --todo make non map specific, rather give duration that can be upgraded
         for i , fire in ipairs(self.fires) do
-            fire.y = fire.y - (30 * dt)
-            if fire.y < (env.y/4) then
+            fire.y = fire.y - (20 * dt)
+            fire.time = fire.time - (1*dt)
+            if fire.time < 0 then
                 table.remove(self.fires, i)
             end
         end
+    end,
+
+    updateSelf = function(self,dt)
+        self.anim:update(dt)
     end,
 
     die = function(self)
