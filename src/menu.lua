@@ -8,17 +8,16 @@ return {
 
 	-- Menu Text
     options = function(self)
-        love.graphics.print("This is the menu.",10,810)
-        love.graphics.print(" Press C to start to play awesomedefenderactionmurderer!",10,820)
-        love.graphics.print(" Press 1 to play only level 1!",10,830)
-        love.graphics.print(" Press 2 to play only level 2!",10,840)
+        love.graphics.print("This is the menu.",10,750)
+        love.graphics.print(" Press C to start to play awesomedefenderactionmurderer!",10,760)
+        love.graphics.print(" Press 1 to play only level 1!",10,770)
+        love.graphics.print(" Press 2 to play only level 2!",10,780)
     end,
 
     -- Controls in Menu screen
     checkLoadingInput = function(self)
     	if love.keyboard.isDown("c") then
-            gamestate=2
-            love.load(1)
+            gamestate=5
         elseif love.keyboard.isDown("1") then
             gamestate=2
             love.load(1)

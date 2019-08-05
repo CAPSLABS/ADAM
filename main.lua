@@ -15,8 +15,8 @@ anim8 = require "src.anim8"
 
 debug = true
 
---1=menu, 2=game, 3=gameOver, 4=shop
-Gamestates = {1,2,3,4}
+--1=menu, 2=game, 3=gameOver, 4=shop, 5=intro
+Gamestates = {1,2,3,4,5}
 gamestate = Gamestates[1]
 
 ------------ LOADING --------------
@@ -35,7 +35,9 @@ function initMenu()
     menu = require("src.menu")
     env = require("src.environment")
     env.currentLvl = 3 --make sure to have last index as menu
+    --env.currentLvl = #env.levels
     env:loadEnemies()
+    env:loadMedia()
     _G.map = loadTiledMap("assets/tile/",env.levels[env.currentLvl].mapPath) 
 end
 
@@ -75,6 +77,9 @@ function love.update(dt)
         menu:checkRestartInput()
 
     elseif gamestate == 4 then --shop
+
+    elseif gamestate == 5 then --intro sequence activated
+        env:updateExplosion(dt)
     end
 end
 
@@ -95,7 +100,6 @@ function love.draw(dt)
         love.graphics.pop() -- so the scale doesn't affect anything else
         
         env:drawEnemyStuff()
-        
     
     elseif gamestate == 3 then
         love.graphics.setColor(1,0,0,1)
@@ -103,6 +107,13 @@ function love.draw(dt)
         love.graphics.print("Press ESC to quit.",100,150)
         love.graphics.print("Press R to restart.",100,175)
         love.graphics.print("Press F to pay respect.",100,200)
+
+    elseif gamestate == 4 then
+
+    elseif gamestate == 5 then
+        _G.map:draw()
+        env:drawEnemyStuff()
+        env:drawExplosionStuff()
     end
 
     if debug then

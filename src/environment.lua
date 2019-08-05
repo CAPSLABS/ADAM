@@ -5,7 +5,12 @@ return {
     y = 32*30,
     currentLvl=nil,
     media = {
-        explosion = "assets/explosion.png"
+        explosion = {
+            img = "assets/explosion.png",
+            runtime = 0,
+            maxRuntime = 2,
+            scale = 0
+        }
     },
     levels = {
         --level1
@@ -51,6 +56,8 @@ return {
         zombie = require("src.zombie")
     },
 
+    ------------ LOADING --------------
+
     --enemies are expected to implement: 
         --media.img(path string)
         --width (the width of the enemy in pixels, int)
@@ -73,11 +80,18 @@ return {
     end,
 
     loadMedia = function(self)
-        for key, imgPath in pairs(self.media) do
+        for key, params in pairs(self.media) do
             -- Up to now the only media is the explosion pic. If animations are involved, change all of this
-            self.media[key] = love.graphics.newImage(imgPath)
+            if key == "explosion" then
+                self.media[key].img = love.graphics.newImage(params.img)
+                self.media[key].runtime = params.runtime
+                self.media[key].maxRuntime = params.maxRuntime
+                self.media[key].scale = params.scale
+            end
         end
     end,
+
+    ------------ UPDATING --------------
 
     --enemies are expected to implement: 
         --update(anim function)
@@ -100,6 +114,19 @@ return {
                 local newEnemy = self.statsRaw[enemy]:newSelf() 
                 table.insert(self.enemies, newEnemy)
             end
+        end
+    end,
+
+    updateExplosion = function(self,dt)
+        if self.media["explosion"].runtime < self.media["explosion"].maxRuntime then
+            -- +1 needed, without it the scaling wouldn't start
+            self.media["explosion"].scale = (self.media["explosion"].scale + 0.1)^self.media["explosion"].runtime
+            self.media["explosion"].runtime = self.media["explosion"].runtime + dt
+        else
+            -- Make explosion more and more transparent
+            -- use love.graphics.stencil giving it a function / mask that defines which pixels to choose
+            -- use stencil test to mark img pixels as make more transparent
+            -- use setColor to make them more transparent / or use pixelshader
         end
     end,
 
@@ -146,6 +173,8 @@ return {
             self.player:goBerserk(dt) end
     end,
 
+    ------------ DRAWING --------------
+
     drawPlayerStuff = function(self)
     --TODO check if we want to draw up or down
 
@@ -166,6 +195,20 @@ return {
     drawEnemyStuff = function(self)
         for i, enemy in ipairs(self.enemies) do
             enemy.anim:draw(enemy.media.img, enemy.x, enemy.y)
+        end
+    end,
+
+    drawExplosionStuff = function(self)
+        if self.media["explosion"].runtime < self.media["explosion"].maxRuntime then
+            -- The transformation coordinate system (upper left corner of pic) is in position (240,850) and is shifted in both directions by 39px, which is the center of the pic
+            local scaling = love.math.newTransform(240, 850, 0, self.media["explosion"].scale, self.media["explosion"].scale, 39, 39)
+            love.graphics.applyTransform(scaling)
+            love.graphics.draw(self.media["explosion"].img, 0, 0)
+        else 
+            -- TODO: How to faster get rid of drawn enemies?
+            self.enemies = {}
+            gamestate = 2
+            love.load(1)
         end
     end,
 }
