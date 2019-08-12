@@ -30,3 +30,15 @@ function CheckCollision(x1,y1,w1,h1, x2,y2,w2,h2)
          y1 < y2+h2 and
          y2 < y1+h1
 end
+
+
+function Set (list)
+  local set = {}
+  for _, l in ipairs(list) do set[l] = true end
+  return set
+end
+
+
+-- damagableStati = Set({"walking"}),
+-- if enemy.curAnim[damagebbleStati] then
+--    do something 

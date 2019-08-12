@@ -1,5 +1,5 @@
 return {
-    hp = 10,
+    hp = 8,
     dmg = 3,
     speed = 0.2,
     x = 0,
@@ -7,8 +7,10 @@ return {
     alive = true,
     reward = 3, --possibly function with variable reward?
     anim = nil,
-    takingDmg = false, --TODO add iFrames and redBlink
-    curAnim = "leftPump",
+    iFrameSec = 0.75,
+    iFrameSecMax = 0.75,
+    curAnim = "leftPump", --can be walking, dying, leftPump, rightPump, star 
+    gotHit = false,
     --the approximate width and height of a zombie (smaller then image)
     width = 30, 
     height = 50,
@@ -34,44 +36,45 @@ return {
         return baby
     end,
 
-    getHit = function(self, dmg)
-      self.hp=self.hp-dmg 
-      if self.hp <= 0 then
-        self:die()
-      else
 
-        --print("this is where i would display a dmg feedback animation")
-        --print("IF I HAD ONE")
-      end
-
+    getHit = function(self, dmg, dt)
+        if not self.gotHit then
+            self.gotHit=true
+            self.hp=self.hp-dmg 
+            if (self.hp <= 0) and (self.curAnim ~= "dying") then
+                --make sure to not die while already in the process of dying
+                self:die()
+            end
+        end
     end,
 
     die = function(self)
-    --ok, so its kinda hard to replace the animation with dying
-    --and continue with the logic straight away
-    --you need to be alive to not get removed 
-    --so, you could set alive to sth like "dying", a third state
-    --during dying, should collisison happen with boomerangs?
-    --with other goblins?
-    --during updating the animation, we need to check
-    --if the animation is of a dying goblin, and when its on its last
-    --dying frame, set alive to false
-    --and then not collision checks if Gob is dead, but rather
-    --the general update
-      self.alive = false
-      self.anim = anim8.newAnimation(self.media.imgGrid('1-7',3), 0.1)
+        self.curAnim = "dying"
+        self.anim = anim8.newAnimation(self.media.imgGrid('1-6',21), 0.3, "pauseAtEnd")
     end,
 
     update = function(self,dt) 
         self.anim:update(dt)
         if self.anim.status == "paused" then
-            self:dance()
+            if self.curAnim == "dying" then
+                self.alive = false
+            else
+                self:dance()
+            end
         end
-        if self.alive and self.curAnim == "walking" then
+        if (self.curAnim=="walking") then
             self.y = self.y + (self.speed*200*dt)
             if self.y > world.y then
                 self.alive = false
             --todo: start attacking village thingy here instead of just dying lol
+            end
+        end
+        
+        if self.gotHit then
+            self.iFrameSec = self.iFrameSec - (1*dt)
+            if self.iFrameSec <= 0 then
+                self.gotHit = false
+                self.iFrameSec = self.iFrameSecMax
             end
         end
     end,

@@ -58,7 +58,7 @@ function love.update(dt)
         world:spawnEnemies(dt)
         world:updateEnemies(dt) --moves, animates&deletes enemies
         menu:checkLoadingInput()
-
+        
     elseif gamestate == 2 then --GAME
         menu:checkRestartInput()
         world:checkPlayerActionInput(dt)

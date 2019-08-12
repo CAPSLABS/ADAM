@@ -4,6 +4,7 @@ return {
     x = 32*15,
     y = 32*30,
     currentLvl=nil,
+
     media = {
         explosion = {
             img = "assets/explosion.png",
@@ -131,40 +132,37 @@ return {
         end
     end,
 
-    handleCollisions = function(self)
+    handleCollisions = function(self, dt)
         for i, enemy in ipairs(self.enemies) do
-            --check boom collision:
-            for j, boom in ipairs(self.player.booms) do
-                if CheckCollision(  enemy:getLeftX(),enemy:getTopY(),
-                                    enemy.width, enemy.height, 
-                                    boom.x, boom.y, 
-                                    48, 48) then
-                    if enemy:getHit(boom.dmg) == "dead" then
-                        self.player.money = self.player.money+enemy.reward
-                        print(self.player.money)
+            if not enemy.gotHit and enemy.curAnim ~= "dying" then
+                -- boom collision
+                for j, boom in ipairs(self.player.booms) do
+                    if CheckCollision(  enemy:getLeftX(),enemy:getTopY(),
+                                        enemy.width, enemy.height, 
+                                        boom.x, boom.y, 
+                                        48, 48) then
+                        enemy:getHit(boom.dmg, dt)
+                        table.remove(self.player.booms, j)
                     end
-
-                    table.remove(self.player.booms, j)
                 end
-            end
-            -- check fire collision:
-            for j, fire in ipairs(self.player.fires) do
+                -- check fire collision:
+                for j, fire in ipairs(self.player.fires) do
+                    if CheckCollision(  enemy:getLeftX(), enemy:getTopY(), 
+                                        enemy.width, enemy.height,
+                                        fire.x, fire.y, 
+                                        fire.width, fire.height) then
+                        enemy:getHit(fire.dmg, dt)
+                    end
+                end
+                -- check player collision:
                 if CheckCollision(  enemy:getLeftX(), enemy:getTopY(), 
-                                    enemy.width, enemy.height,
-                                    fire.x, fire.y, 
-                                    fire.width, fire.height) then
-                    if enemy:getHit(fire.dmg) == "dead" then
-                        self.player.money = self.player.money+enemy.reward
-                    end
+                                    enemy.width, enemy.height, 
+                                    self.player:getLeftX(), self.player:getTopY(), 
+                                    self.player.width, self.player.height) then
+                    self.player:die()
                 end
             end
-            -- check player collision:
-            if CheckCollision(  enemy:getLeftX(), enemy:getTopY(), 
-                                enemy.width, enemy.height, 
-                                self.player:getLeftX(), self.player:getTopY(), 
-                                self.player.width, self.player.height) then
-                self.player:die()
-            end
+
         end
     end,
 
@@ -216,7 +214,13 @@ return {
 
     drawEnemyStuff = function(self)
         for i, enemy in ipairs(self.enemies) do
-            enemy.anim:draw(enemy.media.img, enemy.x, enemy.y)
+            if enemy.gotHit then
+                love.graphics.setColor(1,0,0,1)
+                enemy.anim:draw(enemy.media.img, enemy.x, enemy.y)
+                love.graphics.setColor( 255, 255, 255, 255)
+            else
+                enemy.anim:draw(enemy.media.img, enemy.x, enemy.y)
+            end
         end
     end,
 
