@@ -83,12 +83,12 @@ return {
     throwBoom = function(self,dt)
         if self.inBerserk == false then
             if self.canThrow then 
-                table.insert(self.booms, {anim = anim8.newAnimation(self.media.boomGrid('1-8',1), 0.01), x = self.x, y = self.y, dir = self.dir})
+                table.insert(self.booms, {anim = anim8.newAnimation(self.media.boomGrid('1-8',1), 0.01), x = self.x, y = self.y, dmg = 1, dir = self.dir})
                 self.canThrow = false
                 self.boomCooldown = playerRaw.boomCooldown
             end
         else --NO LIMITS WEEEEEEE 
-            table.insert(self.booms, {anim = anim8.newAnimation(self.media.boomGrid('1-8',1), 0.01), x = self.x, y = self.y, dir = self.dir})
+            table.insert(self.booms, {anim = anim8.newAnimation(self.media.boomGrid('1-8',1), 0.01), x = self.x, y = self.y, dmg = 1, dir = self.dir})
         end
     end,
 
@@ -106,6 +106,7 @@ return {
                         y = self.y - yOffset, 
                         width= self.media.fire:getWidth(),
                         height=self.media.fire:getHeight(),
+                        dmg = 2,
                         dir = self.dir}
         table.insert(self.fires, newFire)
         self.canBreath=false

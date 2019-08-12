@@ -103,7 +103,6 @@ return {
             enemy:update(dt)
             if not enemy.alive then
                 table.remove(self.enemies, i)
-                self.player.money = self.player.money+enemy.reward
             end
         end
     end,
@@ -140,7 +139,11 @@ return {
                                     enemy.width, enemy.height, 
                                     boom.x, boom.y, 
                                     48, 48) then
-                    enemy:getHit(1)
+                    if enemy:getHit(boom.dmg) == "dead" then
+                        self.player.money = self.player.money+enemy.reward
+                        print(self.player.money)
+                    end
+
                     table.remove(self.player.booms, j)
                 end
             end
@@ -150,7 +153,9 @@ return {
                                     enemy.width, enemy.height,
                                     fire.x, fire.y, 
                                     fire.width, fire.height) then
-                    enemy:getHit(2)
+                    if enemy:getHit(fire.dmg) == "dead" then
+                        self.player.money = self.player.money+enemy.reward
+                    end
                 end
             end
             -- check player collision:
