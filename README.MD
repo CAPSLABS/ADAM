@@ -31,6 +31,3 @@ After downloading LÖVE you can download the game folder and drag it on top of t
 ## Run the game:  
 `love awesomedefenderactionmurderer`
 
-Art Credits:  
-- Stephen Challener (Redshrike) 				
-- http://opengameart.org/users/varkalandar	

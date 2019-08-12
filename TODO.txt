@@ -1,22 +1,15 @@
-- make hero turn left/right with q/e -> or rather look down
-- make goblins move to cities and swing at them sword
 - display money and city hp
-- make goblins have 2 hp and blink red upon hit
-- create levels and shop in between where you can buy shorter cooldowns
-- display fire & berserk cooldown
+- create shop in between lvls where you can buy shorter cooldowns
+- f (fast move)
+- space (explosion)
+- display cooldowns
 - starting menu, maybe with character selection if i find more sprites
-- d and f abilities (fast move and shockwave)
-- make stronger enemies for later levels
-- How to load turned tiles from tileset? (Problem: tile id gets weird)
+- make 1-2 stronger enemytypes for later levels
+- make bullet hell / dodge stage
+- make bosses
 - have environment collect out of screen garbage in one function
-- proper death animation
-- TODO berserk animation, sonic animation, player walk animation
--  load specific levels with load arg? 
-- PRESS F TO PAY RESPECT AIR HORN SOUND GIMMICK NOW PLEASE I NEED IT
-
-MAYBE check out ECSing our game?
-https://github.com/Hooodini/HooECS
-
-PROBABLY  should check out hump for several gamestates: menu, levels, gameOver
-https://hump.readthedocs.io/en/latest/gamestate.html
-(or alternative gamestate implementations)
+- TODO berserk animation, sonic animation
+- prettify GAMEOVER screen
+- PRESS F TO PAY RESPECT AIR HORN SOUND GIMMICK NOW PLEASE I NEEED IT
+- 3rd map
+- make spawn timer accelerate in proper fashion

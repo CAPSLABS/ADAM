@@ -11,9 +11,11 @@
 
 require("src.mapLoader")
 require("src.util")
+
+suit = require "src.suit"
 anim8 = require "src.anim8"
 
-debug = false
+debug = true
 
 --1=menu, 2=game, 3=gameOver, 4=shop, 5=intro
 Gamestates = {1,2,3,4,5}
@@ -29,13 +31,16 @@ function love.load(startLvl)
     --elseif gamestate == 3 then
         --gameOver
     elseif gamestate == 4 then
-        --initShop()
+        initShop()
     end
 end
 
 function initShop()
     shop = require("src.shop")
-    
+    shop:loadBacking()
+    playerRaw = require("src.player")   
+    world.player = shallowcopy(playerRaw)
+    world:loadPlayer()
 end
 
 function initMenu()
@@ -64,9 +69,10 @@ function love.update(dt)
     if gamestate == 1 then --MENU
         if world.exploding then
             world:updateExplosion(dt)
-        else 
-            menu:checkLoadingInput()
+        else
+            menu:checkLoadingInput(key)
         end
+
         world:spawnEnemies(dt)
         world:updateEnemies(dt) --moves, animates&deletes enemies
     elseif gamestate == 2 then --GAME
@@ -87,7 +93,6 @@ function love.update(dt)
         menu:checkRestartInput()
 
     elseif gamestate == 4 then --SHOP
-
     end
 end
 
@@ -106,7 +111,6 @@ function love.draw(dt)
         world:drawPlayerStuff()        
         world:drawEnemyStuff()
 
-
     elseif gamestate == 3 then --GAME OVER
         love.graphics.setColor(1,0,0,1)
         love.graphics.print("YOU DIED",100,100)
@@ -115,11 +119,14 @@ function love.draw(dt)
         love.graphics.print("Press F to pay respect.",100,200)
 
     elseif gamestate == 4 then --SHOP
-
+        shop:drawShopShit()
+        suit.draw()
     end
 
     if debug then
-        drawPerformance()
+        --drawPerformance()
         world:drawHitBoxes()
     end
 end
+
+

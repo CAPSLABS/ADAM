@@ -111,7 +111,7 @@ return {
 
     spawnEnemies = function(self,dt)
         for enemy,timer in pairs(self.levels[self.currentLvl].spawnTimer) do
-            self.levels[self.currentLvl].spawnTimer[enemy] = timer - (1*dt)
+            self.levels[self.currentLvl].spawnTimer[enemy] = timer-(dt)
             if timer < 0 then --put enemy in the table and reset timer:[self.currentLvl].spawnTimer[enemy])
                 self.levels[self.currentLvl].spawnTimer[enemy] = self.levels[self.currentLvl].spawnTimerMax[enemy]
                 local newEnemy = self.statsRaw[enemy]:newSelf() 
@@ -174,7 +174,7 @@ return {
         elseif love.keyboard.isDown("right") then
             self.player:moveRight(dt)
         end
-        
+
         if love.keyboard.isDown("down") then
             self.player:changeDirDown()
         elseif love.keyboard.isDown("up") then
@@ -188,6 +188,7 @@ return {
         if love.keyboard.isDown("d") and self.player.canBerserk then 
             self.player:goBerserk(dt) end
     end,
+
 
     ------------ DRAWING --------------
 
