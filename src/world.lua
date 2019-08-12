@@ -4,12 +4,13 @@ return {
     x = 32*15,
     y = 32*30,
     currentLvl=nil,
+    spawnAccel=10,
 
     media = {
         explosion = {
             img = "assets/explosion.png",
             runtime = 0,
-            maxRuntime = 2,
+            maxRuntime = 1.3,
             scale = 0,
         }
     },
@@ -227,6 +228,7 @@ return {
     drawExplosionStuff = function(self,dt)
         if self.media["explosion"].runtime < self.media["explosion"].maxRuntime then
             -- The transformation coordinate system (upper left corner of pic) is in position (240,850) and is shifted in both directions by 39px, which is the center of the pic
+
             local startX = 240
             local startY = 850
             local scaling = love.math.newTransform(startX, startY, 0, self.media["explosion"].scale, self.media["explosion"].scale, self.media["explosion"].img:getWidth()/2, self.media["explosion"].img:getWidth()/2)
@@ -244,18 +246,20 @@ return {
                                 self.media["explosion"].scale*self.media["explosion"].img:getWidth(), 
                                 self.media["explosion"].scale*self.media["explosion"].img:getHeight()) then
                     enemy.y = enemy.y - self.media["explosion"].scale
-                    enemy.anim:draw(enemy.media.img, enemy.x, enemy.y)
+                    --enemy.anim:draw(enemy.media.img, enemy.x, enemy.y)
                 end
             end
         else 
             self.enemies = {}
+            self.exploding = false
             gamestate = 2
             love.load(1)
+
         end
     end,
 
     drawHitBoxes = function(self)
-        if gamestate == 2 then 
+        if gamestate == 2 then
             love.graphics.rectangle("line", 
                                         self.player:getLeftX(), 
                                         self.player:getTopY(), 
@@ -282,7 +286,8 @@ return {
                                         fire.width, 
                                         fire.height)
             end
-        elseif gamestate == 5 then
+        end
+        if self.exploding then
             love.graphics.rectangle("line",
                                     240-self.media["explosion"].scale*self.media["explosion"].img:getWidth()/2,
                                     850-self.media["explosion"].scale*self.media["explosion"].img:getHeight()/2, 

@@ -26,9 +26,16 @@ function love.load(startLvl)
         initMenu()
     elseif gamestate == 2 then 
         initGame(startLvl)
-    --elseif gamestate == "gameOver" then
-    --elseif gamestate == "shop" then
+    --elseif gamestate == 3 then
+        --gameOver
+    elseif gamestate == 4 then
+        --initShop()
     end
+end
+
+function initShop()
+    shop = require("src.shop")
+    
 end
 
 function initMenu()
@@ -55,10 +62,13 @@ end
 
 function love.update(dt)
     if gamestate == 1 then --MENU
+        if world.exploding then
+            world:updateExplosion(dt)
+        else 
+            menu:checkLoadingInput()
+        end
         world:spawnEnemies(dt)
         world:updateEnemies(dt) --moves, animates&deletes enemies
-        menu:checkLoadingInput()
-        
     elseif gamestate == 2 then --GAME
         menu:checkRestartInput()
         world:checkPlayerActionInput(dt)
@@ -78,9 +88,6 @@ function love.update(dt)
 
     elseif gamestate == 4 then --SHOP
 
-    elseif gamestate == 5 then --Intro Sequence
-        world:updateEnemies(dt)
-        world:updateExplosion(dt)
     end
 end
 
@@ -91,15 +98,15 @@ function love.draw(dt)
         _G.map:draw()
         world:drawEnemyStuff()
         menu:options()
-
+        if world.exploding then     
+            world:drawExplosionStuff(dt)
+        end
     elseif gamestate == 2 then --GAME
         _G.map:draw()
         world:drawPlayerStuff()        
         world:drawEnemyStuff()
 
-        if debug then
-            world:drawHitBoxes()
-        end    
+
     elseif gamestate == 3 then --GAME OVER
         love.graphics.setColor(1,0,0,1)
         love.graphics.print("YOU DIED",100,100)
@@ -109,16 +116,10 @@ function love.draw(dt)
 
     elseif gamestate == 4 then --SHOP
 
-    elseif gamestate == 5 then --Intro Sequence
-        _G.map:draw()
-        world:drawEnemyStuff()
-        world:drawExplosionStuff(dt)
-        if debug then
-            world:drawHitBoxes()
-        end 
     end
 
     if debug then
         drawPerformance()
+        world:drawHitBoxes()
     end
 end

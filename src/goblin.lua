@@ -7,7 +7,7 @@ return {
     alive = true,
     reward = 1, --possibly function with variable reward?
     anim = nil,
-    --curAnim, can be walking or dying  
+    --curAnim, can be walking,  dying, attacking  
     gotHit = false,
     --the approximate width and height of the goblin within 1 image
     width = 30, 
@@ -48,25 +48,20 @@ return {
 
     die = function(self)
         self.curAnim = "dying"
-        self.anim = anim8.newAnimation(self.media.imgGrid('1-7', 5), 0.05, "pauseAtEnd")
+        self.anim = anim8.newAnimation(self.media.imgGrid('1-7', 5), 0.06, "pauseAtEnd")
     end,
 
     update = function(self,dt)
         self.anim:update(dt)
         if (self.anim.status == "paused") and (self.curAnim == "dying") then
             self.alive = false
-        end
-
-        if self.curAnim=="dying" then
-            self.y = self.y + (self.speed*150*dt)
-        end
-        
-        if self.curAnim=="walking" then
+        elseif self.curAnim=="dying" then
+            self.y = self.y + (self.speed*50*dt)
+        elseif self.curAnim=="walking" then
             self.y = self.y + (self.speed*200*dt)
-            if self.y > world.y then
-                 self.alive = false
-                 --todo: start attacking village thingy here instead
-                 --of just dying lol
+            if self.y > (world.y-190) then
+                self.curAnim="attack"
+                self.anim = anim8.newAnimation(self.media.imgGrid('7-10', 1), 0.3)
             end
         end
 
