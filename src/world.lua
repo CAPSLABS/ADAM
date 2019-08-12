@@ -59,13 +59,13 @@ return {
     ------------ LOADING --------------
 
     --enemies are expected to implement: 
-        --media.img(path string)
-        --width (the width of the enemy in pixels, int)
-        --height (the height of the enemy in pixels, int)
+        --media.img(filepath, string)
+        --media width (the width of the enemy image in pixels, int)
+        --media height (the height of the enemy image in pixels, int)
     loadEnemies = function(self)
         for key, enemy in pairs(self.statsRaw) do
             enemy.media.img = love.graphics.newImage(enemy.media.img)
-            enemy.media.imgGrid = anim8.newGrid(65, 64, enemy.media.img:getWidth(), enemy.media.img:getHeight())
+            enemy.media.imgGrid = anim8.newGrid(enemy.media.imgWidth, enemy.media.imgHeight, enemy.media.img:getWidth(), enemy.media.img:getHeight())
         end
     end,
 
@@ -75,7 +75,6 @@ return {
         end
         self.player.media.boomGrid= anim8.newGrid(48, 48, self.player.media.boom:getWidth(), self.player.media.boom:getHeight())
         self.player.media.playerGrid= anim8.newGrid(64, 64, self.player.media.img:getWidth(), self.player.media.img:getHeight())
-        
         self.player.anim = anim8.newAnimation(self.player.media.playerGrid('1-4',2), 0.1)
     end,
 
@@ -95,7 +94,8 @@ return {
 
     --enemies are expected to implement: 
         --update(anim function)
-        --alive (bool) & reward (int) 
+        --alive (bool)
+        --reward (int) 
     updateEnemies = function(self, dt) 
         for i, enemy in ipairs(self.enemies) do
             enemy:update(dt)
@@ -134,28 +134,28 @@ return {
         for i, enemy in ipairs(self.enemies) do
             --check boom collision:
             for j, boom in ipairs(self.player.booms) do
-                if CheckCollision(enemy.x+enemy.imgSpriteOffsetX, enemy.y+enemy.imgSpriteOffsetY, enemy.width, enemy.height, 
-                                boom.x, boom.y, 48, 48) then
+                if CheckCollision(  enemy:getLeftX(),enemy:getTopY(),
+                                    enemy.width, enemy.height, 
+                                    boom.x, boom.y, 
+                                    48, 48) then
                     enemy:getHit(1)
                     table.remove(self.player.booms, j)
                 end
             end
             -- check fire collision:
             for j, fire in ipairs(self.player.fires) do
-                if CheckCollision(enemy.x+enemy.imgSpriteOffsetX, enemy.y+enemy.imgSpriteOffsetY, enemy.width, enemy.height,
-                                fire.x, fire.y, fire.img:getWidth()*0.5, fire.img:getHeight()*0.5) then
+                if CheckCollision(  enemy:getLeftX(), enemy:getTopY(), 
+                                    enemy.width, enemy.height,
+                                    fire.x, fire.y, 
+                                    fire.width, fire.height) then
                     enemy:getHit(2)
                 end
             end
             -- check player collision:
-            if CheckCollision(  enemy.x+enemy.imgSpriteOffsetX, 
-                                enemy.y+enemy.imgSpriteOffsetY, 
-                                enemy.width, 
-                                enemy.height, 
-                                self.player.x+self.player.imgSpriteOffsetX, 
-                                self.player.y+self.player.imgSpriteOffsetY, 
-                                self.player.width, 
-                                self.player.height) then
+            if CheckCollision(  enemy:getLeftX(), enemy:getTopY(), 
+                                enemy.width, enemy.height, 
+                                self.player:getLeftX(), self.player:getTopY(), 
+                                self.player.width, self.player.height) then
                 self.player:die()
             end
         end
@@ -167,12 +167,16 @@ return {
             self.player:moveLeft(dt)
         elseif love.keyboard.isDown("right") then
             self.player:moveRight(dt)
+        elseif love.keyboard.isDown("down") then
+            self.player:changeDirDown()
+        elseif love.keyboard.isDown("up") then
+            self.player:changeDirUp()
         end
         -- ATTACKS (do not elseif or one cannot activate skills simultaniously!)
         if love.keyboard.isDown("a") then
             self.player:throwBoom(dt) end
         if love.keyboard.isDown("s") and self.player.canBreath then
-            self.player:spitFire(dt) end
+            self.player:spitFire() end
         if love.keyboard.isDown("d") and self.player.canBerserk then 
             self.player:goBerserk(dt) end
     end,
@@ -183,12 +187,14 @@ return {
     --TODO check if we want to draw up or down
 
         self.player.anim:draw(self.player.media.img, self.player.x, self.player.y)
+
         --WEAPONS
         for i, boom in ipairs(self.player.booms) do
             boom.anim:draw(self.player.media.boom, boom.x, boom.y)
+
         end
         for i, fire in ipairs(self.player.fires) do
-            love.graphics.draw(self.player.media.fire, fire.x, fire.y, 0,0.5, 0.5)
+            love.graphics.draw(self.player.media.fire, fire.x, fire.y)
         end
 
         if self.player.inBerserk == true then
@@ -215,4 +221,33 @@ return {
             love.load(1)
         end
     end,
+
+    drawHitBoxes = function(self)
+        love.graphics.rectangle("line", 
+                                    self.player:getLeftX(), 
+                                    self.player:getTopY(), 
+                                    self.player.width, 
+                                    self.player.height)
+        for i, boom in ipairs(self.player.booms) do
+            love.graphics.rectangle("line", 
+                                    boom.x, 
+                                    boom.y, 
+                                    48, 
+                                    48)
+        end
+        for i, enemy in ipairs(self.enemies) do
+            love.graphics.rectangle("line", 
+                                    enemy:getLeftX(), 
+                                    enemy:getTopY(), 
+                                    enemy.width, 
+                                    enemy.height)
+        end
+        for i, fire in ipairs(self.player.fires) do
+            love.graphics.rectangle("line", 
+                                    fire.x, 
+                                    fire.y, 
+                                    fire.width, 
+                                    fire.height)
+        end
+    end
 }

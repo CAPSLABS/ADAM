@@ -4,14 +4,19 @@ return {
     hp = 1,
     money = 0, 
     speed = 200,
-    width = 20,
+    --the approximate width and height of the character (smaller then image)
+    width = 24,
     height= 45,
-    imgSpriteOffsetX = 20,
-    imgSpriteOffsetY = 10,
+
+    --the sprite begins ~20 pixels to the right of the image
+    getLeftX    = function(self) return self.x+20 end, 
+    getRightX   = function(self) return self.x+20+self.width+3 end,
+    getTopY     = function(self) return self.y+10 end, 
+    getBottomY  = function(self) return self.y+10+self.height end,
     --start pos
     x = 200, 
     y = 700,
-    direction = "up",
+    direction = 1,  --1=up, 2=down
     --attacks:
     -- a
     boomCooldown = 0.5,
@@ -38,26 +43,34 @@ return {
 
     media = {
         img = "assets/HeroScaled.png",
-            
-        boom = "assets/boomerang.png",
-        fire = "assets/fire.png",
 
+        boom = "assets/boomerang.png",
+
+        fire = "assets/fireScaled.png",
         berserk = "assets/berserk.png",
     },
 
 
     moveLeft = function(self,dt)
-        if (self.x+20) > 0 then --TODO better check left side of sized player
+        if (self:getLeftX()) > 0 then 
             self.x = self.x - (self.speed*dt)
         end
         self.anim:update(dt)
     end,
 
     moveRight = function(self,dt)
-        if (self.x+self.width+20) < env.x then --TODO check right side of sized self
+        if (self:getRightX()) < world.x then 
            self.x = self.x + (self.speed*dt) 
         end
         self.anim:update(dt)
+    end,
+
+    changeDirDown = function(self)
+        self.direction=2
+    end,
+
+    changeDirUp = function(self)
+       self.direction=1 
     end,
 
     --a
@@ -74,10 +87,22 @@ return {
     end,
 
     --s
-    spitFire = function(self,dt)
+    spitFire = function(self)
         --TODO self should have leftside/middle/rightside functions for such things and collision 
         -- and not calculate image width here
-        table.insert(self.fires, {img = self.media.fire, time=self.fireDuration, x = self.x + (self.width/2)-140, y = self.y-300})
+        newFire = {img = self.media.fire, 
+                                time=self.fireDuration, 
+                                x = self.x - 40, 
+                                y = self.y - 370, 
+                                width= self.media.fire:getWidth(),
+                                height=self.media.fire:getHeight()} 
+        table.insert(self.fires, newFire)
+
+
+
+
+
+
         self.canBreath=false
         self.breathCooldown = playerRaw.breathCooldown
     end,

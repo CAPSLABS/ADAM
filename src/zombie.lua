@@ -9,16 +9,27 @@ return {
     anim = nil,
     takingDmg = false, --TODO add iFrames and redBlink
     curAnim = "leftPump",
-    width = 64, 
-    height = 64,
+    --the approximate width and height of a zombie (smaller then image)
+    width = 30, 
+    height = 50,
+    
+    --the sprite begins ~15 pixels to the right of the image
+    getLeftX    = function(self) return self.x+15 end, 
+    getRightX   = function(self) return self.x+15+self.width end,
+    getTopY     = function(self) return self.y+15 end, 
+    getBottomY  = function(self) return self.y+15+self.height end,
+
+
     media = {
-        img = 'assets/zombie.png'
+        img = 'assets/zombie.png',
+        imgWidth = 64,
+        imgHeight = 64,
     },
     
     --instantiator:
     newSelf =function(self)
         baby=shallowcopy(self)
-        baby.x = math.random(0, (env.x - self.width)) -- substracting width avoids clipping out to the right
+        baby.x = math.random(0, (world.x - self.width)) -- substracting width avoids clipping out to the right
         baby.anim = anim8.newAnimation(self.media.imgGrid('2-7',7), 0.08, "pauseAtEnd")
         return baby
     end,
@@ -58,13 +69,16 @@ return {
         end
         if self.alive and self.curAnim == "walking" then
             self.y = self.y + (self.speed*200*dt)
-            if self.y > env.y then
+            if self.y > world.y then
                 self.alive = false
             --todo: start attacking village thingy here instead of just dying lol
             end
         end
     end,
 
+    
+    --everytime the cur. anim. is paused, we go to the next 
+    --animations: left pump -> right pump -> star shape -> start walking towards player 
     dance = function(self, dt)
         if self.curAnim == "leftPump" then
             self.anim = anim8.newAnimation(self.media.imgGrid('2-7',7), 0.08, "pauseAtEnd"):flipH()

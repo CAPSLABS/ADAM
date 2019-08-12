@@ -33,45 +33,45 @@ end
 
 function initMenu()
     menu = require("src.menu")
-    env = require("src.environment")
-    env.currentLvl = 3 --make sure to have last index as menu
-    --env.currentLvl = #env.levels
-    env:loadEnemies()
-    env:loadMedia()
-    _G.map = loadTiledMap("assets/tile/",env.levels[env.currentLvl].mapPath) 
+    world = require("src.world")
+    world.currentLvl = 3 --make sure to have last index as menu
+    --world.currentLvl = #world.levels
+    world:loadEnemies()
+    world:loadMedia()
+    _G.map = loadTiledMap("assets/tile/",world.levels[world.currentLvl].mapPath) 
 end
 
 function initGame(startLvl)
-    env.enemies={}
-    env.currentLvl = startLvl
+    world.enemies={}
+    world.currentLvl = startLvl
     --create raw versions (kept for max. values)
     playerRaw = require("src.player")   
-    env.player = shallowcopy(playerRaw)
-    env:loadPlayer()
-    _G.map = loadTiledMap("assets/tile/", env.levels[startLvl].mapPath) 
+    world.player = shallowcopy(playerRaw)
+    world:loadPlayer()
+    _G.map = loadTiledMap("assets/tile/", world.levels[startLvl].mapPath) 
 end
 
 ------------ UPDATING --------------
 
 function love.update(dt)
     if gamestate == 1 then --MENU
-        env:spawnEnemies(dt)
-        env:updateEnemies(dt) --moves, animates&deletes enemies
+        world:spawnEnemies(dt)
+        world:updateEnemies(dt) --moves, animates&deletes enemies
         menu:checkLoadingInput()
 
     elseif gamestate == 2 then --GAME
         menu:checkRestartInput()
-        env:checkPlayerActionInput(dt)
+        world:checkPlayerActionInput(dt)
 
-        env.player:updateCooldowns(dt) 
-        env.player:updateModeDurations(dt) 
-        env.player:updateBooms(dt) --moves,animates&deletes boomerangs
-        env.player:updateFire(dt)
-        --env.player:updateSelf(dt)
+        world.player:updateCooldowns(dt) 
+        world.player:updateModeDurations(dt) 
+        world.player:updateBooms(dt) --moves,animates&deletes boomerangs
+        world.player:updateFire(dt)
+        --world.player:updateSelf(dt)
 
-        env:spawnEnemies(dt)
-        env:updateEnemies(dt) --moves, animates&deletes enemies
-        env:handleCollisions()
+        world:spawnEnemies(dt)
+        world:updateEnemies(dt) --moves, animates&deletes enemies
+        world:handleCollisions()
 
     elseif gamestate == 3 then --GAME OVER
         menu:checkRestartInput()
@@ -79,7 +79,7 @@ function love.update(dt)
     elseif gamestate == 4 then --SHOP
 
     elseif gamestate == 5 then --Intro Sequence
-        env:updateExplosion(dt)
+        world:updateExplosion(dt)
     end
 end
 
@@ -88,14 +88,17 @@ end
 function love.draw(dt) 
     if gamestate == 1 then --MENU
         _G.map:draw()
-        env:drawEnemyStuff()
+        world:drawEnemyStuff()
         menu:options()
 
     elseif gamestate == 2 then --GAME
         _G.map:draw()
-        env:drawPlayerStuff()        
-        env:drawEnemyStuff()
-    
+        world:drawPlayerStuff()        
+        world:drawEnemyStuff()
+
+        if debug then
+            world:drawHitBoxes()
+        end    
     elseif gamestate == 3 then --GAME OVER
         love.graphics.setColor(1,0,0,1)
         love.graphics.print("YOU DIED",100,100)
@@ -107,8 +110,8 @@ function love.draw(dt)
 
     elseif gamestate == 5 then --Intro Sequence
         _G.map:draw()
-        env:drawEnemyStuff()
-        env:drawExplosionStuff()
+        world:drawEnemyStuff()
+        world:drawExplosionStuff()
     end
 
     if debug then

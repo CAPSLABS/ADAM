@@ -31,7 +31,7 @@ return {
 	checkRestartInput = function(self)
     	if love.keyboard.isDown("escape") then
             love.event.push("quit") 
-        elseif love.keyboard.isDown("r") and (env.player.alive==false) then
+        elseif love.keyboard.isDown("r") and (world.player.alive==false) then
             love.event.quit("restart")
         end
 	end,
