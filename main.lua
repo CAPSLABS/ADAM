@@ -79,6 +79,7 @@ function love.update(dt)
     elseif gamestate == 4 then --SHOP
 
     elseif gamestate == 5 then --Intro Sequence
+        world:updateEnemies(dt)
         world:updateExplosion(dt)
     end
 end
@@ -111,7 +112,10 @@ function love.draw(dt)
     elseif gamestate == 5 then --Intro Sequence
         _G.map:draw()
         world:drawEnemyStuff()
-        world:drawExplosionStuff()
+        world:drawExplosionStuff(dt)
+        if debug then
+            world:drawHitBoxes()
+        end 
     end
 
     if debug then

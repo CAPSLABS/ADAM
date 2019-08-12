@@ -9,7 +9,7 @@ return {
             img = "assets/explosion.png",
             runtime = 0,
             maxRuntime = 2,
-            scale = 0
+            scale = 0,
         }
     },
     levels = {
@@ -208,14 +208,30 @@ return {
         end
     end,
 
-    drawExplosionStuff = function(self)
+    drawExplosionStuff = function(self,dt)
         if self.media["explosion"].runtime < self.media["explosion"].maxRuntime then
             -- The transformation coordinate system (upper left corner of pic) is in position (240,850) and is shifted in both directions by 39px, which is the center of the pic
-            local scaling = love.math.newTransform(240, 850, 0, self.media["explosion"].scale, self.media["explosion"].scale, 39, 39)
+            local startX = 240
+            local startY = 850
+            local scaling = love.math.newTransform(startX, startY, 0, self.media["explosion"].scale, self.media["explosion"].scale, self.media["explosion"].img:getWidth()/2, self.media["explosion"].img:getWidth()/2)
+            love.graphics.push()
             love.graphics.applyTransform(scaling)
             love.graphics.draw(self.media["explosion"].img, 0, 0)
+            love.graphics.pop()
+            -- Check for collision of explosion with enemies
+            -- NOTE: current x, y, width and height from explosion are de-/increased with the scaling factor. 
+            -- Since we cannot get them from the img object, we manually recompute them here
+            for i, enemy in ipairs(self.enemies) do
+                if CheckCollision(enemy:getLeftX(), enemy:getTopY(), enemy.width, enemy.height, 
+                                startX-self.media["explosion"].scale*self.media["explosion"].img:getWidth()/2, 
+                                startY-self.media["explosion"].scale*self.media["explosion"].img:getHeight()/2, 
+                                self.media["explosion"].scale*self.media["explosion"].img:getWidth(), 
+                                self.media["explosion"].scale*self.media["explosion"].img:getHeight()) then
+                    enemy.y = enemy.y - self.media["explosion"].scale
+                    enemy.anim:draw(enemy.media.img, enemy.x, enemy.y)
+                end
+            end
         else 
-            -- TODO: How to faster get rid of drawn enemies?
             self.enemies = {}
             gamestate = 2
             love.load(1)
@@ -223,31 +239,39 @@ return {
     end,
 
     drawHitBoxes = function(self)
-        love.graphics.rectangle("line", 
-                                    self.player:getLeftX(), 
-                                    self.player:getTopY(), 
-                                    self.player.width, 
-                                    self.player.height)
-        for i, boom in ipairs(self.player.booms) do
+        if gamestate == 2 then 
             love.graphics.rectangle("line", 
-                                    boom.x, 
-                                    boom.y, 
-                                    48, 
-                                    48)
-        end
-        for i, enemy in ipairs(self.enemies) do
-            love.graphics.rectangle("line", 
-                                    enemy:getLeftX(), 
-                                    enemy:getTopY(), 
-                                    enemy.width, 
-                                    enemy.height)
-        end
-        for i, fire in ipairs(self.player.fires) do
-            love.graphics.rectangle("line", 
-                                    fire.x, 
-                                    fire.y, 
-                                    fire.width, 
-                                    fire.height)
+                                        self.player:getLeftX(), 
+                                        self.player:getTopY(), 
+                                        self.player.width, 
+                                        self.player.height)
+            for i, boom in ipairs(self.player.booms) do
+                love.graphics.rectangle("line", 
+                                        boom.x, 
+                                        boom.y, 
+                                        48, 
+                                        48)
+            end
+            for i, enemy in ipairs(self.enemies) do
+                love.graphics.rectangle("line", 
+                                        enemy:getLeftX(), 
+                                        enemy:getTopY(), 
+                                        enemy.width, 
+                                        enemy.height)
+            end
+            for i, fire in ipairs(self.player.fires) do
+                love.graphics.rectangle("line", 
+                                        fire.x, 
+                                        fire.y, 
+                                        fire.width, 
+                                        fire.height)
+            end
+        elseif gamestate == 5 then
+            love.graphics.rectangle("line",
+                                    240-self.media["explosion"].scale*self.media["explosion"].img:getWidth()/2,
+                                    850-self.media["explosion"].scale*self.media["explosion"].img:getHeight()/2, 
+                                    self.media["explosion"].scale*self.media["explosion"].img:getWidth(), 
+                                    self.media["explosion"].scale*self.media["explosion"].img:getHeight())
         end
     end
 }
