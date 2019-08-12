@@ -65,7 +65,7 @@ return {
     loadEnemies = function(self)
         for key, enemy in pairs(self.statsRaw) do
             enemy.media.img = love.graphics.newImage(enemy.media.img)
-            enemy.media.imgGrid = anim8.newGrid(enemy.width, enemy.height, enemy.media.img:getWidth(), enemy.media.img:getHeight())
+            enemy.media.imgGrid = anim8.newGrid(65, 64, enemy.media.img:getWidth(), enemy.media.img:getHeight())
         end
     end,
 
@@ -74,7 +74,7 @@ return {
             self.player.media[key] = love.graphics.newImage(imgPath) 
         end
         self.player.media.boomGrid= anim8.newGrid(48, 48, self.player.media.boom:getWidth(), self.player.media.boom:getHeight())
-        self.player.media.playerGrid= anim8.newGrid(256, 256, self.player.media.img:getWidth(), self.player.media.img:getHeight())
+        self.player.media.playerGrid= anim8.newGrid(64, 64, self.player.media.img:getWidth(), self.player.media.img:getHeight())
         
         self.player.anim = anim8.newAnimation(self.player.media.playerGrid('1-4',2), 0.1)
     end,
@@ -134,7 +134,7 @@ return {
         for i, enemy in ipairs(self.enemies) do
             --check boom collision:
             for j, boom in ipairs(self.player.booms) do
-                if CheckCollision(enemy.x, enemy.y, enemy.width, enemy.height, 
+                if CheckCollision(enemy.x+enemy.imgSpriteOffsetX, enemy.y+enemy.imgSpriteOffsetY, enemy.width, enemy.height, 
                                 boom.x, boom.y, 48, 48) then
                     enemy:getHit(1)
                     table.remove(self.player.booms, j)
@@ -142,16 +142,20 @@ return {
             end
             -- check fire collision:
             for j, fire in ipairs(self.player.fires) do
-                if CheckCollision(enemy.x, enemy.y, enemy.width, enemy.height,
+                if CheckCollision(enemy.x+enemy.imgSpriteOffsetX, enemy.y+enemy.imgSpriteOffsetY, enemy.width, enemy.height,
                                 fire.x, fire.y, fire.img:getWidth()*0.5, fire.img:getHeight()*0.5) then
                     enemy:getHit(2)
                 end
             end
             -- check player collision:
-            if CheckCollision(enemy.x, enemy.y, enemy.width, enemy.height, 
-                                self.player.x, self.player.y, 
-                                self.player.media.img:getWidth()*self.player.scale, 
-                                self.player.media.img:getHeight()*self.player.scale) then
+            if CheckCollision(  enemy.x+enemy.imgSpriteOffsetX, 
+                                enemy.y+enemy.imgSpriteOffsetY, 
+                                enemy.width, 
+                                enemy.height, 
+                                self.player.x+self.player.imgSpriteOffsetX, 
+                                self.player.y+self.player.imgSpriteOffsetY, 
+                                self.player.width, 
+                                self.player.height) then
                 self.player:die()
             end
         end

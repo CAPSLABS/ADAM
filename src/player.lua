@@ -1,10 +1,13 @@
 return {
-    scale=0.3,
     -- basic stats:
     alive = true,
     hp = 1,
     money = 0, 
     speed = 200,
+    width = 20,
+    height= 45,
+    imgSpriteOffsetX = 20,
+    imgSpriteOffsetY = 10,
     --start pos
     x = 200, 
     y = 700,
@@ -34,7 +37,7 @@ return {
     inSonic = false,
 
     media = {
-        img = "assets/HeroFull.png",
+        img = "assets/HeroScaled.png",
             
         boom = "assets/boomerang.png",
         fire = "assets/fire.png",
@@ -44,14 +47,14 @@ return {
 
 
     moveLeft = function(self,dt)
-        if self.x > 0 then --TODO better check left side of sized player
+        if (self.x+20) > 0 then --TODO better check left side of sized player
             self.x = self.x - (self.speed*dt)
         end
         self.anim:update(dt)
     end,
 
     moveRight = function(self,dt)
-        if (self.x + self.media.img:getWidth()*self.scale) < env.x then --TODO check right side of sized self
+        if (self.x+self.width+20) < env.x then --TODO check right side of sized self
            self.x = self.x + (self.speed*dt) 
         end
         self.anim:update(dt)
@@ -74,7 +77,7 @@ return {
     spitFire = function(self,dt)
         --TODO self should have leftside/middle/rightside functions for such things and collision 
         -- and not calculate image width here
-        table.insert(self.fires, {img = self.media.fire, time=self.fireDuration, x = self.x + (self.media.img:getWidth()/2)-140, y = self.y-300})
+        table.insert(self.fires, {img = self.media.fire, time=self.fireDuration, x = self.x + (self.width/2)-140, y = self.y-300})
         self.canBreath=false
         self.breathCooldown = playerRaw.breathCooldown
     end,

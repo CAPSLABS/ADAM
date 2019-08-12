@@ -8,8 +8,10 @@ return {
     reward = 1, --possibly function with variable reward?
     anim = nil,
     dmgAnim = nil,
-    width = 65, 
-    height = 64,
+    width = 30, 
+    height = 50,
+    imgSpriteOffsetX=20,
+    imgSpriteOffsetY=0,
     media = {
         img = 'assets/goblinSword.png'
     },

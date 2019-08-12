@@ -76,41 +76,36 @@ function love.update(dt)
     elseif gamestate == 3 then --GAME OVER
         menu:checkRestartInput()
 
-    elseif gamestate == 4 then --shop
+    elseif gamestate == 4 then --SHOP
 
-    elseif gamestate == 5 then --intro sequence activated
+    elseif gamestate == 5 then --Intro Sequence
         env:updateExplosion(dt)
     end
 end
 
 ------------ DRAWING --------------
 
-function love.draw(dt)
-    if gamestate == 1 then
+function love.draw(dt) 
+    if gamestate == 1 then --MENU
         _G.map:draw()
         env:drawEnemyStuff()
         menu:options()
 
-    elseif gamestate == 2 then
+    elseif gamestate == 2 then --GAME
         _G.map:draw()
-
-        love.graphics.push()
-        love.graphics.scale(0.3, 0.3)
-        env:drawPlayerStuff()
-        love.graphics.pop() -- so the scale doesn't affect anything else
-        
+        env:drawPlayerStuff()        
         env:drawEnemyStuff()
     
-    elseif gamestate == 3 then
+    elseif gamestate == 3 then --GAME OVER
         love.graphics.setColor(1,0,0,1)
         love.graphics.print("YOU DIED",100,100)
         love.graphics.print("Press ESC to quit.",100,150)
         love.graphics.print("Press R to restart.",100,175)
         love.graphics.print("Press F to pay respect.",100,200)
 
-    elseif gamestate == 4 then
+    elseif gamestate == 4 then --SHOP
 
-    elseif gamestate == 5 then
+    elseif gamestate == 5 then --Intro Sequence
         _G.map:draw()
         env:drawEnemyStuff()
         env:drawExplosionStuff()
