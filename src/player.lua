@@ -16,7 +16,7 @@ return {
     --start pos
     x = 200, 
     y = 700,
-    direction = 1,  --1=up, 2=down
+    dir = 1,  --1=up, 2=down
     --attacks:
     -- a
     boomCooldown = 0.5,
@@ -66,43 +66,48 @@ return {
     end,
 
     changeDirDown = function(self)
-        self.direction=2
+        if self.dir == 1 then
+            self.dir=2
+            self.anim = self.downAnim
+        end
     end,
 
     changeDirUp = function(self)
-       self.direction=1 
-    end,
+        if self.dir == 2 then
+            self.dir=1
+            self.anim = self.upAnim
+        end
+    end, 
 
     --a
     throwBoom = function(self,dt)
         if self.inBerserk == false then
             if self.canThrow then 
-                table.insert(self.booms, {anim = anim8.newAnimation(self.media.boomGrid('1-8',1), 0.01), x = self.x, y = self.y})
+                table.insert(self.booms, {anim = anim8.newAnimation(self.media.boomGrid('1-8',1), 0.01), x = self.x, y = self.y, dir = self.dir})
                 self.canThrow = false
                 self.boomCooldown = playerRaw.boomCooldown
             end
-        else --NO LIMITS WEEEEEEE (maaaaybe we should reduce this to once per frame/dt at least?)
-            table.insert(self.booms, {anim = anim8.newAnimation(self.media.boomGrid('1-8',1), 0.01), x = self.x, y = self.y})
+        else --NO LIMITS WEEEEEEE 
+            table.insert(self.booms, {anim = anim8.newAnimation(self.media.boomGrid('1-8',1), 0.01), x = self.x, y = self.y, dir = self.dir})
         end
     end,
 
     --s
     spitFire = function(self)
-        --TODO self should have leftside/middle/rightside functions for such things and collision 
-        -- and not calculate image width here
-        newFire = {img = self.media.fire, 
-                                time=self.fireDuration, 
-                                x = self.x - 40, 
-                                y = self.y - 370, 
-                                width= self.media.fire:getWidth(),
-                                height=self.media.fire:getHeight()} 
+        if self.dir == 1 then
+            yOffset = 370
+        else 
+            yOffset = -420
+        end
+
+        local newFire = {img = self.media.fire, 
+                        time=self.fireDuration, 
+                        x = self.x - 40, 
+                        y = self.y - yOffset, 
+                        width= self.media.fire:getWidth(),
+                        height=self.media.fire:getHeight(),
+                        dir = self.dir}
         table.insert(self.fires, newFire)
-
-
-
-
-
-
         self.canBreath=false
         self.breathCooldown = playerRaw.breathCooldown
     end,
@@ -156,11 +161,15 @@ return {
 
 
     updateBooms = function(self,dt)
-        for i, boomerang in ipairs(self.booms) do
-            boomerang.anim:update(dt)
-            boomerang.y = boomerang.y - (350 * dt)
+        for i, boom in ipairs(self.booms) do
+            boom.anim:update(dt)
+            if boom.dir == 1 then
+                boom.y = boom.y - (350 * dt)
+            else
+                boom.y = boom.y + (350 * dt)
+            end
 
-            if boomerang.y < 0 then 
+            if (boom.y < 0) or (boom.y > world.y) then 
                 table.remove(self.booms, i)
             end
         end
@@ -168,7 +177,11 @@ return {
 
     updateFire = function(self,dt) --todo make non map specific, rather give duration that can be upgraded
         for i , fire in ipairs(self.fires) do
-            fire.y = fire.y - (20 * dt)
+            if fire.dir == 1 then
+                fire.y = fire.y - (25 * dt)
+            else 
+                fire.y = fire.y + (25 * dt)
+            end
             fire.time = fire.time - (1*dt)
             if fire.time < 0 then
                 table.remove(self.fires, i)

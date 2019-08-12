@@ -75,12 +75,14 @@ return {
         end
         self.player.media.boomGrid= anim8.newGrid(48, 48, self.player.media.boom:getWidth(), self.player.media.boom:getHeight())
         self.player.media.playerGrid= anim8.newGrid(64, 64, self.player.media.img:getWidth(), self.player.media.img:getHeight())
-        self.player.anim = anim8.newAnimation(self.player.media.playerGrid('1-4',2), 0.1)
+        self.player.upAnim = anim8.newAnimation(self.player.media.playerGrid('1-4',2), 0.1)
+        self.player.downAnim = anim8.newAnimation(self.player.media.playerGrid('1-4',1), 0.1)
+        self.player.anim = self.player.upAnim
     end,
 
     loadMedia = function(self)
         for key, params in pairs(self.media) do
-            -- Up to now the only media is the explosion pic. If animations are involved, change all of this
+            -- up to now the only media is the explosion pic. If animations are involved, change all of this
             if key == "explosion" then
                 self.media[key].img = love.graphics.newImage(params.img)
                 self.media[key].runtime = params.runtime
@@ -167,7 +169,9 @@ return {
             self.player:moveLeft(dt)
         elseif love.keyboard.isDown("right") then
             self.player:moveRight(dt)
-        elseif love.keyboard.isDown("down") then
+        end
+        
+        if love.keyboard.isDown("down") then
             self.player:changeDirDown()
         elseif love.keyboard.isDown("up") then
             self.player:changeDirUp()
@@ -185,7 +189,6 @@ return {
 
     drawPlayerStuff = function(self)
     --TODO check if we want to draw up or down
-
         self.player.anim:draw(self.player.media.img, self.player.x, self.player.y)
 
         --WEAPONS
@@ -194,7 +197,11 @@ return {
 
         end
         for i, fire in ipairs(self.player.fires) do
-            love.graphics.draw(self.player.media.fire, fire.x, fire.y)
+            if fire.dir == 1 then
+                love.graphics.draw(self.player.media.fire, fire.x, fire.y)
+            else 
+                love.graphics.draw(self.player.media.fire, fire.x, fire.y, 0,1,-1)
+            end
         end
 
         if self.player.inBerserk == true then
