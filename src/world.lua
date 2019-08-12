@@ -12,6 +12,8 @@ return {
             runtime = 0,
             maxRuntime = 1.3,
             scale = 0,
+            scaledWidth = 0,
+            scaledHeight = 0
         }
     },
     levels = {
@@ -125,11 +127,21 @@ return {
             -- +1 needed, without it the scaling wouldn't start
             self.media["explosion"].scale = (self.media["explosion"].scale + 0.1)^self.media["explosion"].runtime
             self.media["explosion"].runtime = self.media["explosion"].runtime + dt
-        else
-            -- Make explosion more and more transparent
-            -- use love.graphics.stencil giving it a function / mask that defines which pixels to choose
-            -- use stencil test to mark img pixels as make more transparent
-            -- use setColor to make them more transparent / or use pixelshader
+            self.media["explosion"].scaledWidth = self.media["explosion"].scale*self.media["explosion"].img:getWidth()
+            self.media["explosion"].scaledHeight = self.media["explosion"].scale*self.media["explosion"].img:getHeight()
+            -- Check for collision of explosion with enemies
+            -- NOTE: current x, y, width and height from explosion are de-/increased with the scaling factor. 
+            local startX = 240
+            local startY = 850
+            for i, enemy in ipairs(self.enemies) do
+                if CheckCollision(enemy:getLeftX(), enemy:getTopY(), enemy.width, enemy.height, 
+                                startX-self.media["explosion"].scaledWidth/2,
+                                startY-self.media["explosion"].scaledHeight/2, 
+                                self.media["explosion"].scaledWidth, 
+                                self.media["explosion"].scaledHeight) then
+                    enemy.y = enemy.y - self.media["explosion"].scale
+                end
+            end
         end
     end,
 
@@ -228,7 +240,6 @@ return {
     drawExplosionStuff = function(self,dt)
         if self.media["explosion"].runtime < self.media["explosion"].maxRuntime then
             -- The transformation coordinate system (upper left corner of pic) is in position (240,850) and is shifted in both directions by 39px, which is the center of the pic
-
             local startX = 240
             local startY = 850
             local scaling = love.math.newTransform(startX, startY, 0, self.media["explosion"].scale, self.media["explosion"].scale, self.media["explosion"].img:getWidth()/2, self.media["explosion"].img:getWidth()/2)
@@ -236,25 +247,11 @@ return {
             love.graphics.applyTransform(scaling)
             love.graphics.draw(self.media["explosion"].img, 0, 0)
             love.graphics.pop()
-            -- Check for collision of explosion with enemies
-            -- NOTE: current x, y, width and height from explosion are de-/increased with the scaling factor. 
-            -- Since we cannot get them from the img object, we manually recompute them here
-            for i, enemy in ipairs(self.enemies) do
-                if CheckCollision(enemy:getLeftX(), enemy:getTopY(), enemy.width, enemy.height, 
-                                startX-self.media["explosion"].scale*self.media["explosion"].img:getWidth()/2, 
-                                startY-self.media["explosion"].scale*self.media["explosion"].img:getHeight()/2, 
-                                self.media["explosion"].scale*self.media["explosion"].img:getWidth(), 
-                                self.media["explosion"].scale*self.media["explosion"].img:getHeight()) then
-                    enemy.y = enemy.y - self.media["explosion"].scale
-                    --enemy.anim:draw(enemy.media.img, enemy.x, enemy.y)
-                end
-            end
         else 
             self.enemies = {}
             self.exploding = false
             gamestate = 2
             love.load(1)
-
         end
     end,
 
@@ -289,10 +286,10 @@ return {
         end
         if self.exploding then
             love.graphics.rectangle("line",
-                                    240-self.media["explosion"].scale*self.media["explosion"].img:getWidth()/2,
-                                    850-self.media["explosion"].scale*self.media["explosion"].img:getHeight()/2, 
-                                    self.media["explosion"].scale*self.media["explosion"].img:getWidth(), 
-                                    self.media["explosion"].scale*self.media["explosion"].img:getHeight())
+                                    240-self.media["explosion"].scaledWidth/2,
+                                    850-self.media["explosion"].scaledHeight/2, 
+                                    self.media["explosion"].scaledWidth, 
+                                    self.media["explosion"].scaledHeight)
         end
     end
 }

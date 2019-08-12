@@ -88,6 +88,10 @@ function love.update(dt)
 
     elseif gamestate == 4 then --SHOP
 
+    elseif gamestate == 5 then --Intro Sequence
+        world:spawnEnemies(dt)
+        world:updateEnemies(dt)
+        world:updateExplosion(dt)
     end
 end
 
@@ -96,17 +100,15 @@ end
 function love.draw(dt) 
     if gamestate == 1 then --MENU
         _G.map:draw()
-        world:drawEnemyStuff()
         menu:options()
         if world.exploding then     
             world:drawExplosionStuff(dt)
         end
+        world:drawEnemyStuff()
     elseif gamestate == 2 then --GAME
         _G.map:draw()
         world:drawPlayerStuff()        
         world:drawEnemyStuff()
-
-
     elseif gamestate == 3 then --GAME OVER
         love.graphics.setColor(1,0,0,1)
         love.graphics.print("YOU DIED",100,100)
