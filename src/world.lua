@@ -6,6 +6,8 @@ return {
     currentLvl=nil,
     runtime = 0,
     media = {
+        defaultfont= nil,
+        fantasyfont=nil,
         explosion = {
             img = "assets/explosion.png",
             runtime = 0,
@@ -67,9 +69,7 @@ return {
             },
         },
     }, 
-    statsRaw = { --used for creating new instances with max values
-        --TODO could reduce initial load time here be making a func that checks which 
-        --enemies have currentLvl.spawnTime values and only load those  
+    statsRaw = { 
         goblin = require("src.goblin"),
         zombie = require("src.zombie")
     },
@@ -99,15 +99,10 @@ return {
     end,
 
     loadMedia = function(self)
-        for key, params in pairs(self.media) do
-            -- up to now the only media is the explosion pic. If animations are involved, change all of this
-            if key == "explosion" then
-                self.media[key].img = love.graphics.newImage(params.img)
-                self.media[key].runtime = params.runtime
-                self.media[key].maxRuntime = params.maxRuntime
-                self.media[key].scale = params.scale
-            end
-        end
+        self.media.explosion.img = love.graphics.newImage(self.media.explosion.img)
+        self.media.defaultfont = love.graphics.getFont()
+        self.media.fantasyfont = love.graphics.newFont("assets/font/Komi.ttf", 15) 
+
     end,
 
     ------------ UPDATING --------------
@@ -263,11 +258,8 @@ return {
             love.graphics.draw(self.media["explosion"].img, 0, 0)
             love.graphics.pop()
         else 
-            self.enemies = {}
             self.exploding = false
-            gamestate = 2
-            self.runtime = 0
-            love.load(1)
+            initGame(1)
         end
     end,
 

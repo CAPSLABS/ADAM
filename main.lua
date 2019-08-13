@@ -12,55 +12,43 @@
 require("src.mapLoader")
 require("src.util")
 
---suit = require "src.suit"
+suit = require "src.suit"
 anim8 = require "src.anim8"
 
-debug = true
+debug = false
 
---1=menu, 2=game, 3=gameOver, 4=shop, 5=intro
-Gamestates = {1,2,3,4,5}
+--1=menu, 2=game, 3=gameOver, 4=shop
+Gamestates = {1,2,3,4}
 gamestate = Gamestates[1]
 
 ------------ LOADING --------------
 
-function love.load(startLvl)
-    if gamestate == 1 then
-        initMenu()
-    elseif gamestate == 2 then 
-        initGame(startLvl)
-    --elseif gamestate == 3 then
-        --gameOver
-    elseif gamestate == 4 then
-        initShop()
-    end
-end
 
-function initShop()
-    shop = require("src.shop")
-    shop:loadBacking()
-    playerRaw = require("src.player")   
-    world.player = shallowcopy(playerRaw)
-    world:loadPlayer()
-end
-
-function initMenu()
-    menu = require("src.menu")
+function love.load()
     world = require("src.world")
+    menu = require("src.menu")
+    shop = require("src.shop")
+
     world.currentLvl = 3 --make sure to have last index as menu
-    --world.currentLvl = #world.levels
+    _G.map = loadTiledMap("assets/tile/",world.levels[world.currentLvl].mapPath) 
+
     world:loadEnemies()
     world:loadMedia()
-    _G.map = loadTiledMap("assets/tile/",world.levels[world.currentLvl].mapPath) 
-end
-
-function initGame(startLvl)
-    world.enemies={}
-    world.currentLvl = startLvl
-    --create raw versions (kept for max. values)
+    
     playerRaw = require("src.player")   
     world.player = shallowcopy(playerRaw)
     world:loadPlayer()
-    _G.map = loadTiledMap("assets/tile/", world.levels[startLvl].mapPath) 
+    
+    shop:loadBacking()
+end
+
+
+function initGame(lvl)
+    gamestate = 2
+    world.runtime = 0
+    world.enemies={}
+    world.currentLvl = lvl
+    _G.map = loadTiledMap("assets/tile/", world.levels[lvl].mapPath) 
 end
 
 ------------ UPDATING --------------
@@ -106,16 +94,17 @@ end
 function love.draw(dt) 
     if gamestate == 1 then --MENU
         _G.map:draw()
-        menu:options()
         if world.exploding then     
             world:drawExplosionStuff(dt)
         end
         world:drawEnemyStuff()
+        menu:options()
     elseif gamestate == 2 then --GAME
         _G.map:draw()
         world:drawPlayerStuff()        
         world:drawEnemyStuff()
     elseif gamestate == 3 then --GAME OVER
+        love.graphics.setFont(world.media.fantasyfont)
         love.graphics.setColor(1,0,0,1)
         love.graphics.print("YOU DIED",100,100)
         love.graphics.print("Press ESC to quit.",100,150)
@@ -128,7 +117,7 @@ function love.draw(dt)
     end
 
     if debug then
-        --drawPerformance()
+        drawPerformance()
         world:drawHitBoxes()
     end
 end

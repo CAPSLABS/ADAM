@@ -14,7 +14,7 @@ return {
         end
 
         self.font = love.graphics.newFont("assets/font/Komi.ttf", 15)
-        love.graphics.setFont(self.font)
+        --love.graphics.setFont(self.font)
     end,
 
 
@@ -22,11 +22,12 @@ return {
     end,
 
     drawShopShit = function(self)
+        love.graphics.setFont(self.font)
         love.graphics.draw(shop.media.back, 0, 0, 0, 2, 2)
         love.graphics.draw(shop.media.light, 0, 0, 0, 2, 2)
         love.graphics.draw(shop.media.middle, 0,0, 0, 2, 2)
         love.graphics.draw(shop.media.fore, 0,0,  0, 2, 2)
-        love.graphics.draw(shop.media.sensei,240,100, 0, 5, 5)
+        love.graphics.draw(shop.media.sensei,240,100, 0, 4, 4)
 
         suit.layout:reset(100,50)
         suit.Label("Willkommen!", 50,330, 300,30)

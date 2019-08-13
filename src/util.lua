@@ -14,6 +14,7 @@ end
 
 
 function drawPerformance()
+    love.graphics.setFont(world.media.defaultfont)
     love.graphics.print("FPS: "..tostring(love.timer.getFPS( )), 10, 10)
     local delta = love.timer.getAverageDelta()
     love.graphics.print(string.format("\t\t\tAverage DT: %.3f ms", 1000 * delta), 10, 10)

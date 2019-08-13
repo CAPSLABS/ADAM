@@ -1,5 +1,7 @@
 - display money and city hp
 - create shop in between lvls where you can buy shorter cooldowns
+- timer for level end, maybe not display to player? or kill based level end, ie 100 goblins? 
+- beautify start menu
 - f (fast move)
 - space (explosion)
 - display cooldowns
