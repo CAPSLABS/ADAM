@@ -7,7 +7,7 @@ return {
     alive = true,
     reward = 1, --possibly function with variable reward?
     anim = nil,
-    --curAnim, can be walking,  dying, attacking  
+    --curAnim, can be walking, dying, attacking  
     gotHit = false,
     --the approximate width and height of the goblin within 1 image
     width = 30, 
@@ -30,7 +30,7 @@ return {
     --instantiator:
     newSelf =function(self)
         baby=shallowcopy(self)
-        baby.x = math.random(0, (world.x - self.width)) -- substracting width avoids clipping out to the right
+        baby.x = math.random(-self:getLeftX(), (world.x - self:getRightX())) -- substracting width avoids clipping out to the right
         baby.anim = anim8.newAnimation(self.media.imgGrid('1-7', 1), 0.07)
         baby.curAnim = "walking"
         return baby
@@ -40,7 +40,7 @@ return {
         if not self.gotHit then
             self.gotHit=true
             self.hp=self.hp-dmg 
-            if (self.hp <= 0) and (self.curAnim == "walking") then
+            if (self.hp <= 0) then --and (self.curAnim == "walking") then
                 self:die()
             end
         end
@@ -55,12 +55,12 @@ return {
         self.anim:update(dt)
         if (self.anim.status == "paused") and (self.curAnim == "dying") then
             self.alive = false
-        elseif self.curAnim=="dying" then
+        elseif self.curAnim == "dying" then
             self.y = self.y + (self.speed*50*dt)
-        elseif self.curAnim=="walking" then
+        elseif self.curAnim == "walking" then
             self.y = self.y + (self.speed*200*dt)
             if self.y > (world.y-190) then
-                self.curAnim="attack"
+                self.curAnim = "attack"
                 self.anim = anim8.newAnimation(self.media.imgGrid('7-10', 1), 0.3)
             end
         end

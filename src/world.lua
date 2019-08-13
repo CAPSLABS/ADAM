@@ -4,8 +4,7 @@ return {
     x = 32*15,
     y = 32*30,
     currentLvl=nil,
-    spawnAccel=10,
-
+    runtime = 0,
     media = {
         explosion = {
             img = "assets/explosion.png",
@@ -13,44 +12,59 @@ return {
             maxRuntime = 1.3,
             scale = 0,
             scaledWidth = 0,
-            scaledHeight = 0
-        }
+            scaledHeight = 0,
+        },
     },
     levels = {
         --level1
         {mapPath = "ebene1tilemap",
-        spawnTimer =
-            {
-                goblin=0.4, --enemyType&spawnRate
+        spawnTimer = {
+                goblin = {
+                    timer = 0.4, -- inital value is value of timerMax, a changing variable
+                    timerMax = 0.4, -- initial value until first mob comes, marks the actual countdown time
+                    spawnFct = function(self,runtime)
+                        -- Sigmoid mirrored on y axis shifted by 2
+                        -- Reaches timer = 0.51 in ~46 seconds
+                        return (1 / (1 + math.exp(0.1*runtime))) + 0.5
+                    end,
+                },
             },
-        spawnTimerMax=
-            {
-                goblin=0.4,
-            }
         },
         --level 2
         {mapPath = "ebene2tilemap",
         spawnTimer=
             {
-                goblin=0.2,
-                zombie=1.5,
-            },
-        spawnTimerMax=
-            {
-                goblin=0.2,
-                zombie=1.5,
+                goblin = {
+                    timer = 0.2,
+                    timerMax = 0.2,
+                    spawnFct = function(self,runtime)
+                        -- Sigmoid mirrored on y axis shifted up by 0.5 (minimum is 0.5)
+                        -- Reaches timer = 0.51 in ~46 seconds
+                        return (1 / (1 + math.exp(0.1*runtime))) + 0.5
+                    end,
+                },
+                zombie = {
+                    timer = 1,
+                    timerMax = 1,
+                    spawnFct = function(self,runtime)
+                        -- Reaches timer = 1.51 in ~51 seconds
+                        return (1 / (1 + math.exp(0.09*runtime))) + 1.5
+                    end,
+                }
             },
         },
         --menu (always last)
         {mapPath = "ebene1tilemap",
         spawnTimer=
             {
-                goblin=0,
+                goblin = {
+                    timer = 0.0,
+                    timerMax = 0.0,
+                    spawnFct = function(self,runtime)
+                        return 0.0
+                    end,
+                },
             },
-        spawnTimerMax=
-            {
-                goblin=0,
-            }
         },
     }, 
     statsRaw = { --used for creating new instances with max values
@@ -77,8 +91,8 @@ return {
         for key, imgPath in pairs(self.player.media) do
             self.player.media[key] = love.graphics.newImage(imgPath) 
         end
-        self.player.media.boomGrid= anim8.newGrid(48, 48, self.player.media.boom:getWidth(), self.player.media.boom:getHeight())
-        self.player.media.playerGrid= anim8.newGrid(64, 64, self.player.media.img:getWidth(), self.player.media.img:getHeight())
+        self.player.media.boomGrid = anim8.newGrid(48, 48, self.player.media.boom:getWidth(), self.player.media.boom:getHeight())
+        self.player.media.playerGrid = anim8.newGrid(64, 64, self.player.media.img:getWidth(), self.player.media.img:getHeight())
         self.player.upAnim = anim8.newAnimation(self.player.media.playerGrid('1-4',2), 0.1)
         self.player.downAnim = anim8.newAnimation(self.player.media.playerGrid('1-4',1), 0.1)
         self.player.anim = self.player.upAnim
@@ -112,12 +126,15 @@ return {
     end,
 
     spawnEnemies = function(self,dt)
-        for enemy,timer in pairs(self.levels[self.currentLvl].spawnTimer) do
-            self.levels[self.currentLvl].spawnTimer[enemy] = timer - (1*dt)
-            if timer < 0 then --put enemy in the table and reset timer:[self.currentLvl].spawnTimer[enemy])
-                self.levels[self.currentLvl].spawnTimer[enemy] = self.levels[self.currentLvl].spawnTimerMax[enemy]
-                local newEnemy = self.statsRaw[enemy]:newSelf() 
+        self.runtime = self.runtime + dt
+        for enemyName,enemySpawnInfo in pairs(self.levels[self.currentLvl].spawnTimer) do
+            enemySpawnInfo.timer = enemySpawnInfo.timer - dt
+            print(enemySpawnInfo.timerMax)
+            if enemySpawnInfo.timer <= 0 then 
+                enemySpawnInfo.timerMax = enemySpawnInfo:spawnFct(self.runtime)
+                local newEnemy = self.statsRaw[enemyName]:newSelf() 
                 table.insert(self.enemies, newEnemy)
+                enemySpawnInfo.timer = enemySpawnInfo.timerMax
             end
         end
     end,
@@ -204,13 +221,11 @@ return {
     ------------ DRAWING --------------
 
     drawPlayerStuff = function(self)
-    --TODO check if we want to draw up or down
+        --TODO check if we want to draw up or down
         self.player.anim:draw(self.player.media.img, self.player.x, self.player.y)
-
         --WEAPONS
         for i, boom in ipairs(self.player.booms) do
             boom.anim:draw(self.player.media.boom, boom.x, boom.y)
-
         end
         for i, fire in ipairs(self.player.fires) do
             if fire.dir == 1 then
@@ -219,7 +234,7 @@ return {
                 love.graphics.draw(self.player.media.fire, fire.x, fire.y, 0,1,-1)
             end
         end
-
+        --ABILITIES
         if self.player.inBerserk == true then
             love.graphics.draw(self.player.media.berserk, self.player.x, self.player.y-5, 0,1.5,1.5)
         end
@@ -251,6 +266,7 @@ return {
             self.enemies = {}
             self.exploding = false
             gamestate = 2
+            self.runtime = 0
             love.load(1)
         end
     end,
