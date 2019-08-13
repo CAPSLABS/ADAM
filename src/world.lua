@@ -129,7 +129,6 @@ return {
         self.runtime = self.runtime + dt
         for enemyName,enemySpawnInfo in pairs(self.levels[self.currentLvl].spawnTimer) do
             enemySpawnInfo.timer = enemySpawnInfo.timer - dt
-            print(enemySpawnInfo.timerMax)
             if enemySpawnInfo.timer <= 0 then 
                 enemySpawnInfo.timerMax = enemySpawnInfo:spawnFct(self.runtime)
                 local newEnemy = self.statsRaw[enemyName]:newSelf() 
@@ -203,7 +202,7 @@ return {
         elseif love.keyboard.isDown("right") then
             self.player:moveRight(dt)
         end
-        
+
         if love.keyboard.isDown("down") then
             self.player:changeDirDown()
         elseif love.keyboard.isDown("up") then
@@ -217,6 +216,7 @@ return {
         if love.keyboard.isDown("d") and self.player.canBerserk then 
             self.player:goBerserk(dt) end
     end,
+
 
     ------------ DRAWING --------------
 
