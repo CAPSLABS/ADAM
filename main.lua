@@ -15,7 +15,7 @@ require("src.util")
 suit = require "src.suit"
 anim8 = require "src.anim8"
 
-debug = false
+debug = true
 
 --1=menu, 2=game, 3=gameOver, 4=shop
 Gamestates = {1,2,3,4}

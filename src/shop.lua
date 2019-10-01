@@ -6,15 +6,11 @@ return {
         fore = "assets/forestLayered/fore.png",
         sensei = "assets/mage.png"
     },
-    font = nil,
 
     loadBacking = function(self)
         for key, img in pairs(self.media) do
             self.media[key] = love.graphics.newImage(img)
         end
-
-        self.font = love.graphics.newFont("assets/font/Komi.ttf", 15)
-        --love.graphics.setFont(self.font)
     end,
 
 
@@ -22,7 +18,7 @@ return {
     end,
 
     drawShopShit = function(self)
-        love.graphics.setFont(self.font)
+        love.graphics.setFont(world.media.fantasyfont)
         love.graphics.draw(shop.media.back, 0, 0, 0, 2, 2)
         love.graphics.draw(shop.media.light, 0, 0, 0, 2, 2)
         love.graphics.draw(shop.media.middle, 0,0, 0, 2, 2)
@@ -36,7 +32,7 @@ return {
         if suit.ImageButton(world.player.media.fire, 50, 370).hit then
             print("hit")
         end
-        --rectangle around it
+        --TODO rectangle around it
     end,
 
 }
