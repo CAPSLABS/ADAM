@@ -12,7 +12,7 @@
 require("src.mapLoader")
 require("src.util")
 
-suit = require "src.suit"
+suit = require "src.suite"
 anim8 = require "src.anim8"
 
 debug = true
