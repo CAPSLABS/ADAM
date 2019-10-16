@@ -32,13 +32,15 @@ return {
     -- f 
     sonicCooldown = 10,
     canRunFast = true,
+    sonicAcceleration = 10,
+    currentAcceleration = 0,
 
     -- MODES
     fireDuration = 3,
     berserkDuration = 3,
     inBerserk = false,
     --
-    sonicDuration = 3, 
+    sonicDuration = 2, 
     inSonic = false,
 
     media = {
@@ -53,14 +55,24 @@ return {
 
     moveLeft = function(self,dt)
         if (self:getLeftX()) > 0 then 
-            self.x = self.x - (self.speed*dt)
+            if self.inSonic then
+                self.x = self.x - (self.currentAcceleration * dt)
+                self.currentAcceleration = self.currentAcceleration + self.sonicAcceleration
+            else
+                self.x = self.x - (self.speed*dt)
+            end
         end
         self.anim:update(dt)
     end,
 
     moveRight = function(self,dt)
         if (self:getRightX()) < world.x then 
-           self.x = self.x + (self.speed*dt) 
+            if self.inSonic then
+                self.x = self.x + self.currentAcceleration * dt
+                self.currentAcceleration = self.currentAcceleration + self.sonicAcceleration
+            else
+                self.x = self.x + (self.speed*dt) 
+            end
         end
         self.anim:update(dt)
     end,
@@ -122,8 +134,9 @@ return {
 
     --f
     gottaGoFast = function(self,dt)
-        --TODO implement
-
+        self.inSonic = true
+        self.canRunFast = false
+        self.sonicCooldown = playerRaw.sonicCooldown
     end,
 
     updateCooldowns = function(self,dt)
@@ -145,7 +158,11 @@ return {
             self.canBerserk = true
         end
 
-        --TODO sonic mode
+        self.sonicCooldown = self.sonicCooldown - (1 * dt)
+        if self.sonicCooldown < 0 then
+            self.canRunFast = true
+        end
+
     end, 
 
     updateModeDurations =function(self,dt)
@@ -157,9 +174,15 @@ return {
             end
         end
         --TODO sonic mode
+        if self.inSonic then
+            self.sonicDuration = self.sonicDuration - dt
+            if self.sonicDuration < 0 then
+                self.inSonic = false
+                self.sonicDuration = playerRaw.sonicDuration
+            end
+        end
 
     end,
-
 
     updateBooms = function(self,dt)
         for i, boom in ipairs(self.booms) do

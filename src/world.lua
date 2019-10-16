@@ -15,6 +15,7 @@ return {
             scale = 0,
             scaledWidth = 0,
             scaledHeight = 0,
+            shakeMagnitude = 20
         },
     },
     levels = {
@@ -25,7 +26,7 @@ return {
                     timer = 0.4, -- inital value is value of timerMax, a changing variable
                     timerMax = 0.4, -- initial value until first mob comes, marks the actual countdown time
                     spawnFct = function(self,runtime)
-                        -- Sigmoid mirrored on y axis shifted by 2
+                        -- Sigmoid mirrored on y axis shifted by 2 along x axis
                         -- Reaches timer = 0.51 in ~46 seconds
                         return (1 / (1 + math.exp(0.1*runtime))) + 0.5
                     end,
@@ -102,7 +103,6 @@ return {
         self.media.explosion.img = love.graphics.newImage(self.media.explosion.img)
         self.media.defaultfont = love.graphics.getFont()
         self.media.fantasyfont = love.graphics.newFont("assets/font/Komi.ttf", 15) 
-
     end,
 
     ------------ UPDATING --------------
@@ -135,7 +135,7 @@ return {
 
     updateExplosion = function(self,dt)
         if self.media["explosion"].runtime < self.media["explosion"].maxRuntime then
-            -- +1 needed, without it the scaling wouldn't start
+            -- +0.1 needed, without it the scaling wouldn't start
             self.media["explosion"].scale = (self.media["explosion"].scale + 0.1)^self.media["explosion"].runtime
             self.media["explosion"].runtime = self.media["explosion"].runtime + dt
             self.media["explosion"].scaledWidth = self.media["explosion"].scale*self.media["explosion"].img:getWidth()
@@ -183,7 +183,11 @@ return {
                                     enemy.width, enemy.height, 
                                     self.player:getLeftX(), self.player:getTopY(), 
                                     self.player.width, self.player.height) then
-                    self.player:die()
+                    if(self.player.inSonic) then
+                        enemy:die()
+                    else
+                        self.player:die()
+                    end
                 end
             end
 
@@ -210,6 +214,8 @@ return {
             self.player:spitFire() end
         if love.keyboard.isDown("d") and self.player.canBerserk then 
             self.player:goBerserk(dt) end
+        if love.keyboard.isDown("f") and self.player.canRunFast then 
+            self.player:gottaGoFast(dt) end
     end,
 
 
@@ -250,11 +256,14 @@ return {
     drawExplosionStuff = function(self,dt)
         if self.media["explosion"].runtime < self.media["explosion"].maxRuntime then
             -- The transformation coordinate system (upper left corner of pic) is in position (240,850) and is shifted in both directions by 39px, which is the center of the pic
+            -- local xShift = love.math.random(-self.shakeMagnitude,self.shakeMagnitude)
+            -- local yShift = love.math.random(-self.shakeMagnitude,self.shakeMagnitude)
             local startX = 240
             local startY = 850
             local scaling = love.math.newTransform(startX, startY, 0, self.media["explosion"].scale, self.media["explosion"].scale, self.media["explosion"].img:getWidth()/2, self.media["explosion"].img:getWidth()/2)
             love.graphics.push()
             love.graphics.applyTransform(scaling)
+            -- love.graphics.translate(xShift,yShift)
             love.graphics.draw(self.media["explosion"].img, 0, 0)
             love.graphics.pop()
         else 

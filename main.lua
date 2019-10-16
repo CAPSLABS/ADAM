@@ -23,7 +23,6 @@ gamestate = Gamestates[1]
 
 ------------ LOADING --------------
 
-
 function love.load()
     world = require("src.world")
     menu = require("src.menu")
@@ -41,7 +40,6 @@ function love.load()
     
     shop:loadBacking()
 end
-
 
 function initGame(lvl)
     gamestate = 2
