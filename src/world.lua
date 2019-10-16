@@ -8,6 +8,9 @@ return {
     media = {
         defaultfont= nil,
         fantasyfont=nil,
+        surprise= {
+            img = "assets/what.jpg"
+        },
         explosion = {
             img = "assets/explosion.png",
             runtime = 0,
@@ -100,6 +103,7 @@ return {
     end,
 
     loadMedia = function(self)
+        self.media.surprise.img=love.graphics.newImage(self.media.surprise.img)
         self.media.explosion.img = love.graphics.newImage(self.media.explosion.img)
         self.media.defaultfont = love.graphics.getFont()
         self.media.fantasyfont = love.graphics.newFont("assets/font/Komi.ttf", 15) 

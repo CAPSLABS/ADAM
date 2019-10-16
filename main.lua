@@ -102,6 +102,7 @@ function love.draw(dt)
         world:drawPlayerStuff()        
         world:drawEnemyStuff()
     elseif gamestate == 3 then --GAME OVER
+        love.graphics.draw(world.media.surprise.img)
         love.graphics.setFont(world.media.fantasyfont)
         love.graphics.setColor(1,0,0,1)
         love.graphics.print("YOU DIED",100,100)
