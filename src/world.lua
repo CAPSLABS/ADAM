@@ -5,6 +5,7 @@ return {
     y = 32*30,
     currentLvl=nil,
     runtime = 0,
+    exploding = false,
     media = {
         defaultfont= nil,
         fantasyfont=nil,
@@ -15,7 +16,7 @@ return {
             scale = 0,
             scaledWidth = 0,
             scaledHeight = 0,
-            shakeMagnitude = 5
+            shakeMagnitude = 5,
         },
     },
     levels = {
@@ -133,26 +134,41 @@ return {
         end
     end,
 
-    updateExplosion = function(self,dt)
-        if self.media["explosion"].runtime < self.media["explosion"].maxRuntime then
+    upscaleExplosion = function(self,dt,maxRuntime)
+        if self.media["explosion"].runtime < maxRuntime then
             -- +0.1 needed, without it the scaling wouldn't start
             self.media["explosion"].scale = (self.media["explosion"].scale + 0.1)^self.media["explosion"].runtime
             self.media["explosion"].runtime = self.media["explosion"].runtime + dt
             self.media["explosion"].scaledWidth = self.media["explosion"].scale*self.media["explosion"].img:getWidth()
             self.media["explosion"].scaledHeight = self.media["explosion"].scale*self.media["explosion"].img:getHeight()
-            -- Check for collision of explosion with enemies
-            -- NOTE: current x, y, width and height from explosion are de-/increased with the scaling factor. 
-            local startX = 240
-            local startY = 850
-            for i, enemy in ipairs(self.enemies) do
-                if CheckCollision(enemy:getLeftX(), enemy:getTopY(), enemy.width, enemy.height, 
-                                startX-self.media["explosion"].scaledWidth/2,
-                                startY-self.media["explosion"].scaledHeight/2, 
-                                self.media["explosion"].scaledWidth, 
-                                self.media["explosion"].scaledHeight) then
-                    enemy.y = enemy.y - self.media["explosion"].scale
-                end
+        end
+    end,
+
+    checkEnemyExplosionCollision = function(self,startX,startY) 
+        -- Check for collision of explosion with enemies
+        -- NOTE: current x, y, width and height from explosion are de-/increased with the scaling factor. 
+        for i, enemy in ipairs(self.enemies) do
+            if CheckCollision(enemy:getLeftX(), enemy:getTopY(), enemy.width, enemy.height, 
+                            startX-self.media["explosion"].scaledWidth/2,
+                            startY-self.media["explosion"].scaledHeight/2, 
+                            self.media["explosion"].scaledWidth, 
+                            self.media["explosion"].scaledHeight) then
+                enemy.y = enemy.y - self.media["explosion"].scale
             end
+        end
+    end,
+
+    updateExplosion = function(self,dt,startX,startY,maxRuntime)
+        if self.exploding then
+            if self.player.bursting then 
+                self:upscaleExplosion(dt,self.player.explosionMaxRuntime)
+                if self.media["explosion"].runtime >= maxRuntime then
+                    self.player.bursting = false
+                end
+            else
+                self:upscaleExplosion(dt,self.media["explosion"].maxRuntime)
+            end
+            self:checkEnemyExplosionCollision(startX,startY)
         end
     end,
 
@@ -216,6 +232,11 @@ return {
             self.player:goBerserk(dt) end
         if love.keyboard.isDown("f") and self.player.canRunFast then 
             self.player:gottaGoFast(dt) end
+        if love.keyboard.isDown("space") and self.player.canBurst then
+            print("Noticed space press")
+            self.exploding = true
+            self.player:burst(dt) 
+        end
     end,
 
 
@@ -259,26 +280,31 @@ return {
         love.graphics.translate(xShift,yShift)
     end,
 
-    drawExplosionStuff = function(self,dt)
-        if self.media["explosion"].runtime < self.media["explosion"].maxRuntime then
-            -- The transformation coordinate system (upper left corner of pic) is in position (240,850) and is shifted in both directions by 39px, which is the center of the pic
-            local xShift = love.math.random(-self.media["explosion"].shakeMagnitude,self.media["explosion"].shakeMagnitude)
-            local yShift = love.math.random(-self.media["explosion"].shakeMagnitude,self.media["explosion"].shakeMagnitude)
-            love.graphics.translate(xShift,yShift)
-            local startX = 240
-            local startY = 850
-            local scaling = love.math.newTransform(startX, startY, 0, self.media["explosion"].scale, self.media["explosion"].scale, self.media["explosion"].img:getWidth()/2, self.media["explosion"].img:getWidth()/2)
-            love.graphics.push()
-            love.graphics.applyTransform(scaling)
-            love.graphics.draw(self.media["explosion"].img, 0, 0)
-            love.graphics.pop()
-        else 
-            self.exploding = false
-            initGame(1)
+    drawExplosionStuff = function(self,dt,startX,startY)
+        if self.exploding then
+            if self.media["explosion"].runtime < self.media["explosion"].maxRuntime then
+                -- The transformation coordinate system (upper left corner of pic) is in position (240,850) and is shifted in both directions by 39px, which is the center of the pic
+                local xShift = love.math.random(-self.media["explosion"].shakeMagnitude,self.media["explosion"].shakeMagnitude)
+                local yShift = love.math.random(-self.media["explosion"].shakeMagnitude,self.media["explosion"].shakeMagnitude)
+                love.graphics.translate(xShift,yShift)
+                --local startX = 240
+                --local startY = 850
+                local scaling = love.math.newTransform(startX, startY, 0, self.media["explosion"].scale, self.media["explosion"].scale, self.media["explosion"].img:getWidth()/2, self.media["explosion"].img:getWidth()/2)
+                love.graphics.push()
+                love.graphics.applyTransform(scaling)
+                love.graphics.draw(self.media["explosion"].img, 0, 0)
+                love.graphics.pop()
+            else 
+                self.exploding = false
+                self.media["explosion"].runtime = 0
+                if not self.player.bursting then
+                    initGame(1)
+                end
+            end
         end
     end,
 
-    drawHitBoxes = function(self)
+    drawHitBoxes = function(self,explosionX,explosionY)
         if gamestate == 2 then
             love.graphics.rectangle("line", 
                                         self.player:getLeftX(), 
@@ -309,8 +335,8 @@ return {
         end
         if self.exploding then
             love.graphics.rectangle("line",
-                                    240-self.media["explosion"].scaledWidth/2,
-                                    850-self.media["explosion"].scaledHeight/2, 
+                                    explosionX-self.media["explosion"].scaledWidth/2,
+                                    explosionY-self.media["explosion"].scaledHeight/2, 
                                     self.media["explosion"].scaledWidth, 
                                     self.media["explosion"].scaledHeight)
         end
