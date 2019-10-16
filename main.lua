@@ -56,11 +56,10 @@ end
 function love.update(dt)
     if gamestate == 1 then --MENU
         if world.exploding then
-            world:updateExplosion(dt)
+            world:updateExplosion(dt,240,850,world.media["explosion"].maxRuntime)
         else
             menu:checkLoadingInput(key)
         end
-
         world:spawnEnemies(dt)
         world:updateEnemies(dt) --moves, animates&deletes enemies
     elseif gamestate == 2 then --GAME
@@ -71,6 +70,7 @@ function love.update(dt)
         world.player:updateModeDurations(dt) 
         world.player:updateBooms(dt) --moves,animates&deletes boomerangs
         world.player:updateFire(dt)
+        world:updateExplosion(dt, world.player.x, world.player.x, world.player.explosionMaxRuntime)
         --world.player:updateSelf(dt)
 
         --world:updateHUD(dt)
@@ -86,7 +86,7 @@ function love.update(dt)
     elseif gamestate == 5 then --Intro Sequence
         world:spawnEnemies(dt)
         world:updateEnemies(dt)
-        world:updateExplosion(dt)
+        world:updateExplosion(dt,240,850,world.media["explosion"].maxRuntime)
     end
 end
 
@@ -99,12 +99,13 @@ function love.draw(dt)
         end
         _G.map:draw()
         if world.exploding then     
-            world:drawExplosionStuff(dt)
+            world:drawExplosionStuff(dt,240,850)
         end
         world:drawEnemyStuff()
         menu:options()
     elseif gamestate == 2 then --GAME
         _G.map:draw()
+        world:drawExplosionStuff(dt,world.player.x,world.player.y)
         world:drawPlayerStuff()        
         world:drawEnemyStuff()
         world:drawHud()
@@ -124,6 +125,10 @@ function love.draw(dt)
 
     if debug then
         drawPerformance()
-        world:drawHitBoxes()
+        if(gamestate == 1) then
+            world:drawHitBoxes(240,850)
+        else
+            world:drawHitBoxes(world.player.x,world.player.y)
+        end
     end
 end

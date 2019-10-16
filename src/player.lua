@@ -34,6 +34,11 @@ return {
     canRunFast = true,
     sonicAcceleration = 10,
     currentAcceleration = 0,
+    -- space
+    burstCooldown = 2,
+    canBurst = true,
+    bursting = false,
+    explosionMaxRuntime = 1,
 
     -- MODES
     fireDuration = 3,
@@ -139,6 +144,13 @@ return {
         self.sonicCooldown = playerRaw.sonicCooldown
     end,
 
+    --space
+    burst = function(self,dt)
+        self.bursting = true
+        self.canBurst = false
+        self.burstCooldown = playerRaw.burstCooldown
+    end,
+
     updateCooldowns = function(self,dt)
         --TODO underflow protection needed y/N? 
         -- possibly check if between max and 0 before calculations?
@@ -163,6 +175,11 @@ return {
             self.canRunFast = true
         end
 
+        self.burstCooldown = self.burstCooldown - (1 * dt)
+        if self.burstCooldown < 0 then
+            self.canBurst = true
+        end
+
     end, 
 
     updateModeDurations =function(self,dt)
@@ -173,7 +190,6 @@ return {
                 self.berserkDuration = playerRaw.berserkDuration
             end
         end
-        --TODO sonic mode
         if self.inSonic then
             self.sonicDuration = self.sonicDuration - dt
             if self.sonicDuration < 0 then
@@ -181,7 +197,6 @@ return {
                 self.sonicDuration = playerRaw.sonicDuration
             end
         end
-
     end,
 
     updateBooms = function(self,dt)
