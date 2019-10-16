@@ -18,7 +18,7 @@ return {
             scale = 0,
             scaledWidth = 0,
             scaledHeight = 0,
-            shakeMagnitude = 20
+            shakeMagnitude = 5
         },
     },
     levels = {
@@ -257,17 +257,23 @@ return {
         end
     end,
 
+    drawExplosionScreenShake = function(self)
+        local xShift = love.math.random(-self.media["explosion"].shakeMagnitude,self.media["explosion"].shakeMagnitude)
+        local yShift = love.math.random(-self.media["explosion"].shakeMagnitude,self.media["explosion"].shakeMagnitude)
+        love.graphics.translate(xShift,yShift)
+    end,
+
     drawExplosionStuff = function(self,dt)
         if self.media["explosion"].runtime < self.media["explosion"].maxRuntime then
             -- The transformation coordinate system (upper left corner of pic) is in position (240,850) and is shifted in both directions by 39px, which is the center of the pic
-            -- local xShift = love.math.random(-self.shakeMagnitude,self.shakeMagnitude)
-            -- local yShift = love.math.random(-self.shakeMagnitude,self.shakeMagnitude)
+            local xShift = love.math.random(-self.media["explosion"].shakeMagnitude,self.media["explosion"].shakeMagnitude)
+            local yShift = love.math.random(-self.media["explosion"].shakeMagnitude,self.media["explosion"].shakeMagnitude)
+            love.graphics.translate(xShift,yShift)
             local startX = 240
             local startY = 850
             local scaling = love.math.newTransform(startX, startY, 0, self.media["explosion"].scale, self.media["explosion"].scale, self.media["explosion"].img:getWidth()/2, self.media["explosion"].img:getWidth()/2)
             love.graphics.push()
             love.graphics.applyTransform(scaling)
-            -- love.graphics.translate(xShift,yShift)
             love.graphics.draw(self.media["explosion"].img, 0, 0)
             love.graphics.pop()
         else 

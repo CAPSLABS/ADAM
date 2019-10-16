@@ -91,6 +91,9 @@ end
 
 function love.draw(dt) 
     if gamestate == 1 then --MENU
+        if world.exploding then     
+            world:drawExplosionScreenShake()
+        end
         _G.map:draw()
         if world.exploding then     
             world:drawExplosionStuff(dt)
