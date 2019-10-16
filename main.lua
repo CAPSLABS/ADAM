@@ -28,11 +28,13 @@ function love.load()
     menu = require("src.menu")
     shop = require("src.shop")
 
-    world.currentLvl = 3 --make sure to have last index as menu
+    world.currentLvl = 3 
+    --make sure this points to last level in world, which is menu
     _G.map = loadTiledMap("assets/tile/",world.levels[world.currentLvl].mapPath) 
 
     world:loadEnemies()
     world:loadMedia()
+    world:loadHud()
     
     playerRaw = require("src.player")   
     world.player = shallowcopy(playerRaw)
@@ -71,6 +73,7 @@ function love.update(dt)
         world.player:updateFire(dt)
         --world.player:updateSelf(dt)
 
+        --world:updateHUD(dt)
         world:spawnEnemies(dt)
         world:updateEnemies(dt) --moves, animates&deletes enemies
         world:handleCollisions()
@@ -104,6 +107,7 @@ function love.draw(dt)
         _G.map:draw()
         world:drawPlayerStuff()        
         world:drawEnemyStuff()
+        world:drawHud()
     elseif gamestate == 3 then --GAME OVER
         love.graphics.draw(world.media.surprise.img)
         love.graphics.setFont(world.media.fantasyfont)

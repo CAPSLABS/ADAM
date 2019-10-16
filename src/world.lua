@@ -11,6 +11,23 @@ return {
         surprise= {
             img = "assets/what.jpg"
         },
+        hud ={
+            berserk=    "assets/hud/berserk/berserk.png",
+            berserkUsed="assets/hud/berserk/berserkUsed.png",
+            boom=       "assets/hud/boom/boom64.png",
+            boomUsed=   "assets/hud/boom/boom64used.png",
+            explo =     "assets/hud/explo/explo.png",
+            exploUsed=  "assets/hud/explo/exploUsed.png",
+            fast =      "assets/hud/fast/fast.png",
+            fastUsed=   "assets/hud/fast/fastUsed.png",
+            fire=       "assets/hud/fire/fire.png",
+            fireUsed=   "assets/hud/fire/fireUsed.png"
+        },
+        hudPos ={
+            yOffset = 850,
+            xOffset = 30,
+            distance= 30
+        },
         explosion = {
             img = "assets/explosion.png",
             runtime = 0,
@@ -109,6 +126,15 @@ return {
         self.media.fantasyfont = love.graphics.newFont("assets/font/Komi.ttf", 15) 
     end,
 
+    loadHud = function(self)
+        for key, imgPath in pairs(self.media.hud) do
+            self.media.hud[key] = love.graphics.newImage(imgPath) 
+        end
+
+        --self.media.hud.boom = love.graphics.newImage(self.media.hud.boom)
+        --self.media.hud.boomUsed = love.graphics.newImage(self.media.hud.boomUsed)
+    end,
+
     ------------ UPDATING --------------
 
     --enemies are expected to implement: 
@@ -124,7 +150,7 @@ return {
         end
     end,
 
-    spawnEnemies = function(self,dt)
+    spawnEnemies=function(self,dt)
         self.runtime = self.runtime + dt
         for enemyName,enemySpawnInfo in pairs(self.levels[self.currentLvl].spawnTimer) do
             enemySpawnInfo.timer = enemySpawnInfo.timer - dt
@@ -136,6 +162,9 @@ return {
             end
         end
     end,
+
+    --updateHUD = function(self,dt)
+
 
     updateExplosion = function(self,dt)
         if self.media["explosion"].runtime < self.media["explosion"].maxRuntime then
@@ -254,6 +283,17 @@ return {
             else
                 enemy.anim:draw(enemy.media.img, enemy.x, enemy.y)
             end
+        end
+    end,
+
+    drawHud = function(self)
+        --for skill, img in pairs(self.media.hud) do
+        --    love.graphics.draw(self.media.hud.boom, self.media.hudPos.xOffset, self.media.hudPos.yOffset)
+        --    print(skill, img)
+        --end
+        if self.player.canThrow == true then
+        else
+            love.graphics.draw(self.media.hud.boomUsed, self.media.hudPos.xOffset, self.media.hudPos.yOffset)
         end
     end,
 

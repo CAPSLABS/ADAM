@@ -1,0 +1,3 @@
+orange = f57b00
+rot = d50000
+braun = 3e2723
