@@ -1,23 +1,21 @@
 - maps ändern für sichtbare skills
-- skills zu player objekten machen, die cooldon und img tracken
+- skills zu player objekten machen, die cooldown und img tracken
 - explosion zentrieren
 - intro explosion fixen nachdem sie player-ding is
 - display money and city hp
 - create shop in between lvls where you can buy shorter cooldowns
 - timer for level end, maybe not display to player? or kill based level end, ie 100 goblins? 
 - beautify start menu
-- space (explosion)
 - display cooldowns
-- starting menu, maybe with character selection if i find more sprites
-- make 1-2 stronger enemytypes for later levels
-- make bosses
-- have environment collect out of screen garbage in one function
-- TODO berserk animation, sonic animation
 - PRESS F TO PAY RESPECT AIR HORN SOUND GIMMICK NOW PLEASE I NEEED IT
 - also move phil when paying RESPECT
-- 3rd map
-
+- 3rd map with third enemy
+- city hp
+- 3 herzen
 
 
 OPTIONAL
+- have environment collect out of screen garbage in one function
 - make bullet hell / dodge stage
+- berserk animation, sonic animation
+- make bosses

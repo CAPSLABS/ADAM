@@ -27,7 +27,7 @@ return {
         hudPos ={
             yOffset = 850,
             xOffset = 30,
-            distance= 30
+            distance= 90
         },
         explosion = {
             img = "assets/explosion.png",
@@ -309,8 +309,29 @@ return {
         --    print(skill, img)
         --end
         if self.player.canThrow == true then
+            love.graphics.draw(self.media.hud.boom, self.media.hudPos.xOffset, self.media.hudPos.yOffset)
         else
             love.graphics.draw(self.media.hud.boomUsed, self.media.hudPos.xOffset, self.media.hudPos.yOffset)
+        end
+        if self.player.canBreath == true then
+            love.graphics.draw(self.media.hud.fire, self.media.hudPos.xOffset + self.media.hudPos.distance, self.media.hudPos.yOffset)
+        else
+            love.graphics.draw(self.media.hud.fireUsed, self.media.hudPos.xOffset + self.media.hudPos.distance, self.media.hudPos.yOffset)
+        end
+        if self.player.canBerserk == true then
+            love.graphics.draw(self.media.hud.berserk, self.media.hudPos.xOffset + (2 * self.media.hudPos.distance), self.media.hudPos.yOffset)
+        else
+            love.graphics.draw(self.media.hud.berserkUsed, self.media.hudPos.xOffset + (2 * self.media.hudPos.distance), self.media.hudPos.yOffset)
+        end
+        if self.player.canRunFast == true then
+            love.graphics.draw(self.media.hud.fast, self.media.hudPos.xOffset + (3 * self.media.hudPos.distance), self.media.hudPos.yOffset)
+        else
+            love.graphics.draw(self.media.hud.fastUsed, self.media.hudPos.xOffset + (3 * self.media.hudPos.distance), self.media.hudPos.yOffset)
+        end
+        if self.player.canBurst == true then
+            love.graphics.draw(self.media.hud.explo, self.media.hudPos.xOffset + (4 * self.media.hudPos.distance), self.media.hudPos.yOffset)
+        else
+            love.graphics.draw(self.media.hud.exploUsed, self.media.hudPos.xOffset + (4 * self.media.hudPos.distance), self.media.hudPos.yOffset)
         end
     end,
 

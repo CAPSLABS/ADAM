@@ -57,7 +57,6 @@ return {
         berserk = "assets/berserk.png",
     },
 
-
     moveLeft = function(self,dt)
         if (self:getLeftX()) > 0 then 
             if self.inSonic then
