@@ -274,7 +274,6 @@ return {
         if love.keyboard.isDown("f") and self.player.canRunFast then 
             self.player:gottaGoFast(dt) end
         if love.keyboard.isDown("space") and self.player.canBurst then
-            print("Noticed space press")
             self.exploding = true
             self.player:burst(dt) 
         end
@@ -381,7 +380,7 @@ return {
                 self.exploding = false
                 self.media["explosion"].runtime = 0
                 if not self.player.bursting then
-                    initGame(1)
+                    initGame(self.currentLvl)
                 end
             end
         end

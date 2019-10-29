@@ -172,6 +172,7 @@ return {
         self.sonicCooldown = self.sonicCooldown - (1 * dt)
         if self.sonicCooldown < 0 then
             self.canRunFast = true
+            self.currentAcceleration = 0
         end
 
         self.burstCooldown = self.burstCooldown - (1 * dt)
@@ -206,7 +207,6 @@ return {
             else
                 boom.y = boom.y + (350 * dt)
             end
-
             if (boom.y < 0) or (boom.y > world.y) then 
                 table.remove(self.booms, i)
             end
