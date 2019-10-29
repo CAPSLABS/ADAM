@@ -105,7 +105,7 @@ function love.draw(dt)
         menu:options()
     elseif gamestate == 2 then --GAME
         _G.map:draw()
-        world:drawExplosionStuff(dt,world.player.x,world.player.y)
+        world:drawExplosionStuff(dt,world.player.x+32,world.player.y+32)
         world:drawPlayerStuff()        
         world:drawEnemyStuff()
         world:drawHud()
@@ -128,7 +128,7 @@ function love.draw(dt)
         if(gamestate == 1) then
             world:drawHitBoxes(240,850)
         else
-            world:drawHitBoxes(world.player.x,world.player.y)
+            world:drawHitBoxes(world.player.x+32,world.player.y+32)
         end
     end
 end
