@@ -359,7 +359,7 @@ return {
                 self.exploding = false
                 self.media["explosion"].runtime = 0
                 if not self.player.bursting then
-                    initGame(1)
+                    initGame(self.currentLvl)
                 end
             end
         end
