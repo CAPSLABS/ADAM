@@ -22,12 +22,19 @@ return {
             fast =      "assets/hud/fast/fast.png",
             fastUsed=   "assets/hud/fast/fastUsed.png",
             fire=       "assets/hud/fire/fire.png",
-            fireUsed=   "assets/hud/fire/fireUsed.png"
+            fireUsed=   "assets/hud/fire/fireUsed.png",
+            healthBack=  "assets/hud/healthbar/health300.png",
+            health="assets/hud/healthbar/fullHealth300.png"
         },
         hudPos ={
+            --SKILLS:
             yOffset = 850,
             xOffset = 30,
-            distance= 90
+            distance= 90,
+
+            healthX = 100,
+            healthY = 900
+
         },
         explosion = {
             img = "assets/explosion.png",
@@ -42,6 +49,8 @@ return {
     levels = {
         --level1
         {mapPath = "ebene1tilemap",
+        cityHealthMax = 100,
+        cityHealth = 100,
         spawnTimer = {
                 goblin = {
                     timer = 0.4, -- inital value is value of timerMax, a changing variable
@@ -56,6 +65,8 @@ return {
         },
         --level 2
         {mapPath = "ebene2tilemap",
+        cityHealthMax = 100,
+        cityHealth = 100,
         spawnTimer=
             {
                 goblin = {
@@ -269,6 +280,12 @@ return {
         end
     end,
 
+    updateHealth = function(self)
+        healthPerc = (self.levels[self.currentLvl].cityHealth / self.levels[self.currentLvl].cityHealthMax)*100
+        --TODO use healthPerc to draw only that perc of fullHealth or modify a number that drawing always uses
+        --either x scaling (xs) or make a quad to crop
+    end,
+
 
     ------------ DRAWING --------------
 
@@ -334,6 +351,10 @@ return {
         else
             love.graphics.draw(self.media.hud.exploUsed, self.media.hudPos.xOffset + (4 * self.media.hudPos.distance), self.media.hudPos.yOffset)
         end
+
+        --HEALTHBAR
+        love.graphics.draw(self.media.hud.healthBack, self.media.hudPos.healthX, self.media.hudPos.healthY)
+        love.graphics.draw(self.media.hud.health, self.media.hudPos.healthX, self.media.hudPos.healthY)
     end,
 
     drawExplosionScreenShake = function(self)

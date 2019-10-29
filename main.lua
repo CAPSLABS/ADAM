@@ -71,6 +71,8 @@ function love.update(dt)
         world.player:updateBooms(dt) --moves,animates&deletes boomerangs
         world.player:updateFire(dt)
         world:updateExplosion(dt, world.player.x, world.player.x, world.player.explosionMaxRuntime)
+        world:updateHealth()
+
         --world.player:updateSelf(dt)
 
         --world:updateHUD(dt)
