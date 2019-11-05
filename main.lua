@@ -41,6 +41,8 @@ function love.load()
     world:loadPlayer()
     
     shop:loadBacking()
+
+    menu:loadMenuSounds()
 end
 
 function initGame(lvl)
