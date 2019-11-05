@@ -1,7 +1,7 @@
 return {
     -- basic stats:
     alive = true,
-    hp = 1,
+    hearts = 3,
     money = 0, 
     speed = 200,
     --the approximate width and height of the character (smaller then image)
