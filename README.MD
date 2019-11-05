@@ -6,7 +6,7 @@ Art is taken from [OpenGameArt](https://opengameart.org/).
 
 This is a Work in progress! 
 
-The game published under GNU GPLv3, so feel free to copy and modify the code as you wishh, but keep it open! =D
+The game published under GNU GPLv3, so feel free to copy and modify the code as you wish, but keep it open! =D
 
 
 How to install and play this, you ask?
@@ -15,15 +15,15 @@ How to install and play this, you ask?
 ## Download source and requirements:
 In terminal, do:  
 
-`git clone git@gitlab.com:DavidLeonardWenzel/awesomedefenderactionmurderer.git`
+`git clone https://gitlab.com/DavidLeonardWenzel/awesomedefenderactionmurderer.git`
 
 
 If you have LUA and LOVE installed skip the following steps, otherwise do:    
 **ARCH:**  
 `sudo pacman -S lua`  
 `sudo pacman -S love`  
-**UBUNTU:** (needs testing)  
-`sudo apt install lua`  
+**UBUNTU:** 
+`sudo apt install lua5.3`   
 `sudo apt install love`  
 **WINDOWS:**  
 [please see the instructions for downloading LÖVE and running games here](https://love2d.org/wiki/Getting_Started). 
