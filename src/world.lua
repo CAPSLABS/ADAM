@@ -27,21 +27,26 @@ return {
             fastUsed=   "assets/hud/fast/fastUsed.png",
             fire=       "assets/hud/fire/fire.png",
             fireUsed=   "assets/hud/fire/fireUsed.png",
-            healthFrame=  "assets/hud/healthbar/healthFrame.png",
-            health="assets/hud/healthbar/health.png",
-            money = "assets/hud/money/coin.png"
+            healthFrame="assets/hud/healthbar/healthFrame.png",
+            health=     "assets/hud/healthbar/health.png",
+            heart =     "assets/hud/healthbar/heart.png",
+            money =     "assets/hud/money/coin.png"
         },
         hudPos ={
             --SKILLS:
             yOffset = 850,
             xOffset = 30,
-            distance= 90,
+            skillDistance= 90,
 
             healthX = 100,
             healthY = 920,
 
             moneyX = 340, 
-            moneyY = 25
+            moneyY = 5,
+
+            heartX=-50,
+            heartY= 5,
+            heartDistance = 40
 
         },
         explosion = {
@@ -262,11 +267,14 @@ return {
                     if(self.player.inSonic) then
                         enemy:die()
                     else
-                        self.player:die()
+                        self.player.hearts = self.player.hearts-1
+                        enemy:die()
+                        if self.player.hearts == 0 then
+                            self.player:die()
+                        end
                     end
                 end
             end
-
         end
     end,
 
@@ -296,7 +304,8 @@ return {
             self.exploding = true
             self.player:burst(dt) 
         end
-    end,
+    end, 
+
 
     updateHealth = function(self)        
         self.healthPerc = self.cityHealth / self.cityHealthMax
@@ -352,35 +361,46 @@ return {
             love.graphics.draw(self.media.hud.boomUsed, self.media.hudPos.xOffset, self.media.hudPos.yOffset)
         end
         if self.player.canBreath == true then
-            love.graphics.draw(self.media.hud.fire, self.media.hudPos.xOffset + self.media.hudPos.distance, self.media.hudPos.yOffset)
+            love.graphics.draw(self.media.hud.fire, self.media.hudPos.xOffset + self.media.hudPos.skillDistance, self.media.hudPos.yOffset)
         else
-            love.graphics.draw(self.media.hud.fireUsed, self.media.hudPos.xOffset + self.media.hudPos.distance, self.media.hudPos.yOffset)
+            love.graphics.draw(self.media.hud.fireUsed, self.media.hudPos.xOffset + self.media.hudPos.skillDistance, self.media.hudPos.yOffset)
         end
         if self.player.canBerserk == true then
-            love.graphics.draw(self.media.hud.berserk, self.media.hudPos.xOffset + (2 * self.media.hudPos.distance), self.media.hudPos.yOffset)
+            love.graphics.draw(self.media.hud.berserk, self.media.hudPos.xOffset + (2 * self.media.hudPos.skillDistance), self.media.hudPos.yOffset)
         else
-            love.graphics.draw(self.media.hud.berserkUsed, self.media.hudPos.xOffset + (2 * self.media.hudPos.distance), self.media.hudPos.yOffset)
+            love.graphics.draw(self.media.hud.berserkUsed, self.media.hudPos.xOffset + (2 * self.media.hudPos.skillDistance), self.media.hudPos.yOffset)
         end
         if self.player.canRunFast == true then
-            love.graphics.draw(self.media.hud.fast, self.media.hudPos.xOffset + (3 * self.media.hudPos.distance), self.media.hudPos.yOffset)
+            love.graphics.draw(self.media.hud.fast, self.media.hudPos.xOffset + (3 * self.media.hudPos.skillDistance), self.media.hudPos.yOffset)
         else
-            love.graphics.draw(self.media.hud.fastUsed, self.media.hudPos.xOffset + (3 * self.media.hudPos.distance), self.media.hudPos.yOffset)
+            love.graphics.draw(self.media.hud.fastUsed, self.media.hudPos.xOffset + (3 * self.media.hudPos.skillDistance), self.media.hudPos.yOffset)
         end
         if self.player.canBurst == true then
-            love.graphics.draw(self.media.hud.explo, self.media.hudPos.xOffset + (4 * self.media.hudPos.distance), self.media.hudPos.yOffset)
+            love.graphics.draw(self.media.hud.explo, self.media.hudPos.xOffset + (4 * self.media.hudPos.skillDistance), self.media.hudPos.yOffset)
         else
-            love.graphics.draw(self.media.hud.exploUsed, self.media.hudPos.xOffset + (4 * self.media.hudPos.distance), self.media.hudPos.yOffset)
+            love.graphics.draw(self.media.hud.exploUsed, self.media.hudPos.xOffset + (4 * self.media.hudPos.skillDistance), self.media.hudPos.yOffset)
         end
 
         --HEALTHBAR
         love.graphics.draw(self.media.hud.health, self.media.hudPos.healthX, self.media.hudPos.healthY, 0, self.healthPerc, 1)
         love.graphics.draw(self.media.hud.healthFrame, self.media.hudPos.healthX, self.media.hudPos.healthY)
     
+        --a heart for kids
+        
+        for heart in range(self.player.hearts) do
+            love.graphics.draw(self.media.hud.heart, self.media.hudPos.heartX+(self.media.hudPos.heartDistance*heart-1), self.media.hudPos.heartY,0, 0.5) 
+        end
+
+
+        
+    
         --MONEY MONEY MONEY 
         --todo make sparkle and rarely turn (no need for anim, use x rotation)
         love.graphics.draw(self.media.hud.money, self.media.hudPos.moneyX, self.media.hudPos.moneyY, 0, 0.5)
         love.graphics.setFont(world.media.bigfantasyfont)
         love.graphics.print(self.player.money, self.media.hudPos.moneyX+90, self.media.hudPos.moneyY+35)
+
+
 
     end,
 
