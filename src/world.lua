@@ -6,6 +6,9 @@ return {
     currentLvl=nil,
     runtime = 0,
     exploding = false,
+    cityHealthMax = 100,
+    cityHealth = 100,
+    healthPerc=1,
     media = {
         defaultfont= nil,
         fantasyfont=nil,
@@ -23,8 +26,8 @@ return {
             fastUsed=   "assets/hud/fast/fastUsed.png",
             fire=       "assets/hud/fire/fire.png",
             fireUsed=   "assets/hud/fire/fireUsed.png",
-            healthBack=  "assets/hud/healthbar/health300.png",
-            health="assets/hud/healthbar/fullHealth300.png"
+            healthFrame=  "assets/hud/healthbar/healthFrame.png",
+            health="assets/hud/healthbar/health.png"
         },
         hudPos ={
             --SKILLS:
@@ -33,7 +36,7 @@ return {
             distance= 90,
 
             healthX = 100,
-            healthY = 900
+            healthY = 920
 
         },
         explosion = {
@@ -49,8 +52,6 @@ return {
     levels = {
         --level1
         {mapPath = "ebene1tilemap",
-        cityHealthMax = 100,
-        cityHealth = 100,
         spawnTimer = {
                 goblin = {
                     timer = 0.4, -- inital value is value of timerMax, a changing variable
@@ -182,6 +183,8 @@ return {
             self.media["explosion"].runtime = self.media["explosion"].runtime + dt
             self.media["explosion"].scaledWidth = self.media["explosion"].scale*self.media["explosion"].img:getWidth()
             self.media["explosion"].scaledHeight = self.media["explosion"].scale*self.media["explosion"].img:getHeight()
+        else
+            self:checkStartGame()
         end
     end,
 
@@ -205,11 +208,20 @@ return {
                 self:upscaleExplosion(dt,self.player.explosionMaxRuntime)
                 if self.media["explosion"].runtime >= maxRuntime then
                     self.player.bursting = false
+                    --self.exploding=false
                 end
             else
                 self:upscaleExplosion(dt,self.media["explosion"].maxRuntime)
             end
             self:checkEnemyExplosionCollision(startX,startY)
+        end
+    end,
+
+    checkStartGame = function(self)
+        --make sure this points to the last level, menu!
+        if self.currentLvl == 3 then
+            print("explo down and im in menu")
+            initGame(1)
         end
     end,
 
@@ -279,10 +291,8 @@ return {
         end
     end,
 
-    updateHealth = function(self)
-        healthPerc = (self.levels[self.currentLvl].cityHealth / self.levels[self.currentLvl].cityHealthMax)*100
-        --TODO use healthPerc to draw only that perc of fullHealth or modify a number that drawing always uses
-        --either x scaling (xs) or make a quad to crop
+    updateHealth = function(self)        
+        self.healthPerc = self.cityHealth / self.cityHealthMax
     end,
 
 
@@ -352,8 +362,8 @@ return {
         end
 
         --HEALTHBAR
-        love.graphics.draw(self.media.hud.healthBack, self.media.hudPos.healthX, self.media.hudPos.healthY)
-        love.graphics.draw(self.media.hud.health, self.media.hudPos.healthX, self.media.hudPos.healthY)
+        love.graphics.draw(self.media.hud.health, self.media.hudPos.healthX, self.media.hudPos.healthY, 0, self.healthPerc, 1)
+        love.graphics.draw(self.media.hud.healthFrame, self.media.hudPos.healthX, self.media.hudPos.healthY)
     end,
 
     drawExplosionScreenShake = function(self)
@@ -379,9 +389,6 @@ return {
             else 
                 self.exploding = false
                 self.media["explosion"].runtime = 0
-                if not self.player.bursting then
-                    initGame(self.currentLvl)
-                end
             end
         end
     end,

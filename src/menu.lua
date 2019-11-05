@@ -28,9 +28,12 @@ return {
     -- Controls in Menu screen
     checkLoadingInput = function(self)
         if love.keyboard.isDown("space") then
+            world.player.bursting=true
             world.exploding = true
         elseif love.keyboard.isDown("return") then
+            world.player.bursting=true
             world.exploding = true
+
         end
         if debug==true then
             if love.keyboard.isDown("1") then

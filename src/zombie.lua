@@ -82,6 +82,7 @@ return {
     
     --everytime the cur. anim. is paused, we go to the next 
     --animations: left pump -> right pump -> star shape -> start walking towards player 
+    --dance class 101
     dance = function(self, dt)
         if self.curAnim == "leftPump" then
             self.anim = anim8.newAnimation(self.media.imgGrid('2-7',7), 0.08, "pauseAtEnd"):flipH()
