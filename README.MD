@@ -4,8 +4,9 @@ Welcome to ADAM, the **A**wesome **D**efender **A**ction **M**urderer Game
 I used [TILED](https://www.mapeditor.org/) for creating the levels. 
 Art is taken from [OpenGameArt](https://opengameart.org/).
 
-This is Work in progress! 
-Game published under Creative Commons License, so feel free to share/add etc.
+This is a Work in progress! 
+
+The game published under GNU GPLv3, so feel free to copy and modify the code as you wishh, but keep it open! =D
 
 
 How to install and play this, you ask?
