@@ -81,8 +81,8 @@ function love.update(dt)
         world:handleCollisions()
 
     elseif gamestate == 3 then --GAME OVER
-        menu:checkRestartInput()
-
+        menu:checkGameOverInput()
+        menu:playAirhornSound()
     elseif gamestate == 4 then --SHOP
 
     elseif gamestate == 5 then --Intro Sequence
@@ -112,14 +112,13 @@ function love.draw(dt)
         world:drawEnemyStuff()
         world:drawHud()
     elseif gamestate == 3 then --GAME OVER
-        love.graphics.draw(world.media.surprise.img)
+        menu:drawPaidRespect(world.media.surprise.img)
         love.graphics.setFont(world.media.fantasyfont)
         love.graphics.setColor(1,0,0,1)
         love.graphics.print("YOU DIED",100,100)
         love.graphics.print("Press ESC to quit.",100,150)
         love.graphics.print("Press R to restart.",100,175)
         love.graphics.print("Press F to pay respect.",100,200)
-
     elseif gamestate == 4 then --SHOP
         shop:drawShopShit()
         suit.draw()

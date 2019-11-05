@@ -5,6 +5,12 @@
 --]]
 
 return {
+
+    -- Whether F has been pressed in the game over screen
+    respectPaid = false,
+    
+    ----------------- UPDATING -----------------
+
 	-- Menu Text
     options = function(self)
         if debug then
@@ -53,5 +59,37 @@ return {
             love.event.quit("restart")
         end
 	end,
+
+    checkGameOverInput = function(self)
+        if love.keyboard.isDown("escape") then
+            love.event.push("quit") 
+        elseif love.keyboard.isDown("r") then
+            love.event.quit("restart")
+        elseif love.keyboard.isDown("f") then
+            respectPaid = true
+        end
+    end,
+
+    playAirhornSound = function(self)
+        if respectPaid then
+            local airhorn = love.audio.newSource("assets/sounds/air_horn_sound.mp3","static")
+            airhorn:play()
+        end
+    end,
+
+    ----------------- DRAWING -----------------
+
+    drawPaidRespect = function(self,imgPath)
+        if respectPaid then
+            local randomAngle = love.math.random(-3.14,3.14)
+            local transformation = love.math.newTransform(240,480,randomAngle,1.3,1.3,240,480)
+            love.graphics.applyTransform(transformation)
+            love.graphics.draw(imgPath)
+            respectPaid = false
+        else
+            --TODO: Behalte tranformation selbst wenn F nicht mehr gedrückt
+            love.graphics.draw(imgPath)
+        end
+    end,
 
 }
