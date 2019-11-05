@@ -50,6 +50,7 @@ return {
 
     die = function(self)
         self.curAnim = "dying"
+        world.player.money = world.player.money + self.reward
         self.anim = anim8.newAnimation(self.media.imgGrid('1-6',21), 0.3, "pauseAtEnd")
     end,
 

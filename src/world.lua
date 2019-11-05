@@ -12,6 +12,7 @@ return {
     media = {
         defaultfont= nil,
         fantasyfont=nil,
+        bigfantasyfont=nil,
         surprise= {
             img = "assets/what.jpg"
         },
@@ -27,7 +28,8 @@ return {
             fire=       "assets/hud/fire/fire.png",
             fireUsed=   "assets/hud/fire/fireUsed.png",
             healthFrame=  "assets/hud/healthbar/healthFrame.png",
-            health="assets/hud/healthbar/health.png"
+            health="assets/hud/healthbar/health.png",
+            money = "assets/hud/money/coin.png"
         },
         hudPos ={
             --SKILLS:
@@ -36,7 +38,10 @@ return {
             distance= 90,
 
             healthX = 100,
-            healthY = 920
+            healthY = 920,
+
+            moneyX = 340, 
+            moneyY = 25
 
         },
         explosion = {
@@ -137,6 +142,8 @@ return {
         self.media.explosion.img = love.graphics.newImage(self.media.explosion.img)
         self.media.defaultfont = love.graphics.getFont()
         self.media.fantasyfont = love.graphics.newFont("assets/font/Komi.ttf", 15) 
+        self.media.bigfantasyfont = love.graphics.newFont("assets/font/Komi.ttf", 30) 
+
     end,
 
     loadHud = function(self)
@@ -293,6 +300,10 @@ return {
 
     updateHealth = function(self)        
         self.healthPerc = self.cityHealth / self.cityHealthMax
+        if self.healthPerc < 0 then
+            self.alive = false
+            gamestate = 3
+        end
     end,
 
 
@@ -364,6 +375,13 @@ return {
         --HEALTHBAR
         love.graphics.draw(self.media.hud.health, self.media.hudPos.healthX, self.media.hudPos.healthY, 0, self.healthPerc, 1)
         love.graphics.draw(self.media.hud.healthFrame, self.media.hudPos.healthX, self.media.hudPos.healthY)
+    
+        --MONEY MONEY MONEY 
+        --todo make sparkle and rarely turn (no need for anim, use x rotation)
+        love.graphics.draw(self.media.hud.money, self.media.hudPos.moneyX, self.media.hudPos.moneyY, 0, 0.5)
+        love.graphics.setFont(world.media.bigfantasyfont)
+        love.graphics.print(self.player.money, self.media.hudPos.moneyX+90, self.media.hudPos.moneyY+35)
+
     end,
 
     drawExplosionScreenShake = function(self)
