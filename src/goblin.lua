@@ -61,8 +61,11 @@ return {
             self.y = self.y + (self.speed*200*dt)
             if self.y > (world.y-190) then
                 self.curAnim = "attack"
-                self.anim = anim8.newAnimation(self.media.imgGrid('7-10', 1), 0.3)
+                self.anim = anim8.newAnimation(self.media.imgGrid('7-10', 1), 0.3, "pauseAtEnd")
             end
+        elseif (self.curAnim == "attack") and (self.anim.status == "paused") then
+            world.cityHealth=world.cityHealth-self.dmg
+            self.anim = anim8.newAnimation(self.media.imgGrid('7-10', 1), 0.3, "pauseAtEnd")
         end
 
         if self.gotHit then

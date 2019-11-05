@@ -45,6 +45,7 @@ end
 
 function initGame(lvl)
     gamestate = 2
+    world.cityHealth=100
     world.runtime = 0
     world.enemies={}
     world.currentLvl = lvl

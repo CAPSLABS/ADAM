@@ -1,6 +1,6 @@
 return {
     hp = 8,
-    dmg = 3,
+    dmg = 5,
     speed = 0.2,
     x = 0,
     y = 0,
@@ -64,10 +64,13 @@ return {
         end
         if (self.curAnim=="walking") then
             self.y = self.y + (self.speed*200*dt)
-            if self.y > world.y then
-                self.alive = false
-            --todo: start attacking village thingy here instead of just dying lol
+            if self.y > (world.y-190) then
+                self.curAnim = "attack"
+                self.anim = anim8.newAnimation(self.media.imgGrid('1-6', 19), 0.3, "pauseAtEnd")
             end
+        elseif (self.curAnim=="attack") and (self.anim.status == "paused") then
+            world.cityHealth=world.cityHealth-self.dmg
+            self.anim = anim8.newAnimation(self.media.imgGrid('1-6', 19), 0.3,"pauseAtEnd")
         end
         
         if self.gotHit then
