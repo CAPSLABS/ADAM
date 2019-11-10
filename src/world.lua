@@ -30,12 +30,17 @@ return {
             healthFrame="assets/hud/healthbar/healthFrame.png",
             health=     "assets/hud/healthbar/health.png",
             heart =     "assets/hud/healthbar/heart.png",
-            money =     "assets/hud/money/coin.png"
+            money =     "assets/hud/money/coin.png",
+            a =         "assets/hud/controls/a.png",
+            s =         "assets/hud/controls/s.png",
+            d =         "assets/hud/controls/d.png",
+            f =         "assets/hud/controls/f.png",
+            space =     "assets/hud/controls/space.png"
         },
         hudPos ={
             --SKILLS:
-            yOffset = 850,
             xOffset = 30,
+            yOffset = 850,
             skillDistance= 90,
 
             healthX = 100,
@@ -46,7 +51,11 @@ return {
 
             heartX=-50,
             heartY= 5,
-            heartDistance = 40
+            heartDistance = 40,
+
+            letterX=35,
+            letterY=855,
+            letterDistance=90
 
         },
         explosion = {
@@ -386,13 +395,17 @@ return {
         love.graphics.draw(self.media.hud.healthFrame, self.media.hudPos.healthX, self.media.hudPos.healthY)
     
         --a heart for kids
-        
         for heart in range(self.player.hearts) do
             love.graphics.draw(self.media.hud.heart, self.media.hudPos.heartX+(self.media.hudPos.heartDistance*heart-1), self.media.hudPos.heartY,0, 0.5) 
         end
 
 
-        
+        -- controls
+        love.graphics.draw(self.media.hud.a, self.media.hudPos.letterX, self.media.hudPos.letterY, 0, 0.65)
+        love.graphics.draw(self.media.hud.s, (self.media.hudPos.letterX+self.media.hudPos.letterDistance*1), self.media.hudPos.letterY, 0, 0.65)
+        love.graphics.draw(self.media.hud.d, (self.media.hudPos.letterX+self.media.hudPos.letterDistance*2), self.media.hudPos.letterY, 0, 0.65)
+        love.graphics.draw(self.media.hud.f, (self.media.hudPos.letterX+self.media.hudPos.letterDistance*3), self.media.hudPos.letterY, 0, 0.65)
+        love.graphics.draw(self.media.hud.space, (self.media.hudPos.letterX+self.media.hudPos.letterDistance*4), self.media.hudPos.letterY)
     
         --MONEY MONEY MONEY 
         --todo make sparkle and rarely turn (no need for anim, use x rotation)
