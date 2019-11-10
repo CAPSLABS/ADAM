@@ -5,8 +5,8 @@
 - 3rd level with 3rd enemy
 - TODO berserk animation, sonic animation, money animation
 - fire hitbox super wrong (try grilling kobols behind you, you cant xD)
+- explo doesn't really kill enemies
 - go over todos
-- attach keys to skill icons!
 
 
 OPTIONAL
