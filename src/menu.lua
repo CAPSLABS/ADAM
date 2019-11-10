@@ -8,8 +8,18 @@ return {
 
     -- Whether F has been pressed in the game over screen
     respectPaid = false,
-    
+    -- Short time switch to mark the first time when F is pressed
+    firstFPress = false,
+    -- Last acknowledged input during the game over screen
+    lastInput = nil,
+    -- Sound obj having 
+    airhorn = nil,
+
     ----------------- UPDATING -----------------
+
+    loadMenuSounds = function(self)
+        airhorn = love.audio.newSource("assets/sounds/air_horn_sound.mp3","static")
+    end,
 
 	-- Menu Text
     options = function(self)
@@ -70,13 +80,23 @@ return {
             love.event.quit("restart")
         elseif love.keyboard.isDown("f") then
             respectPaid = true
+            firstFPress = true
+            if lastInput == "f" then
+                firstFPress = false
+            end
+            lastInput = "f"
+        else 
+            lastInput = "n"
         end
     end,
 
     playAirhornSound = function(self)
-        if respectPaid then
-            local airhorn = love.audio.newSource("assets/sounds/air_horn_sound.mp3","static")
-            airhorn:play()
+        if firstFPress then
+            if lastInput == "f" then
+                airhorn:play()
+            end 
+        elseif airhorn:isPlaying() and lastInput ~= "f" then
+            airhorn:stop()
         end
     end,
 
