@@ -182,7 +182,7 @@ return {
 
     end, 
 
-    updateModeDurations =function(self,dt)
+    updateModeDurations = function(self,dt)
         if self.inBerserk then
             self.berserkDuration = self.berserkDuration - (1*dt)
             if self.berserkDuration < 0 then

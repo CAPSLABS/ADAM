@@ -78,7 +78,8 @@ return {
                     spawnFct = function(self,runtime)
                         -- Sigmoid mirrored on y axis shifted by 2 along x axis
                         -- Reaches timer = 0.51 in ~46 seconds
-                        return (1 / (1 + math.exp(0.1*runtime))) + 0.5
+                        --return (1 / (1 + math.exp(0.1*runtime))) + 0.5
+                        return 3;
                     end,
                 },
             },
@@ -219,6 +220,7 @@ return {
                             self.media["explosion"].scaledWidth, 
                             self.media["explosion"].scaledHeight) then
                 enemy.y = enemy.y - self.media["explosion"].scale
+                enemy:getHit(1)
             end
         end
     end,

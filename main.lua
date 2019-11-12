@@ -73,7 +73,6 @@ function love.update(dt)
         world.player:updateModeDurations(dt) 
         world.player:updateBooms(dt) --moves,animates&deletes boomerangs
         world.player:updateFire(dt)
-        world:updateExplosion(dt, world.player.x, world.player.x, world.player.explosionMaxRuntime)
         world:updateHealth()
 
         --world.player:updateSelf(dt)
@@ -82,6 +81,7 @@ function love.update(dt)
         world:spawnEnemies(dt)
         world:updateEnemies(dt) --moves, animates&deletes enemies
         world:handleCollisions()
+        world:updateExplosion(dt, world.player.x, world.player.x, world.player.explosionMaxRuntime)
 
     elseif gamestate == 3 then --GAME OVER
         menu:checkGameOverInput()
@@ -111,8 +111,8 @@ function love.draw(dt)
     elseif gamestate == 2 then --GAME
         _G.map:draw()
         world:drawExplosionStuff(dt,world.player.x+32,world.player.y+32)
-        world:drawPlayerStuff()        
         world:drawEnemyStuff()
+        world:drawPlayerStuff()        
         world:drawHud()
     elseif gamestate == 3 then --GAME OVER
         menu:drawPaidRespect(world.media.surprise.img)

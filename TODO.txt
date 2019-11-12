@@ -1,15 +1,17 @@
-- maps ändern für sichtbare skills
-- create shop in between lvls where you can buy shorter cooldowns
-- timer for level end, maybe not display to player? or kill based level end, ie 100 goblins? 
-- beautify start menu
+- maps ändern für sichtbare skills (P)
+- create shop in between lvls where you can buy shorter cooldowns (D)
+- timer for level end, maybe not display to player? or kill based level end, ie 100 goblins? (D)
+- beautify start menu (D)
 - 3rd level with 3rd enemy
-- TODO berserk animation, sonic animation, money animation
-- fire hitbox super wrong (try grilling kobols behind you, you cant xD)
-- explo doesn't really kill enemies
-- go over todos
-
+- TODO berserk animation, sonic animation, money animation (P)
+- fire hitbox super wrong (try grilling kobols behind you, you cant xD) (P)
+- Make sonic mode kill enemies behind you (maybe extend player hitbox) (P)
+- shop logic (D)
+- Final code cleanup
+- Adapt zombie death logic
 
 OPTIONAL
 - make bullet hell / dodge stage
 - character selection if i find more sprites
 - make bosses
+- gekaufte skills nebeneinander reihen (keine lücken dazwischen, falls noch nicht alle skills gekauft wurden)

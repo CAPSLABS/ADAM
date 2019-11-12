@@ -28,7 +28,7 @@ return {
     },
     
     --instantiator:
-    newSelf =function(self)
+    newSelf = function(self)
         baby=shallowcopy(self)
         baby.x = math.random(-self:getLeftX(), (world.x - self:getRightX())) -- substracting width avoids clipping out to the right
         baby.anim = anim8.newAnimation(self.media.imgGrid('1-7', 1), 0.07)
@@ -36,17 +36,20 @@ return {
         return baby
     end,
 
-    getHit = function(self, dmg, dt)
+    getHit = function(self, dmg)
         if not self.gotHit then
-            self.gotHit=true
-            self.hp=self.hp-dmg 
-            if (self.hp <= 0) then --and (self.curAnim == "walking") then
+            self.gotHit = true
+            self.hp = self.hp-dmg 
+            print("goblin:getHit, got hit, hp is now: "..self.hp)
+            if (self.hp <= 0) and self.curAnim ~= "dying" then --and (self.curAnim == "walking") then
+                print("goblin:getHit, rest now in peace")
                 self:die()
             end
         end
     end,
 
     die = function(self)
+        print("goblin:die, I just died in your arms tonight!")
         self.curAnim = "dying"
         world.player.money = world.player.money + self.reward
         self.anim = anim8.newAnimation(self.media.imgGrid('1-7', 5), 0.06, "pauseAtEnd")
@@ -55,8 +58,10 @@ return {
     update = function(self,dt)
         self.anim:update(dt)
         if (self.anim.status == "paused") and (self.curAnim == "dying") then
+            print("goblin:update, was paused and dying, so i am not alive.")
             self.alive = false
         elseif self.curAnim == "dying" then
+            --print("goblin:update, was not paused and dying, so i am slowly")
             self.y = self.y + (self.speed*50*dt)
         elseif self.curAnim == "walking" then
             self.y = self.y + (self.speed*200*dt)
