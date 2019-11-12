@@ -35,7 +35,9 @@ return {
             s =         "assets/hud/controls/s.png",
             d =         "assets/hud/controls/d.png",
             f =         "assets/hud/controls/f.png",
-            space =     "assets/hud/controls/space.png"
+            space =     "assets/hud/controls/space.png",
+            silver =    "assets/hud/silver.png",
+            gold =      "assets/hud/gold.png"
         },
         hudPos ={
             --SKILLS:

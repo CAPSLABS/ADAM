@@ -12,7 +12,7 @@ The game published under GNU GPLv3, so feel free to copy and modify the code as 
 How to install and play this, you ask?
 
 
-## Download source and requirements:
+## From scratch: download source and requirements:
 In terminal, do:  
 
 `git clone https://gitlab.com/DavidLeonardWenzel/awesomedefenderactionmurderer.git`
@@ -22,9 +22,14 @@ If you have LUA and LOVE installed skip the following steps, otherwise do:
 **ARCH:**  
 `sudo pacman -S lua`  
 `sudo pacman -S love`  
-**UBUNTU:** 
-`sudo apt install lua5.3`   
-`sudo apt install love`  
+**UBUNTU:**   
+`sudo apt install lua5.3`    
+The following command should allow you to get the latest stable version:  
+(which is usually newer than the default apt-package)  
+`sudo add-apt-repository ppa:bartbes/love-stable`  
+`sudo apt-get update`
+`sudo apt install love`
+
 **WINDOWS:**  
 [please see the instructions for downloading LÖVE and running games here](https://love2d.org/wiki/Getting_Started). 
 After downloading LÖVE you can download the game folder and drag it on top of the love.exe!
