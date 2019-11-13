@@ -65,6 +65,7 @@ function love.update(dt)
         end
         world:spawnEnemies(dt)
         world:updateEnemies(dt) --moves, animates&deletes enemies
+
     elseif gamestate == 2 then --GAME
         menu:checkRestartInput()
         world:checkPlayerActionInput(dt)
@@ -73,7 +74,7 @@ function love.update(dt)
         world.player:updateModeDurations(dt) 
         world.player:updateBooms(dt) --moves,animates&deletes boomerangs
         world.player:updateFire(dt)
-        world:updateHealth()
+        world:updateHealth(wee)
 
         --world.player:updateSelf(dt)
 
@@ -81,12 +82,14 @@ function love.update(dt)
         world:spawnEnemies(dt)
         world:updateEnemies(dt) --moves, animates&deletes enemies
         world:handleCollisions()
-        world:updateExplosion(dt, world.player.x, world.player.x, world.player.explosionMaxRuntime)
+        world:updateExplosion(dt, world.player.x+32, world.player.y+32, world.player.explosionMaxRuntime)
 
     elseif gamestate == 3 then --GAME OVER
         menu:checkGameOverInput()
         menu:playAirhornSound()
+
     elseif gamestate == 4 then --SHOP
+        shop:updateShopShit()
 
     elseif gamestate == 5 then --Intro Sequence
         world:spawnEnemies(dt)
@@ -108,12 +111,14 @@ function love.draw(dt)
         end
         world:drawEnemyStuff()
         menu:options()
+
     elseif gamestate == 2 then --GAME
         _G.map:draw()
         world:drawExplosionStuff(dt,world.player.x+32,world.player.y+32)
         world:drawEnemyStuff()
         world:drawPlayerStuff()        
         world:drawHud()
+
     elseif gamestate == 3 then --GAME OVER
         menu:drawPaidRespect(world.media.surprise.img)
         love.graphics.setFont(world.media.fantasyfont)
@@ -122,9 +127,10 @@ function love.draw(dt)
         love.graphics.print("Press ESC to quit.",100,150)
         love.graphics.print("Press R to restart.",100,175)
         love.graphics.print("Press F to pay respect.",100,200)
+
     elseif gamestate == 4 then --SHOP
-        shop:drawShopShit()
         suit.draw()
+        shop:drawShopShit()
     end
 
     if debug then

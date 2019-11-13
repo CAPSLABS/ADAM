@@ -8,7 +8,6 @@
 - Make sonic mode kill enemies behind you (maybe extend player hitbox) (P)
 - shop logic (D)
 - Final code cleanup
-- Adapt zombie death logic
 
 OPTIONAL
 - make bullet hell / dodge stage

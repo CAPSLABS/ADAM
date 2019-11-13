@@ -13,8 +13,8 @@ return {
     width = 30, 
     height = 50,
 
-    iFrameSec = 0.1,
-    iFrameSecMax = 0.1,
+    iFrameSec = 0.2,
+    iFrameSecMax = 0.2,
 
     --the sprite begins ~15 pixels to the right of the image
     getLeftX    = function(self) return self.x+15 end, 
@@ -40,16 +40,13 @@ return {
         if not self.gotHit then
             self.gotHit = true
             self.hp = self.hp-dmg 
-            print("goblin:getHit, got hit, hp is now: "..self.hp)
-            if (self.hp <= 0) and self.curAnim ~= "dying" then --and (self.curAnim == "walking") then
-                print("goblin:getHit, rest now in peace")
+            if (self.hp <= 0) and (self.curAnim ~= "dying") then --and (self.curAnim == "walking") then
                 self:die()
             end
         end
     end,
 
     die = function(self)
-        print("goblin:die, I just died in your arms tonight!")
         self.curAnim = "dying"
         world.player.money = world.player.money + self.reward
         self.anim = anim8.newAnimation(self.media.imgGrid('1-7', 5), 0.06, "pauseAtEnd")
@@ -58,7 +55,6 @@ return {
     update = function(self,dt)
         self.anim:update(dt)
         if (self.anim.status == "paused") and (self.curAnim == "dying") then
-            print("goblin:update, was paused and dying, so i am not alive.")
             self.alive = false
         elseif self.curAnim == "dying" then
             --print("goblin:update, was not paused and dying, so i am slowly")

@@ -19,26 +19,31 @@ return {
     dir = 1,  --1=up, 2=down
     --attacks:
     -- a
+    boomLevel = 1,
     boomCooldown = 0.5,
     canThrow = true,
     booms = {},
     -- s
+    fireLevel = 1,
     breathCooldown = 8,
     canBreath = true,
     fires = {},
     -- d
+    berserkLevel = 1,
     berserkCooldown = 15,
     canBerserk = true,
     -- f 
+    fastLevel = 1,
     sonicCooldown = 10,
     canRunFast = true,
     sonicAcceleration = 10,
     currentAcceleration = 0,
     -- space
-    burstCooldown = 2,
+    burstLevel = 1,
+    burstCooldown = 3,
     canBurst = true,
     bursting = false,
-    explosionMaxRuntime = 1,
+    explosionMaxRuntime = 1.3,
 
     -- MODES
     fireDuration = 3,

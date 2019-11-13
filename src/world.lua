@@ -35,7 +35,9 @@ return {
             s =         "assets/hud/controls/s.png",
             d =         "assets/hud/controls/d.png",
             f =         "assets/hud/controls/f.png",
-            space =     "assets/hud/controls/space.png"
+            space =     "assets/hud/controls/space.png",
+            silver =    "assets/hud/silver.png",
+            gold =      "assets/hud/gold.png"
         },
         hudPos ={
             --SKILLS:
@@ -76,10 +78,10 @@ return {
                     timer = 0.4, -- inital value is value of timerMax, a changing variable
                     timerMax = 0.4, -- initial value until first mob comes, marks the actual countdown time
                     spawnFct = function(self,runtime)
+                        -- returns the next timerMax value (waiting time until next goblin spawns)
                         -- Sigmoid mirrored on y axis shifted by 2 along x axis
                         -- Reaches timer = 0.51 in ~46 seconds
-                        --return (1 / (1 + math.exp(0.1*runtime))) + 0.5
-                        return 3;
+                        return (1 / (1 + math.exp(0.1*runtime))) + 0.5
                     end,
                 },
             },
@@ -199,13 +201,18 @@ return {
     end,
 
     upscaleExplosion = function(self,dt,maxRuntime)
-        if self.media["explosion"].runtime < maxRuntime then
+        if self.media["explosion"].runtime + dt < maxRuntime then
             -- +0.1 needed, without it the scaling wouldn't start
             self.media["explosion"].scale = (self.media["explosion"].scale + 0.1)^self.media["explosion"].runtime
             self.media["explosion"].runtime = self.media["explosion"].runtime + dt
             self.media["explosion"].scaledWidth = self.media["explosion"].scale*self.media["explosion"].img:getWidth()
             self.media["explosion"].scaledHeight = self.media["explosion"].scale*self.media["explosion"].img:getHeight()
         else
+            if self.player.bursting then
+                self.player.bursting = false
+            end
+            self.exploding = false
+            self.media["explosion"].runtime = 0
             self:checkStartGame()
         end
     end,
@@ -227,15 +234,7 @@ return {
 
     updateExplosion = function(self,dt,startX,startY,maxRuntime)
         if self.exploding then
-            if self.player.bursting then 
-                self:upscaleExplosion(dt,self.player.explosionMaxRuntime)
-                if self.media["explosion"].runtime >= maxRuntime then
-                    self.player.bursting = false
-                    --self.exploding=false
-                end
-            else
-                self:upscaleExplosion(dt,self.media["explosion"].maxRuntime)
-            end
+            self:upscaleExplosion(dt,maxRuntime)
             self:checkEnemyExplosionCollision(startX,startY)
         end
     end,
@@ -243,7 +242,7 @@ return {
     checkStartGame = function(self)
         --make sure this points to the last level, menu!
         if self.currentLvl == 3 then
-            print("explo down and im in menu")
+            self.player.money = 0
             initGame(1)
         end
     end,
@@ -415,8 +414,6 @@ return {
         love.graphics.setFont(world.media.bigfantasyfont)
         love.graphics.print(self.player.money, self.media.hudPos.moneyX+90, self.media.hudPos.moneyY+35)
 
-
-
     end,
 
     drawExplosionScreenShake = function(self)
@@ -428,20 +425,13 @@ return {
     drawExplosionStuff = function(self,dt,startX,startY)
         if self.exploding then
             if self.media["explosion"].runtime < self.media["explosion"].maxRuntime then
+                self:drawExplosionScreenShake()
                 -- The transformation coordinate system (upper left corner of pic) is in position (240,850) and is shifted in both directions by 39px, which is the center of the pic
-                local xShift = love.math.random(-self.media["explosion"].shakeMagnitude,self.media["explosion"].shakeMagnitude)
-                local yShift = love.math.random(-self.media["explosion"].shakeMagnitude,self.media["explosion"].shakeMagnitude)
-                love.graphics.translate(xShift,yShift)
-                --local startX = 240
-                --local startY = 850
                 local scaling = love.math.newTransform(startX, startY, 0, self.media["explosion"].scale, self.media["explosion"].scale, self.media["explosion"].img:getWidth()/2, self.media["explosion"].img:getWidth()/2)
                 love.graphics.push()
                 love.graphics.applyTransform(scaling)
                 love.graphics.draw(self.media["explosion"].img, 0, 0)
                 love.graphics.pop()
-            else 
-                self.exploding = false
-                self.media["explosion"].runtime = 0
             end
         end
     end,
