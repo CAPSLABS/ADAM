@@ -134,7 +134,7 @@ return {
         if self.dir == 1 then
             yOffset = 370
         else
-            yOffset = -420
+            yOffset = -self.height
         end
 
         local newFire = {

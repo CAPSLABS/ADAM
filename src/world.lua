@@ -362,7 +362,7 @@ return {
             if fire.dir == 1 then
                 love.graphics.draw(self.player.media.fire, fire.x, fire.y)
             else
-                love.graphics.draw(self.player.media.fire, fire.x, fire.y, 0, 1, -1)
+                love.graphics.draw(self.player.media.fire, fire.x, fire.y, 0, 1, -1, 0, self.player.media.fire:getHeight())
             end
         end
         --ABILITIES
