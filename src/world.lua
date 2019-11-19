@@ -358,8 +358,16 @@ return {
     ------------ DRAWING --------------
 
     drawPlayerStuff = function(self)
-        --TODO check if we want to draw up or down
-        self.player.anim:draw(self.player.media.img, self.player.x, self.player.y)
+        if self.player.inSonic == true then
+            -- make him golden
+            love.graphics.setColor(1, 0.8313, 0, 1)
+            self.player.anim:draw(self.player.media.img, self.player.x, self.player.y)    
+            love.graphics.setColor(255, 255, 255, 255)
+        else 
+            --TODO check if we want to draw up or down
+            self.player.anim:draw(self.player.media.img, self.player.x, self.player.y)    
+        end
+        
         --WEAPONS
         for i, boom in ipairs(self.player.booms) do
             boom.anim:draw(self.player.media.boom, boom.x, boom.y)
@@ -375,6 +383,7 @@ return {
         if self.player.inBerserk == true then
             love.graphics.draw(self.player.media.berserk, self.player.x, self.player.y - 5, 0, 1.5, 1.5)
         end
+
     end,
     drawEnemyStuff = function(self)
         for i, enemy in ipairs(self.enemies) do
