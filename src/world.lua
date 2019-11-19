@@ -39,6 +39,13 @@ return {
             silver = "assets/hud/silver.png",
             gold = "assets/hud/gold.png"
         },
+        hudSkillBorder  = {
+            a = nil,
+            s = nil,
+            d = nil,
+            f = nil,
+            space = nil
+        },
         hudPos = {
             --SKILLS:
             xOffset = 30,
@@ -338,7 +345,6 @@ return {
             self.player:gottaGoFast(dt)
         end
         if love.keyboard.isDown("space") and self.player.canBurst then
-            self.exploding = true
             self.player:burst(dt)
         end
     end,
@@ -386,12 +392,28 @@ return {
         --    love.graphics.draw(self.media.hud.boom, self.media.hudPos.xOffset, self.media.hudPos.yOffset)
         --    print(skill, img)
         --end
+        if self.media.hud.borderA then 
+            love.graphics.draw(self.media.hud.borderA, self.media.hudPos.xOffset, self.media.hudPos.yOffset)
+        end
+        if self.media.hud.borderS then 
+            love.graphics.draw(self.media.hud.borderS, self.media.hudPos.xOffset+self.media.hudPos.skillDistance, self.media.hudPos.yOffset)
+        end
+        if self.media.hud.borderD then
+            love.graphics.draw(self.media.hud.borderD, self.media.hudPos.xOffset+(self.media.hudPos.skillDistance*2), self.media.hudPos.yOffset)
+        end
+        if self.media.hud.borderF then 
+            love.graphics.draw(self.media.hud.borderF, self.media.hudPos.xOffset+(self.media.hudPos.skillDistance*3), self.media.hudPos.yOffset)
+        end
+        if self.media.hud.borderSPACE then
+            love.graphics.draw(self.media.hud.borderSPACE, self.media.hudPos.xOffset+(self.media.hudPos.skillDistance*4), self.media.hudPos.yOffset)
+        end
+
         if self.player.canThrow == true then
             love.graphics.draw(self.media.hud.boom, self.media.hudPos.xOffset, self.media.hudPos.yOffset)
         else
             love.graphics.draw(self.media.hud.boomUsed, self.media.hudPos.xOffset, self.media.hudPos.yOffset)
         end
-        if self.player.canBreath == true then
+        if self.player.canBreath == true and (self.player.fireLevel ~= 0) then
             love.graphics.draw(
                 self.media.hud.fire,
                 self.media.hudPos.xOffset + self.media.hudPos.skillDistance,
@@ -404,7 +426,7 @@ return {
                 self.media.hudPos.yOffset
             )
         end
-        if self.player.canBerserk == true then
+        if self.player.canBerserk == true and (self.player.berserkLevel ~= 0) then
             love.graphics.draw(
                 self.media.hud.berserk,
                 self.media.hudPos.xOffset + (2 * self.media.hudPos.skillDistance),
@@ -417,7 +439,7 @@ return {
                 self.media.hudPos.yOffset
             )
         end
-        if self.player.canRunFast == true then
+        if self.player.canRunFast == true  and (self.player.fastLevel ~= 0) then
             love.graphics.draw(
                 self.media.hud.fast,
                 self.media.hudPos.xOffset + (3 * self.media.hudPos.skillDistance),
@@ -430,7 +452,7 @@ return {
                 self.media.hudPos.yOffset
             )
         end
-        if self.player.canBurst == true then
+        if self.player.canBurst == true and (self.player.burstLevel ~= 0) then
             love.graphics.draw(
                 self.media.hud.explo,
                 self.media.hudPos.xOffset + (4 * self.media.hudPos.skillDistance),
@@ -466,7 +488,7 @@ return {
             )
         end
 
-        -- controls
+        -- draw buttons
         love.graphics.draw(self.media.hud.a, self.media.hudPos.letterX, self.media.hudPos.letterY, 0, 0.65)
         love.graphics.draw(
             self.media.hud.s,

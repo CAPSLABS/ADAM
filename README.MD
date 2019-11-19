@@ -27,7 +27,7 @@ If you have LUA and LOVE installed skip the following steps, otherwise do:
 The following command should allow you to get the latest stable version:  
 (which is usually newer than the default apt-package)  
 `sudo add-apt-repository ppa:bartbes/love-stable`  
-`sudo apt-get update`
+`sudo apt-get update`  
 `sudo apt install love`
 
 **WINDOWS:**  
