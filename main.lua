@@ -1,144 +1,133 @@
 --[[
 --      main.lua
 --
---      Logic for Gamestates is handled here.
+--      Logic for GAMESTATES is handled here.
 --      The three main functions from the LÖVE framework are defined here:
 --      load(), update() and draw().
 -- 
 --      @date 30.6.2019
 --      @authors David L. Wenzel, Phillip Tse
 --]]
-
 require("src.mapLoader")
 require("src.util")
 
-suit = require "src.suit"
-anim8 = require "src.anim8"
+SUIT = require "src.suit"
+ANIMATE = require "src.anim8"
 
-debug = true
+DEBUG = true
 
 --1=menu, 2=game, 3=gameOver, 4=shop
-Gamestates = {1,2,3,4}
-gamestate = Gamestates[1]
-
+GAMESTATES = {1, 2, 3, 4}
+GAMESTATE = GAMESTATES[1]
 ------------ LOADING --------------
 
 function love.load()
-    world = require("src.world")
-    menu = require("src.menu")
-    shop = require("src.shop")
+    WORLD = require("src.world")
+    MENU = require("src.menu")
+    SHOP = require("src.shop")
 
-    world.currentLvl = 3 
-    --make sure this points to last level in world, which is menu
-    _G.map = loadTiledMap("assets/tile/",world.levels[world.currentLvl].mapPath) 
+    WORLD.currentLvl = 3
+    --make sure this points to last level in WORLD, which is MENU
+    _G.map = LoadTiledMap("assets/tile/", WORLD.levels[WORLD.currentLvl].mapPath)
 
-    world:loadEnemies()
-    world:loadMedia()
-    world:loadHud()
-    
-    playerRaw = require("src.player")   
-    world.player = shallowcopy(playerRaw)
-    world:loadPlayer()
-    
-    shop:loadBacking()
+    WORLD:loadEnemies()
+    WORLD:loadMedia()
+    WORLD:loadHud()
 
-    menu:loadMenuSounds()
+    PLAYERRAW = require("src.player")
+    WORLD.player = Shallowcopy(PLAYERRAW)
+    WORLD:loadPlayer()
+    SHOP:loadBacking()
+    MENU:loadMenuSounds()
 end
 
-function initGame(lvl)
-    gamestate = 2
-    world.cityHealth=100
-    world.runtime = 0
-    world.enemies={}
-    world.currentLvl = lvl
-    _G.map = loadTiledMap("assets/tile/", world.levels[lvl].mapPath) 
+function InitGame(lvl)
+    GAMESTATE = 2
+    WORLD.cityHealth = 100
+    WORLD.runtime = 0
+    WORLD.enemies = {}
+    WORLD.currentLvl = lvl
+    _G.map = LoadTiledMap("assets/tile/", WORLD.levels[lvl].mapPath)
 end
 
 ------------ UPDATING --------------
 
 function love.update(dt)
-    if gamestate == 1 then --MENU
-        if world.exploding then
-            world:updateExplosion(dt,240,850,world.media["explosion"].maxRuntime)
+    if GAMESTATE == 1 then --MENU
+        if WORLD.exploding then
+            WORLD:updateExplosion(dt, 240, 850, WORLD.media["explosion"].maxRuntime)
         else
-            menu:checkLoadingInput(key)
+            MENU:checkLoadingInput()
         end
-        world:spawnEnemies(dt)
-        world:updateEnemies(dt) --moves, animates&deletes enemies
+        WORLD:spawnEnemies(dt)
+        WORLD:updateEnemies(dt) --moves, animates&deletes enemies
+    elseif GAMESTATE == 2 then --GAME
+        MENU:checkRestartInput()
+        WORLD:checkPlayerActionInput(dt)
 
-    elseif gamestate == 2 then --GAME
-        menu:checkRestartInput()
-        world:checkPlayerActionInput(dt)
+        WORLD.player:updateCooldowns(dt)
+        WORLD.player:updateModeDurations(dt)
+        WORLD.player:updateBooms(dt) --moves,animates&deletes boomerangs
+        WORLD.player:updateFire(dt)
+        WORLD:updateHealth()
 
-        world.player:updateCooldowns(dt) 
-        world.player:updateModeDurations(dt) 
-        world.player:updateBooms(dt) --moves,animates&deletes boomerangs
-        world.player:updateFire(dt)
-        world:updateHealth(wee)
+        --WORLD.player:updateSelf(dt)
 
-        --world.player:updateSelf(dt)
-
-        --world:updateHUD(dt)
-        world:spawnEnemies(dt)
-        world:updateEnemies(dt) --moves, animates&deletes enemies
-        world:handleCollisions()
-        world:updateExplosion(dt, world.player.x+32, world.player.y+32, world.player.explosionMaxRuntime)
-
-    elseif gamestate == 3 then --GAME OVER
-        menu:checkGameOverInput()
-        menu:playAirhornSound()
-
-    elseif gamestate == 4 then --SHOP
-        shop:updateShopShit()
-
-    elseif gamestate == 5 then --Intro Sequence
-        world:spawnEnemies(dt)
-        world:updateEnemies(dt)
-        world:updateExplosion(dt,240,850,world.media["explosion"].maxRuntime)
+        --WORLD:updateHUD(dt)
+        WORLD:spawnEnemies(dt)
+        WORLD:updateEnemies(dt) --moves, animates&deletes enemies
+        WORLD:handleCollisions()
+        WORLD:updateExplosion(dt, WORLD.player.x + 32, WORLD.player.y + 32, WORLD.player.explosionMaxRuntime)
+    elseif GAMESTATE == 3 then --GAME OVER
+        MENU:checkGameOverInput()
+        MENU:playAirhornSound()
+    elseif GAMESTATE == 4 then --SHOP
+        SHOP:updateShopShit()
+    elseif GAMESTATE == 5 then --Intro Sequence
+        WORLD:spawnEnemies(dt)
+        WORLD:updateEnemies(dt)
+        WORLD:updateExplosion(dt, 240, 850, WORLD.media["explosion"].maxRuntime)
     end
 end
 
 ------------ DRAWING --------------
 
-function love.draw(dt) 
-    if gamestate == 1 then --MENU
-        if world.exploding then     
-            world:drawExplosionScreenShake()
+function love.draw(dt)
+    if GAMESTATE == 1 then --MENU
+        if WORLD.exploding then
+            WORLD:drawExplosionScreenShake()
         end
         _G.map:draw()
-        if world.exploding then     
-            world:drawExplosionStuff(dt,240,850)
+        if WORLD.exploding then
+            WORLD:drawExplosionStuff(dt, 240, 850)
         end
-        world:drawEnemyStuff()
-        menu:options()
-
-    elseif gamestate == 2 then --GAME
+        WORLD:drawEnemyStuff()
+        MENU:options()
+    elseif GAMESTATE == 2 then --GAME
         _G.map:draw()
-        world:drawExplosionStuff(dt,world.player.x+32,world.player.y+32)
-        world:drawEnemyStuff()
-        world:drawPlayerStuff()        
-        world:drawHud()
-
-    elseif gamestate == 3 then --GAME OVER
-        menu:drawPaidRespect(world.media.surprise.img)
-        love.graphics.setFont(world.media.fantasyfont)
-        love.graphics.setColor(1,0,0,1)
-        love.graphics.print("YOU DIED",100,100)
-        love.graphics.print("Press ESC to quit.",100,150)
-        love.graphics.print("Press R to restart.",100,175)
-        love.graphics.print("Press F to pay respect.",100,200)
-
-    elseif gamestate == 4 then --SHOP
-        suit.draw()
-        shop:drawShopShit()
+        WORLD:drawExplosionStuff(dt, WORLD.player.x + 32, WORLD.player.y + 32)
+        WORLD:drawEnemyStuff()
+        WORLD:drawPlayerStuff()
+        WORLD:drawHud()
+    elseif GAMESTATE == 3 then --GAME OVER
+        MENU:drawPaidRespect(WORLD.media.surprise.img)
+        love.graphics.setFont(WORLD.media.fantasyfont)
+        love.graphics.setColor(1, 0, 0, 1)
+        love.graphics.print("YOU DIED", 100, 100)
+        love.graphics.print("Press ESC to quit.", 100, 150)
+        love.graphics.print("Press R to restart.", 100, 175)
+        love.graphics.print("Press F to pay respect.", 100, 200)
+    elseif GAMESTATE == 4 then --SHOP
+        SUIT.draw()
+        SHOP:drawShopShit()
     end
 
-    if debug then
-        drawPerformance()
-        if(gamestate == 1) then
-            world:drawHitBoxes(240,850)
+    if DEBUG then
+        DrawPerformance()
+        if (GAMESTATE == 1) then
+            WORLD:drawHitBoxes(240, 850)
         else
-            world:drawHitBoxes(world.player.x+32,world.player.y+32)
+            WORLD:drawHitBoxes(WORLD.player.x + 32, WORLD.player.y + 32)
         end
     end
 end
