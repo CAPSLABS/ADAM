@@ -31,22 +31,22 @@ return {
     canThrow = true,
     booms = {},
     -- s
-    fireLevel = 1,
+    fireLevel = 0,
     breathCooldown = 8,
     canBreath = true,
     fires = {},
     -- d
-    berserkLevel = 1,
+    berserkLevel = 0,
     berserkCooldown = 15,
     canBerserk = true,
     -- f
-    fastLevel = 1,
+    fastLevel = 0,
     sonicCooldown = 10,
     canRunFast = true,
     sonicAcceleration = 10,
     currentAcceleration = 0,
     -- space
-    burstLevel = 1,
+    burstLevel = 0,
     burstCooldown = 3,
     canBurst = true,
     bursting = false,
@@ -130,44 +130,53 @@ return {
     end,
     --s
     spitFire = function(self)
-        local yOffset = 0
-        if self.dir == 1 then
-            yOffset = 370
-        else
-            yOffset = -self.height
+        if self.fireLevel ~= 0 then
+            local yOffset = 0
+            if self.dir == 1 then
+                yOffset = 370
+            else
+                yOffset = -self.height
+            end
+            local newFire = {
+                img = self.media.fire,
+                time = self.fireDuration,
+                x = self.x - 40,
+                y = self.y - yOffset,
+                width = self.media.fire:getWidth(),
+                height = self.media.fire:getHeight(),
+                dmg = 2,
+                dir = self.dir
+            }
+            table.insert(self.fires, newFire)
+            self.canBreath = false
+            self.breathCooldown = PLAYERRAW.breathCooldown
         end
-
-        local newFire = {
-            img = self.media.fire,
-            time = self.fireDuration,
-            x = self.x - 40,
-            y = self.y - yOffset,
-            width = self.media.fire:getWidth(),
-            height = self.media.fire:getHeight(),
-            dmg = 2,
-            dir = self.dir
-        }
-        table.insert(self.fires, newFire)
-        self.canBreath = false
-        self.breathCooldown = PLAYERRAW.breathCooldown
     end,
     --d
     goBerserk = function(self, dt)
-        self.inBerserk = true
-        self.canBerserk = false
-        self.berserkCooldown = PLAYERRAW.berserkCooldown
+        if self.berserkLevel ~= 0 then
+            self.inBerserk = true
+            self.canBerserk = false
+            self.berserkCooldown = PLAYERRAW.berserkCooldown
+        end
     end,
     --f
     gottaGoFast = function(self, dt)
-        self.inSonic = true
-        self.canRunFast = false
-        self.sonicCooldown = PLAYERRAW.sonicCooldown
+        if self.fastLevel ~= 0 then
+            self.inSonic = true
+            self.canRunFast = false
+            self.sonicCooldown = PLAYERRAW.sonicCooldown
+        end
     end,
     --space
     burst = function(self, dt)
-        self.bursting = true
-        self.canBurst = false
-        self.burstCooldown = PLAYERRAW.burstCooldown
+        if self.burstLevel ~= 0 then
+            WORLD.exploding = true
+            self.bursting = true
+            self.canBurst = false
+            self.burstCooldown = PLAYERRAW.burstCooldown
+        end
+
     end,
     updateCooldowns = function(self, dt)
         --TODO underflow protection needed y/N?
