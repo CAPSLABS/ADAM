@@ -40,8 +40,8 @@ return {
     berserkCooldown = 15,
     canBerserk = true,
     -- f
-    fastLevel = 0,
-    sonicCooldown = 10,
+    fastLevel = 1, --TODO DO NOT COMMIT, original value: 0
+    sonicCooldown = 2, --TODO DO NOT COMMIT, original value: 10
     canRunFast = true,
     sonicAcceleration = 10,
     currentAcceleration = 0,
