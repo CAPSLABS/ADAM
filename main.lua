@@ -82,7 +82,7 @@ function love.update(dt)
         MENU:checkGameOverInput()
         MENU:playAirhornSound()
     elseif GAMESTATE == 4 then --SHOP
-        SHOP:updateShopShit()
+        SHOP:updateShopShit(dt)
     elseif GAMESTATE == 5 then --Intro Sequence
         WORLD:spawnEnemies(dt)
         WORLD:updateEnemies(dt)
@@ -99,13 +99,13 @@ function love.draw(dt)
         end
         _G.map:draw()
         if WORLD.exploding then
-            WORLD:drawExplosionStuff(dt, 240, 850)
+            WORLD:drawExplosionStuff(240, 850)
         end
         WORLD:drawEnemyStuff()
         MENU:options()
     elseif GAMESTATE == 2 then --GAME
         _G.map:draw()
-        WORLD:drawExplosionStuff(dt, WORLD.player.x + 32, WORLD.player.y + 32)
+        WORLD:drawExplosionStuff(WORLD.player.x + 32, WORLD.player.y + 32)
         WORLD:drawEnemyStuff()
         WORLD:drawPlayerStuff()
         WORLD:drawHud()

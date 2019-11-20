@@ -2,7 +2,7 @@ return {
     -- basic stats:
     alive = true,
     hearts = 3,
-    money = 0,
+    money = 1800,
     speed = 200,
     --the approximate width and height of the character (smaller then image)
     width = 24,
@@ -176,7 +176,51 @@ return {
             self.canBurst = false
             self.burstCooldown = PLAYERRAW.burstCooldown
         end
-
+    end,
+    lvlUpBoom = function(self)
+        --todo actually improve skill
+        self.boomLevel = self.boomLevel + 1
+        if self.boomLevel == 2 then
+            WORLD.media.hudSkillBorder.a = WORLD.media.hud.silver
+        elseif self.boomLevel == 3 then
+            WORLD.media.hudSkillBorder.a = WORLD.media.hud.gold
+        end
+    end,
+    lvlUpFire = function(self)
+        --todo actually improve skill
+        self.fireLevel = self.fireLevel + 1
+        if self.fireLevel == 2 then
+            WORLD.media.hudSkillBorder.s = WORLD.media.hud.silver
+        elseif self.fireLevel == 3 then
+            WORLD.media.hudSkillBorder.s = WORLD.media.hud.gold
+        end
+    end,
+    lvlUpBerserk = function(self)
+        --todo actually improve skill
+        self.berserkLevel = self.berserkLevel + 1
+        if self.berserkLevel == 2 then
+            WORLD.media.hudSkillBorder.d = WORLD.media.hud.silver
+        elseif self.berserkLevel == 3 then
+            WORLD.media.hudSkillBorder.d = WORLD.media.hud.gold
+        end
+    end,
+    lvlUpFast = function(self)
+        --todo actually improve skill
+        self.fastLevel = self.fastLevel + 1
+        if self.fastLevel == 2 then
+            WORLD.media.hudSkillBorder.f = WORLD.media.hud.silver
+        elseif self.fastLevel == 3 then
+            WORLD.media.hudSkillBorder.f = WORLD.media.hud.gold
+        end
+    end,
+    lvlUpBurst = function(self)
+        --todo actually improve skill
+        self.burstLevel = self.burstLevel + 1
+        if self.burstLevel == 2 then
+            WORLD.media.hudSkillBorder.space = WORLD.media.hud.silver
+        elseif self.burstLevel == 3 then
+            WORLD.media.hudSkillBorder.space = WORLD.media.hud.gold
+        end
     end,
     updateCooldowns = function(self, dt)
         --TODO underflow protection needed y/N?

@@ -39,7 +39,7 @@ return {
             silver = "assets/hud/silver.png",
             gold = "assets/hud/gold.png"
         },
-        hudSkillBorder  = {
+        hudSkillBorder = {
             a = nil,
             s = nil,
             d = nil,
@@ -53,7 +53,7 @@ return {
             skillDistance = 90,
             healthX = 100,
             healthY = 920,
-            moneyX = 340,
+            moneyX = 320,
             moneyY = 5,
             heartX = -50,
             heartY = 5,
@@ -368,7 +368,16 @@ return {
             if fire.dir == 1 then
                 love.graphics.draw(self.player.media.fire, fire.x, fire.y)
             else
-                love.graphics.draw(self.player.media.fire, fire.x, fire.y, 0, 1, -1, 0, self.player.media.fire:getHeight())
+                love.graphics.draw(
+                    self.player.media.fire,
+                    fire.x,
+                    fire.y,
+                    0,
+                    1,
+                    -1,
+                    0,
+                    self.player.media.fire:getHeight()
+                )
             end
         end
         --ABILITIES
@@ -387,27 +396,48 @@ return {
             end
         end
     end,
+    drawSkillBorders = function(self)
+        if self.media.hudSkillBorder.a then
+            love.graphics.draw(self.media.hudSkillBorder.a, self.media.hudPos.xOffset, self.media.hudPos.yOffset)
+        end
+        if self.media.hudSkillBorder.s then
+            love.graphics.draw(
+                self.media.hudSkillBorder.s,
+                self.media.hudPos.xOffset + self.media.hudPos.skillDistance,
+                self.media.hudPos.yOffset
+            )
+        end
+        if self.media.hudSkillBorder.d then
+            love.graphics.draw(
+                self.media.hudSkillBorder.d,
+                self.media.hudPos.xOffset + (self.media.hudPos.skillDistance * 2),
+                self.media.hudPos.yOffset
+            )
+        end
+        if self.media.hudSkillBorder.f then
+            love.graphics.draw(
+                self.media.hudSkillBorder.f,
+                self.media.hudPos.xOffset + (self.media.hudPos.skillDistance * 3),
+                self.media.hudPos.yOffset
+            )
+        end
+        if self.media.hudSkillBorder.space then
+            love.graphics.draw(
+                self.media.hudSkillBorder.space,
+                self.media.hudPos.xOffset + (self.media.hudPos.skillDistance * 4),
+                self.media.hudPos.yOffset
+            )
+        end
+    end,
     drawHud = function(self)
-        --for skill, img in pairs(self.media.hud) do
-        --    love.graphics.draw(self.media.hud.boom, self.media.hudPos.xOffset, self.media.hudPos.yOffset)
-        --    print(skill, img)
-        --end
-        if self.media.hud.borderA then 
-            love.graphics.draw(self.media.hud.borderA, self.media.hudPos.xOffset, self.media.hudPos.yOffset)
-        end
-        if self.media.hud.borderS then 
-            love.graphics.draw(self.media.hud.borderS, self.media.hudPos.xOffset+self.media.hudPos.skillDistance, self.media.hudPos.yOffset)
-        end
-        if self.media.hud.borderD then
-            love.graphics.draw(self.media.hud.borderD, self.media.hudPos.xOffset+(self.media.hudPos.skillDistance*2), self.media.hudPos.yOffset)
-        end
-        if self.media.hud.borderF then 
-            love.graphics.draw(self.media.hud.borderF, self.media.hudPos.xOffset+(self.media.hudPos.skillDistance*3), self.media.hudPos.yOffset)
-        end
-        if self.media.hud.borderSPACE then
-            love.graphics.draw(self.media.hud.borderSPACE, self.media.hudPos.xOffset+(self.media.hudPos.skillDistance*4), self.media.hudPos.yOffset)
-        end
-
+        self:drawSkills()
+        self:drawHealthBar()
+        self:drawHearts()
+        self:drawButtons()
+        self:drawSkillBorders()
+        self:drawMoney()
+    end,
+    drawSkills = function(self)
         if self.player.canThrow == true then
             love.graphics.draw(self.media.hud.boom, self.media.hudPos.xOffset, self.media.hudPos.yOffset)
         else
@@ -439,7 +469,7 @@ return {
                 self.media.hudPos.yOffset
             )
         end
-        if self.player.canRunFast == true  and (self.player.fastLevel ~= 0) then
+        if self.player.canRunFast == true and (self.player.fastLevel ~= 0) then
             love.graphics.draw(
                 self.media.hud.fast,
                 self.media.hudPos.xOffset + (3 * self.media.hudPos.skillDistance),
@@ -465,8 +495,8 @@ return {
                 self.media.hudPos.yOffset
             )
         end
-
-        --HEALTHBAR
+    end,
+    drawHealthBar = function(self)
         love.graphics.draw(
             self.media.hud.health,
             self.media.hudPos.healthX,
@@ -476,8 +506,14 @@ return {
             1
         )
         love.graphics.draw(self.media.hud.healthFrame, self.media.hudPos.healthX, self.media.hudPos.healthY)
-
-        --a heart for kids
+    end,
+    drawMoney = function(self)
+        --todo make sparkle and rarely turn (no need for anim, use x rotation)
+        love.graphics.draw(self.media.hud.money, self.media.hudPos.moneyX, self.media.hudPos.moneyY, 0, 0.5)
+        love.graphics.setFont(WORLD.media.bigfantasyfont)
+        love.graphics.print(self.player.money, self.media.hudPos.moneyX + 90, self.media.hudPos.moneyY + 35)
+    end,
+    drawHearts = function(self) --a heart for kids
         for heart in Range(self.player.hearts) do
             love.graphics.draw(
                 self.media.hud.heart,
@@ -487,8 +523,8 @@ return {
                 0.5
             )
         end
-
-        -- draw buttons
+    end,
+    drawButtons = function(self)
         love.graphics.draw(self.media.hud.a, self.media.hudPos.letterX, self.media.hudPos.letterY, 0, 0.65)
         love.graphics.draw(
             self.media.hud.s,
@@ -516,19 +552,13 @@ return {
             (self.media.hudPos.letterX + self.media.hudPos.letterDistance * 4),
             self.media.hudPos.letterY
         )
-
-        --MONEY MONEY MONEY
-        --todo make sparkle and rarely turn (no need for anim, use x rotation)
-        love.graphics.draw(self.media.hud.money, self.media.hudPos.moneyX, self.media.hudPos.moneyY, 0, 0.5)
-        love.graphics.setFont(WORLD.media.bigfantasyfont)
-        love.graphics.print(self.player.money, self.media.hudPos.moneyX + 90, self.media.hudPos.moneyY + 35)
     end,
     drawExplosionScreenShake = function(self)
         local xShift = love.math.random(-self.media["explosion"].shakeMagnitude, self.media["explosion"].shakeMagnitude)
         local yShift = love.math.random(-self.media["explosion"].shakeMagnitude, self.media["explosion"].shakeMagnitude)
         love.graphics.translate(xShift, yShift)
     end,
-    drawExplosionStuff = function(self, dt, startX, startY)
+    drawExplosionStuff = function(self, startX, startY)
         if self.exploding then
             if self.media["explosion"].runtime < self.media["explosion"].maxRuntime then
                 self:drawExplosionScreenShake()

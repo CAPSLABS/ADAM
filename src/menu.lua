@@ -46,10 +46,8 @@ return {
         end
         if DEBUG == true then
             if love.keyboard.isDown("1") then
-                GAMESTATE = 2
                 InitGame(1)
             elseif love.keyboard.isDown("2") then
-                GAMESTATE = 2
                 InitGame(2)
             elseif love.keyboard.isDown("s") then
                 GAMESTATE = 4
