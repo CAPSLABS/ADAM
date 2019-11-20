@@ -2,7 +2,7 @@ return {
     -- basic stats:
     alive = true,
     hearts = 3,
-    money = 1800,
+    money = 0,
     speed = 200,
     --the approximate width and height of the character (smaller then image)
     width = 24,
@@ -40,8 +40,8 @@ return {
     berserkCooldown = 15,
     canBerserk = true,
     -- f
-    fastLevel = 1, --TODO DO NOT COMMIT, original value: 0
-    sonicCooldown = 2, --TODO DO NOT COMMIT, original value: 10
+    fastLevel = 0,
+    sonicCooldown = 10,
     canRunFast = true,
     sonicAcceleration = 10,
     currentAcceleration = 0,
