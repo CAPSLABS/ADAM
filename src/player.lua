@@ -27,27 +27,27 @@ return {
     --attacks:
     -- a
     boomLevel = 1,
-    boomCooldown = 0.5,
-    canThrow = true,
+    boomCooldown = 1,
+    canBoom = true,
     booms = {},
     -- s
     fireLevel = 0,
-    breathCooldown = 8,
-    canBreath = true,
+    fireCooldown = 10,
+    canFire = true,
     fires = {},
     -- d
     berserkLevel = 0,
-    berserkCooldown = 15,
+    berserkCooldown = 10,
     canBerserk = true,
     -- f
-    fastLevel = 0,
-    sonicCooldown = 10,
-    canRunFast = true,
+    goFastLevel = 0,
+    goFastCooldown = 10,
+    canGoFast = true,
     sonicAcceleration = 10,
     currentAcceleration = 0,
     -- space
     burstLevel = 0,
-    burstCooldown = 3,
+    burstCooldown = 15,
     canBurst = true,
     bursting = false,
     explosionMaxRuntime = 1.3,
@@ -101,7 +101,7 @@ return {
     --a
     throwBoom = function(self, dt)
         if self.inBerserk == false then
-            if self.canThrow then
+            if self.canBoom then
                 table.insert(
                     self.booms,
                     {
@@ -112,7 +112,7 @@ return {
                         dir = self.dir
                     }
                 )
-                self.canThrow = false
+                self.canBoom = false
                 self.boomCooldown = PLAYERRAW.boomCooldown
             end
         else --NO LIMITS WEEEEEEE
@@ -148,8 +148,8 @@ return {
                 dir = self.dir
             }
             table.insert(self.fires, newFire)
-            self.canBreath = false
-            self.breathCooldown = PLAYERRAW.breathCooldown
+            self.canFire = false
+            self.fireCooldown = PLAYERRAW.fireCooldown
         end
     end,
     --d
@@ -162,10 +162,10 @@ return {
     end,
     --f
     gottaGoFast = function(self, dt)
-        if self.fastLevel ~= 0 then
+        if self.goFastLevel ~= 0 then
             self.inSonic = true
-            self.canRunFast = false
-            self.sonicCooldown = PLAYERRAW.sonicCooldown
+            self.canGoFast = false
+            self.goFastCooldown = PLAYERRAW.goFastCooldown
         end
     end,
     --space
@@ -178,48 +178,63 @@ return {
         end
     end,
     lvlUpBoom = function(self)
-        --todo actually improve skill
         self.boomLevel = self.boomLevel + 1
         if self.boomLevel == 2 then
             WORLD.media.hudSkillBorder.a = WORLD.media.hud.silver
+            WORLD.player.boomCooldown = WORLD.player.boomCooldown / 2
+            PLAYERRAW.boomCooldown = PLAYERRAW.boomCooldown / 2
         elseif self.boomLevel == 3 then
             WORLD.media.hudSkillBorder.a = WORLD.media.hud.gold
+            WORLD.player.boomCooldown = WORLD.player.boomCooldown / 2
+            PLAYERRAW.boomCooldown = PLAYERRAW.boomCooldown / 2
         end
     end,
     lvlUpFire = function(self)
-        --todo actually improve skill
         self.fireLevel = self.fireLevel + 1
         if self.fireLevel == 2 then
             WORLD.media.hudSkillBorder.s = WORLD.media.hud.silver
+            WORLD.player.fireCooldown = WORLD.player.fireCooldown / 2
+            PLAYERRAW.fireCooldown = PLAYERRAW.fireCooldown / 2
         elseif self.fireLevel == 3 then
             WORLD.media.hudSkillBorder.s = WORLD.media.hud.gold
+            WORLD.player.fireCooldown = WORLD.player.fireCooldown / 2
+            PLAYERRAW.fireCooldown = PLAYERRAW.fireCooldown / 2
         end
     end,
     lvlUpBerserk = function(self)
-        --todo actually improve skill
         self.berserkLevel = self.berserkLevel + 1
         if self.berserkLevel == 2 then
             WORLD.media.hudSkillBorder.d = WORLD.media.hud.silver
+            WORLD.player.berserkCooldown = WORLD.player.berserkCooldown / 2
+            PLAYERRAW.berserkCooldown = PLAYERRAW.berserkCooldown / 2
         elseif self.berserkLevel == 3 then
             WORLD.media.hudSkillBorder.d = WORLD.media.hud.gold
+            WORLD.player.berserkCooldown = WORLD.player.berserkCooldown / 2
+            PLAYERRAW.berserkCooldown = PLAYERRAW.berserkCooldown / 2
         end
     end,
     lvlUpFast = function(self)
-        --todo actually improve skill
-        self.fastLevel = self.fastLevel + 1
-        if self.fastLevel == 2 then
+        self.goFastLevel = self.goFastLevel + 1
+        if self.goFastLevel == 2 then
             WORLD.media.hudSkillBorder.f = WORLD.media.hud.silver
-        elseif self.fastLevel == 3 then
+            WORLD.player.goFastCooldown = WORLD.player.goFastCooldown / 2
+            PLAYERRAW.goFastCooldown = PLAYERRAW.goFastCooldown / 2
+        elseif self.goFastLevel == 3 then
             WORLD.media.hudSkillBorder.f = WORLD.media.hud.gold
+            WORLD.player.goFastCooldown = WORLD.player.goFastCooldown / 2
+            PLAYERRAW.goFastCooldown = PLAYERRAW.goFastCooldown / 2
         end
     end,
     lvlUpBurst = function(self)
-        --todo actually improve skill
         self.burstLevel = self.burstLevel + 1
         if self.burstLevel == 2 then
             WORLD.media.hudSkillBorder.space = WORLD.media.hud.silver
+            WORLD.player.burstCooldown = WORLD.player.burstCooldown / 2
+            PLAYERRAW.burstCooldown = PLAYERRAW.burstCooldown / 2
         elseif self.burstLevel == 3 then
             WORLD.media.hudSkillBorder.space = WORLD.media.hud.gold
+            WORLD.player.burstCooldown = WORLD.player.burstCooldown / 2
+            PLAYERRAW.burstCooldown = PLAYERRAW.burstCooldown / 2
         end
     end,
     updateCooldowns = function(self, dt)
@@ -228,12 +243,12 @@ return {
         --if my_number >= 1 and my_number <= 20 then
         self.boomCooldown = self.boomCooldown - (1 * dt)
         if self.boomCooldown < 0 then
-            self.canThrow = true
+            self.canBoom = true
         end
 
-        self.breathCooldown = self.breathCooldown - (1 * dt)
-        if self.breathCooldown < 0 then
-            self.canBreath = true
+        self.fireCooldown = self.fireCooldown - (1 * dt)
+        if self.fireCooldown < 0 then
+            self.canFire = true
         end
 
         self.berserkCooldown = self.berserkCooldown - (1 * dt)
@@ -241,9 +256,9 @@ return {
             self.canBerserk = true
         end
 
-        self.sonicCooldown = self.sonicCooldown - (1 * dt)
-        if self.sonicCooldown < 0 then
-            self.canRunFast = true
+        self.goFastCooldown = self.goFastCooldown - (1 * dt)
+        if self.goFastCooldown < 0 then
+            self.canGoFast = true
             self.currentAcceleration = 0
         end
 

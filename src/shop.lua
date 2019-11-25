@@ -66,7 +66,6 @@ return {
             self:timeTooBrokeMessage(dt)
         end
         if WORLD.player.boomLevel == 1 then
-            -- todo draw price
             SUIT.ImageButton(WORLD.media.hud.boomUsed, self.pos.baseX, self.pos.baseY)
             if SUIT.ImageButton(WORLD.media.hud.boom, self.pos.baseX + (self.pos.distanceX), self.pos.baseY).hit then
                 if self:buy(self.prices.boom2) then
@@ -261,7 +260,7 @@ return {
             )
         end
 
-        if WORLD.player.fastLevel == 0 then
+        if WORLD.player.goFastLevel == 0 then
             if SUIT.ImageButton(WORLD.media.hud.fast, self.pos.baseX, self.pos.baseY + (self.pos.distanceY * 3)).hit then
                 if self:buy(self.prices.fast1) then
                     WORLD.player:lvlUpFast()
@@ -280,7 +279,7 @@ return {
                 self.pos.baseX + (self.pos.distanceX * 2),
                 self.pos.baseY + (self.pos.distanceY * 3)
             )
-        elseif WORLD.player.fastLevel == 1 then
+        elseif WORLD.player.goFastLevel == 1 then
             SUIT.ImageButton(WORLD.media.hud.fastUsed, self.pos.baseX, self.pos.baseY + (self.pos.distanceY * 3))
 
             if
@@ -302,7 +301,7 @@ return {
                 self.pos.baseX + (self.pos.distanceX * 2),
                 self.pos.baseY + (self.pos.distanceY * 3)
             )
-        elseif WORLD.player.fastLevel == 2 then
+        elseif WORLD.player.goFastLevel == 2 then
             SUIT.ImageButton(WORLD.media.hud.fastUsed, self.pos.baseX, self.pos.baseY + (self.pos.distanceY * 3))
             SUIT.ImageButton(
                 WORLD.media.hud.fastUsed,
@@ -323,7 +322,7 @@ return {
                     self.sensei = self.media.senseiAngry
                 end
             end
-        elseif WORLD.player.fastLevel == 3 then
+        elseif WORLD.player.goFastLevel == 3 then
             SUIT.ImageButton(WORLD.media.hud.fastUsed, self.pos.baseX, self.pos.baseY + (self.pos.distanceY * 3))
             SUIT.ImageButton(
                 WORLD.media.hud.fastUsed,
@@ -530,19 +529,19 @@ return {
         end
 
         love.graphics.draw(WORLD.media.hud.money, self.pos.moneyX, self.pos.moneyY + (self.pos.distanceY * 4), 0, 0.5)
-        if WORLD.player.fastLevel == 0 then
+        if WORLD.player.goFastLevel == 0 then
             love.graphics.print(
                 self.prices.fast1,
                 self.pos.moneyX + 100,
                 self.pos.moneyY + self.pos.distanceY * 3 + 110
             )
-        elseif WORLD.player.fastLevel == 1 then
+        elseif WORLD.player.goFastLevel == 1 then
             love.graphics.print(
                 self.prices.fast2,
                 self.pos.moneyX + 100,
                 self.pos.moneyY + self.pos.distanceY * 3 + 110
             )
-        elseif WORLD.player.fastLevel == 2 then
+        elseif WORLD.player.goFastLevel == 2 then
             love.graphics.print(
                 self.prices.fast3,
                 self.pos.moneyX + 100,

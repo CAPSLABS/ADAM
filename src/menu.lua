@@ -28,10 +28,10 @@ return {
             love.graphics.print(" Press S to open the shop!", 10, 780)
         else
             love.graphics.setFont(WORLD.media.bigfantasyfont)
-            love.graphics.print("A - wesome", 120, 250)
-            love.graphics.print("D - efender", 120, 300)
-            love.graphics.print("A - ction", 120, 350)
-            love.graphics.print("M - urderer", 120, 400)
+            love.graphics.print("A - wesome", 115, 250)
+            love.graphics.print("D - efender", 115, 300)
+            love.graphics.print("A - ction", 115, 350)
+            love.graphics.print("M - urderer", 115, 400)
             love.graphics.print("Press ENTER!", 100, 600)
         end
     end,

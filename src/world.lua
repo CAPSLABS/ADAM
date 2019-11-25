@@ -334,13 +334,13 @@ return {
         if love.keyboard.isDown("a") then
             self.player:throwBoom(dt)
         end
-        if love.keyboard.isDown("s") and self.player.canBreath then
+        if love.keyboard.isDown("s") and self.player.canFire then
             self.player:spitFire()
         end
         if love.keyboard.isDown("d") and self.player.canBerserk then
             self.player:goBerserk(dt)
         end
-        if love.keyboard.isDown("f") and self.player.canRunFast then
+        if love.keyboard.isDown("f") and self.player.canGoFast then
             self.player:gottaGoFast(dt)
         end
         if love.keyboard.isDown("space") and self.player.canBurst then
@@ -445,12 +445,12 @@ return {
         self:drawMoney()
     end,
     drawSkills = function(self)
-        if self.player.canThrow == true then
+        if self.player.canBoom == true then
             love.graphics.draw(self.media.hud.boom, self.media.hudPos.xOffset, self.media.hudPos.yOffset)
         else
             love.graphics.draw(self.media.hud.boomUsed, self.media.hudPos.xOffset, self.media.hudPos.yOffset)
         end
-        if self.player.canBreath == true and (self.player.fireLevel ~= 0) then
+        if self.player.canFire == true and (self.player.fireLevel ~= 0) then
             love.graphics.draw(
                 self.media.hud.fire,
                 self.media.hudPos.xOffset + self.media.hudPos.skillDistance,
@@ -476,7 +476,7 @@ return {
                 self.media.hudPos.yOffset
             )
         end
-        if self.player.canRunFast == true and (self.player.fastLevel ~= 0) then
+        if self.player.canGoFast == true and (self.player.goFastLevel ~= 0) then
             love.graphics.draw(
                 self.media.hud.fast,
                 self.media.hudPos.xOffset + (3 * self.media.hudPos.skillDistance),

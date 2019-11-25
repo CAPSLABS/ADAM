@@ -14,6 +14,7 @@ require("src.util")
 SUIT = require "src.suit"
 ANIMATE = require "src.anim8"
 
+--DEBUG = true
 DEBUG = false
 
 --1=menu, 2=game, 3=gameOver, 4=shop
@@ -36,6 +37,9 @@ function love.load()
 
     PLAYERRAW = require("src.player")
     WORLD.player = Shallowcopy(PLAYERRAW)
+    if DEBUG then
+        WORLD.player.money = 1000
+    end
     WORLD:loadPlayer()
     SHOP:loadBacking()
     MENU:loadMenuSounds()

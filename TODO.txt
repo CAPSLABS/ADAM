@@ -1,5 +1,6 @@
 - lvl conditions: kill count and timer (D)
 - story: lvl transitions (D) 
+- music/sfx (D)
 - maps ändern für sichtbare skills (P)
 - TODO berserk animation, sonic animation, money animation (P)
 - Make sonic mode kill enemies behind you (maybe extend player hitbox) (P)
@@ -7,6 +8,14 @@
 - balance level ups
 - Final code cleanup (check all todos)
 - get hit feedback (blink red, maybe goblin does not die?)
+- discuss if we want to explain skills/upgrades before buying
+- since the format is (accidentaly) way to good for it, explore mobile port possibilitys
+- silver lvl up is cd / 2, aber was könnte golden lvl up sein ? (current: nochmal halbieren)
+- endless mode
+- main menu: credits (to OS artist and story vs endless mode)
+- be able to buy one-time-heart (gets more exp. everytime you buy it)
+- keyboard control for shop and main menu
+
 OPTIONAL
 - make bullet hell / dodge stage
 - character selection if i find more sprites
