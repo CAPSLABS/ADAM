@@ -1,13 +1,12 @@
 - lvl conditions: kill count and timer (D)
 - story: lvl transitions (D) 
-- beautify start menu (D)
 - maps ändern für sichtbare skills (P)
 - TODO berserk animation, sonic animation, money animation (P)
 - Make sonic mode kill enemies behind you (maybe extend player hitbox) (P)
 - 3rd level with 3rd enemy
 - balance level ups
 - Final code cleanup (check all todos)
-
+- get hit feedback (blink red, maybe goblin does not die?)
 OPTIONAL
 - make bullet hell / dodge stage
 - character selection if i find more sprites

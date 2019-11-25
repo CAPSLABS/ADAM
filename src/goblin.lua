@@ -51,8 +51,11 @@ return {
     end,
     die = function(self)
         self.curAnim = "dying"
-        WORLD.player.money = WORLD.player.money + self.reward
         self.anim = ANIMATE.newAnimation(self.media.imgGrid("1-7", 5), 0.06, "pauseAtEnd")
+        -- should point to menu, make sure
+        if WORLD.currentLvl ~= 3 then
+            WORLD.player.money = WORLD.player.money + self.reward
+        end
     end,
     update = function(self, dt)
         self.anim:update(dt)

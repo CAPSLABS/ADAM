@@ -27,12 +27,12 @@ return {
             love.graphics.print(" Press 2 to play only level 2!", 10, 760)
             love.graphics.print(" Press S to open the shop!", 10, 780)
         else
-            love.graphics.setFont(WORLD.media.fantasyfont)
-            love.graphics.print("A - wesome", 150, 350)
-            love.graphics.print("D - efender", 150, 370)
-            love.graphics.print("A - action", 150, 390)
-            love.graphics.print("M - urderer", 150, 410)
-            love.graphics.print(" Press ENTER to start to playing!", 40, 500)
+            love.graphics.setFont(WORLD.media.bigfantasyfont)
+            love.graphics.print("A - wesome", 120, 250)
+            love.graphics.print("D - efender", 120, 300)
+            love.graphics.print("A - ction", 120, 350)
+            love.graphics.print("M - urderer", 120, 400)
+            love.graphics.print("Press ENTER!", 100, 600)
         end
     end,
     -- Controls in Menu screen
