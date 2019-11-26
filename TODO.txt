@@ -1,25 +1,26 @@
-- lvl conditions: kill count and timer (D)
-- story: lvl transitions (D) 
-- music/sfx (D)
-- maps ändern für sichtbare skills (P)
-- TODO berserk animation, sonic animation, money animation (P)
+- story mode (D)
+- enemys drop hearts, coin or HINTS (D)
+- get hit feedback (blink red, maybe goblin does not die?) (D)
+- lvl implementation, w. transition (P)
+- map 2 : zombies and mountain residence (P)
+- map 3: a cave and a door (P)
+- make boss (P)
 - Make sonic mode kill enemies behind you (maybe extend player hitbox) (P)
-- 3rd level with 3rd enemy
-- balance level ups
-- Final code cleanup (check all todos)
-- get hit feedback (blink red, maybe goblin does not die?)
-- discuss if we want to explain skills/upgrades before buying (per skill row there is a button that writes a description of that skill)
-- endless mode
-- main menu: credits (to OS artist and story vs endless mode)
-- drop and collect hearts
-- keyboard control for shop and main menu
-- make boss
+- map 3: third enemy type (P)
+- lvl conditions (goblin counter, zombie counter, hint counter, level timer)(P)
+
+
+- main menu: credits (to OS artist) story or greyed out endless
+- endless mode 
 
 OPTIONAL
-- gekaufte skills nebeneinander reihen (keine lücken dazwischen, falls noch nicht alle skills gekauft wurden)
-- make bullet hell / dodge stage
-- character selection if i find more sprites
-- make bosses
+- balance level ups
+- let the whole story be read out by voice actors
+- berserk animation, sonic animation, money animation (P)
+- music/sfx
+- discuss if we want to explain skills/upgrades before buying (per skill row there is a button that writes a description of that skill)
+- keyboard control for shop and main menu
 - gekaufte skills nebeneinander reihen (keine lücken dazwischen, falls noch nicht alle skills gekauft wurden)
 - since the format is (accidentaly) way to good for it, explore mobile port possibilitys
 - silver lvl up is cd / 2, aber was könnte golden lvl up sein ? (current: nochmal halbieren)
+- Final code cleanup (check all todos)

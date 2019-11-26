@@ -9,7 +9,7 @@ VILLAGER
 A story around a wish-fullfilling jewel
 
 1.1 [in the village]
-NARRATOR: A quiet day in the village of our hero, ADAM. One morning, ADAM went to his grandmas attic and was excited to find a treasure chest.
+NARRATOR: "A quiet day in the village of our hero, ADAM. One morning, ADAM went to his grandmas attic and was excited to find a treasure chest."
 ADAM: "Look what I've found! I can throw this plastic boomering by pressing A and then a copy reappears in my hands!" 
 LILITH: "Doesn't that pollute the environment? Oh, what is this?!"
 VILLAGER: "ARGH! HELP! I am dying!"
