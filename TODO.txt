@@ -8,14 +8,18 @@
 - balance level ups
 - Final code cleanup (check all todos)
 - get hit feedback (blink red, maybe goblin does not die?)
-- discuss if we want to explain skills/upgrades before buying
-- since the format is (accidentaly) way to good for it, explore mobile port possibilitys
-- silver lvl up is cd / 2, aber was könnte golden lvl up sein ? (current: nochmal halbieren)
+- discuss if we want to explain skills/upgrades before buying (per skill row there is a button that writes a description of that skill)
 - endless mode
 - main menu: credits (to OS artist and story vs endless mode)
-- be able to buy one-time-heart (gets more exp. everytime you buy it)
+- drop and collect hearts
 - keyboard control for shop and main menu
 - make boss
 
 OPTIONAL
 - gekaufte skills nebeneinander reihen (keine lücken dazwischen, falls noch nicht alle skills gekauft wurden)
+- make bullet hell / dodge stage
+- character selection if i find more sprites
+- make bosses
+- gekaufte skills nebeneinander reihen (keine lücken dazwischen, falls noch nicht alle skills gekauft wurden)
+- since the format is (accidentaly) way to good for it, explore mobile port possibilitys
+- silver lvl up is cd / 2, aber was könnte golden lvl up sein ? (current: nochmal halbieren)
