@@ -15,9 +15,7 @@
 - main menu: credits (to OS artist and story vs endless mode)
 - be able to buy one-time-heart (gets more exp. everytime you buy it)
 - keyboard control for shop and main menu
+- make boss
 
 OPTIONAL
-- make bullet hell / dodge stage
-- character selection if i find more sprites
-- make bosses
 - gekaufte skills nebeneinander reihen (keine lücken dazwischen, falls noch nicht alle skills gekauft wurden)
