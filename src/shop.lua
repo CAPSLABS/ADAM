@@ -425,7 +425,7 @@ return {
             WORLD:drawExplosionScreenShake()
         else
             SUIT.Label("It's dangerous to fight alone", 26, 340, 320, 0)
-            SUIT.Label("What do you want to be tought?", 26, 400, 320, 0)
+            SUIT.Label("What do you want to be taught?", 26, 400, 320, 0)
         end
 
         love.graphics.setBackgroundColor(0.45, 0.31, 0.2, 0)
