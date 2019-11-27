@@ -4,7 +4,7 @@ return {
     hearts = 3,
     money = 0,
     speed = 200,
-    --the approximate width and height of the character (smaller then image)
+    --the approximate width and height of the character (smaller than image)
     width = 24,
     height = 45,
     --the sprite begins ~20 pixels to the right of the image
@@ -43,8 +43,10 @@ return {
     goFastLevel = 0,
     goFastCooldown = 10,
     canGoFast = true,
-    sonicAcceleration = 10,
+    sonicAcceleration = 12,
     currentAcceleration = 0,
+    sonicRingMaxRuntime = 2,
+    sonicRings = {},
     -- space
     burstLevel = 0,
     burstCooldown = 15,
@@ -277,9 +279,32 @@ return {
         end
         if self.inSonic then
             self.sonicDuration = self.sonicDuration - dt
+            self:updateSonicRings(dt)
             if self.sonicDuration < 0 then
                 self.inSonic = false
                 self.sonicDuration = PLAYERRAW.sonicDuration
+                -- clear rings table so rings are not seeable in next sonic mode call
+                for i = 0, #self.sonicRings do
+                    self.sonicRings[i] = nil
+                end
+            end
+        end
+    end,
+    updateSonicRings = function(self, dt)
+        local sonicRing = {
+            x = self.x + 32, -- x of circle center
+            y = self.y + 32, -- y of circle center
+            dmg = 1,
+            alpha = 1,
+            radius = 80,
+            duration = self.sonicRingMaxRuntime
+        }
+        table.insert(self.sonicRings, sonicRing)
+        for i, ring in ipairs(self.sonicRings) do
+            ring.duration = ring.duration - dt
+            ring.alpha = ring.alpha - 1.5 * dt
+            if ring.duration < 0 then
+                table.remove(self.sonicRings, i)
             end
         end
     end,

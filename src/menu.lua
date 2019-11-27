@@ -98,6 +98,7 @@ return {
             self.respectPaid = false
         else
             --TODO: Behalte tranformation selbst wenn F nicht mehr gedrückt
+            love.graphics.setBackgroundColor(0, 0, 0, 0)
             love.graphics.draw(imgPath)
         end
     end

@@ -291,6 +291,23 @@ return {
                         enemy:getHit(fire.dmg, dt)
                     end
                 end
+                -- check sonic rings collision
+                for j, ring in ipairs(self.player.sonicRings) do
+                    if
+                        CheckCollision(
+                            enemy:getLeftX(),
+                            enemy:getTopY(),
+                            enemy.width,
+                            enemy.height,
+                            ring.x - ring.radius,
+                            ring.y - ring.radius,
+                            2 * ring.radius,
+                            2 * ring.radius
+                        )
+                     then
+                        enemy:getHit(ring.dmg, dt)
+                    end
+                end
                 -- check player collision:
                 if
                     CheckCollision(
@@ -361,6 +378,12 @@ return {
             -- make him golden
             love.graphics.setColor(1, 0.8313, 0, 1)
             self.player.anim:draw(self.player.media.img, self.player.x, self.player.y)
+            -- draw golden rings
+            for i, ring in ipairs(self.player.sonicRings) do
+                love.graphics.setColor(1, 0.8313, 0, ring.alpha)
+                love.graphics.circle("line", ring.x, ring.y, ring.radius)
+            end
+            -- prevent that the whole screen is also golden
             love.graphics.setColor(255, 255, 255, 255)
         else
             --TODO check if we want to draw up or down

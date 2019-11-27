@@ -14,8 +14,8 @@ require("src.util")
 SUIT = require "src.suit"
 ANIMATE = require "src.anim8"
 
---DEBUG = true
-DEBUG = false
+DEBUG = true
+--DEBUG = false
 
 --1=menu, 2=game, 3=gameOver, 4=shop
 GAMESTATES = {1, 2, 3, 4}
