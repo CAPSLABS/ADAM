@@ -5,18 +5,14 @@
 - map 2 : zombies and mountain residence (P)
 - map 3: a cave and a door (P)
 - make boss (P)
-- Make sonic mode kill enemies behind you (maybe extend player hitbox) (P)
 - map 3: third enemy type (P)
 - lvl conditions (goblin counter, zombie counter, hint counter, level timer)(P)
-
-
 - main menu: credits (to OS artist) story or greyed out endless
 - endless mode 
 
 OPTIONAL
 - balance level ups
 - let the whole story be read out by voice actors
-- berserk animation, sonic animation, money animation (P)
 - music/sfx
 - discuss if we want to explain skills/upgrades before buying (per skill row there is a button that writes a description of that skill)
 - keyboard control for shop and main menu
