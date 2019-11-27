@@ -418,16 +418,17 @@ return {
         --todo transition to next level here
         end
     end,
-    drawShopShit = function(self)
+    broUBroke = function(self)
         love.graphics.setFont(WORLD.media.fantasyfont)
         if self.tooBroke then
             SUIT.Label("AND HOW DO YOU PLAN TO PAY FOR THIS?!", 26, 360, 320, 0)
-            WORLD:drawExplosionScreenShake()
+            WORLD:drawScreenShake(-5, 5)
         else
             SUIT.Label("It's dangerous to fight alone", 26, 340, 320, 0)
             SUIT.Label("What do you want to be taught?", 26, 400, 320, 0)
         end
-
+    end,
+    drawShopShit = function(self)
         love.graphics.setBackgroundColor(0.45, 0.31, 0.2, 0)
         love.graphics.draw(SHOP.media.back, 0, 0, 0, 2, 2)
         love.graphics.draw(SHOP.media.light, 0, 0, 0, 2, 2)

@@ -57,6 +57,7 @@ return {
     fireDuration = 3,
     berserkDuration = 3,
     inBerserk = false,
+    berserkAlpha = 0,
     --
     sonicDuration = 2,
     inSonic = false,
@@ -272,6 +273,8 @@ return {
     updateModeDurations = function(self, dt)
         if self.inBerserk then
             self.berserkDuration = self.berserkDuration - (1 * dt)
+            self.berserkAlpha =
+                0.5 * math.sin(2 * math.pi * (PLAYERRAW.berserkDuration - self.berserkDuration) - math.pi / 2) + 0.5
             if self.berserkDuration < 0 then
                 self.inBerserk = false
                 self.berserkDuration = PLAYERRAW.berserkDuration

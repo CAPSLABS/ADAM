@@ -99,7 +99,7 @@ end
 function love.draw(dt)
     if GAMESTATE == 1 then --MENU
         if WORLD.exploding then
-            WORLD:drawExplosionScreenShake()
+            WORLD:drawScreenShake(-5, 5)
         end
         _G.map:draw()
         if WORLD.exploding then
@@ -122,6 +122,7 @@ function love.draw(dt)
         love.graphics.print("Press R to restart.", 100, 175)
         love.graphics.print("Press F to pay respect.", 100, 200)
     elseif GAMESTATE == 4 then --SHOP
+        SHOP:broUBroke()
         SUIT.draw()
         SHOP:drawShopShit()
     end

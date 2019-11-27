@@ -413,6 +413,7 @@ return {
         --ABILITIES
         if self.player.inBerserk == true then
             love.graphics.draw(self.player.media.berserk, self.player.x, self.player.y - 5, 0, 1.5, 1.5)
+            self:drawScreenShake(-2, 2)
         end
     end,
     drawEnemyStuff = function(self)
@@ -472,6 +473,18 @@ return {
             love.graphics.draw(self.media.hud.boom, self.media.hudPos.xOffset, self.media.hudPos.yOffset)
         else
             love.graphics.draw(self.media.hud.boomUsed, self.media.hudPos.xOffset, self.media.hudPos.yOffset)
+        end
+        if self.player.inBerserk then
+            -- make the boom box bling
+            love.graphics.setColor(1, 0.8313, 0, self.player.berserkAlpha)
+            love.graphics.rectangle(
+                "fill",
+                self.media.hudPos.xOffset,
+                self.media.hudPos.yOffset,
+                self.media.hud.boom:getWidth(),
+                self.media.hud.boom:getHeight()
+            )
+            love.graphics.setColor(255, 255, 255, 255)
         end
         if self.player.canFire == true and (self.player.fireLevel ~= 0) then
             love.graphics.draw(
@@ -583,15 +596,15 @@ return {
             self.media.hudPos.letterY
         )
     end,
-    drawExplosionScreenShake = function(self)
-        local xShift = love.math.random(-self.media["explosion"].shakeMagnitude, self.media["explosion"].shakeMagnitude)
-        local yShift = love.math.random(-self.media["explosion"].shakeMagnitude, self.media["explosion"].shakeMagnitude)
+    drawScreenShake = function(self, min, max)
+        local xShift = love.math.random(min, max)
+        local yShift = love.math.random(min, max)
         love.graphics.translate(xShift, yShift)
     end,
     drawExplosionStuff = function(self, startX, startY)
         if self.exploding then
             if self.media["explosion"].runtime < self.media["explosion"].maxRuntime then
-                self:drawExplosionScreenShake()
+                self:drawScreenShake(-self.media["explosion"].shakeMagnitude, self.media["explosion"].shakeMagnitude)
                 -- The transformation coordinate system (upper left corner of pic) is in position (240,850) and is shifted in both directions by 39px, which is the center of the pic
                 local scaling =
                     love.math.newTransform(
