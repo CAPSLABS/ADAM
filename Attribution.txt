@@ -1,146 +1,225 @@
-Art Credits:  
-- Stephen Challener (Redshrike) 				
-- http://opengameart.org/users/varkalandar	
+Credits:  
+
+Shoutout to the awesome folks over at opengameart.org
+
 - Forest: Artwork created by Luis Zuno (@ansimuz)
 - "2d Lost Garden Zelda style tiles winter theme with additions":Daniel Cook, Jetrel, yd, and Zabin.
+- LPC participants:
 
-Base Out Atlas Tiles License:
-License
--------
+Luke Mehl
+---------
+Most of the female assets
+All layers in the tiaras group
+All layers in the necklaces group
+All layers in the buckles group
+silver belt
+iron belt
+gold belt
+brown belt
+bronze belt
+black belt
+All layers in the robes group
+All layers in the slippers group
 
-CC-BY-SA 3.0:
- - http://creativecommons.org/licenses/by-sa/3.0/
- - See the file: cc-by-sa-3.0.txt
-GNU GPL 3.0:
- - http://www.gnu.org/licenses/gpl-3.0.html
- - See the file: gpl-3.0.txt
-
-Note the file is based on the LCP contest readme so don't expect the exact little pieces used like the base one.
-*Additional license information.
-
-Assets from:
-
-LPC participants:
+Johannes Sjölund
 ----------------
+shield (cutout metal hat)
+shield (cutout body)
+spear
+dagger (m)
+arrow
+arrow (skeleton)
+bow
+bow (skeleton)
+gloves metal (m)
+helmet metal (plate)
+hat (chain)
+hat (leather)
+hood (chain)
+hood (robe)
+page (color removed by Matthew Krohn)
+page2 (adapted from page by Joe White)
+Casting Eyeglow
+belt leather (m)
+belt rope (m)
+arms shoulders (m)
+plate (m)
+bracers (m)
+leather shoulders (m)
+torso (m)
+jacket purple (chain)
+torso (chain)
+shirt brown (robes)
+shirt white (leather)
+pants metal (m)
+skirt brown (robes)
+pants greenish (leather, chain)
+boots metal (m)
+shoes black
+shoes brown (leather, chain)
+quiver
+The following base animations:
+	Thrust (male)
+	Shoot (male)
+	Walkcycle (skeleton)
+	Hurt (skeleton)
+	Slash (skeleton)
+	Spellcast (skeleton)
+Oversized spear
+Oversized male longsword
+Oversized male rapier
 
-Casper Nilsson
-	*GNU GPL 3.0 or later
-	email: casper.nilsson@gmail.com
-	Freenode: CasperN
-	OpenGameArt.org: C.Nilsson
-	
- - LPC C.Nilsson (2D art)
+Marcel van de Steeg
+-------------------
+bracelet
+orceyepatch
+bandana
+pirateshirtlady
+Tanned and dark skinned color tones
+orc
 
-Daniel Eddeland 
-	*GNU GPL 3.0 or later
- - Tilesets of plants, props, food and environments, suitable for farming / fishing sims and other games. 
- - Includes wheat, grass, sand tilesets, fence tilesets and plants such as corn and tomato. 
+Manuel Riecke
+-------------
+ponytail
+loose
+swoop
+pixie
+bangsshort
+bangslong
+unkempt
+messy1
+longhawk
+messy2
+bedhead
+shorthawk
+bangs
+mohawk
+long
 
+Thane Brimhall
+--------------
+dress with sash
+ghillies
+All layers in the Formal Male Attire group
+All layers in the Accessories group (except necklaces)
 
-Johann CHARLOT 
-	*GNU LGPL Version 3. 
-	*Later versions are permitted.
-	Homepage  http://poufpoufproduction.fr
-	Email     johannc@poufpoufproduction.fr
-	
- - Shoot'em up graphic kit
+Matthew Krohn
+-------------
+Adapted the following
+dagger (f)
+metal gloves (f)
+leather belt (f)
+rope belt (f)
+plate shoulders (f)
+plate chest (f)
+bracers (f)
+leather shoulders (f)
+leather torso (f)
+robe skirt (f)
+metal pants (f)
+metal boots (f)
+golden armor layers (f)
+The following base animations:
+	Thrust (female)
+	Shoot (female)
+Oversized female longsword
+Oversized female rapier
+Oversized female saber
+Oversized female mace
 
-Skyler Robert Colladay 
-
- - FeralFantom's Entry (2D art)
-
-BASE assets:
-------------
+Lori Angela Nagel
+-----------------
+wings
+robe
 
 Lanea Zimmerman (AKA Sharm)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
- - barrel.png
- - brackish.png
- - buckets.png
- - bridges.png
- - cabinets.png
- - cement.png
- - cementstair.png
- - chests.png
- - country.png
- - cup.png
- - dirt2.png
- - dirt.png
- - dungeon.png
- - grassalt.png
- - grass.png
- - holek.png
- - holemid.png
- - hole.png
- - house.png
- - inside.png
- - kitchen.png
- - lava.png
- - lavarock.png
- - mountains.png
- - rock.png
- - shadow.png
- - signs.png
- - stairs.png
- - treetop.png
- - trunk.png
- - waterfall.png
- - watergrass.png
- - water.png
- - princess.png and princess.xcf
-
+---------------------------
+overskirt
+blue vest
+underdress
+princess (color removed by Matthew Krohn)
 
 Stephen Challener (AKA Redshrike)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---------------------------------
+The following base animations:
+	Walkcycle (male and female)
+	Hurt (male and female)
+	Slash (male and female)
+	Spellcast (male and female)
+Orc heads adapted by Marcel van de Steeg from Stephen Challener's original material
 
- - female_walkcycle.png
- - female_hurt.png
- - female_slash.png
- - female_spellcast.png
- - male_walkcycle.png
- - male_hurt.png
- - male_slash.png
- - male_spellcast.png
- - male_pants.png
- - male_hurt_pants.png
- - male_fall_down_pants.png
- - male_slash_pants.png
+Daniel Eddeland
+---------------
+greatbow
+recurve bow
+Oversized male mace
+Oversized male saber
+Oversized trident
+Oversized dragonspear
 
+Shaun Williams
+--------------
+Golden Armor (male) layers (separated by Matthew Krohn)
 
-Charles Sanchez (AKA CharlesGabriel)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Joe White
+---------
+brown shoes (f)
+black shoes (f)
+thrust and shoot animations for slippers layers
+green pants (f)
+ponytail2 hairstyle (f)
+plain hairstyle (m)
+hairstyle autoposition/recolor script
 
- - bat.png
- - bee.png
- - big_worm.png
- - eyeball.png
- - ghost.png
- - man_eater_flower.png
- - pumpking.png
- - slime.png
- - small_worm.png
- - snake.png
+Mark Weyer
+----------
+dark2 (male and female)
+grey eyes (male and female)
 
+Barbara Rivera
+--------------
+bangslong2 (based on bangsshort)
+bunches (based on unkempt)
 
-Manuel Riecke (AKA MrBeast)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+JRConway3
+---------
+Curly Shoulder Hair (female)
+Female cloth bracers
+Maroon/Magenta pants (female)
+Sleveless shirt (Female)
 
- - hairfemale.png and hairfemale.xcf
- - hairmale.png and hairmale.xcf
- - soldier.png
- - soldier_altcolor.png
+JaidynReiman
+---------
+Shoulder Hair [based on princess/unkempt] (f)
+Cloth bracers (f)
+Sleveless shirt (f)
+Tunic (f)
+Cape [back] (f)
+Trimmed cape [back] (f)
+Tattered cape [back] (f)
+Cape [behind body] (f)
+Trimmed cape [behind body] (f)
+Tattered cape [behind body] (f)
+Cape clip [accessories/neck] (f)
+Cape strap [accessories/neck] (f)
+Jewfro Hair
+Shortknot Hair
+Longknot Hair
+Xlongknot Hair
+Facial Hair Autoposition (Joe White's script extended)
+Full Hairstyle Frame Recolors (Joe White's script extended)
 
+Nila122
+---------
+darkelf (male and female)
+darkelf2 (male and female)
+extra long hairstyle
+red2, black2, purple, brown2, gold hair recolors
 
-Daniel Armstrong (AKA HughSpectrum)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+neo4cat6
+---------
+Beard and Mustache
 
-Castle work:
-
- - castlewalls.png
- - castlefloors.png
- - castle_outside.png
- - castlefloors_outside.png
- - castle_lightsources.png
-
+Another big thanks to Gaurav0 and sanderfrenken for making a generator
+(https://sanderfrenken.github.io/Universal-LPC-Spritesheet-Character-Generator/#)
 

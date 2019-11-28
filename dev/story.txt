@@ -1,10 +1,11 @@
 CAST
+NARRATOR
 ADAM (the hero)
 LILITH (the love interest)
-WISE MAN (the smart guy)
+VILLAGER (an old farmer)
+SAGE (smart old wise guy)
 WILLIAM CORMANTHOR SHEARSPAKE (a local noble, in a feud with Christopher)
-CHRISTOPHER LARMOWE (depicted as a  q.mark & voice first, BBEG)
-VILLAGER
+CHRISTOPHER LARMOWE (rival noble, depicted as a  questionmark & voice first, evil guy)
 
 A story around a wish-fullfilling jewel
 
@@ -38,7 +39,7 @@ VILLAGER: "OH GOD! THERE'S MORE GOBLINS! SO MANY!"
 WILLIAM: "Bonjour, Lilith, bene Lilith! Merci for your help! I am William [sinnige Pause] Cormanthor [sinnige Pause] Shearspake.
 LILITH: "We have ADAM to thank for being an AWESOME DEFENDER."
 ADAM: (grinning) "ACTION MURDERER!" 
-LILITH: "Yes. Say, William, you never work, how come you are so ..."
+LILITH: "Yes. [...] Say, William, you never work, how come you are so ..."
 WILLIAM: "Dashing?"
 LILITH: "No, rich!"
 ?: 		"Because of the JEWEL, you bafoons!"
@@ -50,7 +51,7 @@ WILLIAM: "I know this voice from somewhere... Sacre Bleu! More enemies! Maybe th
 
 WILLIAM: "The minting on those coins. They have been paid by... could it be??? No!"
 LILITH: "What is that JEWEL he was talking about?"
-WILLIAM: "Is they are after my jewels, we need to get to my residency in the mountains. Quick!"
+WILLIAM: "Is they are after my jewels, they will attack my residency in the mountains. Quick! We have to go there!"
 
 2.1 [now in the mountains]
 WILLIAM: "Oh no, they are already coming."
@@ -58,72 +59,72 @@ WILLIAM: "Oh no, they are already coming."
 - shop - 
 
 2.2
-WILLIAM: "My Jewel! It's still here! Dieu merci"
+WILLIAM: "My Jewel! It's still here! Dieu merci!!!"
 LILITH: "Why would they want to steal your jewel? It's only a status symbol."
-WILLIAM: "Because it is the key to infinite WEALTH!!! HAHAHAHAHAHA"
+WILLIAM: "Obviously because the jewels is the key to infinite wealth!!! HAHAHAHAHAHA" (nervous laughter)
 LILITH: "..."
 WILLIAM: "Just kidding! It's a family heirloom."
 LILITH: "..."
 WILLIAM: "And maybe it prroduces a little wealth, every now and then?"
 LILITH: "..."
-ADAM: "Brb, more zombies."
+ADAM: "Brb, more zombies incoming"
 
 - kill zombies for 3 minutes - 
 - shop - 
 
 2.3
-ADAM: I'm Back
-LILITH: Welcome back. William, you said you knew the voice and owner of these weird coins. Who is it?
-?: "ME, you fools! The great..."
+ADAM: "I'm Back"
+LILITH: "Welcome back. William, you said you knew where those weird coins come from. Who is paying this onslaught?"
+?: "ME, you fools! The great..." (william cut's in)
 WILLIAM: "It's that stupid Christopher Larmowe."
 CHRISTOPHER: "AND I WOULD HAVE GOTTEN MY JEWEL, TOO, IF IT WEREN'T FOR YOU MEEDLING KIDS. BEWARE, MY STRONGEST WAVE OF ENEMY APPROACHES!"
 
 - defend christophers ultimate onslaught. hold the residency for 5 minutes -
 
-ADAM: "*pants* We need to stop them. Where is all of this coming from?
-LILITH: "CHRISTOPHER has bought them so they attack us. He is after the jewel.
-WILLIAM: "I could ask the sage where he is. He does everything for the right amount of coins!"
-ADAM: "True"
+ADAM: "*pants* We need to stop this. Where are these monsters coming from?"
+LILITH: "CHRISTOPHER has paid them to attack us. He is after the jewel."
+WILLIAM: "We could ask the sage where he is. He helps everyone for the right amount of coins!"
+ADAM: "True..."
 
 - shop - 
-SAGE: By the way! You are a good customer, so I will give you a hint: CHRISTOPHER is in the cave behind the mountains. 
-But I am afraid you will have to buy my best moves if you want to stand a chance there. 
+SAGE: "By the way! You are a good customer, so I will give you a hint: CHRISTOPHER is in the cave behind the mountains.
+But I am afraid you will have to buy my best moves if you want to stand a chance against him." 
 
 3.1 [now in the cave]
 WILLIAM: "Wow! What a scary place."
 ADAM: "Just shut up."
-LILITH: "You are not a murderer. You are just an ASSHOLE".
-ADAM: "I am also not a DEFENDER more, I am an ATTACKER"
-LILITH: "That makes you an AWESOME ATTACKER ACTION ASSHOLE"
-WILLIAM: "AAAA [...] "
+LILITH: "Why the aggression? Maybe you are not a murderer, maybe you are just an ASSHOLE".
+ADAM: "I am also not a DEFENDER anymore, I am an ATTACKER"
+LILITH: "That makes you an AWESOME ATTACKER ACTION ASSHOLE, or short"
+WILLIAM: "AAAA" (screams in panic)
 LILITH: "Correct!"
-WILLIAM: "[...] AAARGH... MORE ENEMIES!
+WILLIAM: "[...] AAARGH... MORE ENEMIES!"
 
 - defeat 10 new enemies - 
 - shop - 
 
 3.2
-NARRATOR: Restlessly, AAAA fought his way through the cave, until they reached a heavy door.
+NARRATOR: "Restlessly, AAAA and his friends fought their way through the cave, until they reached a heavy door."
 ADAM: "This is it. Here he is."
-WILLIAM: "I always knew, CHRISTOPHER was a no-good-for-nothing. Let's end this!"
+WILLIAM: "I always knew, CHRISTOPHER was a good-for-nothing. Let's end this!"
 
 - destroy the heavy door - 
 - shop - 
 
 3.3
-CHRISTOPHER: "This is where I would hold a lengthy monologue revealing my evil plan, but you already figured me out."
+CHRISTOPHER: "So, you found me. This is where I would hold a lengthy monologue revealing my evil plan, but you already figured me out."
 ADAM: "I will stop you. I am AAAA"
 CHRISTOPHER: "But first, you got to stop my strongest ally. The troll king"
 
 - FINAL BATTLE: THE TROLL KING - 
-- or Christopher also shoots with booms at you - 
+- maybe Christopher also shoots with booms at you - 
 - shop - 
 
-NARRATOR: "In the heat of the battle, the JEWEL gets destroyed. But the village was safe once again." 
-LILITH: "Oh no. It seems like it's over and it was all for nothing."
+NARRATOR: "In the heat of the battle, the JEWEL got destroyed. But the village was safe once again." 
+LILITH: "What a bummer, the wealth producing jewel would've been a nice reward. It seems like it's over and it was all for nothing."
 ADAM "The real treasure is the money we made on the way."
 WHOLE CAST: LAUGH
-SAGE: *winks* *maybe fingerguns and sunglasses slide on his face*
+SAGE: *winks* (maybe fingerguns and sunglasses slide on his face)
 FADEOUT
 NARRATOR: "And so, AAAA returned home richer than ever before: With friends."
 pause

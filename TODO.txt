@@ -1,22 +1,21 @@
-- story mode (D)
-- enemys drop hearts, coin or HINTS (D)
 - get hit feedback (blink red, maybe goblin does not die?) (D)
-- lvl implementation, w. transition (P)
-- map 2 : zombies and mountain residence (P)
-- map 3: a cave and a door (P)
-- make boss (P)
-- map 3: third enemy type (P)
+- enemys drop hearts, coin or HINTS (D)
+- story mode (D)
 - lvl conditions (goblin counter, zombie counter, hint counter, level timer)(P)
-- main menu: credits (to OS artist) story or greyed out endless
+- map 2 : zombies and mountain residence (P)
+- map 3: third enemy type (P)
+- map 3: a cave and a door (P)
+- lvl implementation, w. transition (P)
+- make boss (P)
+- main menu: credits (to OS artist) + show story and grayed out endless
 - endless mode 
 
 OPTIONAL
 - balance level ups
-- let the whole story be read out by voice actors
 - music/sfx
 - discuss if we want to explain skills/upgrades before buying (per skill row there is a button that writes a description of that skill)
 - keyboard control for shop and main menu
-- gekaufte skills nebeneinander reihen (keine lücken dazwischen, falls noch nicht alle skills gekauft wurden)
-- since the format is (accidentaly) way to good for it, explore mobile port possibilitys
 - silver lvl up is cd / 2, aber was könnte golden lvl up sein ? (current: nochmal halbieren)
 - Final code cleanup (check all todos)
+- let the whole story be read out by voice actors
+- since the format is (accidentaly) way to good for it, explore mobile port possibilitys
