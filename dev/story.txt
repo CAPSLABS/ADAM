@@ -54,7 +54,7 @@ LILITH: "What is that JEWEL he was talking about?"
 WILLIAM: "Is they are after my jewels, they will attack my residency in the mountains. Quick! We have to go there!"
 
 2.1 [now in the mountains]
-WILLIAM: "Oh no, they are already coming."
+WILLIAM: "My chateu is just over there! But, what is this?! Oh no, they are already coming."
 - kill 10 zombies in the mountains-
 - shop - 
 
@@ -129,4 +129,11 @@ FADEOUT
 NARRATOR: "And so, AAAA returned home richer than ever before: With friends."
 pause
 NARRATOR: "And a fuckton of money." 
+- fade to black - 
 - ENDLESS MODE UNLOCKED - 
+- credits rolling - (first main menu music, then credits)
+
+"What is the universe, if there is noone to experience it?
+What is a game, if there is no player to enjoy it?
+Thank you for joining me on this journey!"
+

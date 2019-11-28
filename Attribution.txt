@@ -1,10 +1,102 @@
 Credits:  
 
-Shoutout to the awesome folks over at opengameart.org
+--------------------------- ART -----------------------------------
+https://opengameart.org/
+
+First Map was created using TILED with the tileset by:
+LPC participants:
+----------------
+Casper Nilsson
+	*GNU GPL 3.0 or later
+	email: casper.nilsson@gmail.com
+	Freenode: CasperN
+	OpenGameArt.org: C.Nilsson
+	
+ - LPC C.Nilsson (2D art)
+
+Daniel Eddeland 
+	*GNU GPL 3.0 or later
+ - Tilesets of plants, props, food and environments, suitable for farming / fishing sims and other games. 
+ - Includes wheat, grass, sand tilesets, fence tilesets and plants such as corn and tomato. 
+
+
+Johann CHARLOT 
+	*GNU LGPL Version 3. 
+	*Later versions are permitted.
+	Homepage  http://poufpoufproduction.fr
+	Email     johannc@poufpoufproduction.fr
+	
+ - Shoot'em up graphic kit
+
+Skyler Robert Colladay 
+
+ - FeralFantom's Entry (2D art)
+
+BASE assets:
+------------
+
+Lanea Zimmerman (AKA Sharm)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ - barrel.png
+ - brackish.png
+ - buckets.png
+ - bridges.png
+ - cabinets.png
+ - cement.png
+ - cementstair.png
+ - chests.png
+ - country.png
+ - cup.png
+ - dirt2.png
+ - dirt.png
+ - dungeon.png
+ - grassalt.png
+ - grass.png
+ - holek.png
+ - holemid.png
+ - hole.png
+ - house.png
+ - inside.png
+ - kitchen.png
+ - lava.png
+ - lavarock.png
+ - mountains.png
+ - rock.png
+ - shadow.png
+ - signs.png
+ - stairs.png
+ - treetop.png
+ - trunk.png
+ - waterfall.png
+ - watergrass.png
+ - water.png
+ - princess.png and princess.xcf
+
+
+Daniel Armstrong (AKA HughSpectrum)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Castle work:
+
+ - castlewalls.png
+ - castlefloors.png
+ - castle_outside.png
+ - castlefloors_outside.png
+ - castle_lightsources.png
+
+
+Mountain Tiles:
+Credit goes to Daniel Cook's 2d Circle Graphic Archive, Jetrel's mockups resized 32x32, Bertram's improvements, Zabin's modification and additions, Saphy (TMW) tall grass (thank you, opengameart.org)
 
 - Forest: Artwork created by Luis Zuno (@ansimuz)
-- "2d Lost Garden Zelda style tiles winter theme with additions":Daniel Cook, Jetrel, yd, and Zabin.
-- LPC participants:
+https://opengameart.org/content/forest-background
+
+Sprite Character Art also done by LPC participants.
+Visit https://opengameart.org to see more.
+LPC character sprites used are dual-licensed under CC-BY 3.0 and GNU-GPLv3
+https://creativecommons.org/licenses/by/3.0/
+https://www.gnu.org/licenses/gpl-3.0.en.html
 
 Luke Mehl
 ---------
@@ -220,6 +312,20 @@ neo4cat6
 ---------
 Beard and Mustache
 
-Another big thanks to Gaurav0 and sanderfrenken for making a generator
-(https://sanderfrenken.github.io/Universal-LPC-Spritesheet-Character-Generator/#)
+Another big thanks to Gaurav0 and sanderfrenken for making a sprite generator using the LPC content!
 
+-------------------------------------- MUSIC ---------------------------------
+Battle Music (Village, Mountain, Cave & Final Boss) done by ozzed
+http://ozzed.net
+released under CC BY-SA 3.0
+https://creativecommons.org/licenses/by-sa/3.0/
+
+All other tracks done by Scott Art
+https://scottarc.bandcamp.com
+released under CC BY 3.0
+https://creativecommons.org/licenses/by/3.0/
+
+--------------------------------------- VOICE -------------------------------
+
+
+--------------------------------------- SFX ----------------------------------
