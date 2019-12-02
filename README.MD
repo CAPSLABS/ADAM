@@ -2,7 +2,7 @@ Welcome to ADAM, the **A**wesome **D**efender **A**ction **M**urderer Game
 
 
 I used [TILED](https://www.mapeditor.org/) for creating the levels. 
-Art is taken from [OpenGameArt](https://opengameart.org/).
+Art is taken from [OpenGameArt](https://opengameart.org/). (see Attribution.txt for details)
 
 This is a Work in progress! 
 

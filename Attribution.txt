@@ -87,13 +87,12 @@ Castle work:
 
 
 Mountain Tiles:
-Credit goes to Daniel Cook's 2d Circle Graphic Archive, Jetrel's mockups resized 32x32, Bertram's improvements, Zabin's modification and additions, Saphy (TMW) tall grass (thank you, opengameart.org)
+Credit goes to Daniel Cook's 2d Circle Graphic Archive, Jetrel's mockups resized 32x32, Bertram's improvements, Zabin's modification and additions, Saphy (TMW) tall grass
 
 - Forest: Artwork created by Luis Zuno (@ansimuz)
 https://opengameart.org/content/forest-background
 
-Sprite Character Art also done by LPC participants.
-Visit https://opengameart.org to see more.
+Sprite Character Art created using LPC art and a sprite generator.
 LPC character sprites used are dual-licensed under CC-BY 3.0 and GNU-GPLv3
 https://creativecommons.org/licenses/by/3.0/
 https://www.gnu.org/licenses/gpl-3.0.en.html
@@ -320,7 +319,7 @@ http://ozzed.net
 released under CC BY-SA 3.0
 https://creativecommons.org/licenses/by-sa/3.0/
 
-All other tracks done by Scott Art
+All other tracks done by Scott Arc
 https://scottarc.bandcamp.com
 released under CC BY 3.0
 https://creativecommons.org/licenses/by/3.0/
