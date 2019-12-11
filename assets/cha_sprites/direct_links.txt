@@ -1,0 +1,12 @@
+https://sanderfrenken.github.io/Universal-LPC-Spritesheet-Character-Generator/#?body=olive&hair=messy1_raven&ribs_blood=0&mouth_blood=0&eye_blood=0&jacket=none&clothes=formal_shirt&arms=none&shoulders=none&greaves=none&legs=Pants_black_L&armor=none&hat=bandana4&ammo=none&weapon=none&ears=big&quiver=none&shield=none&capeacc=none&cape=none&arm_blood=0
+
+
+(not quite, apart from adam)
+
+https://sanderfrenken.github.io/Universal-LPC-Spritesheet-Character-Generator/#?cape=none&hair=Male_Hair_curly_brunette2&nose=big&facial=bigstache&jacket=formal_black&clothes=formal_shirt&armor=none&legs=pants_black&shoes=sandalsroman&body=tanned
+
+
+https://sanderfrenken.github.io/Universal-LPC-Spritesheet-Character-Generator/#?cape=none&hair=Male_Hair_curly_blonde&nose=big&facial=bigstache&jacket=formal_black&clothes=formal_shirt&armor=none&legs=pants_black&shoes=sandalsroman	
+
+
+https://sanderfrenken.github.io/Universal-LPC-Spritesheet-Character-Generator/#?sex=female&body=peach&eyes=blue&facial=none&boots=boots_dark&dress=dress_white&legs=Pants_black_L&hair=pixie_red&clothes=pirate_shirt_orange&jacket=none&gown-underdress=0&gown-overskirt=0&gown-blue-vest=0&gloves=none&belt=leather&=belt_black
