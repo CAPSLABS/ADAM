@@ -10,6 +10,7 @@
 --]]
 require("src.mapLoader")
 require("src.util")
+require("src.story")
 
 SUIT = require "src.suit"
 ANIMATE = require "src.anim8"
@@ -17,8 +18,8 @@ ANIMATE = require "src.anim8"
 DEBUG = true
 --DEBUG = false
 
---1=menu, 2=game, 3=gameOver, 4=shop
-GAMESTATES = {1, 2, 3, 4}
+--1=menu, 2=game, 3=gameOver, 4=shop, 5=story
+GAMESTATES = {1, 2, 3, 4, 5}
 GAMESTATE = GAMESTATES[1]
 ------------ LOADING --------------
 
@@ -26,8 +27,8 @@ function love.load()
     WORLD = require("src.world")
     MENU = require("src.menu")
     SHOP = require("src.shop")
-
-    WORLD.currentLvl = 3
+    STORY = require("src.story")
+    WORLD.currentLvl = 1
     --make sure this points to last level in WORLD, which is MENU
     _G.map = LoadTiledMap("assets/tile/", WORLD.levels[WORLD.currentLvl].mapPath)
 
@@ -51,6 +52,7 @@ function InitGame(lvl)
     WORLD.runtime = 0
     WORLD.enemies = {}
     WORLD.currentLvl = lvl
+    STORY:loadStory()
     _G.map = LoadTiledMap("assets/tile/", WORLD.levels[lvl].mapPath)
 end
 
