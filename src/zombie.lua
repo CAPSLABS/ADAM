@@ -51,7 +51,11 @@ return {
     end,
     die = function(self)
         self.curAnim = "dying"
-        WORLD.player.money = WORLD.player.money + self.reward
+        if not WORLD.wonLevel then
+            WORLD.player.money = WORLD.player.money + self.reward
+            WORLD.levels[WORLD.currentLvl].enemies.zombie.killCounter =
+                WORLD.levels[WORLD.currentLvl].enemies.zombie.killCounter + 1
+        end
         self.anim = ANIMATE.newAnimation(self.media.imgGrid("1-6", 21), 0.3, "pauseAtEnd")
     end,
     update = function(self, dt)
