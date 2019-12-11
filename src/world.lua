@@ -5,7 +5,12 @@ return {
     y = 32 * 30,
     currentLvl = nil,
     runtime = 0,
+    -- true if explosion animation runs
     exploding = false,
+    -- true if current level condition has been satisfied
+    wonLevel = false,
+    -- Counts keypress after level has been won. Advance to next level if this is >= 0.
+    continueButton = nil,
     cityHealthMax = 100,
     cityHealth = 100,
     healthPerc = 1,
@@ -37,7 +42,8 @@ return {
             f = "assets/hud/controls/f.png",
             space = "assets/hud/controls/space.png",
             silver = "assets/hud/silver.png",
-            gold = "assets/hud/gold.png"
+            gold = "assets/hud/gold.png",
+            borderSmall = "assets/hud/border/border384.png"
         },
         hudSkillBorder = {
             a = nil,
@@ -76,8 +82,9 @@ return {
         --level1
         {
             mapPath = "ebene1tilemap",
-            spawnTimer = {
+            enemies = {
                 goblin = {
+                    killCounter = 0,
                     timer = 0.4, -- inital value is value of timerMax, a changing variable
                     timerMax = 0.4, -- initial value until first mob comes, marks the actual countdown time
                     spawnFct = function(self, runtime)
@@ -87,17 +94,24 @@ return {
                         return (1 / (1 + math.exp(0.1 * runtime))) + 0.5
                     end
                 }
-            }
+            },
+            winCondition = function(self, dt)
+                if self.enemies.goblin.killCounter >= 1 then
+                    return true
+                end
+                return false
+            end
         },
         --level 2
         {
             mapPath = "ebene2tilemap",
             cityHealthMax = 100,
             cityHealth = 100,
-            spawnTimer = {
+            enemies = {
                 goblin = {
                     timer = 0.2,
                     timerMax = 0.2,
+                    killCounter = 0,
                     spawnFct = function(self, runtime)
                         -- Sigmoid mirrored on y axis shifted up by 0.5 (minimum is 0.5)
                         -- Reaches timer = 0.51 in ~46 seconds
@@ -107,17 +121,24 @@ return {
                 zombie = {
                     timer = 1,
                     timerMax = 1,
+                    killCounter = 0,
                     spawnFct = function(self, runtime)
                         -- Reaches timer = 1.51 in ~51 seconds
                         return (1 / (1 + math.exp(0.09 * runtime))) + 1.5
                     end
                 }
-            }
+            },
+            winCondition = function(self, dt)
+                if self.enemies.goblin.killCounter >= 1 and self.enemies.zombie.killCounter >= 1 then
+                    return true
+                end
+                return false
+            end
         },
         --menu (always last)
         {
             mapPath = "ebene1tilemap",
-            spawnTimer = {
+            enemies = {
                 goblin = {
                     timer = 0.0,
                     timerMax = 0.0,
@@ -125,7 +146,10 @@ return {
                         return 0.0
                     end
                 }
-            }
+            },
+            winCondition = function(self, dt)
+                return false
+            end
         }
     },
     statsRaw = {
@@ -193,7 +217,7 @@ return {
     end,
     spawnEnemies = function(self, dt)
         self.runtime = self.runtime + dt
-        for enemyName, enemySpawnInfo in pairs(self.levels[self.currentLvl].spawnTimer) do
+        for enemyName, enemySpawnInfo in pairs(self.levels[self.currentLvl].enemies) do
             enemySpawnInfo.timer = enemySpawnInfo.timer - dt
             if enemySpawnInfo.timer <= 0 then
                 enemySpawnInfo.timerMax = enemySpawnInfo:spawnFct(self.runtime)
@@ -369,6 +393,32 @@ return {
         if self.healthPerc < 0 then
             self.alive = false
             GAMESTATE = 3
+        end
+    end,
+    checkWinCondition = function(self, dt)
+        if self.levels[self.currentLvl]:winCondition(dt) and not self.wonLevel then
+            -- set flag that we won
+            self.wonLevel = true
+            -- kill all remaining enemies
+            for i, enemy in pairs(self.enemies) do
+                enemy:die()
+            end
+            -- stop enemies from spawning
+            for enemyName, enemySpawnInfo in pairs(self.levels[self.currentLvl].enemies) do
+                enemySpawnInfo.timer = 10000
+            end
+        end
+        if self.wonLevel then
+            if
+                SUIT.ImageButton(
+                    WORLD.media.hud.borderSmall,
+                    240 - (self.media.hud.borderSmall:getWidth() / 2),
+                    480 - (self.media.hud.borderSmall:getHeight() / 2)
+                ).hit
+             then
+                self.currentLvl = self.currentLvl + 1
+                InitGame(self.currentLvl)
+            end
         end
     end,
     ------------ DRAWING --------------
@@ -605,7 +655,8 @@ return {
         if self.exploding then
             if self.media["explosion"].runtime < self.media["explosion"].maxRuntime then
                 self:drawScreenShake(-self.media["explosion"].shakeMagnitude, self.media["explosion"].shakeMagnitude)
-                -- The transformation coordinate system (upper left corner of pic) is in position (240,850) and is shifted in both directions by 39px, which is the center of the pic
+                -- The transformation coordinate system (upper left corner of pic) is in position (240,850) and is shifted in both directions by 39px,
+                -- which is the center of the pic
                 local scaling =
                     love.math.newTransform(
                     startX,
@@ -621,6 +672,14 @@ return {
                 love.graphics.draw(self.media["explosion"].img, 0, 0)
                 love.graphics.pop()
             end
+        end
+    end,
+    drawWinScreen = function(self)
+        if self.wonLevel then
+            love.graphics.setFont(WORLD.media.bigfantasyfont)
+            love.graphics.print("YOU WIN!", 152, 250)
+            SUIT.draw() -- draw continue button
+            love.graphics.printf("CONTINUE", 0, 450, 480, "center")
         end
     end,
     drawHitBoxes = function(self, explosionX, explosionY)

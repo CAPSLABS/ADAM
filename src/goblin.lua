@@ -55,7 +55,11 @@ return {
         self.anim = ANIMATE.newAnimation(self.media.imgGrid("1-7", 5), 0.06, "pauseAtEnd")
         -- should point to menu, make sure
         if WORLD.currentLvl ~= 3 then
-            WORLD.player.money = WORLD.player.money + self.reward
+            if not WORLD.wonLevel then
+                WORLD.player.money = WORLD.player.money + self.reward
+                WORLD.levels[WORLD.currentLvl].enemies.goblin.killCounter =
+                    WORLD.levels[WORLD.currentLvl].enemies.goblin.killCounter + 1
+            end
         end
     end,
     update = function(self, dt)

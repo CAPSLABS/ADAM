@@ -51,6 +51,7 @@ function InitGame(lvl)
     WORLD.cityHealth = 100
     WORLD.runtime = 0
     WORLD.enemies = {}
+    WORLD.wonLevel = false
     WORLD.currentLvl = lvl
     STORY:loadStory()
     _G.map = LoadTiledMap("assets/tile/", WORLD.levels[lvl].mapPath)
@@ -84,6 +85,7 @@ function love.update(dt)
         WORLD:updateEnemies(dt) --moves, animates&deletes enemies
         WORLD:handleCollisions()
         WORLD:updateExplosion(dt, WORLD.player.x + 32, WORLD.player.y + 32, WORLD.player.explosionMaxRuntime)
+        WORLD:checkWinCondition(dt)
     elseif GAMESTATE == 3 then --GAME OVER
         MENU:checkGameOverInput()
         MENU:playAirhornSound()
@@ -115,6 +117,7 @@ function love.draw(dt)
         WORLD:drawEnemyStuff()
         WORLD:drawPlayerStuff()
         WORLD:drawHud()
+        WORLD:drawWinScreen()
     elseif GAMESTATE == 3 then --GAME OVER
         MENU:drawPaidRespect(WORLD.media.surprise.img)
         love.graphics.setFont(WORLD.media.fantasyfont)
