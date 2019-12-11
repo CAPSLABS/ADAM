@@ -32,6 +32,7 @@ return {
         imgWidth = 65,
         imgHeight = 64
     },
+    portrait = nil,
     --instantiator:
     newSelf = function(self)
         local baby = Shallowcopy(self)

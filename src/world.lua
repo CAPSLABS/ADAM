@@ -1,5 +1,6 @@
 return {
     player = nil,
+    -- all enemies currently on the field
     enemies = {},
     x = 32 * 15,
     y = 32 * 30,
@@ -41,8 +42,9 @@ return {
             d = "assets/hud/controls/d.png",
             f = "assets/hud/controls/f.png",
             space = "assets/hud/controls/space.png",
-            silver = "assets/hud/silver.png",
-            gold = "assets/hud/gold.png",
+            brown = "assets/hud/border/brown.png",
+            silver = "assets/hud/border/silver.png",
+            gold = "assets/hud/border/gold.png",
             borderSmall = "assets/hud/border/border384.png"
         },
         hudSkillBorder = {
@@ -59,14 +61,17 @@ return {
             skillDistance = 90,
             healthX = 100,
             healthY = 920,
-            moneyX = 320,
+            moneyX = 310,
             moneyY = 5,
             heartX = -50,
             heartY = 5,
             heartDistance = 40,
             letterX = 35,
             letterY = 855,
-            letterDistance = 90
+            letterDistance = 90,
+            -- KILL COUNTERS
+            counterX = 420,
+            counterY = 110
         },
         explosion = {
             img = "assets/explosion.png",
@@ -84,7 +89,10 @@ return {
             mapPath = "ebene1tilemap",
             enemies = {
                 goblin = {
-                    killCounter = 0,
+                    --TODO: somehow get picture of goblin
+                    killCounter = 0, -- counts how many goblins have been murdered in this level
+                    killGoal = 1, -- counts how many goblins we need to murder in this level
+                    killToWin = true, -- defeating goblins is necessary to win
                     timer = 0.4, -- inital value is value of timerMax, a changing variable
                     timerMax = 0.4, -- initial value until first mob comes, marks the actual countdown time
                     spawnFct = function(self, runtime)
@@ -95,8 +103,9 @@ return {
                     end
                 }
             },
+            winType = "kill", -- We win by killing goblins
             winCondition = function(self, dt)
-                if self.enemies.goblin.killCounter >= 1 then
+                if self.enemies.goblin.killCounter >= self.enemies.goblin.killGoal then
                     return true
                 end
                 return false
@@ -112,6 +121,8 @@ return {
                     timer = 0.2,
                     timerMax = 0.2,
                     killCounter = 0,
+                    killGoal = 3,
+                    killToWin = true,
                     spawnFct = function(self, runtime)
                         -- Sigmoid mirrored on y axis shifted up by 0.5 (minimum is 0.5)
                         -- Reaches timer = 0.51 in ~46 seconds
@@ -122,14 +133,20 @@ return {
                     timer = 1,
                     timerMax = 1,
                     killCounter = 0,
+                    killGoal = 1,
+                    killToWin = true,
                     spawnFct = function(self, runtime)
                         -- Reaches timer = 1.51 in ~51 seconds
                         return (1 / (1 + math.exp(0.09 * runtime))) + 1.5
                     end
                 }
             },
+            winType = "kill", -- We win by killing zombies only
             winCondition = function(self, dt)
-                if self.enemies.goblin.killCounter >= 1 and self.enemies.zombie.killCounter >= 1 then
+                if
+                    self.enemies.goblin.killCounter >= self.enemies.goblin.killGoal and
+                        self.enemies.zombie.killCounter >= self.enemies.zombie.killGoal
+                 then
                     return true
                 end
                 return false
@@ -172,6 +189,15 @@ return {
                 enemy.media.img:getWidth(),
                 enemy.media.img:getHeight()
             )
+            enemy.portrait =
+                love.graphics.newQuad(
+                0,
+                0,
+                enemy.media.imgWidth,
+                enemy.media.imgHeight,
+                enemy.media.img:getWidth(),
+                enemy.media.img:getHeight()
+            )
         end
     end,
     loadPlayer = function(self)
@@ -197,7 +223,6 @@ return {
         for key, imgPath in pairs(self.media.hud) do
             self.media.hud[key] = love.graphics.newImage(imgPath)
         end
-
         --self.media.hud.boom = love.graphics.newImage(self.media.hud.boom)
         --self.media.hud.boomUsed = love.graphics.newImage(self.media.hud.boomUsed)
     end,
@@ -405,6 +430,7 @@ return {
             end
             -- stop enemies from spawning
             for enemyName, enemySpawnInfo in pairs(self.levels[self.currentLvl].enemies) do
+                --TODO: unsafe but works
                 enemySpawnInfo.timer = 10000
             end
         end
@@ -517,6 +543,7 @@ return {
         self:drawButtons()
         self:drawSkillBorders()
         self:drawMoney()
+        self:drawKillCounters()
     end,
     drawSkills = function(self)
         if self.player.canBoom == true then
@@ -645,6 +672,50 @@ return {
             (self.media.hudPos.letterX + self.media.hudPos.letterDistance * 4),
             self.media.hudPos.letterY
         )
+    end,
+    drawKillCounters = function(self)
+        -- scale down the kill counter a little
+        local scaling = love.math.newTransform(0, 0, 0, 0.8, 0.8, 0, 0)
+        love.graphics.push()
+        love.graphics.applyTransform(scaling)
+        local enemyCount = 1
+        for enemyName, enemySpawnInfo in pairs(self.levels[self.currentLvl].enemies) do
+            -- if enemy on hitlist
+            if enemySpawnInfo.killToWin then
+                -- let background be transparent black
+                love.graphics.setColor(0, 0, 0, 0.5)
+                love.graphics.rectangle(
+                    "fill",
+                    self.media.hudPos.counterX,
+                    self.media.hudPos.counterY * enemyCount,
+                    self.media.hud.brown:getWidth(),
+                    self.media.hud.brown:getHeight()
+                )
+                love.graphics.setColor(255, 255, 255, 255)
+                love.graphics.draw(
+                    self.media.hud.brown,
+                    self.media.hudPos.counterX,
+                    self.media.hudPos.counterY * enemyCount
+                )
+                love.graphics.draw(
+                    self.statsRaw[enemyName].media.img,
+                    self.statsRaw[enemyName].portrait,
+                    self.media.hudPos.counterX,
+                    self.media.hudPos.counterY * enemyCount
+                )
+                love.graphics.setFont(WORLD.media.bigfantasyfont)
+                love.graphics.printf(
+                    enemySpawnInfo.killCounter .. "/" .. enemySpawnInfo.killGoal,
+                    self.media.hudPos.counterX + self.media.hud.brown:getWidth() + 5,
+                    self.media.hudPos.counterY * enemyCount,
+                    (500 - (0.8 * self.media.hudPos.counterX + 0.8 * self.media.hud.brown:getWidth())),
+                    "center"
+                )
+                enemyCount = enemyCount + 1
+            end
+        end
+        enemyCount = 0
+        love.graphics.pop()
     end,
     drawScreenShake = function(self, min, max)
         local xShift = love.math.random(min, max)
