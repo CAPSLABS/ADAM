@@ -12,6 +12,26 @@ function Shallowcopy(orig)
   return copy
 end
 
+local open = io.open
+
+function Read_file(path)
+  local file = open(path, "rb") -- r read mode and b binary mode
+  if not file then
+    return nil
+  end
+  local content = file:read "*a" -- *a or *all reads the whole file
+  file:close()
+  return content
+end
+
+function Split(s)
+  local tab = {}
+  for chunk in string.gmatch(s, "[^\n]+") do
+    table.insert(tab, chunk)
+  end
+  return tab
+end
+
 function DrawPerformance()
   love.graphics.setFont(WORLD.media.defaultfont)
   love.graphics.print("FPS: " .. tostring(love.timer.getFPS()), 10, 10)

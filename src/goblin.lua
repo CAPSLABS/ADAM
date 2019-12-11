@@ -42,6 +42,7 @@ return {
         return baby
     end,
     getHit = function(self, dmg)
+        STORY:printNextLine()
         if not self.gotHit then
             self.gotHit = true
             self.hp = self.hp - dmg
