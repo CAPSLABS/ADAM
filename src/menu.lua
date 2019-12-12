@@ -51,6 +51,8 @@ return {
                 InitGame(2)
             elseif love.keyboard.isDown("s") then
                 GAMESTATE = 4
+            elseif love.keyboard.isDown("l") then
+                GAMESTATE = 5
             end
         end
     end,

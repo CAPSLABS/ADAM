@@ -43,7 +43,8 @@ return {
             space = "assets/hud/controls/space.png",
             silver = "assets/hud/silver.png",
             gold = "assets/hud/gold.png",
-            borderSmall = "assets/hud/border/border384.png"
+            borderSmall = "assets/hud/border/border384.png",
+            border = "assets/hud/border/border.png"
         },
         hudSkillBorder = {
             a = nil,
