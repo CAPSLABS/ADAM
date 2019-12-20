@@ -90,7 +90,6 @@ return {
             mapPath = "ebene1tilemap",
             enemies = {
                 goblin = {
-                    --TODO: somehow get picture of goblin
                     killCounter = 0, -- counts how many goblins have been murdered in this level
                     killGoal = 1, -- counts how many goblins we need to murder in this level
                     killToWin = true, -- defeating goblins is necessary to win
@@ -104,9 +103,17 @@ return {
                     end
                 }
             },
-            winType = "kill", -- We win by killing goblins
-            winCondition = function(self, dt)
-                if self.enemies.goblin.killCounter >= self.enemies.goblin.killGoal then
+            --winType = "kill", -- We win by killing goblins
+            winType = "endure",
+            runtimeGoal = 5,
+            --winCondition = function(self, dt)
+            --    if self.enemies.goblin.killCounter >= self.enemies.goblin.killGoal then
+            --        return true
+            --    end
+            --    return false
+            --end
+            winCondition = function(self, runtime, dt)
+                if runtime >= self.runtimeGoal then
                     return true
                 end
                 return false
@@ -143,7 +150,7 @@ return {
                 }
             },
             winType = "kill", -- We win by killing zombies only
-            winCondition = function(self, dt)
+            winCondition = function(self, runtime, dt)
                 if
                     self.enemies.goblin.killCounter >= self.enemies.goblin.killGoal and
                         self.enemies.zombie.killCounter >= self.enemies.zombie.killGoal
@@ -165,7 +172,7 @@ return {
                     end
                 }
             },
-            winCondition = function(self, dt)
+            winCondition = function(self, runtime, dt)
                 return false
             end
         }
@@ -422,7 +429,7 @@ return {
         end
     end,
     checkWinCondition = function(self, dt)
-        if self.levels[self.currentLvl]:winCondition(dt) and not self.wonLevel then
+        if self.levels[self.currentLvl]:winCondition(self.runtime, dt) and not self.wonLevel then
             -- set flag that we won
             self.wonLevel = true
             -- kill all remaining enemies
@@ -545,6 +552,7 @@ return {
         self:drawSkillBorders()
         self:drawMoney()
         self:drawKillCounters()
+        self:drawLevelTimer()
     end,
     drawSkills = function(self)
         if self.player.canBoom == true then
@@ -675,48 +683,80 @@ return {
         )
     end,
     drawKillCounters = function(self)
-        -- scale down the kill counter a little
-        local scaling = love.math.newTransform(0, 0, 0, 0.8, 0.8, 0, 0)
-        love.graphics.push()
-        love.graphics.applyTransform(scaling)
-        local enemyCount = 1
-        for enemyName, enemySpawnInfo in pairs(self.levels[self.currentLvl].enemies) do
-            -- if enemy on hitlist
-            if enemySpawnInfo.killToWin then
-                -- let background be transparent black
-                love.graphics.setColor(0, 0, 0, 0.5)
-                love.graphics.rectangle(
-                    "fill",
-                    self.media.hudPos.counterX,
-                    self.media.hudPos.counterY * enemyCount,
-                    self.media.hud.brown:getWidth(),
-                    self.media.hud.brown:getHeight()
-                )
-                love.graphics.setColor(255, 255, 255, 255)
-                love.graphics.draw(
-                    self.media.hud.brown,
-                    self.media.hudPos.counterX,
-                    self.media.hudPos.counterY * enemyCount
-                )
-                love.graphics.draw(
-                    self.statsRaw[enemyName].media.img,
-                    self.statsRaw[enemyName].portrait,
-                    self.media.hudPos.counterX,
-                    self.media.hudPos.counterY * enemyCount
-                )
-                love.graphics.setFont(WORLD.media.bigfantasyfont)
-                love.graphics.printf(
-                    enemySpawnInfo.killCounter .. "/" .. enemySpawnInfo.killGoal,
-                    self.media.hudPos.counterX + self.media.hud.brown:getWidth() + 5,
-                    self.media.hudPos.counterY * enemyCount,
-                    (500 - (0.8 * self.media.hudPos.counterX + 0.8 * self.media.hud.brown:getWidth())),
-                    "center"
-                )
-                enemyCount = enemyCount + 1
+        if self.levels[self.currentLvl].winType == "kill" then
+            -- scale down the kill counter a little
+            local scaling = love.math.newTransform(0, 0, 0, 0.8, 0.8, 0, 0)
+            love.graphics.push()
+            love.graphics.applyTransform(scaling)
+            local enemyCount = 1
+            for enemyName, enemySpawnInfo in pairs(self.levels[self.currentLvl].enemies) do
+                -- if enemy on hitlist
+                if enemySpawnInfo.killToWin then
+                    -- let background be transparent black
+                    love.graphics.setColor(0, 0, 0, 0.5)
+                    love.graphics.rectangle(
+                        "fill",
+                        self.media.hudPos.counterX,
+                        self.media.hudPos.counterY * enemyCount,
+                        self.media.hud.brown:getWidth(),
+                        self.media.hud.brown:getHeight()
+                    )
+                    -- reset black color
+                    love.graphics.setColor(255, 255, 255, 255)
+                    -- draw brown frame
+                    love.graphics.draw(
+                        self.media.hud.brown,
+                        self.media.hudPos.counterX,
+                        self.media.hudPos.counterY * enemyCount
+                    )
+                    -- draw enemy pic into frame
+                    love.graphics.draw(
+                        self.statsRaw[enemyName].media.img,
+                        self.statsRaw[enemyName].portrait,
+                        self.media.hudPos.counterX,
+                        self.media.hudPos.counterY * enemyCount
+                    )
+                    -- write killCounter
+                    love.graphics.setFont(WORLD.media.bigfantasyfont)
+                    love.graphics.printf(
+                        enemySpawnInfo.killCounter .. "/" .. enemySpawnInfo.killGoal,
+                        self.media.hudPos.counterX + self.media.hud.brown:getWidth() + 5,
+                        self.media.hudPos.counterY * enemyCount,
+                        (500 - (0.8 * self.media.hudPos.counterX + 0.8 * self.media.hud.brown:getWidth())),
+                        "center"
+                    )
+                    enemyCount = enemyCount + 1
+                end
             end
+            enemyCount = 0
+            love.graphics.pop()
         end
-        enemyCount = 0
-        love.graphics.pop()
+    end,
+    drawLevelTimer = function(self)
+        if self.levels[self.currentLvl].winType == "endure" then
+            -- scale down the kill counter a little, make it gradually more red until we reach zero
+            local scaling = love.math.newTransform(0, 0, 0, 0.8, 0.8, 0, 0)
+            love.graphics.push()
+            love.graphics.applyTransform(scaling)
+            love.graphics.setFont(WORLD.media.bigfantasyfont)
+            if self.runtime >= self.levels[self.currentLvl].runtimeGoal then
+                -- runtime goal reached
+                local time = DisplayTime(0)
+                love.graphics.printf(time, self.media.hudPos.counterX + 5, self.media.hudPos.counterY, 150, "left")
+            else
+                -- runtime goal not reached
+                love.graphics.setColor(
+                    1,
+                    1 - self.runtime / self.levels[self.currentLvl].runtimeGoal,
+                    1 - self.runtime / self.levels[self.currentLvl].runtimeGoal,
+                    1
+                )
+                local time = DisplayTime(self.levels[self.currentLvl].runtimeGoal - self.runtime)
+                love.graphics.printf(time, self.media.hudPos.counterX + 5, self.media.hudPos.counterY, 150, "left")
+                love.graphics.setColor(255, 255, 255, 255)
+            end
+            love.graphics.pop()
+        end
     end,
     drawScreenShake = function(self, min, max)
         local xShift = love.math.random(min, max)
