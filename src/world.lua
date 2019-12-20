@@ -199,8 +199,8 @@ return {
             )
             enemy.portrait =
                 love.graphics.newQuad(
-                0,
-                0,
+                enemy.media.imgWidth * enemy.portraitX,
+                enemy.media.imgHeight * enemy.portraitY,
                 enemy.media.imgWidth,
                 enemy.media.imgHeight,
                 enemy.media.img:getWidth(),

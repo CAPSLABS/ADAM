@@ -32,6 +32,9 @@ return {
         imgWidth = 64,
         imgHeight = 64
     },
+    portrait = nil,
+    portraitX = 0, -- x-th column in img for the portrait
+    portraitY = 2, -- y-th row in img for the portrait
     --instantiator:
     newSelf = function(self)
         local baby = Shallowcopy(self)
@@ -53,8 +56,14 @@ return {
         self.curAnim = "dying"
         if not WORLD.wonLevel then
             WORLD.player.money = WORLD.player.money + self.reward
-            WORLD.levels[WORLD.currentLvl].enemies.zombie.killCounter =
-                WORLD.levels[WORLD.currentLvl].enemies.zombie.killCounter + 1
+            if
+                WORLD.levels[WORLD.currentLvl].winType == "kill" and
+                    (WORLD.levels[WORLD.currentLvl].enemies.zombie.killCounter <
+                        WORLD.levels[WORLD.currentLvl].enemies.zombie.killGoal)
+             then
+                WORLD.levels[WORLD.currentLvl].enemies.zombie.killCounter =
+                    WORLD.levels[WORLD.currentLvl].enemies.zombie.killCounter + 1
+            end
         end
         self.anim = ANIMATE.newAnimation(self.media.imgGrid("1-6", 21), 0.3, "pauseAtEnd")
     end,

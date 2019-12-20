@@ -33,6 +33,8 @@ return {
         imgHeight = 64
     },
     portrait = nil,
+    portraitX = 0, -- x-th row in img for the portrait
+    portraitY = 0, -- y-th column in img for the portrait
     --instantiator:
     newSelf = function(self)
         local baby = Shallowcopy(self)
@@ -58,8 +60,14 @@ return {
         if WORLD.currentLvl ~= 3 then
             if not WORLD.wonLevel then
                 WORLD.player.money = WORLD.player.money + self.reward
-                WORLD.levels[WORLD.currentLvl].enemies.goblin.killCounter =
-                    WORLD.levels[WORLD.currentLvl].enemies.goblin.killCounter + 1
+                if
+                    WORLD.levels[WORLD.currentLvl].winType == "kill" and
+                        (WORLD.levels[WORLD.currentLvl].enemies.goblin.killCounter <
+                            WORLD.levels[WORLD.currentLvl].enemies.goblin.killGoal)
+                 then
+                    WORLD.levels[WORLD.currentLvl].enemies.goblin.killCounter =
+                        WORLD.levels[WORLD.currentLvl].enemies.goblin.killCounter + 1
+                end
             end
         end
     end,
