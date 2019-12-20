@@ -4,6 +4,7 @@ return {
     speed = 0.2,
     x = 0,
     y = 0,
+    level = 0,
     alive = true,
     reward = 3, --possibly function with variable reward?
     anim = nil,
@@ -36,7 +37,7 @@ return {
     portraitX = 0, -- x-th column in img for the portrait
     portraitY = 2, -- y-th row in img for the portrait
     --instantiator:
-    newSelf = function(self)
+    newSelf = function(self, level)
         local baby = Shallowcopy(self)
         baby.x = math.random(0, (WORLD.x - self.width)) -- substracting width avoids clipping out to the right
         baby.anim = ANIMATE.newAnimation(self.media.imgGrid("2-7", 7), 0.08, "pauseAtEnd")

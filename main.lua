@@ -35,6 +35,7 @@ function love.load()
     WORLD:loadEnemies()
     WORLD:loadMedia()
     WORLD:loadHud()
+    WORLD:loadItems()
 
     PLAYERRAW = require("src.player")
     WORLD.player = Shallowcopy(PLAYERRAW)
@@ -51,6 +52,7 @@ function InitGame(lvl)
     WORLD.cityHealth = 100
     WORLD.runtime = 0
     WORLD.enemies = {}
+    WORLD.drops = {}
     WORLD.wonLevel = false
     WORLD.currentLvl = lvl
     STORY:loadStory()
@@ -116,6 +118,7 @@ function love.draw(dt)
         WORLD:drawExplosionStuff(WORLD.player.x + 32, WORLD.player.y + 32)
         WORLD:drawEnemyStuff()
         WORLD:drawPlayerStuff()
+        WORLD:drawItemStuff()
         WORLD:drawHud()
         WORLD:drawWinScreen()
     elseif GAMESTATE == 3 then --GAME OVER

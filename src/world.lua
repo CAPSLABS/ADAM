@@ -2,6 +2,8 @@ return {
     player = nil,
     -- all enemies currently on the field
     enemies = {},
+    -- all dropped items currently on the field
+    drops = {},
     x = 32 * 15,
     y = 32 * 30,
     currentLvl = nil,
@@ -83,6 +85,9 @@ return {
             scaledHeight = 0,
             shakeMagnitude = 5
         }
+        --items = {
+        --    heart = "assets/hud/healthbar/heart_cropped.png"
+        --}
     },
     levels = {
         --level1
@@ -105,7 +110,7 @@ return {
             },
             --winType = "kill", -- We win by killing goblins
             winType = "endure",
-            runtimeGoal = 5,
+            runtimeGoal = 10,
             --winCondition = function(self, dt)
             --    if self.enemies.goblin.killCounter >= self.enemies.goblin.killGoal then
             --        return true
@@ -181,6 +186,9 @@ return {
         goblin = require("src.goblin"),
         zombie = require("src.zombie")
     },
+    itemsRaw = {
+        heart = require("src.items")
+    },
     ------------ LOADING --------------
 
     --enemies are expected to implement:
@@ -231,8 +239,11 @@ return {
         for key, imgPath in pairs(self.media.hud) do
             self.media.hud[key] = love.graphics.newImage(imgPath)
         end
-        --self.media.hud.boom = love.graphics.newImage(self.media.hud.boom)
-        --self.media.hud.boomUsed = love.graphics.newImage(self.media.hud.boomUsed)
+    end,
+    loadItems = function(self)
+        for key, item in pairs(self.itemsRaw) do
+            item.img = love.graphics.newImage(item.img)
+        end
     end,
     ------------ UPDATING --------------
 
@@ -245,6 +256,7 @@ return {
             enemy:update(dt)
             if not enemy.alive then
                 table.remove(self.enemies, i)
+                enemy:drop()
             end
         end
     end,
@@ -254,7 +266,7 @@ return {
             enemySpawnInfo.timer = enemySpawnInfo.timer - dt
             if enemySpawnInfo.timer <= 0 then
                 enemySpawnInfo.timerMax = enemySpawnInfo:spawnFct(self.runtime)
-                local newEnemy = self.statsRaw[enemyName]:newSelf()
+                local newEnemy = self.statsRaw[enemyName]:newSelf(self.currentLvl)
                 table.insert(self.enemies, newEnemy)
                 enemySpawnInfo.timer = enemySpawnInfo.timerMax
             end
@@ -310,86 +322,113 @@ return {
             InitGame(1)
         end
     end,
-    handleCollisions = function(self, dt)
-        for i, enemy in ipairs(self.enemies) do
-            if not enemy.gotHit and enemy.curAnim ~= "dying" then
-                -- boom collision
-                for j, boom in ipairs(self.player.booms) do
-                    if
-                        CheckCollision(
-                            enemy:getLeftX(),
-                            enemy:getTopY(),
-                            enemy.width,
-                            enemy.height,
-                            boom.x,
-                            boom.y,
-                            48,
-                            48
-                        )
-                     then
-                        enemy:getHit(boom.dmg, dt)
-                        table.remove(self.player.booms, j)
-                    end
-                end
-                -- check fire collision:
-                for j, fire in ipairs(self.player.fires) do
-                    if
-                        CheckCollision(
-                            enemy:getLeftX(),
-                            enemy:getTopY(),
-                            enemy.width,
-                            enemy.height,
-                            fire.x,
-                            fire.y,
-                            fire.width,
-                            fire.height
-                        )
-                     then
-                        enemy:getHit(fire.dmg, dt)
-                    end
-                end
-                -- check sonic rings collision
-                for j, ring in ipairs(self.player.sonicRings) do
-                    if
-                        CheckCollision(
-                            enemy:getLeftX(),
-                            enemy:getTopY(),
-                            enemy.width,
-                            enemy.height,
-                            ring.x - ring.radius,
-                            ring.y - ring.radius,
-                            2 * ring.radius,
-                            2 * ring.radius
-                        )
-                     then
-                        enemy:getHit(ring.dmg, dt)
-                    end
-                end
-                -- check player collision:
-                if
-                    CheckCollision(
-                        enemy:getLeftX(),
-                        enemy:getTopY(),
-                        enemy.width,
-                        enemy.height,
-                        self.player:getLeftX(),
-                        self.player:getTopY(),
-                        self.player.width,
-                        self.player.height
-                    )
-                 then
-                    if (self.player.inSonic) then
-                        enemy:die()
-                    else
-                        self.player.hearts = self.player.hearts - 1
-                        enemy:die()
-                        if self.player.hearts == 0 then
-                            self.player:die()
-                        end
-                    end
+    checkBoomCollision = function(self, enemy, dt)
+        -- boom collision
+        for j, boom in ipairs(self.player.booms) do
+            if CheckCollision(enemy:getLeftX(), enemy:getTopY(), enemy.width, enemy.height, boom.x, boom.y, 48, 48) then
+                enemy:getHit(boom.dmg, dt)
+                table.remove(self.player.booms, j)
+            end
+        end
+    end,
+    checkFireCollision = function(self, enemy, dt)
+        -- check fire collision:
+        for j, fire in ipairs(self.player.fires) do
+            if
+                CheckCollision(
+                    enemy:getLeftX(),
+                    enemy:getTopY(),
+                    enemy.width,
+                    enemy.height,
+                    fire.x,
+                    fire.y,
+                    fire.width,
+                    fire.height
+                )
+             then
+                enemy:getHit(fire.dmg, dt)
+            end
+        end
+    end,
+    checkSonicRingCollision = function(self, enemy, dt)
+        -- check sonic rings collision
+        for j, ring in ipairs(self.player.sonicRings) do
+            if
+                CheckCollision(
+                    enemy:getLeftX(),
+                    enemy:getTopY(),
+                    enemy.width,
+                    enemy.height,
+                    ring.x - ring.radius,
+                    ring.y - ring.radius,
+                    2 * ring.radius,
+                    2 * ring.radius
+                )
+             then
+                enemy:getHit(ring.dmg, dt)
+            end
+        end
+    end,
+    checkPlayerCollision = function(self, enemy, dt)
+        -- check player collision:
+        if
+            CheckCollision(
+                enemy:getLeftX(),
+                enemy:getTopY(),
+                enemy.width,
+                enemy.height,
+                self.player:getLeftX(),
+                self.player:getTopY(),
+                self.player.width,
+                self.player.height
+            )
+         then
+            enemy:die()
+            if not self.player.inSonic then
+                self.player.hearts = self.player.hearts - 1
+                if self.player.hearts == 0 then
+                    self.player:die()
                 end
             end
         end
+    end,
+    checkItemCollision = function(self, dt)
+        for i, item in ipairs(self.drops) do
+            -- check for collision with player
+            if
+                CheckCollision(
+                    item.x,
+                    item.y,
+                    item.img:getWidth(),
+                    item.img:getHeight(),
+                    self.player:getLeftX(),
+                    self.player:getTopY(),
+                    self.player.width,
+                    self.player.height
+                )
+             then
+                item:effect()
+                table.remove(self.drops, i)
+            end
+            -- boom collision
+            for j, boom in ipairs(self.player.booms) do
+                if CheckCollision(item.x, item.y, item.img:getWidth(), item.img:getHeight(), boom.x, boom.y, 48, 48) then
+                    item:effect()
+                    table.remove(self.drops, i)
+                end
+            end
+        end
+    end,
+    handleCollisions = function(self, dt)
+        for i, enemy in ipairs(self.enemies) do
+            if not enemy.gotHit and enemy.curAnim ~= "dying" then
+                self:checkBoomCollision(enemy, dt)
+                self:checkFireCollision(enemy, dt)
+                self:checkSonicRingCollision(enemy, dt)
+                self:checkPlayerCollision(enemy, dt)
+            end
+        end
+        self:checkItemCollision(dt)
     end,
     checkPlayerActionInput = function(self, dt)
         -- MOVEMENT
@@ -509,6 +548,11 @@ return {
             else
                 enemy.anim:draw(enemy.media.img, enemy.x, enemy.y)
             end
+        end
+    end,
+    drawItemStuff = function(self)
+        for i, item in ipairs(self.drops) do
+            love.graphics.draw(item.img, item.x, item.y)
         end
     end,
     drawSkillBorders = function(self)

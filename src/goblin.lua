@@ -4,6 +4,7 @@ return {
     speed = 0.7,
     x = 0,
     y = 0,
+    level = 0, -- level in which the goblin was spawned
     alive = true,
     reward = 1, --possibly function with variable reward?
     anim = nil,
@@ -36,11 +37,12 @@ return {
     portraitX = 0, -- x-th row in img for the portrait
     portraitY = 0, -- y-th column in img for the portrait
     --instantiator:
-    newSelf = function(self)
+    newSelf = function(self, level)
         local baby = Shallowcopy(self)
         baby.x = math.random(-self:getLeftX(), (WORLD.x - self:getRightX())) -- substracting width avoids clipping out to the right
         baby.anim = ANIMATE.newAnimation(self.media.imgGrid("1-7", 1), 0.07)
         baby.curAnim = "walking"
+        baby.level = level
         return baby
     end,
     getHit = function(self, dmg)
@@ -50,6 +52,17 @@ return {
             self.hp = self.hp - dmg
             if (self.hp <= 0) and (self.curAnim ~= "dying") then --and (self.curAnim == "walking") then
                 self:die()
+            end
+        end
+    end,
+    drop = function(self)
+        local randomNumber = math.random()
+        if self.level == 1 then
+            if randomNumber <= 0.9 then
+                local heart = Shallowcopy(WORLD.itemsRaw.heart)
+                heart.x = self.x
+                heart.y = self.y
+                table.insert(WORLD.drops, heart)
             end
         end
     end,
@@ -76,7 +89,6 @@ return {
         if (self.anim.status == "paused") and (self.curAnim == "dying") then
             self.alive = false
         elseif self.curAnim == "dying" then
-            --print("goblin:update, was not paused and dying, so i am slowly")
             self.y = self.y + (self.speed * 50 * dt)
         elseif self.curAnim == "walking" then
             self.y = self.y + (self.speed * 200 * dt)
