@@ -4,6 +4,7 @@ return {
     speed = 0.2,
     x = 0,
     y = 0,
+    level = 0,
     alive = true,
     reward = 3, --possibly function with variable reward?
     anim = nil,
@@ -32,8 +33,11 @@ return {
         imgWidth = 64,
         imgHeight = 64
     },
+    portrait = nil,
+    portraitX = 0, -- x-th column in img for the portrait
+    portraitY = 2, -- y-th row in img for the portrait
     --instantiator:
-    newSelf = function(self)
+    newSelf = function(self, level)
         local baby = Shallowcopy(self)
         baby.x = math.random(0, (WORLD.x - self.width)) -- substracting width avoids clipping out to the right
         baby.anim = ANIMATE.newAnimation(self.media.imgGrid("2-7", 7), 0.08, "pauseAtEnd")
@@ -53,8 +57,14 @@ return {
         self.curAnim = "dying"
         if not WORLD.wonLevel then
             WORLD.player.money = WORLD.player.money + self.reward
-            WORLD.levels[WORLD.currentLvl].enemies.zombie.killCounter =
-                WORLD.levels[WORLD.currentLvl].enemies.zombie.killCounter + 1
+            if
+                WORLD.levels[WORLD.currentLvl].winType == "kill" and
+                    (WORLD.levels[WORLD.currentLvl].enemies.zombie.killCounter <
+                        WORLD.levels[WORLD.currentLvl].enemies.zombie.killGoal)
+             then
+                WORLD.levels[WORLD.currentLvl].enemies.zombie.killCounter =
+                    WORLD.levels[WORLD.currentLvl].enemies.zombie.killCounter + 1
+            end
         end
         self.anim = ANIMATE.newAnimation(self.media.imgGrid("1-6", 21), 0.3, "pauseAtEnd")
     end,

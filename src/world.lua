@@ -2,6 +2,8 @@ return {
     player = nil,
     -- all enemies currently on the field
     enemies = {},
+    -- all dropped items currently on the field
+    drops = {},
     x = 32 * 15,
     y = 32 * 30,
     currentLvl = nil,
@@ -83,6 +85,9 @@ return {
             scaledHeight = 0,
             shakeMagnitude = 5
         }
+        --items = {
+        --    heart = "assets/hud/healthbar/heart_cropped.png"
+        --}
     },
     levels = {
         --level1
@@ -90,7 +95,6 @@ return {
             mapPath = "ebene1tilemap",
             enemies = {
                 goblin = {
-                    --TODO: somehow get picture of goblin
                     killCounter = 0, -- counts how many goblins have been murdered in this level
                     killGoal = 1, -- counts how many goblins we need to murder in this level
                     killToWin = true, -- defeating goblins is necessary to win
@@ -104,9 +108,17 @@ return {
                     end
                 }
             },
-            winType = "kill", -- We win by killing goblins
-            winCondition = function(self, dt)
-                if self.enemies.goblin.killCounter >= self.enemies.goblin.killGoal then
+            --winType = "kill", -- We win by killing goblins
+            winType = "endure",
+            runtimeGoal = 10,
+            --winCondition = function(self, dt)
+            --    if self.enemies.goblin.killCounter >= self.enemies.goblin.killGoal then
+            --        return true
+            --    end
+            --    return false
+            --end
+            winCondition = function(self, runtime, dt)
+                if runtime >= self.runtimeGoal then
                     return true
                 end
                 return false
@@ -143,7 +155,7 @@ return {
                 }
             },
             winType = "kill", -- We win by killing zombies only
-            winCondition = function(self, dt)
+            winCondition = function(self, runtime, dt)
                 if
                     self.enemies.goblin.killCounter >= self.enemies.goblin.killGoal and
                         self.enemies.zombie.killCounter >= self.enemies.zombie.killGoal
@@ -165,7 +177,7 @@ return {
                     end
                 }
             },
-            winCondition = function(self, dt)
+            winCondition = function(self, runtime, dt)
                 return false
             end
         }
@@ -173,6 +185,9 @@ return {
     statsRaw = {
         goblin = require("src.goblin"),
         zombie = require("src.zombie")
+    },
+    itemsRaw = {
+        heart = require("src.items")
     },
     ------------ LOADING --------------
 
@@ -192,8 +207,8 @@ return {
             )
             enemy.portrait =
                 love.graphics.newQuad(
-                0,
-                0,
+                enemy.media.imgWidth * enemy.portraitX,
+                enemy.media.imgHeight * enemy.portraitY,
                 enemy.media.imgWidth,
                 enemy.media.imgHeight,
                 enemy.media.img:getWidth(),
@@ -224,8 +239,11 @@ return {
         for key, imgPath in pairs(self.media.hud) do
             self.media.hud[key] = love.graphics.newImage(imgPath)
         end
-        --self.media.hud.boom = love.graphics.newImage(self.media.hud.boom)
-        --self.media.hud.boomUsed = love.graphics.newImage(self.media.hud.boomUsed)
+    end,
+    loadItems = function(self)
+        for key, item in pairs(self.itemsRaw) do
+            item.img = love.graphics.newImage(item.img)
+        end
     end,
     ------------ UPDATING --------------
 
@@ -238,6 +256,7 @@ return {
             enemy:update(dt)
             if not enemy.alive then
                 table.remove(self.enemies, i)
+                enemy:drop()
             end
         end
     end,
@@ -247,7 +266,7 @@ return {
             enemySpawnInfo.timer = enemySpawnInfo.timer - dt
             if enemySpawnInfo.timer <= 0 then
                 enemySpawnInfo.timerMax = enemySpawnInfo:spawnFct(self.runtime)
-                local newEnemy = self.statsRaw[enemyName]:newSelf()
+                local newEnemy = self.statsRaw[enemyName]:newSelf(self.currentLvl)
                 table.insert(self.enemies, newEnemy)
                 enemySpawnInfo.timer = enemySpawnInfo.timerMax
             end
@@ -304,86 +323,113 @@ return {
             InitGame(1, 6)
         end
     end,
-    handleCollisions = function(self, dt)
-        for i, enemy in ipairs(self.enemies) do
-            if not enemy.gotHit and enemy.curAnim ~= "dying" then
-                -- boom collision
-                for j, boom in ipairs(self.player.booms) do
-                    if
-                        CheckCollision(
-                            enemy:getLeftX(),
-                            enemy:getTopY(),
-                            enemy.width,
-                            enemy.height,
-                            boom.x,
-                            boom.y,
-                            48,
-                            48
-                        )
-                     then
-                        enemy:getHit(boom.dmg, dt)
-                        table.remove(self.player.booms, j)
-                    end
-                end
-                -- check fire collision:
-                for j, fire in ipairs(self.player.fires) do
-                    if
-                        CheckCollision(
-                            enemy:getLeftX(),
-                            enemy:getTopY(),
-                            enemy.width,
-                            enemy.height,
-                            fire.x,
-                            fire.y,
-                            fire.width,
-                            fire.height
-                        )
-                     then
-                        enemy:getHit(fire.dmg, dt)
-                    end
-                end
-                -- check sonic rings collision
-                for j, ring in ipairs(self.player.sonicRings) do
-                    if
-                        CheckCollision(
-                            enemy:getLeftX(),
-                            enemy:getTopY(),
-                            enemy.width,
-                            enemy.height,
-                            ring.x - ring.radius,
-                            ring.y - ring.radius,
-                            2 * ring.radius,
-                            2 * ring.radius
-                        )
-                     then
-                        enemy:getHit(ring.dmg, dt)
-                    end
-                end
-                -- check player collision:
-                if
-                    CheckCollision(
-                        enemy:getLeftX(),
-                        enemy:getTopY(),
-                        enemy.width,
-                        enemy.height,
-                        self.player:getLeftX(),
-                        self.player:getTopY(),
-                        self.player.width,
-                        self.player.height
-                    )
-                 then
-                    if (self.player.inSonic) then
-                        enemy:die()
-                    else
-                        self.player.hearts = self.player.hearts - 1
-                        enemy:die()
-                        if self.player.hearts == 0 then
-                            self.player:die()
-                        end
-                    end
+    checkBoomCollision = function(self, enemy, dt)
+        -- boom collision
+        for j, boom in ipairs(self.player.booms) do
+            if CheckCollision(enemy:getLeftX(), enemy:getTopY(), enemy.width, enemy.height, boom.x, boom.y, 48, 48) then
+                enemy:getHit(boom.dmg, dt)
+                table.remove(self.player.booms, j)
+            end
+        end
+    end,
+    checkFireCollision = function(self, enemy, dt)
+        -- check fire collision:
+        for j, fire in ipairs(self.player.fires) do
+            if
+                CheckCollision(
+                    enemy:getLeftX(),
+                    enemy:getTopY(),
+                    enemy.width,
+                    enemy.height,
+                    fire.x,
+                    fire.y,
+                    fire.width,
+                    fire.height
+                )
+             then
+                enemy:getHit(fire.dmg, dt)
+            end
+        end
+    end,
+    checkSonicRingCollision = function(self, enemy, dt)
+        -- check sonic rings collision
+        for j, ring in ipairs(self.player.sonicRings) do
+            if
+                CheckCollision(
+                    enemy:getLeftX(),
+                    enemy:getTopY(),
+                    enemy.width,
+                    enemy.height,
+                    ring.x - ring.radius,
+                    ring.y - ring.radius,
+                    2 * ring.radius,
+                    2 * ring.radius
+                )
+             then
+                enemy:getHit(ring.dmg, dt)
+            end
+        end
+    end,
+    checkPlayerCollision = function(self, enemy, dt)
+        -- check player collision:
+        if
+            CheckCollision(
+                enemy:getLeftX(),
+                enemy:getTopY(),
+                enemy.width,
+                enemy.height,
+                self.player:getLeftX(),
+                self.player:getTopY(),
+                self.player.width,
+                self.player.height
+            )
+         then
+            enemy:die()
+            if not self.player.inSonic then
+                self.player.hearts = self.player.hearts - 1
+                if self.player.hearts == 0 then
+                    self.player:die()
                 end
             end
         end
+    end,
+    checkItemCollision = function(self, dt)
+        for i, item in ipairs(self.drops) do
+            -- check for collision with player
+            if
+                CheckCollision(
+                    item.x,
+                    item.y,
+                    item.img:getWidth(),
+                    item.img:getHeight(),
+                    self.player:getLeftX(),
+                    self.player:getTopY(),
+                    self.player.width,
+                    self.player.height
+                )
+             then
+                item:effect()
+                table.remove(self.drops, i)
+            end
+            -- boom collision
+            for j, boom in ipairs(self.player.booms) do
+                if CheckCollision(item.x, item.y, item.img:getWidth(), item.img:getHeight(), boom.x, boom.y, 48, 48) then
+                    item:effect()
+                    table.remove(self.drops, i)
+                end
+            end
+        end
+    end,
+    handleCollisions = function(self, dt)
+        for i, enemy in ipairs(self.enemies) do
+            if not enemy.gotHit and enemy.curAnim ~= "dying" then
+                self:checkBoomCollision(enemy, dt)
+                self:checkFireCollision(enemy, dt)
+                self:checkSonicRingCollision(enemy, dt)
+                self:checkPlayerCollision(enemy, dt)
+            end
+        end
+        self:checkItemCollision(dt)
     end,
     checkPlayerActionInput = function(self, dt)
         -- MOVEMENT
@@ -423,7 +469,7 @@ return {
         end
     end,
     checkWinCondition = function(self, dt)
-        if self.levels[self.currentLvl]:winCondition(dt) and not self.wonLevel then
+        if self.levels[self.currentLvl]:winCondition(self.runtime, dt) and not self.wonLevel then
             -- set flag that we won
             self.wonLevel = true
             -- kill all remaining enemies
@@ -505,6 +551,11 @@ return {
             end
         end
     end,
+    drawItemStuff = function(self)
+        for i, item in ipairs(self.drops) do
+            love.graphics.draw(item.img, item.x, item.y)
+        end
+    end,
     drawSkillBorders = function(self)
         if self.media.hudSkillBorder.a then
             love.graphics.draw(self.media.hudSkillBorder.a, self.media.hudPos.xOffset, self.media.hudPos.yOffset)
@@ -546,6 +597,7 @@ return {
         self:drawSkillBorders()
         self:drawMoney()
         self:drawKillCounters()
+        self:drawLevelTimer()
     end,
     drawSkills = function(self)
         if self.player.canBoom == true then
@@ -676,48 +728,80 @@ return {
         )
     end,
     drawKillCounters = function(self)
-        -- scale down the kill counter a little
-        local scaling = love.math.newTransform(0, 0, 0, 0.8, 0.8, 0, 0)
-        love.graphics.push()
-        love.graphics.applyTransform(scaling)
-        local enemyCount = 1
-        for enemyName, enemySpawnInfo in pairs(self.levels[self.currentLvl].enemies) do
-            -- if enemy on hitlist
-            if enemySpawnInfo.killToWin then
-                -- let background be transparent black
-                love.graphics.setColor(0, 0, 0, 0.5)
-                love.graphics.rectangle(
-                    "fill",
-                    self.media.hudPos.counterX,
-                    self.media.hudPos.counterY * enemyCount,
-                    self.media.hud.brown:getWidth(),
-                    self.media.hud.brown:getHeight()
-                )
-                love.graphics.setColor(255, 255, 255, 255)
-                love.graphics.draw(
-                    self.media.hud.brown,
-                    self.media.hudPos.counterX,
-                    self.media.hudPos.counterY * enemyCount
-                )
-                love.graphics.draw(
-                    self.statsRaw[enemyName].media.img,
-                    self.statsRaw[enemyName].portrait,
-                    self.media.hudPos.counterX,
-                    self.media.hudPos.counterY * enemyCount
-                )
-                love.graphics.setFont(WORLD.media.bigfantasyfont)
-                love.graphics.printf(
-                    enemySpawnInfo.killCounter .. "/" .. enemySpawnInfo.killGoal,
-                    self.media.hudPos.counterX + self.media.hud.brown:getWidth() + 5,
-                    self.media.hudPos.counterY * enemyCount,
-                    (500 - (0.8 * self.media.hudPos.counterX + 0.8 * self.media.hud.brown:getWidth())),
-                    "center"
-                )
-                enemyCount = enemyCount + 1
+        if self.levels[self.currentLvl].winType == "kill" then
+            -- scale down the kill counter a little
+            local scaling = love.math.newTransform(0, 0, 0, 0.8, 0.8, 0, 0)
+            love.graphics.push()
+            love.graphics.applyTransform(scaling)
+            local enemyCount = 1
+            for enemyName, enemySpawnInfo in pairs(self.levels[self.currentLvl].enemies) do
+                -- if enemy on hitlist
+                if enemySpawnInfo.killToWin then
+                    -- let background be transparent black
+                    love.graphics.setColor(0, 0, 0, 0.5)
+                    love.graphics.rectangle(
+                        "fill",
+                        self.media.hudPos.counterX,
+                        self.media.hudPos.counterY * enemyCount,
+                        self.media.hud.brown:getWidth(),
+                        self.media.hud.brown:getHeight()
+                    )
+                    -- reset black color
+                    love.graphics.setColor(255, 255, 255, 255)
+                    -- draw brown frame
+                    love.graphics.draw(
+                        self.media.hud.brown,
+                        self.media.hudPos.counterX,
+                        self.media.hudPos.counterY * enemyCount
+                    )
+                    -- draw enemy pic into frame
+                    love.graphics.draw(
+                        self.statsRaw[enemyName].media.img,
+                        self.statsRaw[enemyName].portrait,
+                        self.media.hudPos.counterX,
+                        self.media.hudPos.counterY * enemyCount
+                    )
+                    -- write killCounter
+                    love.graphics.setFont(WORLD.media.bigfantasyfont)
+                    love.graphics.printf(
+                        enemySpawnInfo.killCounter .. "/" .. enemySpawnInfo.killGoal,
+                        self.media.hudPos.counterX + self.media.hud.brown:getWidth() + 5,
+                        self.media.hudPos.counterY * enemyCount,
+                        (500 - (0.8 * self.media.hudPos.counterX + 0.8 * self.media.hud.brown:getWidth())),
+                        "center"
+                    )
+                    enemyCount = enemyCount + 1
+                end
             end
+            enemyCount = 0
+            love.graphics.pop()
         end
-        enemyCount = 0
-        love.graphics.pop()
+    end,
+    drawLevelTimer = function(self)
+        if self.levels[self.currentLvl].winType == "endure" then
+            -- scale down the kill counter a little, make it gradually more red until we reach zero
+            local scaling = love.math.newTransform(0, 0, 0, 0.8, 0.8, 0, 0)
+            love.graphics.push()
+            love.graphics.applyTransform(scaling)
+            love.graphics.setFont(WORLD.media.bigfantasyfont)
+            if self.runtime >= self.levels[self.currentLvl].runtimeGoal then
+                -- runtime goal reached
+                local time = DisplayTime(0)
+                love.graphics.printf(time, self.media.hudPos.counterX + 5, self.media.hudPos.counterY, 150, "left")
+            else
+                -- runtime goal not reached
+                love.graphics.setColor(
+                    1,
+                    1 - self.runtime / self.levels[self.currentLvl].runtimeGoal,
+                    1 - self.runtime / self.levels[self.currentLvl].runtimeGoal,
+                    1
+                )
+                local time = DisplayTime(self.levels[self.currentLvl].runtimeGoal - self.runtime)
+                love.graphics.printf(time, self.media.hudPos.counterX + 5, self.media.hudPos.counterY, 150, "left")
+                love.graphics.setColor(255, 255, 255, 255)
+            end
+            love.graphics.pop()
+        end
     end,
     drawScreenShake = function(self, min, max)
         local xShift = love.math.random(min, max)

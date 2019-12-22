@@ -2,6 +2,7 @@ return {
     -- basic stats:
     alive = true,
     hearts = 3,
+    maxHearts = 3,
     money = 0,
     speed = 200,
     --the approximate width and height of the character (smaller than image)
