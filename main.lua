@@ -18,7 +18,7 @@ ANIMATE = require "src.anim8"
 DEBUG = true
 --DEBUG = false
 
---1=menu, 2=game, 3=gameOver, 4=shop, 5=story
+--1=menu, 2=game, 3=gameOver, 4=shop, 5=explosion, 6 = story
 GAMESTATES = {1, 2, 3, 4, 5}
 GAMESTATE = GAMESTATES[1]
 ------------ LOADING --------------
@@ -28,7 +28,7 @@ function love.load()
     MENU = require("src.menu")
     SHOP = require("src.shop")
     STORY = require("src.story")
-    WORLD.currentLvl = 1
+    WORLD.currentLvl = 3 --this should point to menu (3)
     --make sure this points to last level in WORLD, which is MENU
     _G.map = LoadTiledMap("assets/tile/", WORLD.levels[WORLD.currentLvl].mapPath)
 
@@ -46,13 +46,13 @@ function love.load()
     MENU:loadMenuSounds()
 end
 
-function InitGame(lvl)
-    GAMESTATE = 2
+function InitGame(lvl, gamestate)
     WORLD.cityHealth = 100
     WORLD.runtime = 0
     WORLD.enemies = {}
     WORLD.wonLevel = false
     WORLD.currentLvl = lvl
+    GAMESTATE = gamestate
     STORY:loadStory()
     _G.map = LoadTiledMap("assets/tile/", WORLD.levels[lvl].mapPath)
 end
@@ -95,6 +95,8 @@ function love.update(dt)
         WORLD:spawnEnemies(dt)
         WORLD:updateEnemies(dt)
         WORLD:updateExplosion(dt, 240, 850, WORLD.media["explosion"].maxRuntime)
+    elseif GAMESTATE == 6 then --STORY
+        STORY:updateStory(dt)
     end
 end
 
@@ -130,6 +132,10 @@ function love.draw(dt)
         SHOP:broUBroke()
         SUIT.draw()
         SHOP:drawShopShit()
+    elseif GAMESTATE == 6 then
+        love.graphics.setFont(WORLD.media.fantasyfont)
+        _G.map:draw()
+        STORY:drawStory()
     end
 
     if DEBUG then
@@ -139,5 +145,14 @@ function love.draw(dt)
         else
             WORLD:drawHitBoxes(WORLD.player.x + 32, WORLD.player.y + 32)
         end
+    end
+end
+
+function love.keyreleased(key)
+    if key == "escape" then
+        love.event.quit()
+    end
+    if GAMESTATE == 6 then
+        STORY:keyUpdate(key)
     end
 end

@@ -26,6 +26,7 @@ return {
             love.graphics.print(" Press 1 to play only level 1!", 10, 740)
             love.graphics.print(" Press 2 to play only level 2!", 10, 760)
             love.graphics.print(" Press S to open the shop!", 10, 780)
+            love.graphics.print(" Press 6 to start the STORY!", 10, 800)
         else
             love.graphics.setFont(WORLD.media.bigfantasyfont)
             love.graphics.print("A - wesome", 115, 250)
@@ -46,13 +47,15 @@ return {
         end
         if DEBUG == true then
             if love.keyboard.isDown("1") then
-                InitGame(1)
+                InitGame(1, 2)
             elseif love.keyboard.isDown("2") then
-                InitGame(2)
+                InitGame(2, 2)
             elseif love.keyboard.isDown("s") then
                 GAMESTATE = 4
             elseif love.keyboard.isDown("l") then
                 GAMESTATE = 5
+            elseif love.keyboard.isDown("6") then
+                InitGame(1, 6)
             end
         end
     end,
