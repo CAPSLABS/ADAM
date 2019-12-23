@@ -317,9 +317,10 @@ return {
         end
     end,
     checkStartGame = function(self)
-        --make sure this points to the last level, menu!
+        --make sure this points to the last level, menu
+        print(self.currentLvl)
         if self.currentLvl == 3 then
-            InitGame(1)
+            InitGame(1, 6)
         end
     end,
     checkBoomCollision = function(self, enemy, dt)
