@@ -58,7 +58,7 @@ return {
         local randomNumber = math.random()
         if self.level == 1 then
             if randomNumber <= 0.9 then
-                local heart = Shallowcopy(WORLD.itemsRaw.heart)
+                local heart = Shallowcopy(WORLD.itemsRaw.items["heart"])
                 heart.x = self.x
                 heart.y = self.y
                 table.insert(WORLD.drops, heart)

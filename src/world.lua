@@ -187,7 +187,7 @@ return {
         zombie = require("src.zombie")
     },
     itemsRaw = {
-        heart = require("src.items")
+        items = require("src.items")
     },
     ------------ LOADING --------------
 
@@ -241,7 +241,7 @@ return {
         end
     end,
     loadItems = function(self)
-        for key, item in pairs(self.itemsRaw) do
+        for key, item in pairs(self.itemsRaw.items) do
             item.img = love.graphics.newImage(item.img)
         end
     end,
