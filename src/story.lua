@@ -60,7 +60,7 @@ return {
     loadStory = function(self)
         if WORLD.currentLvl == 1 then
             local raw = Read_file("assets/text/01_village.txt")
-            self.storyText = Split(raw)
+            self.storyText = Split(raw, "\n")
             self:loadSpeakerObjects()
             self:processNextLine()
         end
@@ -104,11 +104,24 @@ return {
         self.currentLine = line
     end,
     parse = function(self, line)
-        --self:addSpeaker(self.cast.lilith, "left")
-        self:addSpeaker(self.cast.villager, "left")
-        self:addSpeaker(self.cast.adam, "right")
-        self:addSpeaker(self.cast.lilith, "right")
-        self.parsed = true --causes the next line to be auto read-in
+        local instructions = Split(line, "~")
+        local character = instructions[1]
+        local action = instructions[2]
+        if action == "LEFT" then
+            self:addSpeaker(self.cast[character], "left")
+            self.parsed = true --causes the next line to be auto read-in
+        elseif action == "RIGHT" then
+            self:addSpeaker(self.cast[character], "right")
+            self.parsed = true --causes the next line to be auto read-in
+        elseif action == "TURN" then
+            self.cast[character]:changeDirection()
+            self.parsed = true --causes the next line to be auto read-in
+        elseif action == "EXIT" then
+            self:removeSpeakers(self.cast[character])
+            self.parsed = true --causes the next line to be auto read-in
+        elseif action == "NEXTLEVEL" then
+            self:startLevel()
+        end
     end,
     addSpeaker = function(self, speaker, side)
         --todo make "slide in from side" animation
@@ -162,5 +175,16 @@ return {
         else
             table.remove(self.rightSpeakers, speaker.portrait)
         end
+    end,
+    startLevel = function(self)
+        self.leftSpeakers = {}
+        self.rightSpeakers = {}
+        WORLD.currentLvl = WORLD.currentLvl + 1
+        InitGame(WORLD.currentLvl, 2)
+    end,
+    startShopping = function(self)
+        self.leftSpeakers = {}
+        self.rightSpeakers = {}
+        InitGame(WORLD.currentLvl, 4)
     end
 }

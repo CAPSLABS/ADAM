@@ -1,4 +1,23 @@
 A quiet day in the village of our hero, ADAM. One morning, ADAM went to his grandmas attic and was excited to find a treasure chest.
-%ADAM%RIGHT
-Look what I've found! I can throw this plastic boomering by pressing A and then a copy reappears in my hands!
-Doesn't that pollute the environment? Oh, what is this?!
+~adam~RIGHT
+ADAM: Look what I've found! I can throw this plastic boomering by pressing A and then a copy reappears in my hands!
+~lilith~LEFT
+LILITH: Doesn't that pollute the environment?
+~lilith~TURN
+LILITH: Oh, what is this?!
+~lilith~EXIT
+~villager~LEFT
+VILLAGER: "ARGH! HELP! I am dying!"
+~lilith~RIGHT
+LILITH: "Is that the sound of a dying giraffe?"
+VILLAGER: "*clears throat* I am dying!!!"
+~none~NEXTLEVEL
+~adam~RIGHT
+ADAM: "Wow! That was close! I never thought I could be an Awesome Defender Action Murderer."
+~lilith~ 
+LILITH: "Wow! So much pollution! Did you find out why they attacked us?
+ADAM: "No. They just ran at us."
+LILITH: "Well, did you ask them?"
+ADAM: "No. And I am afraid there will be more."
+VILLAGER: "Oh No! What do we do?!"
+LILITH: "I know of a sage who can teach you how to really be an Awesome Defender Action Murderer, ADAM!"
