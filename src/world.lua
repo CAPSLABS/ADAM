@@ -490,8 +490,7 @@ return {
                     480 - (self.media.hud.borderSmall:getHeight() / 2)
                 ).hit
              then
-                self.currentLvl = self.currentLvl + 1
-                InitGame(self.currentLvl)
+                InitGame(self.currentLvl, 6)
             end
         end
     end,
