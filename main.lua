@@ -14,7 +14,6 @@ require("src.story")
 
 SUIT = require "src.suit"
 ANIMATE = require "src.anim8"
-
 DEBUG = true
 --DEBUG = false
 
@@ -59,6 +58,7 @@ function InitGame(lvl, gamestate)
     WORLD.currentLvl = lvl
     GAMESTATE = gamestate
     if GAMESTATE == 6 then
+        love.graphics.setFont(WORLD.media.fantasyfont)
         if STORY.loaded == false then
             STORY:loadStory()
         else
@@ -144,13 +144,12 @@ function love.draw(dt)
         SUIT.draw()
         SHOP:drawShopShit()
     elseif GAMESTATE == 6 then
-        love.graphics.setFont(WORLD.media.fantasyfont)
         _G.map:draw()
         STORY:drawStory()
     end
 
     if DEBUG then
-        DrawPerformance()
+        -- DrawPerformance()
         if (GAMESTATE == 1) then
             WORLD:drawHitBoxes(240, 850)
         else

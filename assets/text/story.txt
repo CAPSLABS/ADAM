@@ -1,7 +1,7 @@
 A quiet day in the village of our hero, ADAM. One morning, ADAM went to his grandmas attic and was excited to find a treasure chest.
 ~adam~RIGHT
 ADAM: Look what I've found! 
-ADAM: I can throw this plastic boomering by pressing A and then a copy reappears in my hands!
+ADAM: I can throw this plastic boomerang by pressing A and then a copy reappears in my hands!
 ~lilith~LEFT
 LILITH: Doesn't that pollute the environment?
 ~lilith~TURN
@@ -12,6 +12,8 @@ VILLAGER: ARGH! HELP! I am dying!
 ~lilith~RIGHT
 LILITH: Is that the sound of a dying giraffe?
 VILLAGER: *clears throat* I am dying!!!
+~none~INSTRUCTIONS
+Kill ten enemies who are attacking the village!
 ~none~NEXTLEVEL
 ~adam~RIGHT
 ADAM: Wow! That was close! 
@@ -28,6 +30,8 @@ LILITH: I know of a sage who can teach you how to really be an Awesome Defender 
 ~villager~LEFT
 ~adam~RIGHT
 VILLAGER: OH GOD! THERE'S MORE GOBLINS! SO MANY!
+~none~INSTRUCTIONS
+Stop the goblins from destroying the village for two minutes!
 ~none~NEXTLEVEL
 ~none~SAGE
 ~william~LEFT
@@ -47,6 +51,8 @@ UNKNOWN: Because of the JEWEL, you bafoons!
 LILITH, WILLIAM, ADAM: "Who speaks there?
 WILLIAM: I know this voice from somewhere... 
 WILLIAM: Sacre Bleu! More enemies! Maybe they carry hints on what is going on?
+~none~INSTRUCTIONS
+Figure out what is going on by collecting ten hints! 
 ~none~NEXTLEVEL
 ~none~SAGE
 ~william~LEFT
@@ -60,6 +66,8 @@ WILLIAM: Quick! We have to go there!
 ~none~MAPCHANGE
 WILLIAM: My chateu is just over there! But, what is this?!
 WILLIAM: Oh no, they are already coming!!!
+~none~INSTRUCTIONS
+Kill ten new enemies who are destroying the residency!
 ~none~NEXTLEVEL
 ~sage~LEFT
 ~adam~RIGHT
@@ -80,6 +88,8 @@ LILITH: ...
 WILLIAM: And maybe it produces a little wealth, every now and then?
 LILITH: ...
 ADAM: Brb, more zombies incoming
+~none~INSTRUCTIONS
+Stop the enemies from destroying the residency for three minutes! 
 ~none~NEXTLEVEL
 ~none~SAGE 
 ~adam~RIGHT
@@ -94,6 +104,8 @@ CHRISTOPHER: Me!
 WILLIAM: It's that stupid Christopher Larmowe.
 CHRISTOPHER: AND I WOULD HAVE GOTTEN MY JEWEL, TOO, IF IT WEREN'T FOR YOU MEEDLING KIDS.
 CHRISTOPHER: BEWARE, MY STRONGEST WAVE OF ENEMY APPROACHES!
+~none~INSTRUCTIONS- defend christophers ultimate onslaught. hold the residency for 5 minutes
+Christophers ultimate onslaught: Hold the residency for five minutes! -
 ~none~NEXTLEVEL
 ~adam~RIGHT
 ADAM: We need to stop this. Where are these monsters coming from?
@@ -119,6 +131,8 @@ LILITH: That makes you an AWESOME ATTACKER ACTION ASSHOLE, or short
 WILLIAM: AAAA!
 LILITH: Correct!
 WILLIAM: [...] AAARGH... MORE ENEMIES!"
+~none~INSTRUCTIONS
+Kill ten new enemies who are trying to stop you!
 ~none~NEXTLEVEL
 ~none~SAGE
 Restlessly, AAAA and his friends fought their way through the cave, until they reached a heavy door.
@@ -126,6 +140,8 @@ Restlessly, AAAA and his friends fought their way through the cave, until they r
 ~william~RIGHT
 ADAM: "This is it. Here he is."
 WILLIAM: "I always knew, CHRISTOPHER was a good-for-nothing. Let's end this!"
+~none~INSTRUCTIONS
+Destroy the heavy door to get to Christopher!
 ~none~NEXTLEVEL
 ~none~SAGE
 ~christopher~LEFT
@@ -135,6 +151,8 @@ CHRISTOPHER: This is where I would hold a lengthy monologue revealing my evil pl
 ADAM: I will stop you. I am AAAA
 CHRISTOPHER: But first, you got to stop my strongest ally. 
 CHRISTOPHER: The troll king! ! !
+~none~INSTRUCTIONS
+THE TROLL KING ! ! !
 ~none~NEXTLEVEL
 ~none~SAGE
 And so, ADAM became AAAA and stopped Christopher. 

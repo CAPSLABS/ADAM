@@ -14,6 +14,7 @@ return {
     parsed = false,
     loaded = false,
     firstLvl = true,
+    --giving_instructions = true,
     cast = {
         --all paths are transformed to speaker objects
         adam = {
@@ -60,13 +61,12 @@ return {
         }
     },
     loadStory = function(self)
-        if WORLD.currentLvl == 1 then
-            local raw = Read_file("assets/text/story.txt")
-            self.storyText = Split(raw, "\n")
-            self:loadSpeakerObjects()
-            self.loaded = true
-            self:processNextLine()
-        end
+        local raw = Read_file("assets/text/story.txt")
+        self.storyText = Split(raw, "\n")
+        self:loadSpeakerObjects()
+        self.loaded = true
+        self:processNextLine()
+        love.graphics.setFont(WORLD.media.fantasyfont)
     end,
     loadSpeakerObjects = function(self)
         for key, value in pairs(self.cast) do
@@ -129,6 +129,12 @@ return {
             self:startShopping()
         elseif action == "NEXTLEVEL" then
             self:startLevel()
+        elseif action == "INSTRUCTIONS" then
+            self:setInstructionFont()
+            self.parsed = true
+        elseif action == "INSTRUCTIONS_END" then
+            self:setRegularFont()
+            self.parsed = true
         end
     end,
     addSpeaker = function(self, speaker, side)
@@ -168,6 +174,7 @@ return {
             i = i + 1
         end
         love.graphics.draw(WORLD.media.hud.border, self.borderX, self.borderY)
+
         love.graphics.printf(
             self.currentLine,
             self.borderX + 30,
@@ -225,5 +232,13 @@ return {
             WORLD.map = WORLD.map + 1
             LoadMap()
         end
+    end,
+    setInstructionFont = function(self)
+        -- self.giving_instructions = true
+        self.leftSpeakers = {}
+        self.rightSpeakers = {}
+        love.graphics.setFont(WORLD.media.defaultfont)
+    end,
+    setRegularFont = function(self)
     end
 }

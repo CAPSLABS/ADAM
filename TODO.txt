@@ -1,13 +1,12 @@
 - get hit feedback (blink red, maybe goblin does not die?) (D)
 - enemys drop hearts, coin or HINTS (D)
-- story mode (D)
 - lvl conditions (goblin counter, zombie counter, hint counter, level timer)(P)
 - map 2 : zombies and mountain residence (P)
 - map 3: third enemy type (P)
 - map 3: a cave and a door (P)
 - lvl implementation, w. transition (P)
 - make boss (P)
-- main menu: credits (to OS artist) + show story and grayed out endless
+- main menu: credits (to OS artist) + show story and grayed out endless and end of game
 - endless mode 
 
 OPTIONAL

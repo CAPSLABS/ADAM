@@ -46,7 +46,7 @@ LILITH: "No, rich!"
 LILITH, WILLIAM, ADAM: "Who speaks there?"
 WILLIAM: "I know this voice from somewhere... Sacre Bleu! More enemies! Maybe they carry hints on what is going on?"
 
-- Figure out what is going on by collecting 10 HINTS (diff. colored coins)- 
+- figure out what is going on by collecting 10 hints - 
 - shop - 
 
 WILLIAM: "The minting on those coins. They have been paid by... could it be??? No!"
