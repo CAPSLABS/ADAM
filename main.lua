@@ -46,7 +46,8 @@ function love.load()
 end
 
 function LoadMap()
-    _G.map = LoadTiledMap("assets/tile/", WORLD.map)
+    --_G.map = LoadTiledMap("assets/tile/", WORLD.map)
+    _G.map = LoadTiledMap("assets/tile/", 3)
 end
 
 function InitGame(lvl, gamestate)

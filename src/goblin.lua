@@ -70,8 +70,6 @@ return {
                 importantCoin.y = self.y
                 table.insert(WORLD.drops, importantCoin)
             end
-        else
-            print("Goblin couldn't find the item to drop")
         end
     end,
     die = function(self)
