@@ -219,7 +219,11 @@ return {
         self.currentLine = ""
     end,
     mapchange = function(self)
-        --todo: use this to control maploading the cave before lvl 3.1 starts
-        -- also called to induce fadeout before credits and credits
+        if map.currentLvl == 9 then
+            assert(false, "This is where you do a screen black out or trigger CUT SCENE POWAS")
+        else
+            WORLD.map = WORLD.map + 1
+            LoadMap()
+        end
     end
 }

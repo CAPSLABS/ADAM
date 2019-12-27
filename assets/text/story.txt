@@ -57,6 +57,7 @@ LILITH: What is that JEWEL he was talking about?
 WILLIAM: Is they are after my jewels, they will attack my residency in the mountains.
 WILLIAM: Quick! We have to go there!
 (after a few hours of travelling)
+~none~MAPCHANGE
 WILLIAM: My chateu is just over there! But, what is this?!
 WILLIAM: Oh no, they are already coming!!!
 ~none~NEXTLEVEL
