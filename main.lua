@@ -55,7 +55,13 @@ function InitGame(lvl, gamestate)
     WORLD.wonLevel = false
     WORLD.currentLvl = lvl
     GAMESTATE = gamestate
-    STORY:loadStory()
+    if GAMESTATE == 6 then
+        if STORY.loaded == false then
+            STORY:loadStory()
+        else
+            STORY:processNextLine()
+        end
+    end
     _G.map = LoadTiledMap("assets/tile/", WORLD.levels[lvl].mapPath)
 end
 

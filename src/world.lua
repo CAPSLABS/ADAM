@@ -85,9 +85,6 @@ return {
             scaledHeight = 0,
             shakeMagnitude = 5
         }
-        --items = {
-        --    heart = "assets/hud/healthbar/heart_cropped.png"
-        --}
     },
     levels = {
         --level1
@@ -122,9 +119,6 @@ return {
             mapPath = "ebene1tilemap",
             enemies = {
                 goblin = {
-                    --killCounter = 0, -- counts how many goblins have been murdered in this level
-                    --killGoal = 1, -- counts how many goblins we need to murder in this level
-                    --killToWin = true, -- defeating goblins is necessary to win
                     timer = 0.4, -- inital value is value of timerMax, a changing variable
                     timerMax = 0.4, -- initial value until first mob comes, marks the actual countdown time
                     spawnFct = function(self, runtime)
@@ -135,14 +129,6 @@ return {
                     end
                 }
             },
-            --winType = "endure",
-            --runtimeGoal = 10,
-            --winCondition = function(self, runtime, dt)
-            --    if runtime >= self.runtimeGoal then
-            --        return true
-            --    end
-            --    return false
-            --end
             winType = "collect",
             collectCounter = 0,
             collectGoal = 10,
@@ -438,7 +424,7 @@ return {
                     self.player.height
                 )
              then
-                item:effect()
+                item:effect(self.currentLvl)
                 table.remove(self.drops, i)
             end
             -- boom collision
@@ -520,8 +506,7 @@ return {
                     480 - (self.media.hud.borderSmall:getHeight() / 2)
                 ).hit
              then
-                self.currentLvl = self.currentLvl + 1
-                InitGame(self.currentLvl, GAMESTATES[2])
+                InitGame(self.currentLvl, 6)
             end
         end
     end,

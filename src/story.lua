@@ -12,6 +12,8 @@ return {
     currentLine = "",
     canGoOn = true,
     parsed = false,
+    loaded = false,
+    firstLvl = true,
     cast = {
         --all paths are transformed to speaker objects
         adam = {
@@ -59,9 +61,10 @@ return {
     },
     loadStory = function(self)
         if WORLD.currentLvl == 1 then
-            local raw = Read_file("assets/text/01_village.txt")
-            self.storyText = Split(raw)
+            local raw = Read_file("assets/text/story.txt")
+            self.storyText = Split(raw, "\n")
             self:loadSpeakerObjects()
+            self.loaded = true
             self:processNextLine()
         end
     end,
@@ -89,9 +92,10 @@ return {
     processNextLine = function(self)
         local line = self.storyText[self.storyIndex]
         local identifier = string.sub(line, 1, 1)
-        if identifier == "%" then
+        if identifier == "~" then
             self:parse(line)
         else
+            self:wiggle(line)
             self:setLine(line)
         end
         self.storyIndex = self.storyIndex + 1
@@ -104,11 +108,28 @@ return {
         self.currentLine = line
     end,
     parse = function(self, line)
-        --self:addSpeaker(self.cast.lilith, "left")
-        self:addSpeaker(self.cast.villager, "left")
-        self:addSpeaker(self.cast.adam, "right")
-        self:addSpeaker(self.cast.lilith, "right")
-        self.parsed = true --causes the next line to be auto read-in
+        local instructions = Split(line, "~")
+        local character = instructions[1]
+        local action = instructions[2]
+        if action == "LEFT" then
+            self:addSpeaker(self.cast[character], "left")
+            self.parsed = true --causes the next line to be auto read-in
+        elseif action == "RIGHT" then
+            self:addSpeaker(self.cast[character], "right")
+            self.parsed = true --causes the next line to be auto read-in
+        elseif action == "TURN" then
+            self.cast[character]:changeDirection()
+            self.parsed = true --causes the next line to be auto read-in
+        elseif action == "EXIT" then
+            self:removeSpeakers(self.cast[character])
+            self.parsed = true --causes the next line to be auto read-in
+        elseif action == "MAPCHANGE" then
+            self:mapchange()
+        elseif action == "SAGE" then
+            self:startShopping()
+        elseif action == "NEXTLEVEL" then
+            self:startLevel()
+        end
     end,
     addSpeaker = function(self, speaker, side)
         --todo make "slide in from side" animation
@@ -158,9 +179,47 @@ return {
     removeSpeakers = function(self, speaker)
         --todo make "slide away from side" animation
         if speaker.side == "left" then
-            table.remove(self.leftSpeakers, speaker.portrait)
+            self.leftSpeakers[speaker.name] = nil
         else
-            table.remove(self.rightSpeakers, speaker.portrait)
+            self.leftSpeakers[speaker.name] = nil
         end
+    end,
+    startLevel = function(self)
+        self:prepareNextStep()
+        if self.firstLvl == true then
+            self.firstLvl = false
+            WORLD.currentLvl = 1
+            InitGame(WORLD.currentLvl, 2)
+        else
+            WORLD.currentLvl = WORLD.currentLvl + 1
+            InitGame(WORLD.currentLvl, 2)
+        end
+    end,
+    startShopping = function(self)
+        self:prepareNextStep()
+        InitGame(WORLD.currentLvl, 4)
+    end,
+    wiggle = function(self, line)
+        local speaker = string.lower(Split(line, ":")[1])
+        for name, speakerObj in pairs(self.leftSpeakers) do
+            if name == speaker then
+                speakerObj:wiggleAnim()
+            end
+        end
+        for name, speakerObj in pairs(self.rightSpeakers) do
+            if name == speaker then
+                speakerObj:wiggleAnim()
+            end
+        end
+    end,
+    prepareNextStep = function(self)
+        self.leftSpeakers = {}
+        self.rightSpeakers = {}
+        self.canGoOn = true
+        self.currentLine = ""
+    end,
+    mapchange = function(self)
+        --todo: use this to control maploading the cave before lvl 3.1 starts
+        -- also called to induce fadeout before credits and credits
     end
 }

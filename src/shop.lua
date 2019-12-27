@@ -414,8 +414,7 @@ return {
             )
         end
         if SUIT.ImageButton(self.media.done, self.pos.doneX - (self.media.done:getWidth() / 2), self.pos.doneY).hit then
-            InitGame(1)
-        --todo transition to next level here
+            InitGame(WORLD.currentLvl, 6)
         end
     end,
     broUBroke = function(self)

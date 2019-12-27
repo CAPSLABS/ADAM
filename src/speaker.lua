@@ -49,5 +49,8 @@ return {
             self.direction = "left"
             self.currentQuad = self.leftQuad
         end
+    end,
+    wiggleAnim = function(self)
+        print("i would be wiggling now")
     end
 }

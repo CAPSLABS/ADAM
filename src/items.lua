@@ -4,9 +4,9 @@ return {
         x = 0, -- will be changed to the drop location x
         y = 0, -- will be changed to the drop location y
         img = "assets/hud/healthbar/heart_cropped.png", -- is later a love image
-        new = function(self)
-            local heart = {}
-            return heart
+        setDropLocation = function(self, posX, posY)
+            self.x = posX
+            self.y = posY
         end,
         effect = function(self, currentLvl)
             if WORLD.player.hearts < WORLD.player.maxHearts then
@@ -18,10 +18,10 @@ return {
     importantCoin = {
         x = 0, -- will be changed to the drop location x
         y = 0, -- will be changed to the drop location y
-        img = "assets/hud/healthbar/heart_cropped.png", -- is later a love image
-        new = function(self)
-            local coin = {}
-            return coin
+        img = "assets/hud/money/coin_cropped_inverse.png", -- is later a love image
+        setDropLocation = function(self, posX, posY)
+            self.x = posX
+            self.y = posY
         end,
         effect = function(self, currentLvl)
             if WORLD.levels[currentLvl].collectCounter < WORLD.levels[currentLvl].collectGoal then

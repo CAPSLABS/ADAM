@@ -24,9 +24,9 @@ function Read_file(path)
   return content
 end
 
-function Split(s)
+function Split(s, sep)
   local tab = {}
-  for chunk in string.gmatch(s, "[^\n]+") do
+  for chunk in string.gmatch(s, "[^" .. sep .. "]+") do
     table.insert(tab, chunk)
   end
   return tab
