@@ -612,6 +612,7 @@ return {
         self:drawMoney()
         self:drawKillCounters()
         self:drawLevelTimer()
+        self:drawCollectCounter()
     end,
     drawSkills = function(self)
         if self.player.canBoom == true then
@@ -814,6 +815,46 @@ return {
                 love.graphics.printf(time, self.media.hudPos.counterX + 5, self.media.hudPos.counterY, 150, "left")
                 love.graphics.setColor(255, 255, 255, 255)
             end
+            love.graphics.pop()
+        end
+    end,
+    drawCollectCounter = function(self)
+        if self.levels[self.currentLvl].winType == "collect" then
+            -- scale down the kill counter a little, make it gradually more red until we reach zero
+            local scaling = love.math.newTransform(0, 0, 0, 0.8, 0.8, 0, 0)
+            love.graphics.push()
+            love.graphics.applyTransform(scaling)
+            love.graphics.setFont(WORLD.media.bigfantasyfont)
+            -- let background be transparent black
+            love.graphics.setColor(0, 0, 0, 0.5)
+            love.graphics.rectangle(
+                "fill",
+                self.media.hudPos.counterX,
+                self.media.hudPos.counterY,
+                self.media.hud.brown:getWidth(),
+                self.media.hud.brown:getHeight()
+            )
+            -- reset black color
+            love.graphics.setColor(255, 255, 255, 255)
+            -- draw brown frame
+            love.graphics.draw(self.media.hud.brown, self.media.hudPos.counterX, self.media.hudPos.counterY)
+            -- draw enemy pic into frame
+            love.graphics.draw(
+                self.itemsRaw.items["importantCoin"].img,
+                self.media.hudPos.counterX +
+                    (self.media.hud.brown:getWidth() - self.itemsRaw.items["importantCoin"].img:getWidth()) / 2,
+                self.media.hudPos.counterY +
+                    (self.media.hud.brown:getHeight() - self.itemsRaw.items["importantCoin"].img:getHeight()) / 2
+            )
+            -- write collectCounter
+            love.graphics.setFont(WORLD.media.bigfantasyfont)
+            love.graphics.printf(
+                self.levels[self.currentLvl].collectCounter .. "/" .. self.levels[self.currentLvl].collectGoal,
+                self.media.hudPos.counterX + self.media.hud.brown:getWidth() + 5,
+                self.media.hudPos.counterY,
+                (500 - (0.8 * self.media.hudPos.counterX + 0.8 * self.media.hud.brown:getWidth())),
+                "center"
+            )
             love.graphics.pop()
         end
     end,
