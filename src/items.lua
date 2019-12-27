@@ -8,7 +8,7 @@ return {
             local heart = {}
             return heart
         end,
-        effect = function(self)
+        effect = function(self, currentLvl)
             if WORLD.player.hearts < WORLD.player.maxHearts then
                 WORLD.player.hearts = WORLD.player.hearts + 1
             end
@@ -23,9 +23,9 @@ return {
             local coin = {}
             return coin
         end,
-        effect = function(self)
-            if WORLD.player.hearts < WORLD.player.maxHearts then
-                WORLD.player.hearts = WORLD.player.hearts + 1
+        effect = function(self, currentLvl)
+            if WORLD.levels[currentLvl].collectCounter < WORLD.levels[currentLvl].collectGoal then
+                WORLD.levels[currentLvl].collectCounter = WORLD.levels[currentLvl].collectCounter + 1
             end
         end
     }

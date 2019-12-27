@@ -95,9 +95,9 @@ return {
             mapPath = "ebene1tilemap",
             enemies = {
                 goblin = {
-                    killCounter = 0, -- counts how many goblins have been murdered in this level
-                    killGoal = 1, -- counts how many goblins we need to murder in this level
-                    killToWin = true, -- defeating goblins is necessary to win
+                    --killCounter = 0, -- counts how many goblins have been murdered in this level
+                    --killGoal = 1, -- counts how many goblins we need to murder in this level
+                    --killToWin = true, -- defeating goblins is necessary to win
                     timer = 0.4, -- inital value is value of timerMax, a changing variable
                     timerMax = 0.4, -- initial value until first mob comes, marks the actual countdown time
                     spawnFct = function(self, runtime)
@@ -108,15 +108,8 @@ return {
                     end
                 }
             },
-            --winType = "kill", -- We win by killing goblins
             winType = "endure",
-            runtimeGoal = 10,
-            --winCondition = function(self, dt)
-            --    if self.enemies.goblin.killCounter >= self.enemies.goblin.killGoal then
-            --        return true
-            --    end
-            --    return false
-            --end
+            runtimeGoal = 3,
             winCondition = function(self, runtime, dt)
                 if runtime >= self.runtimeGoal then
                     return true
@@ -124,7 +117,43 @@ return {
                 return false
             end
         },
-        --level 2
+        --level2
+        {
+            mapPath = "ebene1tilemap",
+            enemies = {
+                goblin = {
+                    --killCounter = 0, -- counts how many goblins have been murdered in this level
+                    --killGoal = 1, -- counts how many goblins we need to murder in this level
+                    --killToWin = true, -- defeating goblins is necessary to win
+                    timer = 0.4, -- inital value is value of timerMax, a changing variable
+                    timerMax = 0.4, -- initial value until first mob comes, marks the actual countdown time
+                    spawnFct = function(self, runtime)
+                        -- returns the next timerMax value (waiting time until next goblin spawns)
+                        -- Sigmoid mirrored on y axis shifted by 2 along x axis
+                        -- Reaches timer = 0.51 in ~46 seconds
+                        return (1 / (1 + math.exp(0.1 * runtime))) + 0.5
+                    end
+                }
+            },
+            --winType = "endure",
+            --runtimeGoal = 10,
+            --winCondition = function(self, runtime, dt)
+            --    if runtime >= self.runtimeGoal then
+            --        return true
+            --    end
+            --    return false
+            --end
+            winType = "collect",
+            collectCounter = 0,
+            collectGoal = 10,
+            winCondition = function(self, runtime, dt)
+                if self.collectCounter >= self.collectGoal then
+                    return true
+                end
+                return false
+            end
+        },
+        --level 3
         {
             mapPath = "ebene2tilemap",
             cityHealthMax = 100,
@@ -393,6 +422,7 @@ return {
             end
         end
     end,
+    -- TODOOOOOO: item is a nested table now not a varaible
     checkItemCollision = function(self, dt)
         for i, item in ipairs(self.drops) do
             -- check for collision with player
@@ -414,7 +444,7 @@ return {
             -- boom collision
             for j, boom in ipairs(self.player.booms) do
                 if CheckCollision(item.x, item.y, item.img:getWidth(), item.img:getHeight(), boom.x, boom.y, 48, 48) then
-                    item:effect()
+                    item:effect(self.currentLvl)
                     table.remove(self.drops, i)
                 end
             end
@@ -491,7 +521,7 @@ return {
                 ).hit
              then
                 self.currentLvl = self.currentLvl + 1
-                InitGame(self.currentLvl)
+                InitGame(self.currentLvl, GAMESTATES[2])
             end
         end
     end,
