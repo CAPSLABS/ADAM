@@ -1,6 +1,8 @@
 return {
     player = nil,
     -- all enemies currently on the field
+    -- change to 2 or 3
+    map = 1,
     enemies = {},
     -- all dropped items currently on the field
     drops = {},
@@ -89,7 +91,6 @@ return {
     levels = {
         --level1
         {
-            mapPath = "ebene1tilemap",
             enemies = {
                 goblin = {
                     --killCounter = 0, -- counts how many goblins have been murdered in this level
@@ -141,7 +142,6 @@ return {
         },
         --level 3
         {
-            mapPath = "ebene2tilemap",
             cityHealthMax = 100,
             cityHealth = 100,
             enemies = {
@@ -182,7 +182,6 @@ return {
         },
         --menu (always last)
         {
-            mapPath = "ebene1tilemap",
             enemies = {
                 goblin = {
                     timer = 0.0,

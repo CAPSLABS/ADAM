@@ -30,12 +30,11 @@ function love.load()
     STORY = require("src.story")
     WORLD.currentLvl = 3 --this should point to menu (3)
     --make sure this points to last level in WORLD, which is MENU
-    _G.map = LoadTiledMap("assets/tile/", WORLD.levels[WORLD.currentLvl].mapPath)
-
     WORLD:loadEnemies()
     WORLD:loadMedia()
     WORLD:loadHud()
     WORLD:loadItems()
+    LoadMap()
 
     PLAYERRAW = require("src.player")
     WORLD.player = Shallowcopy(PLAYERRAW)
@@ -45,6 +44,10 @@ function love.load()
     WORLD:loadPlayer()
     SHOP:loadBacking()
     MENU:loadMenuSounds()
+end
+
+function LoadMap()
+    _G.map = LoadTiledMap("assets/tile/", WORLD.map)
 end
 
 function InitGame(lvl, gamestate)
@@ -62,7 +65,6 @@ function InitGame(lvl, gamestate)
             STORY:processNextLine()
         end
     end
-    _G.map = LoadTiledMap("assets/tile/", WORLD.levels[lvl].mapPath)
 end
 
 ------------ UPDATING --------------
