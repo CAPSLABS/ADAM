@@ -87,18 +87,15 @@ return {
             scaledHeight = 0,
             shakeMagnitude = 5
         }
-        --items = {
-        --    heart = "assets/hud/healthbar/heart_cropped.png"
-        --}
     },
     levels = {
         --level1
         {
             enemies = {
                 goblin = {
-                    killCounter = 0, -- counts how many goblins have been murdered in this level
-                    killGoal = 1, -- counts how many goblins we need to murder in this level
-                    killToWin = true, -- defeating goblins is necessary to win
+                    --killCounter = 0, -- counts how many goblins have been murdered in this level
+                    --killGoal = 1, -- counts how many goblins we need to murder in this level
+                    --killToWin = true, -- defeating goblins is necessary to win
                     timer = 0.4, -- inital value is value of timerMax, a changing variable
                     timerMax = 0.4, -- initial value until first mob comes, marks the actual countdown time
                     spawnFct = function(self, runtime)
@@ -109,15 +106,8 @@ return {
                     end
                 }
             },
-            --winType = "kill", -- We win by killing goblins
             winType = "endure",
-            runtimeGoal = 10,
-            --winCondition = function(self, dt)
-            --    if self.enemies.goblin.killCounter >= self.enemies.goblin.killGoal then
-            --        return true
-            --    end
-            --    return false
-            --end
+            runtimeGoal = 3,
             winCondition = function(self, runtime, dt)
                 if runtime >= self.runtimeGoal then
                     return true
@@ -125,7 +115,32 @@ return {
                 return false
             end
         },
-        --level 2
+        --level2
+        {
+            mapPath = "ebene1tilemap",
+            enemies = {
+                goblin = {
+                    timer = 0.4, -- inital value is value of timerMax, a changing variable
+                    timerMax = 0.4, -- initial value until first mob comes, marks the actual countdown time
+                    spawnFct = function(self, runtime)
+                        -- returns the next timerMax value (waiting time until next goblin spawns)
+                        -- Sigmoid mirrored on y axis shifted by 2 along x axis
+                        -- Reaches timer = 0.51 in ~46 seconds
+                        return (1 / (1 + math.exp(0.1 * runtime))) + 0.5
+                    end
+                }
+            },
+            winType = "collect",
+            collectCounter = 0,
+            collectGoal = 10,
+            winCondition = function(self, runtime, dt)
+                if self.collectCounter >= self.collectGoal then
+                    return true
+                end
+                return false
+            end
+        },
+        --level 3
         {
             cityHealthMax = 100,
             cityHealth = 100,
@@ -186,7 +201,7 @@ return {
         zombie = require("src.zombie")
     },
     itemsRaw = {
-        heart = require("src.items")
+        items = require("src.items")
     },
     ------------ LOADING --------------
 
@@ -240,7 +255,7 @@ return {
         end
     end,
     loadItems = function(self)
-        for key, item in pairs(self.itemsRaw) do
+        for key, item in pairs(self.itemsRaw.items) do
             item.img = love.graphics.newImage(item.img)
         end
     end,
@@ -392,6 +407,7 @@ return {
             end
         end
     end,
+    -- TODOOOOOO: item is a nested table now not a varaible
     checkItemCollision = function(self, dt)
         for i, item in ipairs(self.drops) do
             -- check for collision with player
@@ -407,13 +423,13 @@ return {
                     self.player.height
                 )
              then
-                item:effect()
+                item:effect(self.currentLvl)
                 table.remove(self.drops, i)
             end
             -- boom collision
             for j, boom in ipairs(self.player.booms) do
                 if CheckCollision(item.x, item.y, item.img:getWidth(), item.img:getHeight(), boom.x, boom.y, 48, 48) then
-                    item:effect()
+                    item:effect(self.currentLvl)
                     table.remove(self.drops, i)
                 end
             end
@@ -596,6 +612,7 @@ return {
         self:drawMoney()
         self:drawKillCounters()
         self:drawLevelTimer()
+        self:drawCollectCounter()
     end,
     drawSkills = function(self)
         if self.player.canBoom == true then
@@ -798,6 +815,46 @@ return {
                 love.graphics.printf(time, self.media.hudPos.counterX + 5, self.media.hudPos.counterY, 150, "left")
                 love.graphics.setColor(255, 255, 255, 255)
             end
+            love.graphics.pop()
+        end
+    end,
+    drawCollectCounter = function(self)
+        if self.levels[self.currentLvl].winType == "collect" then
+            -- scale down the kill counter a little, make it gradually more red until we reach zero
+            local scaling = love.math.newTransform(0, 0, 0, 0.8, 0.8, 0, 0)
+            love.graphics.push()
+            love.graphics.applyTransform(scaling)
+            love.graphics.setFont(WORLD.media.bigfantasyfont)
+            -- let background be transparent black
+            love.graphics.setColor(0, 0, 0, 0.5)
+            love.graphics.rectangle(
+                "fill",
+                self.media.hudPos.counterX,
+                self.media.hudPos.counterY,
+                self.media.hud.brown:getWidth(),
+                self.media.hud.brown:getHeight()
+            )
+            -- reset black color
+            love.graphics.setColor(255, 255, 255, 255)
+            -- draw brown frame
+            love.graphics.draw(self.media.hud.brown, self.media.hudPos.counterX, self.media.hudPos.counterY)
+            -- draw enemy pic into frame
+            love.graphics.draw(
+                self.itemsRaw.items["importantCoin"].img,
+                self.media.hudPos.counterX +
+                    (self.media.hud.brown:getWidth() - self.itemsRaw.items["importantCoin"].img:getWidth()) / 2,
+                self.media.hudPos.counterY +
+                    (self.media.hud.brown:getHeight() - self.itemsRaw.items["importantCoin"].img:getHeight()) / 2
+            )
+            -- write collectCounter
+            love.graphics.setFont(WORLD.media.bigfantasyfont)
+            love.graphics.printf(
+                self.levels[self.currentLvl].collectCounter .. "/" .. self.levels[self.currentLvl].collectGoal,
+                self.media.hudPos.counterX + self.media.hud.brown:getWidth() + 5,
+                self.media.hudPos.counterY,
+                (500 - (0.8 * self.media.hudPos.counterX + 0.8 * self.media.hud.brown:getWidth())),
+                "center"
+            )
             love.graphics.pop()
         end
     end,

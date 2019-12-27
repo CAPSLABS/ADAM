@@ -58,11 +58,20 @@ return {
         local randomNumber = math.random()
         if self.level == 1 then
             if randomNumber <= 0.9 then
-                local heart = Shallowcopy(WORLD.itemsRaw.heart)
+                local heart = Shallowcopy(WORLD.itemsRaw.items["heart"])
                 heart.x = self.x
                 heart.y = self.y
                 table.insert(WORLD.drops, heart)
             end
+        elseif self.level == 2 then
+            if randomNumber <= 0.9 then
+                local importantCoin = Shallowcopy(WORLD.itemsRaw.items["importantCoin"])
+                importantCoin.x = self.x
+                importantCoin.y = self.y
+                table.insert(WORLD.drops, importantCoin)
+            end
+        else
+            print("Goblin couldn't find the item to drop")
         end
     end,
     die = function(self)

@@ -1,29 +1,32 @@
 return {
-    --heart = {
-    x = 0, -- will be changed to the drop location x
-    y = 0, -- will be changed to the drop location y
-    img = "assets/hud/healthbar/heart_cropped.png", -- is later a love image
-    new = function(self)
-        local heart = {}
-        return heart
-    end,
-    effect = function(self)
-        if WORLD.player.hearts < WORLD.player.maxHearts then
-            WORLD.player.hearts = WORLD.player.hearts + 1
+    -- datastructure for a heart that heals 1hp
+    heart = {
+        x = 0, -- will be changed to the drop location x
+        y = 0, -- will be changed to the drop location y
+        img = "assets/hud/healthbar/heart_cropped.png", -- is later a love image
+        setDropLocation = function(self, posX, posY)
+            self.x = posX
+            self.y = posY
+        end,
+        effect = function(self, currentLvl)
+            if WORLD.player.hearts < WORLD.player.maxHearts then
+                WORLD.player.hearts = WORLD.player.hearts + 1
+            end
         end
-    end
-    --},
-    --importantCoin = {
-    --    x = 0, -- will be changed to the drop location x
-    --    y = 0, -- will be changed to the drop location y
-    --    img = "assets/hud/healthbar/heart_cropped.png", -- is later a love image
-    --    new = function(self)
-    --        local coin = {}
-    --        return coin
-    --    end,
-    --    effect = function(self)
-    --        if WORLD.player.hearts < WORLD.player.maxHearts then
-    --            WORLD.player.hearts = WORLD.player.hearts + 1
-    --        end
-    --    end
+    },
+    -- datastructure for a collectable coin, a story item
+    importantCoin = {
+        x = 0, -- will be changed to the drop location x
+        y = 0, -- will be changed to the drop location y
+        img = "assets/hud/money/coin_cropped_inverse.png", -- is later a love image
+        setDropLocation = function(self, posX, posY)
+            self.x = posX
+            self.y = posY
+        end,
+        effect = function(self, currentLvl)
+            if WORLD.levels[currentLvl].collectCounter < WORLD.levels[currentLvl].collectGoal then
+                WORLD.levels[currentLvl].collectCounter = WORLD.levels[currentLvl].collectCounter + 1
+            end
+        end
+    }
 }
