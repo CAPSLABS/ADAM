@@ -1,4 +1,5 @@
 return {
+    name = "goblin",
     hp = 1,
     dmg = 1,
     speed = 0.7,

@@ -274,9 +274,11 @@ return {
             ANIMATE.newGrid(48, 48, self.player.media.boom:getWidth(), self.player.media.boom:getHeight())
         self.player.media.playerGrid =
             ANIMATE.newGrid(64, 64, self.player.media.img:getWidth(), self.player.media.img:getHeight())
-        self.player.upAnim = ANIMATE.newAnimation(self.player.media.playerGrid("1-4", 2), 0.1)
-        self.player.downAnim = ANIMATE.newAnimation(self.player.media.playerGrid("1-4", 1), 0.1)
-        self.player.anim = self.player.upAnim
+        self.player.upRightAnim = ANIMATE.newAnimation(self.player.media.playerGrid("1-8", 5), 0.1)
+        self.player.upLeftAnim = self.player.upRightAnim:clone():flipH()
+
+        self.player.downAnim = ANIMATE.newAnimation(self.player.media.playerGrid("1-9", 11), 0.1)
+        self.player.anim = self.player.upLeftAnim
     end,
     loadMedia = function(self)
         self.media.surprise.img = love.graphics.newImage(self.media.surprise.img)
@@ -355,7 +357,9 @@ return {
                     self.media["explosion"].scaledHeight
                 )
              then
-                enemy.y = enemy.y - self.media["explosion"].scale
+                if enemy.name ~= "zombie" then
+                    enemy.y = enemy.y - self.media["explosion"].scale
+                end
                 enemy:getHit(1)
             end
         end
@@ -488,9 +492,9 @@ return {
         end
 
         if love.keyboard.isDown("down") then
-            self.player:changeDirDown()
+            self.player:changeVerticalDirDown()
         elseif love.keyboard.isDown("up") then
-            self.player:changeDirUp()
+            self.player:changeVerticalDirUp()
         end
         -- ATTACKS (do not elseif or one cannot activate skills simultaniously!)
         if love.keyboard.isDown("a") then

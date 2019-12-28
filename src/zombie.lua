@@ -1,4 +1,5 @@
 return {
+    name = "zombie",
     hp = 6,
     dmg = 1,
     speed = 0.2,

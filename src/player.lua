@@ -21,10 +21,15 @@ return {
     getBottomY = function(self)
         return self.y + 10 + self.height
     end,
+    anim = nil,
+    upRightAnim = nil,
+    upLeftAnim = nil,
+    downAnim = nil,
     --start pos
     x = 200,
     y = 700,
-    dir = 1, --1=up, 2=down
+    verticalDir = 1, --1=up, 2=down
+    horizontalDir = 1, --1=left, 2=right
     --attacks:
     -- a
     boomLevel = 1,
@@ -67,12 +72,13 @@ return {
     iFrameSec = 1,
     iFrameSecMax = 1,
     media = {
-        img = "assets/HeroScaled.png",
+        img = "assets/cha_sprites/adam.png",
         boom = "assets/boomerang.png",
         fire = "assets/fireScaled.png",
         berserk = "assets/berserk.png"
     },
     moveLeft = function(self, dt)
+        self:setLeftAnim()
         if (self:getLeftX()) > 0 then
             if self.inSonic then
                 self.x = self.x - (self.currentAcceleration * dt)
@@ -84,6 +90,7 @@ return {
         self.anim:update(dt)
     end,
     moveRight = function(self, dt)
+        self:setRightAnim()
         if (self:getRightX()) < WORLD.x then
             if self.inSonic then
                 self.x = self.x + self.currentAcceleration * dt
@@ -94,16 +101,32 @@ return {
         end
         self.anim:update(dt)
     end,
-    changeDirDown = function(self)
-        if self.dir == 1 then
-            self.dir = 2
+    changeVerticalDirDown = function(self)
+        if self.verticalDir == 1 then
+            self.verticalDir = 2
             self.anim = self.downAnim
         end
     end,
-    changeDirUp = function(self)
-        if self.dir == 2 then
-            self.dir = 1
-            self.anim = self.upAnim
+    changeVerticalDirUp = function(self)
+        if self.verticalDir == 2 then
+            self.verticalDir = 1
+            self.anim = self.upLeftAnim
+        end
+    end,
+    setLeftAnim = function(self)
+        if self.verticalDir == 1 then
+            if self.horizontalDir == 2 then
+                self.horizontalDir = 1
+                self.anim = self.upLeftAnim
+            end
+        end
+    end,
+    setRightAnim = function(self)
+        if self.verticalDir == 1 then
+            if self.horizontalDir == 1 then
+                self.horizontalDir = 2
+                self.anim = self.upRightAnim
+            end
         end
     end,
     --a
@@ -117,7 +140,7 @@ return {
                         x = self.x,
                         y = self.y,
                         dmg = 1,
-                        dir = self.dir
+                        verticalDir = self.verticalDir
                     }
                 )
                 self.canBoom = false
@@ -131,7 +154,7 @@ return {
                     x = self.x,
                     y = self.y,
                     dmg = 1,
-                    dir = self.dir
+                    verticalDir = self.verticalDir
                 }
             )
         end
@@ -140,7 +163,7 @@ return {
     spitFire = function(self)
         if self.fireLevel ~= 0 then
             local yOffset = 0
-            if self.dir == 1 then
+            if self.verticalDir == 1 then
                 yOffset = 370
             else
                 yOffset = -self.height
@@ -153,7 +176,7 @@ return {
                 width = self.media.fire:getWidth(),
                 height = self.media.fire:getHeight(),
                 dmg = 2,
-                dir = self.dir
+                verticalDir = self.verticalDir
             }
             table.insert(self.fires, newFire)
             self.canFire = false
@@ -335,7 +358,7 @@ return {
     updateBooms = function(self, dt)
         for i, boom in ipairs(self.booms) do
             boom.anim:update(dt)
-            if boom.dir == 1 then
+            if boom.verticalDir == 1 then
                 boom.y = boom.y - (350 * dt)
             else
                 boom.y = boom.y + (350 * dt)
@@ -347,7 +370,7 @@ return {
     end,
     updateFire = function(self, dt) --todo make non map specific, rather give duration that can be upgraded
         for i, fire in ipairs(self.fires) do
-            if fire.dir == 1 then
+            if fire.verticalDir == 1 then
                 fire.y = fire.y - (25 * dt)
             else
                 fire.y = fire.y + (25 * dt)

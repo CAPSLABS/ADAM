@@ -107,7 +107,7 @@ ADAM: Brb, more zombies incoming
 Stop the enemies from destroying the residency for three minutes! 
 ~none~NEXTLEVEL
 ~shop~MUSIC
-~none~SAGE 
+~none~SAGE
 ~mountain~MUSIC
 ~adam~RIGHT
 ~lilith~RIGHT
@@ -122,7 +122,7 @@ WILLIAM: It's that stupid Christopher Larmowe.
 CHRISTOPHER: AND I WOULD HAVE GOTTEN MY JEWEL, TOO, IF IT WEREN'T FOR YOU MEEDLING KIDS.
 CHRISTOPHER: BEWARE, MY STRONGEST WAVE OF ENEMY APPROACHES!
 ~mountainBattle~MUSIC
-~none~INSTRUCTIONS- defend christophers ultimate onslaught. hold the residency for 5 minutes
+~none~INSTRUCTIONS-
 Christophers ultimate onslaught: Hold the residency for five minutes! -
 ~none~NEXTLEVEL
 ~mountain~MUSIC
