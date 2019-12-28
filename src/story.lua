@@ -67,6 +67,7 @@ return {
         self.loaded = true
         self:processNextLine()
         love.graphics.setFont(WORLD.media.fantasyfont)
+        MUSIC.tracks.mainMenu:stop()
     end,
     loadSpeakerObjects = function(self)
         for key, value in pairs(self.cast) do
@@ -134,6 +135,9 @@ return {
             self.parsed = true
         elseif action == "INSTRUCTIONS_END" then
             self:setRegularFont()
+            self.parsed = true
+        elseif action == "MUSIC" then
+            MUSIC:startMusic(character) --character is in this case the title
             self.parsed = true
         end
     end,

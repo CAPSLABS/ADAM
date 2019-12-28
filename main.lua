@@ -14,8 +14,8 @@ require("src.story")
 
 SUIT = require "src.suit"
 ANIMATE = require "src.anim8"
-DEBUG = true
---DEBUG = false
+--DEBUG = true
+DEBUG = false
 
 --1=menu, 2=game, 3=gameOver, 4=shop, 5=explosion, 6 = story
 GAMESTATES = {1, 2, 3, 4, 5}
@@ -27,6 +27,7 @@ function love.load()
     MENU = require("src.menu")
     SHOP = require("src.shop")
     STORY = require("src.story")
+    MUSIC = require("src.music")
     WORLD.currentLvl = 3 --this should point to menu (3)
     --make sure this points to last level in WORLD, which is MENU
     WORLD:loadEnemies()
@@ -42,7 +43,9 @@ function love.load()
     end
     WORLD:loadPlayer()
     SHOP:loadBacking()
-    MENU:loadMenuSounds()
+    MUSIC:load()
+    MUSIC:changeVolume(0.5)
+    MUSIC.tracks.mainMenu:play()
 end
 
 function LoadMap()
@@ -74,9 +77,11 @@ function love.update(dt)
     if GAMESTATE == 1 then --MENU
         if WORLD.exploding then
             WORLD:updateExplosion(dt, 240, 850, WORLD.media["explosion"].maxRuntime)
-        else
-            MENU:checkLoadingInput()
         end
+        if DEBUG then
+            MENU:checkDebugInput()
+        end
+        MENU:updateMenu()
         WORLD:spawnEnemies(dt)
         WORLD:updateEnemies(dt) --moves, animates&deletes enemies
     elseif GAMESTATE == 2 then --GAME
@@ -123,7 +128,11 @@ function love.draw(dt)
             WORLD:drawExplosionStuff(240, 850)
         end
         WORLD:drawEnemyStuff()
-        MENU:options()
+        if DEBUG then
+            MENU:drawDebugMenu()
+        else
+            MENU:drawMenu()
+        end
     elseif GAMESTATE == 2 then --GAME
         _G.map:draw()
         WORLD:drawExplosionStuff(WORLD.player.x + 32, WORLD.player.y + 32)

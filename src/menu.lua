@@ -10,41 +10,35 @@ return {
     firstFPress = false,
     -- Last acknowledged input during the game over screen
     lastInput = nil,
-    -- Sound obj having
-    airhorn = nil,
+    enterPressed = false,
+    slider = {value = 0.5, min = 0, max = 1},
     ----------------- UPDATING -----------------
-
-    loadMenuSounds = function(self)
-        self.airhorn = love.audio.newSource("assets/sounds/air_horn_sound.mp3", "static")
-    end,
     -- Menu Text
-    options = function(self)
-        if DEBUG then
-            love.graphics.setFont(WORLD.media.defaultfont)
-            love.graphics.print("This is the DEBUG menu.", 10, 700)
-            love.graphics.print(" Press ENTER to start playing!", 10, 720)
-            love.graphics.print(" Press 1 to play only level 1!", 10, 740)
-            love.graphics.print(" Press 2 to play only level 2!", 10, 760)
-            love.graphics.print(" Press S to open the shop!", 10, 780)
-            love.graphics.print(" Press 6 to start the STORY!", 10, 800)
-        else
-            love.graphics.setFont(WORLD.media.bigfantasyfont)
-            love.graphics.print("A - wesome", 115, 250)
-            love.graphics.print("D - efender", 115, 300)
-            love.graphics.print("A - ction", 115, 350)
-            love.graphics.print("M - urderer", 115, 400)
-            love.graphics.print("Press ENTER!", 100, 600)
+    updateMenu = function(self)
+        if love.keyboard.isDown("return") then
+            self.enterPressed = true
+        end
+        if self.enterPressed then
+            self:mainMenu()
         end
     end,
-    -- Controls in Menu screen
-    checkLoadingInput = function(self)
-        if love.keyboard.isDown("space") then
-            WORLD.player.bursting = true
-            WORLD.exploding = true
-        elseif love.keyboard.isDown("return") then
-            WORLD.player.bursting = true
-            WORLD.exploding = true
+    mainMenu = function(self)
+        if SUIT.ImageButton(WORLD.media.hud.borderSmall, self:getBorderX(), self:getBorderY(1)).hit then
+            self:startGame()
+        elseif SUIT.ImageButton(WORLD.media.hud.borderSmall, self:getBorderX(), self:getBorderY(2)).hit then
+            print("THIS IS WHERE WE'D DO THE ENDLESS MODE IF WE HAD ONE")
+        elseif SUIT.ImageButton(WORLD.media.hud.borderSmall, self:getBorderX(), self:getBorderY(3)).hit then
+            print("I MADE EVERYTHING <3")
         end
+        MUSIC:changeVolume(self.slider.value)
+    end,
+    getBorderX = function(self)
+        return 240 - WORLD.media.hud.borderSmall:getWidth() / 2
+    end,
+    getBorderY = function(self, segment)
+        return WORLD.y / 5 * segment - WORLD.y / 8
+    end,
+    checkDebugInput = function(self)
         if DEBUG == true then
             if love.keyboard.isDown("1") then
                 InitGame(1, 2)
@@ -97,14 +91,34 @@ return {
     playAirhornSound = function(self)
         if self.firstFPress then
             if self.lastInput == "f" then
-                self.airhorn:play()
+                MUSIC.airhorn:play()
             end
-        elseif self.airhorn:isPlaying() and self.lastInput ~= "f" then
-            self.airhorn:stop()
+        elseif MUSIC.airhorn:isPlaying() and self.lastInput ~= "f" then
+            MUSIC.airhorn:stop()
         end
     end,
+    startGame = function(self)
+        WORLD.player.bursting = true
+        WORLD.exploding = true
+    end,
     ----------------- DRAWING -----------------
-
+    drawTitler = function(self)
+        love.graphics.setFont(WORLD.media.bigfantasyfont)
+        love.graphics.print("A - wesome", 115, 250)
+        love.graphics.print("D - efender", 115, 300)
+        love.graphics.print("A - ction", 115, 350)
+        love.graphics.print("M - urderer", 115, 400)
+        love.graphics.print("Press ENTER!", 100, 600)
+    end,
+    drawDebugMenu = function(self)
+        love.graphics.setFont(WORLD.media.defaultfont)
+        love.graphics.print("This is the DEBUG menu.", 10, 700)
+        love.graphics.print(" Press ENTER to start playing!", 10, 720)
+        love.graphics.print(" Press 1 to play only level 1!", 10, 740)
+        love.graphics.print(" Press 2 to play only level 2!", 10, 760)
+        love.graphics.print(" Press S to open the shop!", 10, 780)
+        love.graphics.print(" Press 6 to start the STORY!", 10, 800)
+    end,
     drawPaidRespect = function(self, imgPath)
         if self.respectPaid then
             local randomAngle = love.math.random(-3.14, 3.14)
@@ -117,5 +131,40 @@ return {
             love.graphics.setBackgroundColor(0, 0, 0, 0)
             love.graphics.draw(imgPath)
         end
+    end,
+    drawMenu = function(self)
+        if self.enterPressed then
+            SUIT:draw()
+            self:writeButtons()
+        else
+            self:drawTitler()
+        end
+    end,
+    writeButtons = function(self)
+        love.graphics.printf(
+            "STORY MODE",
+            self:getBorderX() + 50,
+            self:getBorderY(1) + 40,
+            WORLD.media.hud.borderSmall:getWidth()
+        )
+        love.graphics.printf(
+            "ENDLESS MODE",
+            self:getBorderX() + 35,
+            self:getBorderY(2) + 40,
+            WORLD.media.hud.borderSmall:getWidth()
+        )
+        love.graphics.printf(
+            "CREDITS",
+            self:getBorderX() + 100,
+            self:getBorderY(3) + 40,
+            WORLD.media.hud.borderSmall:getWidth()
+        )
+        love.graphics.printf(
+            "VOLUME",
+            self:getBorderX() + 100,
+            self:getBorderY(4) + 40,
+            WORLD.media.hud.borderSmall:getWidth()
+        )
+        SUIT.Slider(self.slider, self:getBorderX() + 80, self:getBorderY(4) + 80, 200, 20)
     end
 }

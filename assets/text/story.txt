@@ -1,8 +1,9 @@
 A quiet day in the village of our hero, ADAM. One morning, ADAM went to his grandmas attic and was excited to find a treasure chest.
 ~adam~RIGHT
 ADAM: Look what I've found! 
-ADAM: I can throw this plastic boomerang by pressing A and then a copy reappears in my hands!
+ADAM: I can throw this plastic boomerang by pressing [A] and then a copy reappears in my hands!
 ~lilith~LEFT
+~lilith~MUSIC
 LILITH: Doesn't that pollute the environment?
 ~lilith~TURN
 LILITH: Oh, what is this?!
@@ -12,6 +13,7 @@ VILLAGER: ARGH! HELP! I am dying!
 ~lilith~RIGHT
 LILITH: Is that the sound of a dying giraffe?
 VILLAGER: *clears throat* I am dying!!!
+~villageBattle~MUSIC
 ~none~INSTRUCTIONS
 Kill ten enemies who are attacking the village!
 ~none~NEXTLEVEL
