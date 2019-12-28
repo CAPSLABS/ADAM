@@ -50,8 +50,17 @@ return {
                 InitGame(1, 2)
             elseif love.keyboard.isDown("2") then
                 InitGame(2, 2)
+                WORLD.player.fireLevel = 1
             elseif love.keyboard.isDown("3") then
                 InitGame(3, 2)
+                WORLD.player.fireLevel = 1
+                WORLD.player.goFastLevel = 1
+            elseif love.keyboard.isDown("4") then
+                InitGame(4, 2)
+                WORLD.player.boomLevel = 2
+                WORLD.player.fireLevel = 1
+                WORLD.player.goFastLevel = 1
+                WORLD.player.berserkLevel = 1
             elseif love.keyboard.isDown("s") then
                 GAMESTATE = 4
             elseif love.keyboard.isDown("l") then

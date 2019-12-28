@@ -57,8 +57,8 @@ return {
     drop = function(self)
         local randomNumber = math.random()
         -- lvl 1: does not drop anything
-        if self.level == 2 then
-            -- lvl 2: only drops hearts with probability 4%
+        if self.level == 2 or self.level == 4 then
+            -- lvl 2 or lvl 4: only drops hearts with probability 4%
             if randomNumber <= 0.04 then
                 local heart = Shallowcopy(WORLD.itemsRaw.items["heart"])
                 heart.x = self.x
@@ -90,6 +90,7 @@ return {
                 WORLD.player.money = WORLD.player.money + self.reward
                 if
                     WORLD.levels[WORLD.currentLvl].winType == "kill" and
+                        WORLD.levels[WORLD.currentLvl].enemies.goblin.killToWin and
                         (WORLD.levels[WORLD.currentLvl].enemies.goblin.counter <
                             WORLD.levels[WORLD.currentLvl].enemies.goblin.goal)
                  then

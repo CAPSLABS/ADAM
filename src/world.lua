@@ -155,6 +155,39 @@ return {
             goal = 10,
             winType = "collect" -- collect 10 hints
         },
+        --level 4: Kill 10 zombies
+        {
+            enemies = {
+                goblin = {
+                    timer = 5, -- inital value is value of timerMax, a changing variable
+                    timerMax = 5, -- initial value until first mob comes, marks the actual countdown time
+                    --counter = 0, -- counts how many goblins have been murdered in this level
+                    --goal = 10, -- counts how many goblins we need to murder in this level
+                    killToWin = false, -- defeating goblins is necessary to win
+                    spawnFct = function(self, runtime)
+                        -- returns the next timerMax value (waiting time until next goblin spawns)
+                        -- Sigmoid mirrored on y axis shifted by 2 along x axis
+                        -- They don't spawn as fast
+                        return (1 / (1 + math.exp(0.02 * runtime))) + 1
+                    end
+                },
+                zombie = {
+                    timer = 0.4,
+                    timerMax = 0.4,
+                    counter = 0,
+                    goal = 7,
+                    killToWin = true,
+                    spawnFct = function(self, runtime)
+                        if self.counter == 0 then
+                            return 8
+                        else
+                            return (1 / (1 + math.exp(0.09 * runtime))) + 2.5
+                        end
+                    end
+                }
+            },
+            winType = "kill"
+        },
         --menu (always last)
         {
             enemies = {
