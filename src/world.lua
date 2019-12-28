@@ -179,7 +179,7 @@ return {
                     killToWin = true,
                     spawnFct = function(self, runtime)
                         if self.counter == 0 then
-                            return 8
+                            return 8 -- let the zombies only spawn every 8 seconds as long as the player does not defeat the zombie
                         else
                             return (1 / (1 + math.exp(0.09 * runtime))) + 2.5
                         end
