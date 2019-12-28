@@ -14,8 +14,8 @@ require("src.story")
 
 SUIT = require "src.suit"
 ANIMATE = require "src.anim8"
-DEBUG = true
---DEBUG = false
+-- DEBUG = true
+DEBUG = false
 
 --1=menu, 2=game, 3=gameOver, 4=shop, 5=explosion, 6 = story
 GAMESTATES = {1, 2, 3, 4, 5}
@@ -120,14 +120,14 @@ function love.draw(dt)
             WORLD:drawScreenShake(-5, 5)
         end
         _G.map:draw()
-        if WORLD.exploding then
-            WORLD:drawExplosionStuff(240, 850)
-        end
         WORLD:drawEnemyStuff()
         if DEBUG then
             MENU:drawDebugMenu()
         else
             MENU:drawMenu()
+        end
+        if WORLD.exploding then
+            WORLD:drawExplosionStuff(240, 850)
         end
     elseif GAMESTATE == 2 then --GAME
         _G.map:draw()
