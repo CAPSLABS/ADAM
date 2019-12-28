@@ -34,11 +34,17 @@ return {
         self.airhorn = love.audio.newSource("assets/sounds/air_horn_sound.mp3", "static")
     end,
     startMusic = function(self, title)
+        self:stopPrevious()
         self.tracks[title]:play()
     end,
     changeVolume = function(self, volume)
         for key, track in pairs(self.tracks) do
             track:setVolume(volume)
+        end
+    end,
+    stopPrevious = function(self)
+        for key, track in pairs(self.tracks) do
+            track:stop()
         end
     end
 }

@@ -137,7 +137,7 @@ return {
             self:setRegularFont()
             self.parsed = true
         elseif action == "MUSIC" then
-            MUSIC:startMusic(character) --character is in this case the title
+            MUSIC:startMusic(character) --"character" arg could be the song title, not necc. a character name
             self.parsed = true
         end
     end,
