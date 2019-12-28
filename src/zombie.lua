@@ -1,5 +1,5 @@
 return {
-    hp = 7,
+    hp = 6,
     dmg = 1,
     speed = 0.2,
     x = 0,
