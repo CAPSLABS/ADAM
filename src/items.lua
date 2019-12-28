@@ -24,8 +24,8 @@ return {
             self.y = posY
         end,
         effect = function(self, currentLvl)
-            if WORLD.levels[currentLvl].collectCounter < WORLD.levels[currentLvl].collectGoal then
-                WORLD.levels[currentLvl].collectCounter = WORLD.levels[currentLvl].collectCounter + 1
+            if WORLD.levels[currentLvl].counter < WORLD.levels[currentLvl].goal then
+                WORLD.levels[currentLvl].counter = WORLD.levels[currentLvl].counter + 1
             end
         end
     }

@@ -59,11 +59,11 @@ return {
             WORLD.player.money = WORLD.player.money + self.reward
             if
                 WORLD.levels[WORLD.currentLvl].winType == "kill" and
-                    (WORLD.levels[WORLD.currentLvl].enemies.zombie.killCounter <
-                        WORLD.levels[WORLD.currentLvl].enemies.zombie.killGoal)
+                    (WORLD.levels[WORLD.currentLvl].enemies.zombie.counter <
+                        WORLD.levels[WORLD.currentLvl].enemies.zombie.goal)
              then
-                WORLD.levels[WORLD.currentLvl].enemies.zombie.killCounter =
-                    WORLD.levels[WORLD.currentLvl].enemies.zombie.killCounter + 1
+                WORLD.levels[WORLD.currentLvl].enemies.zombie.counter =
+                    WORLD.levels[WORLD.currentLvl].enemies.zombie.counter + 1
             end
         end
         self.anim = ANIMATE.newAnimation(self.media.imgGrid("1-6", 21), 0.3, "pauseAtEnd")

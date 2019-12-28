@@ -44,6 +44,8 @@ return {
                 InitGame(1, 2)
             elseif love.keyboard.isDown("2") then
                 InitGame(2, 2)
+            elseif love.keyboard.isDown("3") then
+                InitGame(3, 2)
             elseif love.keyboard.isDown("s") then
                 GAMESTATE = 4
             elseif love.keyboard.isDown("l") then

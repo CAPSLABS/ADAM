@@ -56,38 +56,45 @@ return {
     end,
     drop = function(self)
         local randomNumber = math.random()
-        if self.level == 1 then
-            if randomNumber <= 0.9 then
+        -- lvl 1: does not drop anything
+        if self.level == 2 then
+            -- lvl 2: only drops hearts with probability 4%
+            if randomNumber <= 0.04 then
                 local heart = Shallowcopy(WORLD.itemsRaw.items["heart"])
                 heart.x = self.x
                 heart.y = self.y
                 table.insert(WORLD.drops, heart)
             end
-        elseif self.level == 2 then
-            if randomNumber <= 0.9 then
+        elseif self.level == 3 then
+            -- lvl 3: hearts probability 4%, hint probability 10%
+            if randomNumber <= 0.04 then
+                local heart = Shallowcopy(WORLD.itemsRaw.items["heart"])
+                heart.x = self.x
+                heart.y = self.y
+                table.insert(WORLD.drops, heart)
+            elseif 0.04 < randomNumber and randomNumber <= 0.19 then
                 local importantCoin = Shallowcopy(WORLD.itemsRaw.items["importantCoin"])
                 importantCoin.x = self.x
                 importantCoin.y = self.y
                 table.insert(WORLD.drops, importantCoin)
             end
-        else
-            print("Goblin couldn't find the item to drop")
         end
     end,
     die = function(self)
         self.curAnim = "dying"
         self.anim = ANIMATE.newAnimation(self.media.imgGrid("1-7", 5), 0.06, "pauseAtEnd")
-        -- should point to menu, make sure
-        if WORLD.currentLvl ~= 3 then
+        -- should point to menu, make sure - Menu is always the last level
+        -- TODO: make flag to where one can read when we are in a menu
+        if WORLD.currentLvl ~= #WORLD.levels then
             if not WORLD.wonLevel then
                 WORLD.player.money = WORLD.player.money + self.reward
                 if
                     WORLD.levels[WORLD.currentLvl].winType == "kill" and
-                        (WORLD.levels[WORLD.currentLvl].enemies.goblin.killCounter <
-                            WORLD.levels[WORLD.currentLvl].enemies.goblin.killGoal)
+                        (WORLD.levels[WORLD.currentLvl].enemies.goblin.counter <
+                            WORLD.levels[WORLD.currentLvl].enemies.goblin.goal)
                  then
-                    WORLD.levels[WORLD.currentLvl].enemies.goblin.killCounter =
-                        WORLD.levels[WORLD.currentLvl].enemies.goblin.killCounter + 1
+                    WORLD.levels[WORLD.currentLvl].enemies.goblin.counter =
+                        WORLD.levels[WORLD.currentLvl].enemies.goblin.counter + 1
                 end
             end
         end
