@@ -340,8 +340,7 @@ return {
     end,
     checkStartGame = function(self)
         --make sure this points to the last level, menu
-        print(self.currentLvl)
-        if self.currentLvl == 3 then
+        if self.currentLvl == #self.levels then
             InitGame(1, 6)
         end
     end,
