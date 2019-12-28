@@ -62,6 +62,10 @@ return {
     --
     sonicDuration = 2,
     inSonic = false,
+    -- i frames
+    gotHit = false,
+    iFrameSec = 1,
+    iFrameSecMax = 1,
     media = {
         img = "assets/HeroScaled.png",
         boom = "assets/boomerang.png",
@@ -241,6 +245,13 @@ return {
             PLAYERRAW.burstCooldown = PLAYERRAW.burstCooldown / 2
         end
     end,
+    update = function(self, dt)
+        self:updateCooldowns(dt)
+        self:updateModeDurations(dt)
+        self:updateBooms(dt) --moves,animates&deletes boomerangs
+        self:updateFire(dt)
+        self:updateIFrames(dt)
+    end,
     updateCooldowns = function(self, dt)
         --TODO underflow protection needed y/N?
         -- possibly check if between max and 0 before calculations?
@@ -269,6 +280,15 @@ return {
         self.burstCooldown = self.burstCooldown - (1 * dt)
         if self.burstCooldown < 0 then
             self.canBurst = true
+        end
+    end,
+    updateIFrames = function(self, dt)
+        if self.gotHit then
+            self.iFrameSec = self.iFrameSec - (1 * dt)
+            if self.iFrameSec <= 0 then
+                self.gotHit = false
+                self.iFrameSec = self.iFrameSecMax
+            end
         end
     end,
     updateModeDurations = function(self, dt)
@@ -341,7 +361,15 @@ return {
     --updateSelf = function(self,dt)
     --self.anim:update(dt)
     --end,
-
+    getHit = function(self)
+        if not self.gotHit then
+            self.hearts = self.hearts - 1
+            self.gotHit = true
+            if self.hearts == 0 then
+                self:die()
+            end
+        end
+    end,
     die = function(self)
         self.alive = false
         GAMESTATE = 3

@@ -8,8 +8,8 @@ return {
     alive = true,
     reward = 3, --possibly function with variable reward?
     anim = nil,
-    iFrameSec = 0.75,
-    iFrameSecMax = 0.75,
+    iFrameSec = 0.6,
+    iFrameSecMax = 0.6,
     curAnim = "leftPump", --can be walking, dying, leftPump, rightPump, star
     gotHit = false,
     --the approximate width and height of a zombie (smaller then image)

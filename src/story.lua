@@ -109,7 +109,6 @@ return {
         self.currentLine = line
     end,
     parse = function(self, line)
-        print(line)
         local instructions = Split(line, "~")
         local character = instructions[1]
         local action = instructions[2]

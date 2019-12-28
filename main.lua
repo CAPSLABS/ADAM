@@ -87,11 +87,7 @@ function love.update(dt)
     elseif GAMESTATE == 2 then --GAME
         MENU:checkRestartInput()
         WORLD:checkPlayerActionInput(dt)
-
-        WORLD.player:updateCooldowns(dt)
-        WORLD.player:updateModeDurations(dt)
-        WORLD.player:updateBooms(dt) --moves,animates&deletes boomerangs
-        WORLD.player:updateFire(dt)
+        WORLD.player:update(dt)
         WORLD:updateHealth()
 
         --WORLD.player:updateSelf(dt)
