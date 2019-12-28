@@ -1,14 +1,17 @@
+- map 3 level transitions (P)
 - map 3: a door (P)
 - map 3: a boss( P)
+
 - map 3: an enemy type (D)
 - main menu: credits (to OS artist) + show story and grayed out endless and end of game (D)
 - endless mode (WIP für D)
+- story fadeout / mapchangecalls (D) / play intro once, then loop credit theme
 
 OPTIONAL
+- keyboard control for shop and main menu (!!!)
 - balance level ups
 - sfx
 - discuss if we want to explain skills/upgrades before buying (per skill row there is a button that writes a description of that skill)
-- keyboard control for shop and main menu
 - silver lvl up is cd / 2, aber was könnte golden lvl up sein ? (current: nochmal halbieren)
 - Final code cleanup (check all todos)
 - let the whole story be read out by voice actors

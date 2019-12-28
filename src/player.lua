@@ -4,7 +4,7 @@ return {
     hearts = 3,
     maxHearts = 3,
     money = 0,
-    speed = 250,
+    speed = 230,
     --the approximate width and height of the character (smaller than image)
     width = 24,
     height = 45,
