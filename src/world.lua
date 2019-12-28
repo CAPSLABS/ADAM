@@ -89,13 +89,13 @@ return {
         }
     },
     levels = {
-        --level1
+        --level1: Kill 10 goblins
         {
             enemies = {
                 goblin = {
-                    --killCounter = 0, -- counts how many goblins have been murdered in this level
-                    --killGoal = 1, -- counts how many goblins we need to murder in this level
-                    --killToWin = true, -- defeating goblins is necessary to win
+                    counter = 0, -- counts how many goblins have been murdered in this level
+                    goal = 10, -- counts how many goblins we need to murder in this level
+                    killToWin = true, -- defeating goblins is necessary to win
                     timer = 0.4, -- inital value is value of timerMax, a changing variable
                     timerMax = 0.4, -- initial value until first mob comes, marks the actual countdown time
                     spawnFct = function(self, runtime)
@@ -103,82 +103,57 @@ return {
                         -- Sigmoid mirrored on y axis shifted by 2 along x axis
                         -- Reaches timer = 0.51 in ~46 seconds
                         return (1 / (1 + math.exp(0.1 * runtime))) + 0.5
+                    end
+                }
+            },
+            winType = "kill"
+        },
+        --level 2: surivive 2 min
+        {
+            enemies = {
+                goblin = {
+                    timer = 0.4, -- inital value is value of timerMax, a changing variable
+                    timerMax = 0.4, -- initial value until first mob comes, marks the actual countdown time
+                    spawnFct = function(self, runtime)
+                        -- returns the next timerMax value (waiting time until next goblin spawns)
+                        -- Sigmoid mirrored on y axis shifted by 2 along x axis
+                        -- Designed to have a spawn timer climax of about ~0.88 seconds at 2 minutes
+                        return (1 / (1 + math.exp(0.02 * runtime))) + 0.8
                     end
                 }
             },
             winType = "endure",
-            runtimeGoal = 3,
-            winCondition = function(self, runtime, dt)
-                if runtime >= self.runtimeGoal then
-                    return true
-                end
-                return false
-            end
+            goal = 120 -- runtime to be reached to win
+            -- runtime is counted via self.runtime
         },
-        --level2
+        --level 3: collect 10 hints
         {
-            mapPath = "ebene1tilemap",
-            enemies = {
-                goblin = {
-                    timer = 0.4, -- inital value is value of timerMax, a changing variable
-                    timerMax = 0.4, -- initial value until first mob comes, marks the actual countdown time
-                    spawnFct = function(self, runtime)
-                        -- returns the next timerMax value (waiting time until next goblin spawns)
-                        -- Sigmoid mirrored on y axis shifted by 2 along x axis
-                        -- Reaches timer = 0.51 in ~46 seconds
-                        return (1 / (1 + math.exp(0.1 * runtime))) + 0.5
-                    end
-                }
-            },
-            winType = "collect",
-            collectCounter = 0,
-            collectGoal = 10,
-            winCondition = function(self, runtime, dt)
-                if self.collectCounter >= self.collectGoal then
-                    return true
-                end
-                return false
-            end
-        },
-        --level 3
-        {
-            cityHealthMax = 100,
-            cityHealth = 100,
             enemies = {
                 goblin = {
                     timer = 0.2,
                     timerMax = 0.2,
-                    killCounter = 0,
-                    killGoal = 3,
-                    killToWin = true,
                     spawnFct = function(self, runtime)
                         -- Sigmoid mirrored on y axis shifted up by 0.5 (minimum is 0.5)
-                        -- Reaches timer = 0.51 in ~46 seconds
-                        return (1 / (1 + math.exp(0.1 * runtime))) + 0.5
-                    end
-                },
-                zombie = {
-                    timer = 1,
-                    timerMax = 1,
-                    killCounter = 0,
-                    killGoal = 1,
-                    killToWin = true,
-                    spawnFct = function(self, runtime)
-                        -- Reaches timer = 1.51 in ~51 seconds
-                        return (1 / (1 + math.exp(0.09 * runtime))) + 1.5
+                        -- This task should be completed within 2 minutes or else the player has a problem
+                        return (1 / (1 + math.exp(0.1 * runtime))) + 0.75
                     end
                 }
+                --},
+                --zombie = {
+                --    timer = 1,
+                --    timerMax = 1,
+                --    counter = 0,
+                --    goal = 1,
+                --    killToWin = true,
+                --    spawnFct = function(self, runtime)
+                --        -- Reaches timer = 1.51 in ~51 seconds
+                --        return (1 / (1 + math.exp(0.09 * runtime))) + 1.5
+                --    end
+                --}
             },
-            winType = "kill", -- We win by killing zombies only
-            winCondition = function(self, runtime, dt)
-                if
-                    self.enemies.goblin.killCounter >= self.enemies.goblin.killGoal and
-                        self.enemies.zombie.killCounter >= self.enemies.zombie.killGoal
-                 then
-                    return true
-                end
-                return false
-            end
+            counter = 0, -- collected hints counter
+            goal = 10,
+            winType = "collect" -- collect 10 hints
         },
         --menu (always last)
         {
@@ -191,9 +166,9 @@ return {
                     end
                 }
             },
-            winCondition = function(self, runtime, dt)
-                return false
-            end
+            counter = 0,
+            goal = 100000, -- no goblin will spawn the collectable in this level
+            winType = "collect"
         }
     },
     statsRaw = {
@@ -278,7 +253,7 @@ return {
         self.runtime = self.runtime + dt
         for enemyName, enemySpawnInfo in pairs(self.levels[self.currentLvl].enemies) do
             enemySpawnInfo.timer = enemySpawnInfo.timer - dt
-            if enemySpawnInfo.timer <= 0 then
+            if enemySpawnInfo.timer <= 0 and not self.wonLevel then
                 enemySpawnInfo.timerMax = enemySpawnInfo:spawnFct(self.runtime)
                 local newEnemy = self.statsRaw[enemyName]:newSelf(self.currentLvl)
                 table.insert(self.enemies, newEnemy)
@@ -483,8 +458,33 @@ return {
             GAMESTATE = 3
         end
     end,
+    winCondition = function(self, counter, goal)
+        if counter >= goal then
+            return true
+        end
+        return false
+    end,
     checkWinCondition = function(self, dt)
-        if self.levels[self.currentLvl]:winCondition(self.runtime, dt) and not self.wonLevel then
+        -- Determine for each winning type whether its goal was reached
+        local winConditionSatisfied = false
+        if self.levels[self.currentLvl].winType == "kill" then
+            for name, enemyInfo in pairs(self.levels[self.currentLvl].enemies) do
+                if enemyInfo.killToWin then
+                    winConditionSatisfied =
+                        self:winCondition(enemyInfo.counter, enemyInfo.goal) or winConditionSatisfied
+                end
+            end
+        elseif self.levels[self.currentLvl].winType == "collect" then
+            winConditionSatisfied =
+                self:winCondition(self.levels[self.currentLvl].counter, self.levels[self.currentLvl].goal)
+        elseif self.levels[self.currentLvl].winType == "endure" then
+            winConditionSatisfied = self:winCondition(self.runtime, self.levels[self.currentLvl].goal)
+        else
+            print(
+                "WinCondition has not been specified for this level and was: " .. self.levels[self.currentLvl].winType
+            )
+        end
+        if winConditionSatisfied and not self.wonLevel then
             -- set flag that we won
             self.wonLevel = true
             -- kill all remaining enemies
@@ -779,7 +779,7 @@ return {
                     -- write killCounter
                     love.graphics.setFont(WORLD.media.bigfantasyfont)
                     love.graphics.printf(
-                        enemySpawnInfo.killCounter .. "/" .. enemySpawnInfo.killGoal,
+                        enemySpawnInfo.counter .. "/" .. enemySpawnInfo.goal,
                         self.media.hudPos.counterX + self.media.hud.brown:getWidth() + 5,
                         self.media.hudPos.counterY * enemyCount,
                         (500 - (0.8 * self.media.hudPos.counterX + 0.8 * self.media.hud.brown:getWidth())),
@@ -799,7 +799,7 @@ return {
             love.graphics.push()
             love.graphics.applyTransform(scaling)
             love.graphics.setFont(WORLD.media.bigfantasyfont)
-            if self.runtime >= self.levels[self.currentLvl].runtimeGoal then
+            if self.runtime >= self.levels[self.currentLvl].goal then
                 -- runtime goal reached
                 local time = DisplayTime(0)
                 love.graphics.printf(time, self.media.hudPos.counterX + 5, self.media.hudPos.counterY, 150, "left")
@@ -807,11 +807,11 @@ return {
                 -- runtime goal not reached
                 love.graphics.setColor(
                     1,
-                    1 - self.runtime / self.levels[self.currentLvl].runtimeGoal,
-                    1 - self.runtime / self.levels[self.currentLvl].runtimeGoal,
+                    1 - self.runtime / self.levels[self.currentLvl].goal,
+                    1 - self.runtime / self.levels[self.currentLvl].goal,
                     1
                 )
-                local time = DisplayTime(self.levels[self.currentLvl].runtimeGoal - self.runtime)
+                local time = DisplayTime(self.levels[self.currentLvl].goal - self.runtime)
                 love.graphics.printf(time, self.media.hudPos.counterX + 5, self.media.hudPos.counterY, 150, "left")
                 love.graphics.setColor(255, 255, 255, 255)
             end
@@ -849,7 +849,7 @@ return {
             -- write collectCounter
             love.graphics.setFont(WORLD.media.bigfantasyfont)
             love.graphics.printf(
-                self.levels[self.currentLvl].collectCounter .. "/" .. self.levels[self.currentLvl].collectGoal,
+                self.levels[self.currentLvl].counter .. "/" .. self.levels[self.currentLvl].goal,
                 self.media.hudPos.counterX + self.media.hud.brown:getWidth() + 5,
                 self.media.hudPos.counterY,
                 (500 - (0.8 * self.media.hudPos.counterX + 0.8 * self.media.hud.brown:getWidth())),

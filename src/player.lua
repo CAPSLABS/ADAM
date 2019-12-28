@@ -4,7 +4,7 @@ return {
     hearts = 3,
     maxHearts = 3,
     money = 0,
-    speed = 200,
+    speed = 250,
     --the approximate width and height of the character (smaller than image)
     width = 24,
     height = 45,
@@ -32,7 +32,7 @@ return {
     canBoom = true,
     booms = {},
     -- s
-    fireLevel = 0,
+    fireLevel = 1,
     fireCooldown = 10,
     canFire = true,
     fires = {},
@@ -41,7 +41,7 @@ return {
     berserkCooldown = 10,
     canBerserk = true,
     -- f
-    goFastLevel = 0,
+    goFastLevel = 1,
     goFastCooldown = 10,
     canGoFast = true,
     sonicAcceleration = 12,

@@ -46,8 +46,7 @@ function love.load()
 end
 
 function LoadMap()
-    --_G.map = LoadTiledMap("assets/tile/", WORLD.map)
-    _G.map = LoadTiledMap("assets/tile/", 3)
+    _G.map = LoadTiledMap("assets/tile/", WORLD.map)
 end
 
 function InitGame(lvl, gamestate)
@@ -57,6 +56,7 @@ function InitGame(lvl, gamestate)
     WORLD.drops = {}
     WORLD.wonLevel = false
     WORLD.currentLvl = lvl
+    WORLD.player.hearts = WORLD.player.maxHearts
     GAMESTATE = gamestate
     if GAMESTATE == 6 then
         love.graphics.setFont(WORLD.media.fantasyfont)
@@ -92,11 +92,11 @@ function love.update(dt)
         --WORLD.player:updateSelf(dt)
 
         --WORLD:updateHUD(dt)
+        WORLD:checkWinCondition(dt)
         WORLD:spawnEnemies(dt)
         WORLD:updateEnemies(dt) --moves, animates&deletes enemies
         WORLD:handleCollisions()
         WORLD:updateExplosion(dt, WORLD.player.x + 32, WORLD.player.y + 32, WORLD.player.explosionMaxRuntime)
-        WORLD:checkWinCondition(dt)
     elseif GAMESTATE == 3 then --GAME OVER
         MENU:checkGameOverInput()
         MENU:playAirhornSound()
