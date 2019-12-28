@@ -32,7 +32,7 @@ return {
     canBoom = true,
     booms = {},
     -- s
-    fireLevel = 1,
+    fireLevel = 0,
     fireCooldown = 10,
     canFire = true,
     fires = {},
@@ -41,7 +41,7 @@ return {
     berserkCooldown = 10,
     canBerserk = true,
     -- f
-    goFastLevel = 1,
+    goFastLevel = 0,
     goFastCooldown = 10,
     canGoFast = true,
     sonicAcceleration = 12,
@@ -50,7 +50,7 @@ return {
     sonicRings = {},
     -- space
     burstLevel = 0,
-    burstCooldown = 15,
+    burstCooldown = 20,
     canBurst = true,
     bursting = false,
     explosionMaxRuntime = 1.3,

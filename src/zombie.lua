@@ -1,6 +1,6 @@
 return {
     hp = 8,
-    dmg = 5,
+    dmg = 1,
     speed = 0.2,
     x = 0,
     y = 0,
@@ -41,6 +41,7 @@ return {
         local baby = Shallowcopy(self)
         baby.x = math.random(0, (WORLD.x - self.width)) -- substracting width avoids clipping out to the right
         baby.anim = ANIMATE.newAnimation(self.media.imgGrid("2-7", 7), 0.08, "pauseAtEnd")
+        baby.level = level
         return baby
     end,
     getHit = function(self, dmg, dt)
@@ -50,6 +51,20 @@ return {
             if (self.hp <= 0) and (self.curAnim ~= "dying") then
                 --make sure to not die while already in the process of dying
                 self:die()
+            end
+        end
+    end,
+    drop = function(self)
+        assert(self.level >= 4, "Zombie:drop, self level was below 4 with: " .. self.level)
+        -- lvl 1-3: does not drop anything
+        local randomNumber = math.random()
+        if self.level == 4 then
+            -- lvl 4: drops hearts with probability 10%
+            if randomNumber <= 0.1 then
+                local heart = Shallowcopy(WORLD.itemsRaw.items["heart"])
+                heart.x = self.x
+                heart.y = self.y
+                table.insert(WORLD.drops, heart)
             end
         end
     end,
