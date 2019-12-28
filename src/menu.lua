@@ -55,6 +55,13 @@ return {
                 WORLD.player.fireLevel = 1
                 WORLD.player.goFastLevel = 1
                 WORLD.player.berserkLevel = 1
+            elseif love.keyboard.isDown("5") then
+                InitGame(5, 2)
+                WORLD.player.boomLevel = 2
+                WORLD.player.fireLevel = 1
+                WORLD.player.goFastLevel = 2
+                WORLD.player.berserkLevel = 1
+                WORLD.player.burstLevel = 1
             elseif love.keyboard.isDown("s") then
                 GAMESTATE = 4
             elseif love.keyboard.isDown("l") then

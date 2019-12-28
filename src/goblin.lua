@@ -59,7 +59,7 @@ return {
         -- lvl 1: does not drop anything
         if self.level == 2 or self.level == 4 then
             -- lvl 2 or lvl 4: only drops hearts with probability 4%
-            if randomNumber <= 0.04 then
+            if randomNumber <= 0.03 then
                 local heart = Shallowcopy(WORLD.itemsRaw.items["heart"])
                 heart.x = self.x
                 heart.y = self.y
@@ -67,16 +67,24 @@ return {
             end
         elseif self.level == 3 then
             -- lvl 3: hearts probability 4%, hint probability 10%
-            if randomNumber <= 0.04 then
+            if randomNumber <= 0.03 then
                 local heart = Shallowcopy(WORLD.itemsRaw.items["heart"])
                 heart.x = self.x
                 heart.y = self.y
                 table.insert(WORLD.drops, heart)
-            elseif 0.04 < randomNumber and randomNumber <= 0.19 then
+            elseif 0.03 < randomNumber and randomNumber <= 0.19 then
                 local importantCoin = Shallowcopy(WORLD.itemsRaw.items["importantCoin"])
                 importantCoin.x = self.x
                 importantCoin.y = self.y
                 table.insert(WORLD.drops, importantCoin)
+            end
+        elseif self.level == 5 then
+            -- lvl 5: higher spawn rate of hearts, 10 %
+            if randomNumber <= 0.1 then
+                local heart = Shallowcopy(WORLD.itemsRaw.items["heart"])
+                heart.x = self.x
+                heart.y = self.y
+                table.insert(WORLD.drops, heart)
             end
         end
     end,
