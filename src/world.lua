@@ -123,7 +123,7 @@ return {
                 }
             },
             winType = "endure",
-            goal = 120 -- runtime to be reached to win
+            goal = 10 -- runtime to be reached to win
             -- runtime is counted via self.runtime
         },
         --level 3: collect 10 hints

@@ -38,7 +38,7 @@ VILLAGER: OH GOD! THERE'S MORE GOBLINS! SO MANY!
 ~none~INSTRUCTIONS
 Stop the goblins from destroying the village for two minutes!
 ~none~NEXTLEVEL
-~sage~MUSIC
+~shop~MUSIC
 ~none~SAGE
 ~william~MUSIC
 ~william~LEFT

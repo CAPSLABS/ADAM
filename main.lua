@@ -44,7 +44,7 @@ function love.load()
     WORLD:loadPlayer()
     SHOP:loadBacking()
     MUSIC:load()
-    MUSIC:changeVolume(0.5)
+    MUSIC:changeVolume(0.2)
     MUSIC.tracks.mainMenu:play()
 end
 
