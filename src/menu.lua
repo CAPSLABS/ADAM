@@ -11,7 +11,7 @@ return {
     -- Last acknowledged input during the game over screen
     lastInput = nil,
     enterPressed = false,
-    slider = {value = 0.5, min = 0, max = 1},
+    slider = {value = 0.2, min = 0, max = 1},
     ----------------- UPDATING -----------------
     -- Menu Text
     updateMenu = function(self)

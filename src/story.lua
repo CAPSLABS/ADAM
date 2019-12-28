@@ -45,7 +45,7 @@ return {
             rowRight = 1,
             columnRight = 0
         },
-        shearspake = {
+        william = {
             path = "assets/cha_sprites/shearspake.png",
             rowLeft = 3,
             columnLeft = 0,
@@ -109,6 +109,7 @@ return {
         self.currentLine = line
     end,
     parse = function(self, line)
+        print(line)
         local instructions = Split(line, "~")
         local character = instructions[1]
         local action = instructions[2]

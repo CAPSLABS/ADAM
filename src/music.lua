@@ -29,6 +29,9 @@ return {
         self.tracks.caveBattle = love.audio.newSource("assets/sounds/music/09_cave_battle.mp3", "static")
         self.tracks.finalBattle = love.audio.newSource("assets/sounds/music/10_final_battle.mp3", "static")
         self.tracks.credits = love.audio.newSource("assets/sounds/music/11_credits.mp3", "static")
+        for key, track in pairs(self.tracks) do
+            track:setLooping(true)
+        end
     end,
     loadMenuSounds = function(self)
         self.airhorn = love.audio.newSource("assets/sounds/air_horn_sound.mp3", "static")
