@@ -28,7 +28,7 @@ function love.load()
     SHOP = require("src.shop")
     STORY = require("src.story")
     MUSIC = require("src.music")
-    WORLD.currentLvl = 3 --this should point to menu (3)
+    WORLD.currentLvl = #WORLD.levels --this should point to menu (3)
     --make sure this points to last level in WORLD, which is MENU
     WORLD:loadEnemies()
     WORLD:loadMedia()
