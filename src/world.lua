@@ -123,7 +123,7 @@ return {
                 }
             },
             winType = "endure",
-            goal = 10 -- runtime to be reached to win
+            goal = 120 -- runtime to be reached to win
             -- runtime is counted via self.runtime
         },
         --level 3: collect 10 hints
@@ -138,18 +138,6 @@ return {
                         return (1 / (1 + math.exp(0.1 * runtime))) + 0.75
                     end
                 }
-                --},
-                --zombie = {
-                --    timer = 1,
-                --    timerMax = 1,
-                --    counter = 0,
-                --    goal = 1,
-                --    killToWin = true,
-                --    spawnFct = function(self, runtime)
-                --        -- Reaches timer = 1.51 in ~51 seconds
-                --        return (1 / (1 + math.exp(0.09 * runtime))) + 1.5
-                --    end
-                --}
             },
             counter = 0, -- collected hints counter
             goal = 10,
@@ -179,7 +167,7 @@ return {
                     killToWin = true,
                     spawnFct = function(self, runtime)
                         if self.counter == 0 then
-                            return 8
+                            return 8 -- let the zombies only spawn every 8 seconds as long as the player does not defeat the zombie
                         else
                             return (1 / (1 + math.exp(0.09 * runtime))) + 2.5
                         end
@@ -187,6 +175,46 @@ return {
                 }
             },
             winType = "kill"
+        },
+        --level 5: Survive 2 min
+        {
+            enemies = {
+                goblin = {
+                    timer = 0.4, -- inital value is value of timerMax, a changing variable
+                    timerMax = 0.4, -- initial value until first mob comes, marks the actual countdown time
+                    spawnFct = function(self, runtime)
+                        if runtime <= 60 then
+                            -- Normal spawning
+                            local tmp = (1 / (1 + math.exp(0.02 * runtime))) + 0.8
+                            print("goblin: " .. tmp)
+                            return tmp
+                        elseif 60 < runtime and runtime <= 61 then
+                            -- 20 seconds of peace from goblins from seconds 60 to 80
+                            print("goblin: 20")
+                            return 20
+                        else
+                            -- Boom! There comes the storm from second 80 to 120
+                            local tmp = (1 / (1 + math.exp(0.1 * runtime))) + 0.65
+                            print("goblin: " .. tmp)
+                            return tmp
+                        end
+                    end
+                },
+                zombie = {
+                    timer = 3,
+                    timerMax = 3,
+                    spawnFct = function(self, runtime)
+                        -- Slow spawn rate of 3 at the beginning, strong ascent around 60,
+                        -- maximum spawn rate of ~2 at second 70, then descent back to 3 till about 80
+                        local tmp = -math.exp(-0.01 * (runtime - 70) ^ 2) + 3
+                        print("zombie: " .. tmp)
+                        return tmp
+                    end
+                }
+            },
+            winType = "endure",
+            goal = 120 -- runtime to be reached to win
+            -- runtime is counted via self.runtime
         },
         --menu (always last)
         {

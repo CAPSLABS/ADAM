@@ -1,5 +1,5 @@
 return {
-    hp = 8,
+    hp = 7,
     dmg = 1,
     speed = 0.2,
     x = 0,
@@ -61,6 +61,14 @@ return {
         if self.level == 4 then
             -- lvl 4: drops hearts with probability 10%
             if randomNumber <= 0.1 then
+                local heart = Shallowcopy(WORLD.itemsRaw.items["heart"])
+                heart.x = self.x
+                heart.y = self.y
+                table.insert(WORLD.drops, heart)
+            end
+        elseif self.level == 5 then
+            -- lvl 5: drops hearts with probability 15%
+            if randomNumber <= 0.15 then
                 local heart = Shallowcopy(WORLD.itemsRaw.items["heart"])
                 heart.x = self.x
                 heart.y = self.y
