@@ -69,25 +69,25 @@ Figure out what is going on by collecting ten hints!
 ~lilith~RIGHT
 WILLIAM: The minting on those coins. They have been paid by... 
 WILLIAM: Could it be??? No!
-LILITH: What is that JEWEL he was talking about?
-WILLIAM: Is they are after my jewels, they will attack my residency in the mountains.
+LILITH: What is that JEWEL that voice was talking about earlier?
+WILLIAM: If they are after my jewels, they will attack my residency in the mountains.
 WILLIAM: Quick! We have to go there!
 (after a few hours of travelling)
-~none~MAPCHANGE
 ~mountain~MUSIC
+~none~MAPCHANGE
 WILLIAM: My chateu is just over there! But, what is this?!
 WILLIAM: Oh no, they are already coming!!!
 ~mountainBattle~MUSIC
 ~none~INSTRUCTIONS
 Kill ten new enemies who are destroying the residency!
 ~none~NEXTLEVEL
+~shop~MUSIC
 ~sage~LEFT
 ~adam~RIGHT
 SAGE: I decided to tag along, so that I can ...
 ~lilith~RIGHT
 LILITH: Get more coin?
 SAGE: ...train ADAM!
-~shop~MUSIC
 ~none~SAGE
 ~mountain~MUSIC
 ~william~LEFT

@@ -433,12 +433,10 @@ return {
                 self.player.height
             )
          then
-            enemy:die()
             if not self.player.inSonic then
-                self.player.hearts = self.player.hearts - 1
-                if self.player.hearts == 0 then
-                    self.player:die()
-                end
+                self.player:getHit()
+            else
+                enemy:die()
             end
         end
     end,
@@ -584,8 +582,12 @@ return {
             -- prevent that the whole screen is also golden
             love.graphics.setColor(255, 255, 255, 255)
         else
-            --TODO check if we want to draw up or down
+            if self.player.gotHit then
+                love.graphics.setColor(1, 0, 0, 1)
+                self:drawScreenShake(-2, 2)
+            end
             self.player.anim:draw(self.player.media.img, self.player.x, self.player.y)
+            love.graphics.setColor(255, 255, 255, 255)
         end
 
         --WEAPONS
