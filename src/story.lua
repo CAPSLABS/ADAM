@@ -126,6 +126,7 @@ return {
             self.parsed = true --causes the next line to be auto read-in
         elseif action == "MAPCHANGE" then
             self:mapchange()
+            self.parsed = true
         elseif action == "SAGE" then
             self:startShopping()
         elseif action == "NEXTLEVEL" then
