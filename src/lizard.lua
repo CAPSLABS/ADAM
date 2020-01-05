@@ -13,7 +13,7 @@ return {
     iFrameSecMax = 0.2,
     curAnim = "", --can be walkRight, walkLeft, walkDown, dying
     gotHit = false,
-    --the approximate width and height of a zombie (smaller then image)
+    --the approximate width and height of a lizard (smaller then image)
     width = 30,
     height = 50,
     --on which Y posis the lizard will change directions
@@ -131,11 +131,11 @@ return {
             WORLD.player.money = WORLD.player.money + self.reward
             if
                 WORLD.levels[WORLD.currentLvl].winType == "kill" and
-                    (WORLD.levels[WORLD.currentLvl].enemies.zombie.counter <
-                        WORLD.levels[WORLD.currentLvl].enemies.zombie.goal)
+                    (WORLD.levels[WORLD.currentLvl].enemies.lizard.counter <
+                        WORLD.levels[WORLD.currentLvl].enemies.lizard.goal)
              then
-                WORLD.levels[WORLD.currentLvl].enemies.zombie.counter =
-                    WORLD.levels[WORLD.currentLvl].enemies.zombie.counter + 1
+                WORLD.levels[WORLD.currentLvl].enemies.lizard.counter =
+                    WORLD.levels[WORLD.currentLvl].enemies.lizard.counter + 1
             end
         end
         self.anim = ANIMATE.newAnimation(self.media.imgGrid("1-6", 21), 0.5, "pauseAtEnd")

@@ -272,6 +272,37 @@ return {
             goal = 120 -- runtime to be reached to win
             -- runtime is counted via self.runtime
         },
+        -- level 7: kill 10 lizzies
+        {
+            enemies = {
+                goblin = {
+                    timer = 7,
+                    timerMax = 7,
+                    killToWin = false,
+                    spawnFct = function(self, runtime, dt)
+                        -- returns the next timerMax value (waiting time until next goblin spawns)
+                        -- Sigmoid mirrored on y axis shifted by 2 along x axis
+                        -- They don't spawn as fast
+                        return (1 / (1 + math.exp(0.02 * runtime))) + 0.5
+                    end
+                },
+                lizard = {
+                    timer = 0.4,
+                    timerMax = 0.4,
+                    counter = 0,
+                    goal = 7,
+                    killToWin = true,
+                    spawnFct = function(self, runtime, dt)
+                        if self.counter == 0 then
+                            return 8 -- let the zombies only spawn every 8 seconds as long as the player does not defeat the zombie
+                        else
+                            return (1 / (1 + math.exp(0.09 * runtime))) + 2.5
+                        end
+                    end
+                }
+            },
+            winType = "kill"
+        },
         --menu (always last)
         {
             enemies = {},
