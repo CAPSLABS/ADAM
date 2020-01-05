@@ -104,7 +104,7 @@ LILITH: ...
 ADAM: Brb, more zombies incoming
 ~mountainBattle~MUSIC
 ~none~INSTRUCTIONS
-Stop the enemies from destroying the residency for three minutes! 
+Stop the enemies from destroying the residency for two minutes! 
 ~none~NEXTLEVEL
 ~shop~MUSIC
 ~none~SAGE
@@ -123,7 +123,7 @@ CHRISTOPHER: AND I WOULD HAVE GOTTEN MY JEWEL, TOO, IF IT WEREN'T FOR YOU MEEDLI
 CHRISTOPHER: BEWARE, MY STRONGEST WAVE OF ENEMY APPROACHES!
 ~mountainBattle~MUSIC
 ~none~INSTRUCTIONS-
-Christophers ultimate onslaught: Hold the residency for five minutes! -
+Christophers ultimate onslaught: Hold the residency for two minutes! -
 ~none~NEXTLEVEL
 ~mountain~MUSIC
 ~adam~RIGHT
