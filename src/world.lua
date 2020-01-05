@@ -118,7 +118,7 @@ return {
                         -- returns the next timerMax value (waiting time until next goblin spawns)
                         -- Sigmoid mirrored on y axis shifted by 2 along x axis
                         -- Designed to have a spawn timer climax of about ~0.88 seconds at 2 minutes
-                        return (1 / (1 + math.exp(0.02 * runtime))) + 0.8
+                        return (1 / (1 + math.exp(0.02 * runtime))) + 0.7
                     end
                 }
             },
@@ -214,6 +214,61 @@ return {
             },
             winType = "endure",
             goal = 120 -- runtime to be reached to win
+            -- runtime is counted via self.runtime
+        },
+        --level 6: Survive 5 min
+        {
+            enemies = {
+                goblin = {
+                    -- wait 5 seconds
+                    timer = 5, -- inital value is value of timerMax, a changing variable
+                    timerMax = 5, -- initial value until first mob comes, marks the actual countdown time
+                    spawnFct = function(self, runtime)
+                        --local timeAsInteger = math.floor(runtime)
+                        --local modded = timeAsInteger % 6
+                        local timeAsInteger = math.fmod(runtime, 6)
+                        print(timeAsInteger)
+                        --if timeAsInteger <= 1 then
+                        --    -- spawn 10 goblins fast
+                        --    return 0.1
+                        --else
+                        --    -- wait 5 seconds
+                        --    return 5
+                        --end
+
+                        if runtime <= 6 then
+                            -- spawn 10 goblins fast
+                            return 0.2
+                        elseif 6 < runtime and runtime <= 11 then
+                            -- wait 5 seconds
+                            return 5
+                        end
+                        --if runtime <= 60 then
+                        -- Normal spawning
+                        --    return (1 / (1 + math.exp(0.02 * runtime))) + 0.8
+                        --elseif 60 < runtime and runtime <= 61 then
+                        --    -- 20 seconds of peace from goblins from seconds 60 to 80
+                        --    return 20
+                        --else
+                        --    -- Boom! There comes the storm from second 80 to 120
+                        --    return (1 / (1 + math.exp(0.1 * runtime))) + 0.65
+                        --end
+                    end
+                },
+                zombie = {
+                    timer = 3,
+                    timerMax = 3,
+                    spawnFct = function(self, runtime)
+                        -- Slow spawn rate of 3 at the beginning, strong ascent around 60,
+                        -- maximum spawn rate of ~2 at second 70, then descent back to 3 till about 80
+                        local tmp = -math.exp(-0.01 * (runtime - 70) ^ 2) + 3
+                        print("zombie: " .. tmp)
+                        return tmp
+                    end
+                }
+            },
+            winType = "endure",
+            goal = 300 -- runtime to be reached to win
             -- runtime is counted via self.runtime
         },
         --menu (always last)

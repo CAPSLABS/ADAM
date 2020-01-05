@@ -69,11 +69,13 @@ return {
         elseif self.level == 3 then
             -- lvl 3: hearts probability 4%, hint probability 10%
             if randomNumber <= 0.03 then
+                print("dropped heart")
                 local heart = Shallowcopy(WORLD.itemsRaw.items["heart"])
                 heart.x = self.x
                 heart.y = self.y
                 table.insert(WORLD.drops, heart)
             elseif 0.03 < randomNumber and randomNumber <= 0.19 then
+                print("dropped coin")
                 local importantCoin = Shallowcopy(WORLD.itemsRaw.items["importantCoin"])
                 importantCoin.x = self.x
                 importantCoin.y = self.y
