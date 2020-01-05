@@ -20,6 +20,7 @@ DEBUG = false
 --1=menu, 2=game, 3=gameOver, 4=shop, 5=explosion, 6 = story
 GAMESTATES = {1, 2, 3, 4, 5}
 GAMESTATE = GAMESTATES[1]
+math.randomseed(os.time())
 ------------ LOADING --------------
 
 function love.load()
@@ -30,6 +31,7 @@ function love.load()
     MUSIC = require("src.music")
     WORLD.currentLvl = #WORLD.levels --this should point to menu (3)
     --make sure this points to last level in WORLD, which is MENU
+    WORLD:loadMenu()
     WORLD:loadEnemies()
     WORLD:loadMedia()
     WORLD:loadHud()

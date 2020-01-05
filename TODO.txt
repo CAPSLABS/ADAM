@@ -2,14 +2,14 @@
 - map 3: a door (P)
 - map 3: a boss( P)
 
-- typewriter effect in story (D)
-- animation and stats for lizard enemy type (D)
-- MAPCHANGE calls: story fadeout / play intro music once, then loop credit theme (D)
-- make people wiggle when they talk (D)
 - credits (selectable in main menu and autostart at game end, own gamestate) (to OS artist) (D)
+- MAPCHANGE calls: story fadeout / play intro music once, then loop credit theme (D)
 - endless mode (WIP für D)
 
 OPTIONAL
+- make people wiggle when they talk (D)
+- andere ttf
+- typewriter effect in story (D)
 - keyboard control for shop and main menu (!!!)
 - balance level ups
 - sfx
@@ -19,3 +19,4 @@ OPTIONAL
 - let the whole story be read out by voice actors
 - since the format is (accidentaly) way to good for it, explore mobile port possibilitys
 - latency für airhorn fixen
+- slowdown/acceleration when changing direction/starting to move

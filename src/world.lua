@@ -1,4 +1,5 @@
 return {
+    lizardSpawned = false,
     player = nil,
     -- all enemies currently on the field
     -- change to 2 or 3
@@ -218,15 +219,7 @@ return {
         },
         --menu (always last)
         {
-            enemies = {
-                goblin = {
-                    timer = 0.0,
-                    timerMax = 0.0,
-                    spawnFct = function(self, runtime)
-                        return 0.0
-                    end
-                }
-            },
+            enemies = {},
             counter = 0,
             goal = 100000, -- no goblin will spawn the collectable in this level
             winType = "collect"
@@ -234,7 +227,8 @@ return {
     },
     statsRaw = {
         goblin = require("src.goblin"),
-        zombie = require("src.zombie")
+        zombie = require("src.zombie"),
+        lizard = require("src.lizard")
     },
     itemsRaw = {
         items = require("src.items")
@@ -245,6 +239,37 @@ return {
     --media.img(filepath, string)
     --media width (the width of the enemy image in pixels, int)
     --media height (the height of the enemy image in pixels, int)
+    loadMenu = function(self)
+        local enemyNum = math.random(0, 100)
+        if enemyNum < 70 then
+            local goblin = {
+                timer = 0.0,
+                timerMax = 0.0,
+                spawnFct = function(self, runtime)
+                    return 0.0
+                end
+            }
+            self.levels[#self.levels].enemies["goblin"] = goblin
+        elseif enemyNum < 90 then
+            local zombie = {
+                timer = 0.0,
+                timerMax = 0.0,
+                spawnFct = function(self, runtime)
+                    return 0.0
+                end
+            }
+            self.levels[#self.levels].enemies["zombie"] = zombie
+        else
+            local lizard = {
+                timer = 0.0,
+                timerMax = 0.0,
+                spawnFct = function(self, runtime)
+                    return 0.0
+                end
+            }
+            self.levels[#self.levels].enemies["lizard"] = lizard
+        end
+    end,
     loadEnemies = function(self)
         for key, enemy in pairs(self.statsRaw) do
             enemy.media.img = love.graphics.newImage(enemy.media.img)
@@ -572,7 +597,6 @@ return {
         end
     end,
     ------------ DRAWING --------------
-
     drawPlayerStuff = function(self)
         if self.player.inSonic == true then
             -- make him golden
