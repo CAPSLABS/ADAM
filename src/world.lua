@@ -306,8 +306,8 @@ return {
         {
             enemies = {
                 goblin = {
-                    timer = 7,
-                    timerMax = 7,
+                    timer = 0.3,
+                    timerMax = 0.3,
                     killToWin = false,
                     spawnFct = function(self, runtime, dt)
                         -- returns the next timerMax value (waiting time until next goblin spawns)
@@ -316,15 +316,20 @@ return {
                         return (1 / (1 + math.exp(0.02 * runtime))) + 0.5
                     end
                 },
-                lizard = {
-                    timer = 0.4,
-                    timerMax = 0.4,
+                zombie = {
+                    timer = 4,
+                    timerMax = 4,
+                    killToWin = false,
                     spawnFct = function(self, runtime, dt)
-                        if self.counter == 0 then
-                            return 8 -- let the zombies only spawn every 8 seconds as long as the player does not defeat the zombie
-                        else
-                            return (1 / (1 + math.exp(0.09 * runtime))) + 4
-                        end
+                        return (1 / (1 + math.exp(0.08 * runtime))) + 2.8
+                    end
+                },
+                lizard = {
+                    timer = 12,
+                    timerMax = 12,
+                    killToWin = false,
+                    spawnFct = function(self, runtime, dt)
+                        return (1 / (1 + math.exp(0.09 * runtime))) + 4.5
                     end
                 },
                 door = {
@@ -791,7 +796,7 @@ return {
             else
                 if enemy.anim ~= nil then -- can only be nil for the enemy "door"
                     enemy.anim:draw(enemy.media.img, enemy.x, enemy.y)
-                else 
+                else
                     love.graphics.draw(enemy.media.img, enemy.x, enemy.y)
                 end
             end
@@ -843,6 +848,11 @@ return {
         self:drawSkillBorders()
         self:drawMoney()
         self:drawKillCounters()
+        --if self.currentLvl == 8 or self.currentLvl == 9 then
+        --    self:drawKillCounters(true)
+        --else
+        --    self:drawKillCounters(false)
+        --end
         self:drawLevelTimer()
         self:drawCollectCounter()
     end,
@@ -974,10 +984,21 @@ return {
             self.media.hudPos.letterY
         )
     end,
+    --drawKillCounters = function(self, bossMode)
     drawKillCounters = function(self)
         if self.levels[self.currentLvl].winType == "kill" then
-            -- scale down the kill counter a little
+            -- scale down the kill counter a little, or a little bit more if it is the door
             local scaling = love.math.newTransform(0, 0, 0, 0.8, 0.8, 0, 0)
+            local doorScaling =
+                love.math.newTransform(
+                self.media.hudPos.counterX - (self.media.hud.brown:getWidth() / 2) - 3,
+                self.media.hudPos.counterY - 3,
+                0,
+                0.1,
+                0.2,
+                0,
+                0
+            )
             love.graphics.push()
             love.graphics.applyTransform(scaling)
             local enemyCount = 1
@@ -1002,16 +1023,25 @@ return {
                         self.media.hudPos.counterY * enemyCount
                     )
                     -- draw enemy pic into frame
+                    if enemyName == "door" then
+                        love.graphics.push()
+                        love.graphics.applyTransform(doorScaling)
+                    end
                     love.graphics.draw(
                         self.statsRaw[enemyName].media.img,
                         self.statsRaw[enemyName].portrait,
                         self.media.hudPos.counterX,
                         self.media.hudPos.counterY * enemyCount
                     )
+                    if enemyName == "door" then
+                        love.graphics.pop()
+                    end
                     -- write killCounter
                     love.graphics.setFont(WORLD.media.bigfantasyfont)
+                    --local text =
+                    --    (bossMode and enemySpawnInfo.hp) or (enemySpawnInfo.counter .. "/" .. enemySpawnInfo.goal)
                     love.graphics.printf(
-                        enemySpawnInfo.counter .. "/" .. enemySpawnInfo.goal,
+                        enemySpawnInfo.counter .. "/" .. enemySpawnInfo.goal, --text,
                         self.media.hudPos.counterX + self.media.hud.brown:getWidth() + 5,
                         self.media.hudPos.counterY * enemyCount,
                         (500 - (0.8 * self.media.hudPos.counterX + 0.8 * self.media.hud.brown:getWidth())),

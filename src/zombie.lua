@@ -65,7 +65,7 @@ return {
             if randomNumber <= 0.1 then
                 WORLD:dropHeart(self)
             end
-        elseif self.level == 5 or self.level == 6 then
+        elseif self.level >= 5 then
             -- lvl 5: drops hearts with probability 15%
             if randomNumber <= 0.15 then
                 WORLD:dropHeart(self)
@@ -78,6 +78,7 @@ return {
             WORLD.player.money = WORLD.player.money + self.reward
             if
                 WORLD.levels[WORLD.currentLvl].winType == "kill" and
+                    WORLD.levels[WORLD.currentLvl].enemies.goblin.killToWin and
                     (WORLD.levels[WORLD.currentLvl].enemies.zombie.counter <
                         WORLD.levels[WORLD.currentLvl].enemies.zombie.goal)
              then

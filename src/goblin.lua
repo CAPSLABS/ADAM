@@ -71,7 +71,7 @@ return {
             elseif 0.03 < randomNumber and randomNumber <= 0.19 then
                 WORLD:dropHint(self)
             end
-        elseif self.level == 5 or self.level == 6 then
+        elseif self.level >= 5 then
             -- lvl 5: higher spawn rate of hearts, 10 %
             if randomNumber <= 0.1 then
                 WORLD:dropHeart(self)

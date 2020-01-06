@@ -1,6 +1,6 @@
 return {
     name = "door",
-    hp = 100,
+    hp = 200,
     dmg = 0,
     speed = 0,
     x = 0,
@@ -9,8 +9,8 @@ return {
     alive = true,
     reward = 10, --possibly function with variable reward?
     anim = nil,
-    iFrameSec = 0.55,
-    iFrameSecMax = 0.55,
+    iFrameSec = 0.27,
+    iFrameSecMax = 0.27,
     curAnim = nil, --has no animations
     gotHit = false,
     --the approximate width and height of a zombie (smaller then image)
@@ -50,7 +50,6 @@ return {
         if not self.gotHit then
             self.gotHit = true
             self.hp = self.hp - dmg
-            print("door hp: " .. self.hp)
             if (self.hp <= 0) and (self.curAnim ~= "dying") then
                 --make sure to not die while already in the process of dying
                 self:die()
@@ -66,6 +65,7 @@ return {
             WORLD.player.money = WORLD.player.money + self.reward
             if
                 WORLD.levels[WORLD.currentLvl].winType == "kill" and
+                    WORLD.levels[WORLD.currentLvl].enemies.door.killToWin and
                     (WORLD.levels[WORLD.currentLvl].enemies.door.counter <
                         WORLD.levels[WORLD.currentLvl].enemies.door.goal)
              then

@@ -106,10 +106,9 @@ return {
     end,
     drop = function(self)
         assert(self.level >= 7, "Lizard:drop, self level was below 4 with: " .. self.level)
-        -- lvl 1-3: does not drop anything
         local randomNumber = math.random()
-        if self.level == 7 then
-            -- lvl 4: drops hearts with probability 10%
+        if self.level >= 7 then
+            -- drops hearts with probability 10%
             if randomNumber <= 0.1 then
                 WORLD:dropHeart(self)
             end
@@ -121,6 +120,7 @@ return {
             WORLD.player.money = WORLD.player.money + self.reward
             if
                 WORLD.levels[WORLD.currentLvl].winType == "kill" and
+                    WORLD.levels[WORLD.currentLvl].enemies.goblin.killToWin and
                     (WORLD.levels[WORLD.currentLvl].enemies.lizard.counter <
                         WORLD.levels[WORLD.currentLvl].enemies.lizard.goal)
              then
