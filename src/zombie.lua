@@ -40,7 +40,7 @@ return {
     --instantiator:
     newSelf = function(self, level)
         local baby = Shallowcopy(self)
-        baby.x = math.random(0, (WORLD.x - self.width)) -- substracting width avoids clipping out to the right
+        baby.x = math.random(0, (WORLD.x - self.width - 32)) -- substracting width avoids clipping out to the right
         baby.anim = ANIMATE.newAnimation(self.media.imgGrid("2-7", 7), 0.08, "pauseAtEnd")
         baby.level = level
         return baby

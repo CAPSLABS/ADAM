@@ -14,13 +14,14 @@ require("src.story")
 
 SUIT = require "src.suit"
 ANIMATE = require "src.anim8"
-DEBUG = true
---DEBUG = false
+--DEBUG = true
+DEBUG = false
 
 --1=menu, 2=game, 3=gameOver, 4=shop, 5=explosion, 6 = story
 GAMESTATES = {1, 2, 3, 4, 5}
 GAMESTATE = GAMESTATES[1]
 math.randomseed(os.time())
+
 ------------ LOADING --------------
 
 function love.load()
@@ -29,6 +30,8 @@ function love.load()
     SHOP = require("src.shop")
     STORY = require("src.story")
     MUSIC = require("src.music")
+    FADER = require("src.fader")
+    CREDITS = require("src.credits")
     WORLD.currentLvl = #WORLD.levels --this should point to menu (3)
     --make sure this points to last level in WORLD, which is MENU
     WORLD:loadMenu()
@@ -83,9 +86,11 @@ function love.update(dt)
         if DEBUG then
             MENU:checkDebugInput()
         end
-        MENU:updateMenu()
+        MENU:updateMenu(dt)
         WORLD:spawnEnemies(dt)
         WORLD:updateEnemies(dt) --moves, animates&deletes enemies
+        FADER:update(dt)
+        CREDITS:update(dt)
     elseif GAMESTATE == 2 then --GAME
         MENU:checkRestartInput()
         WORLD:checkPlayerActionInput(dt)
@@ -118,6 +123,7 @@ end
 
 function love.draw(dt)
     if GAMESTATE == 1 then --MENU
+        love.graphics.setColor(255, 255, 255, FADER.alpha)
         if WORLD.exploding then
             WORLD:drawScreenShake(-5, 5)
         end

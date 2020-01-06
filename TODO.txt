@@ -15,8 +15,9 @@ OPTIONAL
 - sfx
 - discuss if we want to explain skills/upgrades before buying (per skill row there is a button that writes a description of that skill)
 - silver lvl up is cd / 2, aber was könnte golden lvl up sein ? (current: nochmal halbieren)
-- Final code cleanup (check all todos)
+- Final code cleanup (check all todos), maybe comment functoins some more
 - let the whole story be read out by voice actors
 - since the format is (accidentaly) way to good for it, explore mobile port possibilitys
 - latency für airhorn fixen
 - slowdown/acceleration when changing direction/starting to move
+- respawning in current level with money as was when starting that level

@@ -1,5 +1,4 @@
 return {
-    lizardSpawned = false,
     player = nil,
     -- all enemies currently on the field
     -- change to 2 or 3
@@ -20,6 +19,7 @@ return {
     cityHealthMax = 100,
     cityHealth = 100,
     healthPerc = 1,
+    credits = false, --flag if credits are running
     media = {
         defaultfont = nil,
         fantasyfont = nil,
@@ -468,8 +468,10 @@ return {
                     self.media["explosion"].scaledHeight
                 )
              then
-                if enemy.name ~= "zombie" then
+                if enemy.name == "goblin" then
                     enemy.y = enemy.y - self.media["explosion"].scale
+                elseif enemy.name == "lizard" then
+                    enemy.y = (enemy.y - self.media["explosion"].scale) * 0.003
                 end
                 enemy:getHit(1)
             end

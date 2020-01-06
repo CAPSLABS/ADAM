@@ -1,7 +1,7 @@
 return {
     name = "lizard",
-    hp = 30,
-    dmg = 10,
+    hp = 10,
+    dmg = 8,
     speed = 0.7,
     x = 0,
     y = 0,
@@ -142,8 +142,10 @@ return {
     end,
     update = function(self, dt)
         self.anim:update(dt)
-        if self.curAnim == "dying" then
-            self.alive = false
+        if self.anim.status == "paused" then
+            if self.curAnim == "dying" then
+                self.alive = false
+            end
         end
         if (self.curAnim == "walkDown") then
             self.y = self.y + (self.speed * 200 * dt)
@@ -175,7 +177,12 @@ return {
             end
         elseif (self.curAnim == "attack") and (self.anim.status == "paused") then
             WORLD.cityHealth = WORLD.cityHealth - self.dmg
-            self.anim = ANIMATE.newAnimation(self.media.imgGrid("1-6", 7), 0.3, "pauseAtEnd")
+            if self.y == 0 then
+                self.anim = ANIMATE.newAnimation(self.media.imgGrid("1-6", 7), 0.3, "pauseAtEnd")
+            else
+                self.curAnim = "walkDown"
+                self.anim = ANIMATE.newAnimation(self.media.imgGrid("1-9", 11), 0.08)
+            end
         end
         if self.gotHit then
             self.iFrameSec = self.iFrameSec - (1 * dt)
