@@ -1,13 +1,19 @@
 return {
     alpha = 0,
-    fadeIn = true,
-    update = function(self, dt)
-        if self.fadeIn then
-            if self.alpha < 255 then
-                self.alpha = self.alpha + dt
-            end
+    fadeIn = function(self, dt)
+        self.alpha = self.alpha + dt * 1.5
+        if self.alpha >= 1 then
+            return true
         else
-            self.alpha = self.alpha - dt
+            return false
+        end
+    end,
+    fadeToBlack = function(self, dt)
+        self.alpha = self.alpha - dt * 1.5
+        if self.alpha <= 0 then
+            return true
+        else
+            return false
         end
     end
 }

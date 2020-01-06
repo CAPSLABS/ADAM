@@ -21,3 +21,4 @@ OPTIONAL
 - latency für airhorn fixen
 - slowdown/acceleration when changing direction/starting to move
 - respawning in current level with money as was when starting that level
+- structure assets

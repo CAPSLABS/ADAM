@@ -80,6 +80,12 @@ end
 
 function love.update(dt)
     if GAMESTATE == 1 then --MENU
+        if MENU.gameOpenFadeIn then
+            local done = FADER:fadeIn(dt)
+            if done then
+                MENU.gameOpenFadeIn = false
+            end
+        end
         if WORLD.exploding then
             WORLD:updateExplosion(dt, 240, 850, WORLD.media["explosion"].maxRuntime)
         end
@@ -89,8 +95,10 @@ function love.update(dt)
         MENU:updateMenu(dt)
         WORLD:spawnEnemies(dt)
         WORLD:updateEnemies(dt) --moves, animates&deletes enemies
-        FADER:update(dt)
-        CREDITS:update(dt)
+
+        if WORLD.credits then
+            CREDITS:update(dt)
+        end
     elseif GAMESTATE == 2 then --GAME
         MENU:checkRestartInput()
         WORLD:checkPlayerActionInput(dt)
@@ -123,8 +131,9 @@ end
 
 function love.draw(dt)
     if GAMESTATE == 1 then --MENU
-        love.graphics.setColor(255, 255, 255, FADER.alpha)
-        if WORLD.exploding then
+        if MENU.gameOpenFadeIn or WORLD.credits then
+            love.graphics.setColor(255, 255, 255, FADER.alpha)
+        elseif WORLD.exploding then
             WORLD:drawScreenShake(-5, 5)
         end
         _G.map:draw()
@@ -160,6 +169,9 @@ function love.draw(dt)
     elseif GAMESTATE == 6 then
         _G.map:draw()
         STORY:drawStory()
+        if WORLD.credits then
+            love.graphics.setColor(255, 255, 255, FADER.alpha)
+        end
     end
 
     if DEBUG then

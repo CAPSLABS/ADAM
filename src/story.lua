@@ -231,8 +231,8 @@ return {
         self.currentLine = ""
     end,
     mapchange = function(self)
-        if map.currentLvl == 9 then
-            assert(false, "This is where you do a screen black out or trigger CUT SCENE POWAS")
+        if map.currentLvl == 9 then --todo find out when AFTER level 9 text this is called
+            CREDITS:load()
         else
             WORLD.map = WORLD.map + 1
             LoadMap()
