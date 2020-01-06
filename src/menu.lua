@@ -14,7 +14,7 @@ return {
     slider = {value = 0.2, min = 0, max = 1},
     ----------------- UPDATING -----------------
     -- Menu Text
-    updateMenu = function(self)
+    updateMenu = function(self, dt)
         if love.keyboard.isDown("return") then
             self.enterPressed = true
         end
@@ -28,7 +28,7 @@ return {
         elseif SUIT.ImageButton(WORLD.media.hud.borderSmall, self:getBorderX(), self:getBorderY(2)).hit then
             print("THIS IS WHERE WE'D DO THE ENDLESS MODE IF WE HAD ONE")
         elseif SUIT.ImageButton(WORLD.media.hud.borderSmall, self:getBorderX(), self:getBorderY(3)).hit then
-            print("I MADE EVERYTHING <3")
+            WORLD.credits = true
         end
         MUSIC:changeVolume(self.slider.value)
     end,

@@ -69,8 +69,8 @@ return {
     inSonic = false,
     -- i frames
     gotHit = false,
-    iFrameSec = 1,
-    iFrameSecMax = 1,
+    iFrameSec = 1.5,
+    iFrameSecMax = 1.5,
     media = {
         img = "assets/cha_sprites/adam.png",
         boom = "assets/boomerang.png",
