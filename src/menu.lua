@@ -11,6 +11,7 @@ return {
     -- Last acknowledged input during the game over screen
     lastInput = nil,
     enterPressed = false,
+    gameOpenFadeIn = true,
     slider = {value = 0.2, min = 0, max = 1},
     ----------------- UPDATING -----------------
     -- Menu Text
@@ -28,7 +29,7 @@ return {
         elseif SUIT.ImageButton(WORLD.media.hud.borderSmall, self:getBorderX(), self:getBorderY(2)).hit then
             print("THIS IS WHERE WE'D DO THE ENDLESS MODE IF WE HAD ONE")
         elseif SUIT.ImageButton(WORLD.media.hud.borderSmall, self:getBorderX(), self:getBorderY(3)).hit then
-            WORLD.credits = true
+            CREDITS:load()
         end
         MUSIC:changeVolume(self.slider.value)
     end,
@@ -209,6 +210,8 @@ return {
             self:getBorderY(4) + 40,
             WORLD.media.hud.borderSmall:getWidth()
         )
-        SUIT.Slider(self.slider, self:getBorderX() + 80, self:getBorderY(4) + 80, 200, 20)
+        if not WORLD.credits then
+            SUIT.Slider(self.slider, self:getBorderX() + 80, self:getBorderY(4) + 80, 200, 20)
+        end
     end
 }
