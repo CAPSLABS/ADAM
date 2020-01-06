@@ -90,7 +90,7 @@ return {
         }
     },
     levels = {
-        --level1: Kill 10 goblins
+        --level1: Kill 10 goblins - tutorial
         {
             enemies = {
                 goblin = {
@@ -109,7 +109,7 @@ return {
             },
             winType = "kill"
         },
-        --level 2: surivive 2 min
+        --level 2: surivive 2 min - goblins are spawning increasingly faster
         {
             enemies = {
                 goblin = {
@@ -168,7 +168,7 @@ return {
                     killToWin = true,
                     spawnFct = function(self, runtime, dt)
                         if self.counter == 0 then
-                            return 8 -- let the zombies only spawn every 8 seconds as long as the player does not defeat the zombie
+                            return 8 -- let the zombie only spawn every 8 seconds as long as the player does not defeat it
                         else
                             return (1 / (1 + math.exp(0.09 * runtime))) + 2.5
                         end
@@ -205,7 +205,6 @@ return {
                         -- Slow spawn rate of 3 at the beginning, strong ascent around 60,
                         -- maximum spawn rate of ~2 at second 70, then descent back to 3 till about 80
                         local tmp = -math.exp(-0.01 * (runtime - 70) ^ 2) + 3
-                        print("zombie: " .. tmp)
                         return tmp
                     end
                 }
@@ -296,8 +295,46 @@ return {
                         if self.counter == 0 then
                             return 8 -- let the zombies only spawn every 8 seconds as long as the player does not defeat the zombie
                         else
-                            return (1 / (1 + math.exp(0.09 * runtime))) + 2.5
+                            return (1 / (1 + math.exp(0.09 * runtime))) + 4
                         end
+                    end
+                }
+            },
+            winType = "kill"
+        },
+        -- level 8: destroy the door
+        {
+            enemies = {
+                goblin = {
+                    timer = 7,
+                    timerMax = 7,
+                    killToWin = false,
+                    spawnFct = function(self, runtime, dt)
+                        -- returns the next timerMax value (waiting time until next goblin spawns)
+                        -- Sigmoid mirrored on y axis shifted by 2 along x axis
+                        -- They don't spawn as fast
+                        return (1 / (1 + math.exp(0.02 * runtime))) + 0.5
+                    end
+                },
+                lizard = {
+                    timer = 0.4,
+                    timerMax = 0.4,
+                    spawnFct = function(self, runtime, dt)
+                        if self.counter == 0 then
+                            return 8 -- let the zombies only spawn every 8 seconds as long as the player does not defeat the zombie
+                        else
+                            return (1 / (1 + math.exp(0.09 * runtime))) + 4
+                        end
+                    end
+                },
+                door = {
+                    timer = 0,
+                    timerMax = 0,
+                    killToWin = true,
+                    counter = 0,
+                    goal = 1,
+                    spawnFct = function(self, runtime, dt)
+                        return 100000
                     end
                 }
             },
@@ -314,7 +351,8 @@ return {
     statsRaw = {
         goblin = require("src.goblin"),
         zombie = require("src.zombie"),
-        lizard = require("src.lizard")
+        lizard = require("src.lizard"),
+        door = require("src.door")
     },
     itemsRaw = {
         items = require("src.items")
@@ -749,7 +787,11 @@ return {
                 enemy.anim:draw(enemy.media.img, enemy.x, enemy.y)
                 love.graphics.setColor(255, 255, 255, 255)
             else
-                enemy.anim:draw(enemy.media.img, enemy.x, enemy.y)
+                if enemy.anim ~= nil then -- can only be nil for the enemy "door"
+                    enemy.anim:draw(enemy.media.img, enemy.x, enemy.y)
+                else 
+                    love.graphics.draw(enemy.media.img, enemy.x, enemy.y)
+                end
             end
         end
     end,

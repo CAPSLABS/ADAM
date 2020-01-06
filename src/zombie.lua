@@ -31,6 +31,7 @@ return {
     end,
     media = {
         img = "assets/zombie.png",
+        imgGrid = nil,
         imgWidth = 64,
         imgHeight = 64
     },

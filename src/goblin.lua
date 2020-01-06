@@ -31,6 +31,7 @@ return {
     end,
     media = {
         img = "assets/goblinSword.png",
+        imgGrid = nil,
         imgWidth = 65,
         imgHeight = 64
     },

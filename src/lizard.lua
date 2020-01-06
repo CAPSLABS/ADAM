@@ -35,6 +35,7 @@ return {
     end,
     media = {
         img = "assets/lizard.png",
+        imgGrid = nil,
         imgWidth = 64,
         imgHeight = 64
     },
@@ -107,21 +108,10 @@ return {
         assert(self.level >= 7, "Lizard:drop, self level was below 4 with: " .. self.level)
         -- lvl 1-3: does not drop anything
         local randomNumber = math.random()
-        if self.level == 4 then
+        if self.level == 7 then
             -- lvl 4: drops hearts with probability 10%
             if randomNumber <= 0.1 then
-                local heart = Shallowcopy(WORLD.itemsRaw.items["heart"])
-                heart.x = self.x
-                heart.y = self.y
-                table.insert(WORLD.drops, heart)
-            end
-        elseif self.level == 5 then
-            -- lvl 5: drops hearts with probability 15%
-            if randomNumber <= 0.15 then
-                local heart = Shallowcopy(WORLD.itemsRaw.items["heart"])
-                heart.x = self.x
-                heart.y = self.y
-                table.insert(WORLD.drops, heart)
+                WORLD:dropHeart(self)
             end
         end
     end,
