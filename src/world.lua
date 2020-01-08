@@ -19,7 +19,6 @@ return {
     cityHealthMax = 100,
     cityHealth = 100,
     healthPerc = 1,
-    credits = false, --flag if credits are running
     media = {
         defaultfont = nil,
         fantasyfont = nil,

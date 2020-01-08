@@ -1,9 +1,21 @@
-~~~DEVELOPMENT~~~
-David Wenzel & Phillip Tse
---- ART ~~~
-David Wenzel & Phillip Tse
+--- DEVELOPMENT ---
+David L. Wenzel 
+Phillip Tse
+ 
+ 
+ 
+--- ART ---
+David L. Wenzel 
+Phillip Tse
+ 
+ 
+ 
 SPECIAL THANKS TO https://opengameart.org/
-Big thanks to all the LPC participants:
+ 
+  
+   
+Especially all the LPC participants:
+ 
 Casper Nilsson
 Daniel Eddeland 
 Johann CHARLOT 
@@ -38,8 +50,13 @@ Nila122
 neo4cat6
 Gaurav0 (Sprite Generator)
 sanderfrenken (Sprite Generator #2)
+
+
 --- MUSIC ---
 ozzed (Battle music) 
 http://ozzed.net
+ 
+  
+   
 Scott Arc (All other music)
 https://scottarc.bandcamp.com

@@ -32,7 +32,7 @@ function love.load()
     MUSIC = require("src.music")
     FADER = require("src.fader")
     CREDITS = require("src.credits")
-    WORLD.currentLvl = #WORLD.levels --this should point to menu (3)
+    WORLD.currentLvl = #WORLD.levels --this should point to menu
     --make sure this points to last level in WORLD, which is MENU
     WORLD:loadMenu()
     WORLD:loadEnemies()
@@ -104,6 +104,10 @@ function love.update(dt)
         WORLD:checkPlayerActionInput(dt)
         WORLD.player:update(dt)
         WORLD:updateHealth()
+        --WORLD:updateHUD(dt)
+        WORLD:checkWinCondition(dt)
+        WORLD:spawnEnemies(dt)
+        WORLD:updateEnemies(dt) --moves, an
 
         --WORLD.player:updateSelf(dt)
 
@@ -124,6 +128,8 @@ function love.update(dt)
         WORLD:updateExplosion(dt, 240, 850, WORLD.media["explosion"].maxRuntime)
     elseif GAMESTATE == 6 then --STORY
         STORY:updateStory(dt)
+    elseif GAMESTATE == 7 then --STORY
+        CREDITS:update(dt)
     end
 end
 
@@ -131,13 +137,13 @@ end
 
 function love.draw(dt)
     if GAMESTATE == 1 then --MENU
-        if MENU.gameOpenFadeIn or WORLD.credits then
+        _G.map:draw()
+        WORLD:drawEnemyStuff()
+        if MENU.gameOpenFadeIn then
             love.graphics.setColor(255, 255, 255, FADER.alpha)
         elseif WORLD.exploding then
             WORLD:drawScreenShake(-5, 5)
         end
-        _G.map:draw()
-        WORLD:drawEnemyStuff()
         if DEBUG then
             MENU:drawDebugMenu()
         else
@@ -166,12 +172,12 @@ function love.draw(dt)
         SHOP:broUBroke()
         SUIT.draw()
         SHOP:drawShopShit()
-    elseif GAMESTATE == 6 then
+    elseif GAMESTATE == 6 then --STORY
         _G.map:draw()
         STORY:drawStory()
-        if WORLD.credits then
-            love.graphics.setColor(255, 255, 255, FADER.alpha)
-        end
+    elseif GAMESTATE == 7 then --CREDITS
+        love.graphics.setColor(255, 255, 255, FADER.alpha)
+        CREDITS:draw()
     end
 
     if DEBUG then

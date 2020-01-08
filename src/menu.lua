@@ -147,7 +147,7 @@ return {
         WORLD.exploding = true
     end,
     ----------------- DRAWING -----------------
-    drawTitler = function(self)
+    drawTitle = function(self)
         love.graphics.setFont(WORLD.media.bigfantasyfont)
         love.graphics.print("A - wesome", 115, 250)
         love.graphics.print("D - efender", 115, 300)
@@ -182,7 +182,7 @@ return {
             SUIT:draw()
             self:writeButtons()
         else
-            self:drawTitler()
+            self:drawTitle()
         end
     end,
     writeButtons = function(self)
@@ -210,8 +210,6 @@ return {
             self:getBorderY(4) + 40,
             WORLD.media.hud.borderSmall:getWidth()
         )
-        if not WORLD.credits then
-            SUIT.Slider(self.slider, self:getBorderX() + 80, self:getBorderY(4) + 80, 200, 20)
-        end
+        SUIT.Slider(self.slider, self:getBorderX() + 80, self:getBorderY(4) + 80, 200, 20)
     end
 }
