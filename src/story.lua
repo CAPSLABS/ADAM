@@ -66,7 +66,7 @@ return {
         self:loadSpeakerObjects()
         self.loaded = true
         self:processNextLine()
-        love.graphics.setFont(WORLD.media.fantasyfont)
+        love.graphics.setFont(WORLD.media.readfont)
         MUSIC.tracks.mainMenu:stop()
     end,
     loadSpeakerObjects = function(self)
@@ -242,8 +242,6 @@ return {
         -- self.giving_instructions = true
         self.leftSpeakers = {}
         self.rightSpeakers = {}
-        love.graphics.setFont(WORLD.media.defaultfont)
-    end,
-    setRegularFont = function(self)
+        love.graphics.setFont(WORLD.media.fantasyfont)
     end
 }

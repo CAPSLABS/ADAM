@@ -438,6 +438,8 @@ return {
         self.media.surprise.img = love.graphics.newImage(self.media.surprise.img)
         self.media.explosion.img = love.graphics.newImage(self.media.explosion.img)
         self.media.defaultfont = love.graphics.getFont()
+        self.media.readfont = love.graphics.newFont("assets/font/Bagnard.otf", 20)
+        self.media.bigreadfont = love.graphics.newFont("assets/font/Bagnard.otf", 30)
         self.media.fantasyfont = love.graphics.newFont("assets/font/Komi.ttf", 15)
         self.media.bigfantasyfont = love.graphics.newFont("assets/font/Komi.ttf", 30)
     end,
@@ -941,7 +943,7 @@ return {
     drawMoney = function(self)
         --todo make sparkle and rarely turn (no need for anim, use x rotation)
         love.graphics.draw(self.media.hud.money, self.media.hudPos.moneyX, self.media.hudPos.moneyY, 0, 0.5)
-        love.graphics.setFont(WORLD.media.bigfantasyfont)
+        love.graphics.setFont(WORLD.media.bigreadfont)
         love.graphics.print(self.player.money, self.media.hudPos.moneyX + 90, self.media.hudPos.moneyY + 35)
     end,
     drawHearts = function(self) --a heart for kids
@@ -1037,7 +1039,7 @@ return {
                         love.graphics.pop()
                     end
                     -- write killCounter
-                    love.graphics.setFont(WORLD.media.bigfantasyfont)
+                    love.graphics.setFont(WORLD.media.bigreadfont)
                     --local text =
                     --    (bossMode and enemySpawnInfo.hp) or (enemySpawnInfo.counter .. "/" .. enemySpawnInfo.goal)
                     love.graphics.printf(
