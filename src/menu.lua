@@ -100,11 +100,25 @@ return {
                 WORLD.player:lvlUpBerserk()
                 WORLD.player:lvlUpBurst()
                 WORLD.player:lvlUpBurst()
+            elseif love.keyboard.isDown("9") then
+                InitGame(9, 2)
+                WORLD.player:lvlUpBoom()
+                WORLD.player:lvlUpBoom()
+                WORLD.player:lvlUpFire()
+                WORLD.player:lvlUpFire()
+                WORLD.player:lvlUpFire()
+                WORLD.player:lvlUpFast()
+                WORLD.player:lvlUpFast()
+                WORLD.player:lvlUpFast()
+                WORLD.player:lvlUpBerserk()
+                WORLD.player:lvlUpBerserk()
+                WORLD.player:lvlUpBurst()
+                WORLD.player:lvlUpBurst()
             elseif love.keyboard.isDown("s") then
                 GAMESTATE = 4
             elseif love.keyboard.isDown("l") then
                 GAMESTATE = 5
-            elseif love.keyboard.isDown("6") then
+            elseif love.keyboard.isDown("0") then
                 InitGame(1, 6)
             end
         end

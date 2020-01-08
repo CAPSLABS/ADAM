@@ -4,7 +4,7 @@
 --      Logic for GAMESTATES is handled here.
 --      The three main functions from the LÖVE framework are defined here:
 --      load(), update() and draw().
--- 
+--
 --      @date 30.6.2019
 --      @authors David L. Wenzel, Phillip Tse
 --]]
@@ -14,8 +14,8 @@ require("src.story")
 
 SUIT = require "src.suit"
 ANIMATE = require "src.anim8"
---DEBUG = true
-DEBUG = false
+DEBUG = true
+--DEBUG = false
 
 --1=menu, 2=game, 3=gameOver, 4=shop, 5=explosion, 6 = story
 GAMESTATES = {1, 2, 3, 4, 5}

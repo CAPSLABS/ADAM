@@ -30,7 +30,7 @@ return {
         return self.y + self.height
     end,
     media = {
-        img = "assets/goblinSword.png",
+        img = "assets/enemies/goblinSword.png",
         imgGrid = nil,
         imgWidth = 65,
         imgHeight = 64

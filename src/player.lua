@@ -73,9 +73,9 @@ return {
     iFrameSecMax = 1.5,
     media = {
         img = "assets/cha_sprites/adam.png",
-        boom = "assets/boomerang.png",
-        fire = "assets/fireScaled.png",
-        berserk = "assets/berserk.png"
+        boom = "assets/hud/boom/boomerang.png",
+        fire = "assets/hud/fire/fireScaled.png",
+        berserk = "assets/hud/berserk/berserk_smoke.png"
     },
     moveLeft = function(self, dt)
         self:setLeftAnim()

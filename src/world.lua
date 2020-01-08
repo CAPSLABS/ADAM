@@ -80,7 +80,7 @@ return {
             counterY = 110
         },
         explosion = {
-            img = "assets/explosion.png",
+            img = "assets/hud/explo/explosion.png",
             runtime = 0,
             maxRuntime = 1.3,
             scale = 0,
@@ -302,7 +302,7 @@ return {
             },
             winType = "kill"
         },
-        -- level 8: destroy the door
+        -- level 9: defeat the troll king
         {
             enemies = {
                 goblin = {
@@ -345,6 +345,49 @@ return {
             },
             winType = "kill"
         },
+        -- level 8: destroy the door
+        {
+            enemies = {
+                --goblin = {
+                --    timer = 0.3,
+                --    timerMax = 0.3,
+                --    killToWin = false,
+                --    spawnFct = function(self, runtime, dt)
+                --        -- returns the next timerMax value (waiting time until next goblin spawns)
+                --        -- Sigmoid mirrored on y axis shifted by 2 along x axis
+                --        -- They don't spawn as fast
+                --        return (1 / (1 + math.exp(0.02 * runtime))) + 0.5
+                --    end
+                --},
+                --zombie = {
+                --    timer = 4,
+                --    timerMax = 4,
+                --    killToWin = false,
+                --    spawnFct = function(self, runtime, dt)
+                --        return (1 / (1 + math.exp(0.08 * runtime))) + 2.8
+                --    end
+                --},
+                --lizard = {
+                --    timer = 12,
+                --    timerMax = 12,
+                --    killToWin = false,
+                --    spawnFct = function(self, runtime, dt)
+                --        return (1 / (1 + math.exp(0.09 * runtime))) + 4.5
+                --    end
+                --},
+                boss = {
+                    timer = 0,
+                    timerMax = 0,
+                    killToWin = true,
+                    counter = 0,
+                    goal = 1,
+                    spawnFct = function(self, runtime, dt)
+                        return 100000
+                    end
+                }
+            },
+            winType = "kill"
+        },
         --menu (always last)
         {
             enemies = {},
@@ -357,7 +400,8 @@ return {
         goblin = require("src.goblin"),
         zombie = require("src.zombie"),
         lizard = require("src.lizard"),
-        door = require("src.door")
+        door = require("src.door"),
+        boss = require("src.boss")
     },
     itemsRaw = {
         items = require("src.items")

@@ -1,17 +1,19 @@
 return {
-    name = "zombie",
-    hp = 6,
+    name = "boss",
+    hp = 200,
     dmg = 1,
-    speed = 0.2,
+    speed = 0.5,
     x = 0,
     y = 0,
     level = 0,
     alive = true,
     reward = 3, --possibly function with variable reward?
     anim = nil,
-    iFrameSec = 1.05,
-    iFrameSecMax = 1.05,
-    curAnim = "leftPump", --can be walking, dying, leftPump, rightPump, star
+    iFrameSec = 0.27,
+    iFrameSecMax = 0.27,
+    --Intro Sequence: can be facingUp, facingLeft, charging, holdShield, shieldInFront, getAxe, swingLeft, swingRight
+    --Later: walking, attack, dying, summoning
+    curAnim = "facingUp",
     gotHit = false,
     --the approximate width and height of a zombie (smaller then image)
     width = 30,
@@ -30,19 +32,20 @@ return {
         return self.y + 15 + self.height
     end,
     media = {
-        img = "assets/enemies/zombie.png",
+        img = "assets/enemies/trollking.png",
         imgGrid = nil,
         imgWidth = 64,
         imgHeight = 64
     },
     portrait = nil,
-    portraitX = 0, -- x-th column in img for the portrait
+    portraitX = 7, -- x-th column in img for the portrait
     portraitY = 2, -- y-th row in img for the portrait
     --instantiator:
     newSelf = function(self, level)
         local baby = Shallowcopy(self)
-        baby.x = math.random(0, (WORLD.x - self.width - 32)) -- substracting width avoids clipping out to the right
-        baby.anim = ANIMATE.newAnimation(self.media.imgGrid("2-7", 7), 0.08, "pauseAtEnd")
+        baby.x = WORLD.x / 2 - self.width
+        baby.y = 100
+        baby.anim = ANIMATE.newAnimation(self.media.imgGrid("1-1", 1), 3, "pauseAtEnd")
         baby.level = level
         return baby
     end,
@@ -57,20 +60,7 @@ return {
         end
     end,
     drop = function(self)
-        assert(self.level >= 4, "Zombie:drop, self level was below 4 with: " .. self.level)
-        -- lvl 1-3: does not drop anything
-        local randomNumber = math.random()
-        if self.level == 4 then
-            -- lvl 4: drops hearts with probability 10%
-            if randomNumber <= 0.1 then
-                WORLD:dropHeart(self)
-            end
-        elseif self.level >= 5 then
-            -- lvl 5: drops hearts with probability 15%
-            if randomNumber <= 0.15 then
-                WORLD:dropHeart(self)
-            end
-        end
+        -- does not drop anything
     end,
     die = function(self)
         self.curAnim = "dying"
@@ -120,14 +110,46 @@ return {
     --animations: left pump -> right pump -> star shape -> start walking towards player
     --dance class 101
     dance = function(self, dt)
-        if self.curAnim == "leftPump" then
-            self.anim = ANIMATE.newAnimation(self.media.imgGrid("2-7", 7), 0.08, "pauseAtEnd"):flipH()
-            self.curAnim = "rightPump"
-        elseif self.curAnim == "rightPump" then
-            self.anim = ANIMATE.newAnimation(self.media.imgGrid("1-7", 3), 0.2, "pauseAtEnd")
-            self.curAnim = "star"
-        elseif self.curAnim == "star" then
-            self.anim = ANIMATE.newAnimation(self.media.imgGrid("1-9", 11), 0.1)
+        if self.curAnim == "facingUp" then
+            self.anim = ANIMATE.newAnimation(self.media.imgGrid("1-1", 1), 2, "pauseAtEnd")
+            self.curAnim = "facingLeft"
+        elseif self.curAnim == "facingLeft" then
+            self.anim = ANIMATE.newAnimation(self.media.imgGrid("1-1", 2), 2, "pauseAtEnd")
+            self.curAnim = "charging"
+        elseif self.curAnim == "charging" then
+            self.anim =
+                ANIMATE.newAnimation(
+                self.media.imgGrid("1-6", 3),
+                {["1-2"] = 1, ["3-3"] = 2, ["4-5"] = 1, ["6-6"] = 2},
+                "pauseAtEnd"
+            )
+            self.curAnim = "holdShield"
+        elseif self.curAnim == "holdShield" then
+            self.anim =
+                ANIMATE.newAnimation(
+                self.media.imgGrid("1-6", 7),
+                {["1-1"] = 3, ["2-5"] = 0.2, ["6-6"] = 2},
+                "pauseAtEnd"
+            )
+            self.curAnim = "getAxe"
+        elseif self.curAnim == "getAxe" then
+            self.anim =
+                ANIMATE.newAnimation(
+                self.media.imgGrid("1-6", 15),
+                {["1-2"] = 0, ["3-5"] = 0.05, ["6-6"] = 0.5},
+                "pauseAtEnd"
+            )
+            self.curAnim = "swingLeft"
+        elseif self.curAnim == "swingLeft" then
+            self.anim =
+                ANIMATE.newAnimation(self.media.imgGrid("6-1", 14), {["6-2"] = 0.05, ["1-1"] = 0.1}, "pauseAtEnd")
+            self.curAnim = "swingRight"
+        elseif self.curAnim == "swingRight" then
+            self.anim =
+                ANIMATE.newAnimation(self.media.imgGrid("6-1", 16), {["6-2"] = 0.05, ["1-1"] = 0.1}, "pauseAtEnd")
+            self.curAnim = "swingFront"
+        elseif self.curAnim == "swingFront" then
+            self.anim = ANIMATE.newAnimation(self.media.imgGrid("1-6", 15), {["1-5"] = 0.05, ["6-6"] = 2}, "pauseAtEnd")
             self.curAnim = "walking"
         end
     end
