@@ -27,6 +27,8 @@ return {
         if SUIT.ImageButton(WORLD.media.hud.borderSmall, self:getBorderX(), self:getBorderY(1)).hit then
             self:startGame()
         elseif SUIT.ImageButton(WORLD.media.hud.borderSmall, self:getBorderX(), self:getBorderY(2)).hit then
+            WORLD.endlessmode = true
+            MUSIC:startMusic("villageBattle")
             InitGame(10, 2)
         elseif SUIT.ImageButton(WORLD.media.hud.borderSmall, self:getBorderX(), self:getBorderY(3)).hit then
             CREDITS:load()

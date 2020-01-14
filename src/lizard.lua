@@ -1,6 +1,6 @@
 return {
     name = "lizard",
-    hp = 10,
+    hp = 14,
     dmg = 8,
     speed = 0.7,
     x = 0,

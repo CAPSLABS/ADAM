@@ -14,8 +14,8 @@ require("src.story")
 
 SUIT = require "src.suit"
 ANIMATE = require "src.anim8"
-DEBUG = true
---DEBUG = false
+--DEBUG = true
+DEBUG = false
 
 --1=menu, 2=game, 3=gameOver, 4=shop, 5=explosion, 6 = story
 GAMESTATES = {1, 2, 3, 4, 5}
@@ -49,7 +49,7 @@ function love.load()
     WORLD:loadPlayer()
     SHOP:loadBacking()
     MUSIC:load()
-    MUSIC:changeVolume(0.2)
+    MUSIC:changeVolume(0)
     MUSIC.tracks.mainMenu:play()
 end
 
@@ -58,7 +58,9 @@ function LoadMap()
 end
 
 function InitGame(lvl, gamestate)
-    WORLD.cityHealth = 100
+    if WORLD.endlessmode == false or WORLD.iteration == 1 then
+        WORLD.cityHealth = 100
+    end
     WORLD.runtime = 0
     WORLD.enemies = {}
     WORLD.drops = {}

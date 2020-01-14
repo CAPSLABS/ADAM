@@ -414,7 +414,12 @@ return {
             )
         end
         if SUIT.ImageButton(self.media.done, self.pos.doneX - (self.media.done:getWidth() / 2), self.pos.doneY).hit then
-            InitGame(WORLD.currentLvl, 6)
+            if WORLD.endlessmode == true then
+                WORLD.shoppedThisIteration = true
+                WORLD:nextEndlessMode()
+            else
+                InitGame(WORLD.currentLvl, 6)
+            end
         end
     end,
     broUBroke = function(self)

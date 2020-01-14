@@ -3,13 +3,17 @@
 - map 3: a boss( P)
 
 - MAPCHANGE calls: story fadeout / play intro music once, then loop credit theme (D)
-- endless mode (WIP für D)
+- buyable city hp (D)
 
-OPTIONAL
+
+OPTIONAL 
+- keyboard control for shop and main menu (!!!)
+- explanation of endless mode?
+- mutant goblins with double update rate (or other enemy mutants)
+- add boss to endless mode
 - make people wiggle when they talk (D)
 - andere ttf
 - typewriter effect in story (D)
-- keyboard control for shop and main menu (!!!)
 - balance level ups
 - sfx
 - discuss if we want to explain skills/upgrades before buying (per skill row there is a button that writes a description of that skill)
