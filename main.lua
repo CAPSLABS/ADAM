@@ -14,8 +14,8 @@ require("src.story")
 
 SUIT = require "src.suit"
 ANIMATE = require "src.anim8"
---DEBUG = true
-DEBUG = false
+DEBUG = true
+--DEBUG = false
 
 --1=menu, 2=game, 3=gameOver, 4=shop, 5=explosion, 6 = story
 GAMESTATES = {1, 2, 3, 4, 5}
@@ -104,17 +104,9 @@ function love.update(dt)
         WORLD:checkPlayerActionInput(dt)
         WORLD.player:update(dt)
         WORLD:updateHealth()
-        --WORLD:updateHUD(dt)
         WORLD:checkWinCondition(dt)
         WORLD:spawnEnemies(dt)
         WORLD:updateEnemies(dt) --moves, an
-
-        --WORLD.player:updateSelf(dt)
-
-        --WORLD:updateHUD(dt)
-        WORLD:checkWinCondition(dt)
-        WORLD:spawnEnemies(dt)
-        WORLD:updateEnemies(dt) --moves, animates&deletes enemies
         WORLD:handleCollisions()
         WORLD:updateExplosion(dt, WORLD.player.x + 32, WORLD.player.y + 32, WORLD.player.explosionMaxRuntime)
     elseif GAMESTATE == 3 then --GAME OVER

@@ -344,6 +344,40 @@ return {
             },
             winType = "kill"
         },
+        -- level 9: kill the b0ss
+        {},
+        -- level 10: endless mode!
+        {
+            enemies = {
+                goblin = {
+                    timer = 0.3,
+                    timerMax = 1,
+                    killToWin = false,
+                    spawnFct = function(self, runtime, dt)
+                        return (1 / (1 + math.exp(0.03 * runtime))) + 0.5
+                    end
+                },
+                zombie = {
+                    timer = 30,
+                    timerMax = 4,
+                    killToWin = false,
+                    spawnFct = function(self, runtime, dt)
+                        return (1 / (1 + math.exp(0.08 * runtime))) + 2.8
+                    end
+                },
+                lizard = {
+                    timer = 205,
+                    timerMax = 12,
+                    killToWin = false,
+                    spawnFct = function(self, runtime, dt)
+                        return (1 / (1 + math.exp(0.09 * runtime))) + 4.5
+                    end
+                }
+            },
+            iteration = 1,
+            winType = "endure",
+            goal = 90
+        },
         --menu (always last)
         {
             enemies = {},
