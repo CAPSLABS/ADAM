@@ -35,9 +35,19 @@ return {
                 self.timerTillNextLine = self.timerTillNextLineMax
             end
         else
-            love.graphics.setFont(WORLD.media.bigfantasyfont)
+            self.loaded = false
+            self.fade2BlackDone = false
+            self.rollingDone = false
+            self.fade2NormalDone = false
+            self.creditText = nil
+            self.creditIndex = 1
+            self.timerTillNextLine = 0.5
+            self.timerTillNextLineMax = 1
+            self.scrollSpeed = 1.7
+            self.currentLinesDisplayed = {}
             MUSIC:startMusic("mainMenu")
             MENU.gameOpenFadeIn = false
+            love.graphics.setFont(WORLD.media.bigfantasyfont) --this should probably be triggered upon transitioning to GAMESTATE 1
             GAMESTATE = 1
         end
     end,

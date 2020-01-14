@@ -2,7 +2,6 @@
 - map 3: a door (P)
 - map 3: a boss( P)
 
-- credits (selectable in main menu and autostart at game end, own gamestate) (to OS artist) (D)
 - MAPCHANGE calls: story fadeout / play intro music once, then loop credit theme (D)
 - endless mode (WIP für D)
 
