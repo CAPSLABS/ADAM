@@ -22,7 +22,10 @@ return {
     cityHealthMax = 100,
     cityHealth = 100,
     healthPerc = 1,
-    credits = false, --flag if credits are running
+    --endless mode flags:
+    endlessmode = false,
+    shoppedThisIteration = false,
+    iteration = 1,
     media = {
         defaultfont = nil,
         fantasyfont = nil,
@@ -305,7 +308,7 @@ return {
             },
             winType = "kill"
         },
-        -- level 9: defeat the troll king
+        -- level 8: destroy the door
         {
             enemies = {
                 goblin = {
@@ -348,7 +351,7 @@ return {
             },
             winType = "kill"
         },
-        -- level 8: destroy the door
+        -- level 9:  defeat the troll king
         {
             enemies = {
                 --goblin = {
@@ -391,6 +394,39 @@ return {
             },
             winType = "kill"
         },
+        -- level 10: endless mode!
+        {
+            enemies = {
+                goblin = {
+                    timer = 0.3,
+                    timerMax = 1,
+                    killToWin = false,
+                    spawnFct = function(self, runtime, dt)
+                        return (1 / (1 + math.exp(0.03 * runtime))) + 0.65
+                    end
+                },
+                zombie = {
+                    timer = 30,
+                    timerMax = 4,
+                    killToWin = false,
+                    spawnFct = function(self, runtime, dt)
+                        return (1 / (1 + math.exp(0.08 * runtime))) + 1.8
+                    end
+                },
+                lizard = {
+                    timer = 205,
+                    timerMax = 12,
+                    killToWin = false,
+                    spawnFct = function(self, runtime, dt)
+                        return (1 / (1 + math.exp(0.09 * runtime))) + 3.5
+                    end
+                }
+                -- boss = {
+                --}
+            },
+            winType = "endure",
+            goal = 10
+        },
         --menu (always last)
         {
             enemies = {},
@@ -399,6 +435,12 @@ return {
             winType = "collect"
         }
     },
+    timerG = 0.3,
+    timerMaxG = 1,
+    timerZ = 30,
+    timerMaxZ = 4,
+    timerL = 205,
+    timerMaxL = 12,
     statsRaw = {
         goblin = require("src.goblin"),
         zombie = require("src.zombie"),
@@ -781,8 +823,7 @@ return {
             end
             -- stop enemies from spawning
             for enemyName, enemySpawnInfo in pairs(self.levels[self.currentLvl].enemies) do
-                --TODO: unsafe but works
-                enemySpawnInfo.timer = 10000
+                --enemySpawnInfo.timer = 10000
             end
         end
         if self.wonLevel then
@@ -793,8 +834,56 @@ return {
                     480 - (self.media.hud.borderSmall:getHeight() / 2)
                 ).hit
              then
-                InitGame(self.currentLvl, 6)
+                if self.endlessmode == true then
+                    self:nextEndlessMode()
+                else
+                    InitGame(self.currentLvl, 6)
+                end
             end
+        end
+    end,
+    ------------ENDLESS MODE -------------
+    nextEndlessMode = function(self)
+        if not self.shoppedThisIteration then
+            MUSIC:startMusic("shop")
+            InitGame(WORLD.currentLvl, 4)
+        else
+            self.shoppedThisIteration = false
+
+            self:resetTimer()
+            self:updateIterationValues()
+            self:updateEnvironment() --set map and music
+            InitGame(10, 2)
+        end
+    end,
+    updateIterationValues = function(self)
+        self.levels[10].goal = self.levels[10].goal * 1.5
+        --TODO update SPAWN FUNCTIONS!
+        self.iteration = self.iteration + 1
+    end,
+    resetTimer = function(self)
+        self.levels[10].enemies.goblin.timer = self.timerG
+        self.levels[10].enemies.goblin.timerMax = self.timerMaxG
+
+        self.levels[10].enemies.zombie.timer = self.timerZ
+        self.levels[10].enemies.zombie.timerMax = self.timerZ
+
+        self.levels[10].enemies.lizard.timer = self.timerL
+        self.levels[10].enemies.lizard.timerMax = self.timerL
+    end,
+    updateEnvironment = function(self)
+        if self.iteration <= 3 then
+            MUSIC:startMusic("villageBattle")
+        elseif self.iteration <= 6 then
+            MUSIC:startMusic("mountainBattle")
+            WORLD.map = 2
+            LoadMap()
+        elseif self.iteration <= 9 then
+            MUSIC:startMusic("caveBattle")
+            WORLD.map = 3
+            LoadMap()
+        else
+            MUSIC:startMusic("finalBattle")
         end
     end,
     ------------ DRAWING --------------
@@ -918,6 +1007,9 @@ return {
         --end
         self:drawLevelTimer()
         self:drawCollectCounter()
+        if self.endlessmode == true then
+            self:drawIteration()
+        end
     end,
     drawSkills = function(self)
         if self.player.canBoom == true then
@@ -1115,6 +1207,9 @@ return {
             enemyCount = 0
             love.graphics.pop()
         end
+    end,
+    drawIteration = function(self)
+        love.graphics.print(self.iteration, self.x / 2, 20)
     end,
     drawLevelTimer = function(self)
         if self.levels[self.currentLvl].winType == "endure" then
