@@ -129,7 +129,7 @@ end
 
 ------------ DRAWING --------------
 
-function love.draw(dt)
+function love.draw()
     if GAMESTATE == 1 then --MENU
         if MENU.gameOpenFadeIn or WORLD.credits then
             love.graphics.setColor(255, 255, 255, FADER.alpha)
@@ -149,6 +149,7 @@ function love.draw(dt)
     elseif GAMESTATE == 2 then --GAME
         _G.map:draw()
         WORLD:drawExplosionStuff(WORLD.player.x + 32, WORLD.player.y + 32)
+
         WORLD:drawEnemyStuff()
         WORLD:drawPlayerStuff()
         WORLD:drawItemStuff()

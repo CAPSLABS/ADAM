@@ -2,7 +2,7 @@ return {
     name = "boss",
     hp = 200,
     dmg = 1,
-    speed = 0.5,
+    speed = 0.3,
     x = 0,
     y = 0,
     level = 0,
@@ -15,7 +15,11 @@ return {
     --Later: walking, attack, dying, summoning
     curAnim = "facingUp",
     gotHit = false,
-    --the approximate width and height of a zombie (smaller then image)
+    -- spawn things
+    timer = 0, -- changing variable for fireball spawning
+    timerMax = 0.5, -- fixed spawn starting value
+    dt = 0,
+    --the approximate width and height of the boss (smaller then image)
     width = 30,
     height = 50,
     --the sprite begins ~15 pixels to the right of the image
@@ -44,7 +48,7 @@ return {
     newSelf = function(self, level)
         local baby = Shallowcopy(self)
         baby.x = WORLD.x / 2 - self.width
-        baby.y = 100
+        baby.y = 150
         baby.anim = ANIMATE.newAnimation(self.media.imgGrid("1-1", 1), 3, "pauseAtEnd")
         baby.level = level
         return baby
@@ -68,25 +72,35 @@ return {
             WORLD.player.money = WORLD.player.money + self.reward
             if
                 WORLD.levels[WORLD.currentLvl].winType == "kill" and
-                    WORLD.levels[WORLD.currentLvl].enemies.zombie.killToWin and
-                    (WORLD.levels[WORLD.currentLvl].enemies.zombie.counter <
-                        WORLD.levels[WORLD.currentLvl].enemies.zombie.goal)
+                    WORLD.levels[WORLD.currentLvl].enemies.boss.killToWin and
+                    (WORLD.levels[WORLD.currentLvl].enemies.boss.counter <
+                        WORLD.levels[WORLD.currentLvl].enemies.boss.goal)
              then
-                WORLD.levels[WORLD.currentLvl].enemies.zombie.counter =
-                    WORLD.levels[WORLD.currentLvl].enemies.zombie.counter + 1
+                WORLD.levels[WORLD.currentLvl].enemies.boss.counter =
+                    WORLD.levels[WORLD.currentLvl].enemies.boss.counter + 1
             end
         end
         self.anim = ANIMATE.newAnimation(self.media.imgGrid("1-6", 21), 0.3, "pauseAtEnd")
     end,
     update = function(self, dt)
         self.anim:update(dt)
+        self.dt = dt
+        -- check if he's still dancing his intro or already dead
         if self.anim.status == "paused" then
             if self.curAnim == "dying" then
                 self.alive = false
             else
-                self:dance()
+                self:dance(dt)
+            end
+        else
+            -- spawn fireballs after certain duration as long as dancing has not stopped
+            self.timer = self.timer + dt
+            if self.timer >= self.timerMax then
+                self:spawnFireballs()
+                self.timer = 0
             end
         end
+        -- what happens at each animation
         if (self.curAnim == "walking") then
             self.y = self.y + (self.speed * 200 * dt)
             if self.y > (WORLD.y - 190) then
@@ -106,12 +120,21 @@ return {
             end
         end
     end,
+    spawnFireballs = function(self)
+        local newFireball =
+            WORLD.statsRaw["fireball"]:newSelf(
+            self.level,
+            self.x,
+            self.y
+            --(self.media.imgHeight / 2)
+        )
+        table.insert(WORLD.enemies, newFireball)
+    end,
     --everytime the cur. anim. is paused, we go to the next
-    --animations: left pump -> right pump -> star shape -> start walking towards player
     --dance class 101
     dance = function(self, dt)
         if self.curAnim == "facingUp" then
-            self.anim = ANIMATE.newAnimation(self.media.imgGrid("1-1", 1), 2, "pauseAtEnd")
+            self.anim = ANIMATE.newAnimation(self.media.imgGrid("1-1", 1), 1, "pauseAtEnd")
             self.curAnim = "facingLeft"
         elseif self.curAnim == "facingLeft" then
             self.anim = ANIMATE.newAnimation(self.media.imgGrid("1-1", 2), 2, "pauseAtEnd")
@@ -149,8 +172,21 @@ return {
                 ANIMATE.newAnimation(self.media.imgGrid("6-1", 16), {["6-2"] = 0.05, ["1-1"] = 0.1}, "pauseAtEnd")
             self.curAnim = "swingFront"
         elseif self.curAnim == "swingFront" then
-            self.anim = ANIMATE.newAnimation(self.media.imgGrid("1-6", 15), {["1-5"] = 0.05, ["6-6"] = 2}, "pauseAtEnd")
+            self.anim = ANIMATE.newAnimation(self.media.imgGrid("1-6", 15), {["1-6"] = 0.05}, "pauseAtEnd")
             self.curAnim = "walking"
+        elseif self.curAnim == "walking" then
+            self.anim = ANIMATE.newAnimation(self.media.imgGrid("1-7", 11), 0.1, "pauseAtEnd")
         end
+    end,
+    drawDanceEffects = function(self)
+        if self.curAnim == "facingLeft" then
+            WORLD:drawScreenShake(-1, 1)
+        elseif self.curAnim == "charging" then
+            WORLD:drawScreenShake(-2, 2)
+        elseif self.curAnim == "holdShield" then
+            WORLD:drawLightning(self.dt)
+        end
+        --TODO: continue
+        --TODO: fix drawLightning
     end
 }

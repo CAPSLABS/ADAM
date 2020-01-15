@@ -14,6 +14,8 @@ return {
     exploding = false,
     -- true if current level condition has been satisfied
     wonLevel = false,
+    -- effect stuff
+    lightningAlpha = 1,
     -- Counts keypress after level has been won. Advance to next level if this is >= 0.
     continueButton = nil,
     cityHealthMax = 100,
@@ -401,7 +403,8 @@ return {
         zombie = require("src.zombie"),
         lizard = require("src.lizard"),
         door = require("src.door"),
-        boss = require("src.boss")
+        boss = require("src.boss"),
+        fireball = require("src.fireball")
     },
     itemsRaw = {
         items = require("src.items")
@@ -505,7 +508,16 @@ return {
     --reward (int)
     updateEnemies = function(self, dt)
         for i, enemy in ipairs(self.enemies) do
-            enemy:update(dt)
+            if enemy.name ~= "fireball" then
+                enemy:update(dt)
+            else
+                assert(self.currentLvl == 9, "updateEnemies, tried calling fireball enemy in lvl " .. self.currentLvl)
+                assert(
+                    self.enemies[1].name == "boss",
+                    "updateEnemies: first enemy name was not boss it was " .. self.enemies[1].name
+                )
+                enemy:update(dt, self.enemies[1].x, self.enemies[1].y + 10)
+            end
             if not enemy.alive then
                 table.remove(self.enemies, i)
                 enemy:drop()
@@ -658,7 +670,6 @@ return {
             end
         end
     end,
-    -- TODOOOOOO: item is a nested table now not a varaible
     checkItemCollision = function(self, dt)
         for i, item in ipairs(self.drops) do
             -- check for collision with player
@@ -840,10 +851,15 @@ return {
                 enemy.anim:draw(enemy.media.img, enemy.x, enemy.y)
                 love.graphics.setColor(255, 255, 255, 255)
             else
-                if enemy.anim ~= nil then -- can only be nil for the enemy "door"
-                    enemy.anim:draw(enemy.media.img, enemy.x, enemy.y)
-                else
+                if enemy.name == "door" then
+                    -- draw door animations (aka none)
                     love.graphics.draw(enemy.media.img, enemy.x, enemy.y)
+                elseif enemy.name == "boss" then
+                    enemy.anim:draw(enemy.media.img, enemy.x, enemy.y)
+                    enemy:drawDanceEffects()
+                else
+                    -- draw normal animations
+                    enemy.anim:draw(enemy.media.img, enemy.x, enemy.y)
                 end
             end
         end
@@ -1030,7 +1046,6 @@ return {
             self.media.hudPos.letterY
         )
     end,
-    --drawKillCounters = function(self, bossMode)
     drawKillCounters = function(self)
         if self.levels[self.currentLvl].winType == "kill" then
             -- scale down the kill counter a little, or a little bit more if it is the door
@@ -1170,6 +1185,18 @@ return {
         local xShift = love.math.random(min, max)
         local yShift = love.math.random(min, max)
         love.graphics.translate(xShift, yShift)
+    end,
+    --TODO: fix me
+    drawLightning = function(self, dt)
+        --TODO: color the screen suddenly white, then fade back into standard colors
+        if self.lightningAlpha >= 0 then
+            self.lightningAlpha = self.lightningAlpha - (dt / 2)
+        end
+        love.graphics.setColor(1, 1, 1, self.lightningAlpha)
+        if self.lightningAlpha <= 0 then
+            love.graphics.setColor(255, 255, 255, 255)
+            self.lightningAlpha = 1
+        end
     end,
     drawExplosionStuff = function(self, startX, startY)
         if self.exploding then
