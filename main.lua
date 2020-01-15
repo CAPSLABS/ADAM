@@ -149,12 +149,12 @@ function love.draw()
     elseif GAMESTATE == 2 then --GAME
         _G.map:draw()
         WORLD:drawExplosionStuff(WORLD.player.x + 32, WORLD.player.y + 32)
-
         WORLD:drawEnemyStuff()
         WORLD:drawPlayerStuff()
         WORLD:drawItemStuff()
         WORLD:drawHud()
         WORLD:drawWinScreen()
+        WORLD:drawLightning()
     elseif GAMESTATE == 3 then --GAME OVER
         MENU:drawPaidRespect(WORLD.media.surprise.img)
         love.graphics.setFont(WORLD.media.fantasyfont)

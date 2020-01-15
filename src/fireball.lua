@@ -2,7 +2,7 @@ return {
     name = "fireball",
     hp = 15,
     dmg = 1,
-    speed = 2,
+    speed = 3,
     x = 0,
     y = 0,
     level = 0, -- level in which the goblin was spawned

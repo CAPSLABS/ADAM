@@ -16,6 +16,7 @@ return {
     wonLevel = false,
     -- effect stuff
     lightningAlpha = 1,
+    lightningActive = false,
     -- Counts keypress after level has been won. Advance to next level if this is >= 0.
     continueButton = nil,
     cityHealthMax = 100,
@@ -1187,15 +1188,20 @@ return {
         love.graphics.translate(xShift, yShift)
     end,
     --TODO: fix me
-    drawLightning = function(self, dt)
+    drawLightning = function(self)
         --TODO: color the screen suddenly white, then fade back into standard colors
-        if self.lightningAlpha >= 0 then
-            self.lightningAlpha = self.lightningAlpha - (dt / 2)
-        end
-        love.graphics.setColor(1, 1, 1, self.lightningAlpha)
-        if self.lightningAlpha <= 0 then
-            love.graphics.setColor(255, 255, 255, 255)
-            self.lightningAlpha = 1
+        if self.lightningActive then
+            if self.lightningAlpha >= 0 then
+                self.lightningAlpha = self.lightningAlpha - 0.1
+            end
+            love.graphics.setBackgroundColor(0.9, 0.9, 0.9, 0)
+            love.graphics.setColor(0.9, 0.9, 0.9, self.lightningAlpha)
+            if self.lightningAlpha <= 0 then
+                love.graphics.setColor(255, 255, 255, 255)
+                love.graphics.setBackgroundColor(0, 0, 0, 1)
+                self.lightningAlpha = 1
+                self.lightningActive = false
+            end
         end
     end,
     drawExplosionStuff = function(self, startX, startY)

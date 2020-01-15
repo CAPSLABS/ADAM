@@ -18,7 +18,8 @@ return {
     -- spawn things
     timer = 0, -- changing variable for fireball spawning
     timerMax = 0.5, -- fixed spawn starting value
-    dt = 0,
+    lightningTimer = 0,
+    lightningTimerMax = 2,
     --the approximate width and height of the boss (smaller then image)
     width = 30,
     height = 50,
@@ -49,7 +50,8 @@ return {
         local baby = Shallowcopy(self)
         baby.x = WORLD.x / 2 - self.width
         baby.y = 150
-        baby.anim = ANIMATE.newAnimation(self.media.imgGrid("1-1", 1), 3, "pauseAtEnd")
+        baby.anim = ANIMATE.newAnimation(self.media.imgGrid("1-1", 1), 2.2, "pauseAtEnd")
+        baby.curAnim = "facingUp"
         baby.level = level
         return baby
     end,
@@ -83,23 +85,36 @@ return {
         self.anim = ANIMATE.newAnimation(self.media.imgGrid("1-6", 21), 0.3, "pauseAtEnd")
     end,
     update = function(self, dt)
+        -- update animation
         self.anim:update(dt)
-        self.dt = dt
-        -- check if he's still dancing his intro or already dead
+
+        -- Switch the animation if it is paused
         if self.anim.status == "paused" then
             if self.curAnim == "dying" then
                 self.alive = false
             else
                 self:dance(dt)
             end
-        else
-            -- spawn fireballs after certain duration as long as dancing has not stopped
-            self.timer = self.timer + dt
-            if self.timer >= self.timerMax then
-                self:spawnFireballs()
-                self.timer = 0
+        end
+
+        -- spawn fireballs after certain duration as long as dancing has not stopped
+        self.timer = self.timer + dt
+        if self.timer >= self.timerMax then
+            self:spawnFireballs()
+            self.timer = 0
+        end
+
+        -- spawn lightning
+        if self.curAnim == "charging" then
+            -- while charging spawn lightning continuously faster
+            self.lightningTimer = self.lightningTimer + dt
+            if self.lightningTimer >= self.lightningTimerMax then
+                WORLD.lightningActive = true
+                self.lightningTimerMax = self.lightningTimerMax - (self.lightningTimer / 3)
+                self.lightningTimer = 0
             end
         end
+
         -- what happens at each animation
         if (self.curAnim == "walking") then
             self.y = self.y + (self.speed * 200 * dt)
@@ -133,46 +148,53 @@ return {
     --everytime the cur. anim. is paused, we go to the next
     --dance class 101
     dance = function(self, dt)
+        assert(self.anim.status == "paused", "boss:dance, animation was still playing, cannot switch to next")
         if self.curAnim == "facingUp" then
-            self.anim = ANIMATE.newAnimation(self.media.imgGrid("1-1", 1), 1, "pauseAtEnd")
+            -- if facingUp is paused, switch to look left animation
+            self.anim = ANIMATE.newAnimation(self.media.imgGrid("1-1", 2), 1, "pauseAtEnd")
             self.curAnim = "facingLeft"
         elseif self.curAnim == "facingLeft" then
-            self.anim = ANIMATE.newAnimation(self.media.imgGrid("1-1", 2), 2, "pauseAtEnd")
+            -- switch from facingLeft to charging animation
+            self.anim = ANIMATE.newAnimation(self.media.imgGrid("1-6", 3), 1, "pauseAtEnd")
             self.curAnim = "charging"
         elseif self.curAnim == "charging" then
-            self.anim =
-                ANIMATE.newAnimation(
-                self.media.imgGrid("1-6", 3),
-                {["1-2"] = 1, ["3-3"] = 2, ["4-5"] = 1, ["6-6"] = 2},
-                "pauseAtEnd"
-            )
+            -- switch from charging to holdShield animation
+            self.anim = ANIMATE.newAnimation(self.media.imgGrid("1-5", 7), {["1-1"] = 2, ["2-5"] = 0.2}, "pauseAtEnd")
             self.curAnim = "holdShield"
         elseif self.curAnim == "holdShield" then
-            self.anim =
-                ANIMATE.newAnimation(
-                self.media.imgGrid("1-6", 7),
-                {["1-1"] = 3, ["2-5"] = 0.2, ["6-6"] = 2},
-                "pauseAtEnd"
-            )
-            self.curAnim = "getAxe"
-        elseif self.curAnim == "getAxe" then
+            -- switch holdShield to shieldInFront animation
+            self.anim = ANIMATE.newAnimation(self.media.imgGrid("6-6", 7), 1.3, "pauseAtEnd")
+            self.curAnim = "shieldInFront"
+        elseif self.curAnim == "shieldInFront" then
+            -- switch shieldInFront to getAxe animation
             self.anim =
                 ANIMATE.newAnimation(
                 self.media.imgGrid("1-6", 15),
                 {["1-2"] = 0, ["3-5"] = 0.05, ["6-6"] = 0.5},
                 "pauseAtEnd"
             )
-            self.curAnim = "swingLeft"
-        elseif self.curAnim == "swingLeft" then
+            self.curAnim = "getAxe"
+            -- spawn one lightning
+            WORLD.lightningActive = true
+        elseif self.curAnim == "getAxe" then
+            -- switch to swingLeft
             self.anim =
                 ANIMATE.newAnimation(self.media.imgGrid("6-1", 14), {["6-2"] = 0.05, ["1-1"] = 0.1}, "pauseAtEnd")
-            self.curAnim = "swingRight"
-        elseif self.curAnim == "swingRight" then
+            self.curAnim = "swingLeft"
+        elseif self.curAnim == "swingLeft" then
+            -- switch to swingRight
             self.anim =
                 ANIMATE.newAnimation(self.media.imgGrid("6-1", 16), {["6-2"] = 0.05, ["1-1"] = 0.1}, "pauseAtEnd")
+            self.curAnim = "swingRight"
+        elseif self.curAnim == "swingRight" then
+            -- switch to swingFront
+            self.anim = ANIMATE.newAnimation(self.media.imgGrid("1-6", 15), {["1-5"] = 0.05, ["6-6"] = 1}, "pauseAtEnd")
             self.curAnim = "swingFront"
+            -- spawn one lightning
+            WORLD.lightningActive = true
         elseif self.curAnim == "swingFront" then
-            self.anim = ANIMATE.newAnimation(self.media.imgGrid("1-6", 15), {["1-6"] = 0.05}, "pauseAtEnd")
+            -- switch to walking
+            self.anim = ANIMATE.newAnimation(self.media.imgGrid("1-7", 11), 0.1, "pauseAtEnd")
             self.curAnim = "walking"
         elseif self.curAnim == "walking" then
             self.anim = ANIMATE.newAnimation(self.media.imgGrid("1-7", 11), 0.1, "pauseAtEnd")
@@ -183,8 +205,13 @@ return {
             WORLD:drawScreenShake(-1, 1)
         elseif self.curAnim == "charging" then
             WORLD:drawScreenShake(-2, 2)
-        elseif self.curAnim == "holdShield" then
-            WORLD:drawLightning(self.dt)
+        elseif
+            self.curAnim == "shieldInFront" or self.curAnim == "swingLeft" or self.curAnim == "swingRight" or
+                self.curAnim == "swingFront"
+         then
+            WORLD:drawScreenShake(-2, 2)
+        --WORLD:drawScreenShake(-2, 2)
+        --WORLD:drawLightning(self.dt)
         end
         --TODO: continue
         --TODO: fix drawLightning
