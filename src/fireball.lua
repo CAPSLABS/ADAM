@@ -58,7 +58,7 @@ return {
         if not self.gotHit then
             self.gotHit = true
             self.hp = self.hp - dmg
-            if (self.hp <= 0) and (self.curAnim ~= "dying") then --and (self.curAnim == "walking") then
+            if (self.hp <= 0) and (self.curAnim ~= "dyingButCanStillHit") then --and (self.curAnim == "walking") then
                 self:die()
             end
         end
@@ -67,7 +67,7 @@ return {
         --does not drop anything
     end,
     die = function(self)
-        self.curAnim = "dying"
+        self.curAnim = "dyingButCanStillHit"
         self.anim = ANIMATE.newAnimation(self.media.imgGrid("1-4", 1), 0.4, "pauseAtEnd")
     end,
     update = function(self, dt, bossX, bossY)
@@ -75,10 +75,10 @@ return {
         self.anim:update(dt)
         -- increase angle
         self.angle = self.angle + self.speed * dt
-        if (self.anim.status == "paused") and (self.curAnim == "dying") then
+        if (self.anim.status == "paused") and (self.curAnim == "dyingButCanStillHit") then
             self.alive = false
-        elseif self.curAnim == "dying" then
-            -- move towards the player while dying
+        elseif self.curAnim == "dyingButCanStillHit" then
+            -- move towards the player while dyingButCanStillHit
             self.y = self.y + self.speed * 150 * dt
         elseif self.curAnim == "surrounding" then
             -- surround the boss's center

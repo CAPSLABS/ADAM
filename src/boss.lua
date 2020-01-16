@@ -17,8 +17,6 @@ return {
     gotHit = false,
     intro = true,
     -- spawn things
-    timer = 0, -- changing variable for fireball spawning
-    timerMax = 0.5, -- fixed spawn starting value
     lightningTimer = 0,
     lightningTimerMax = 2,
     --the approximate width and height of the boss (smaller then image)
@@ -113,15 +111,12 @@ return {
                 --self:dance(dt)
                 -- TODO: remove this after finishing AI
                 self.intro = false
-                self.curAnim = "idleWithFireballs"
+                self.curAnim = "idle"
             end
         end
         -- spawn fireballs after certain duration as long as dancing has not stopped
-        self.timer = self.timer + dt
-        if self.timer >= self.timerMax then
-            self:spawnFireballs()
-            self.timer = 0
-        end
+        self.statemachine["spawnFireballs"]:spawnFireballs(dt, self.x, self.y)
+
         -- spawn lightning
         if self.curAnim == "charging" then
             -- while charging spawn lightning continuously faster
@@ -139,10 +134,6 @@ return {
             self.gotHit = false
             self.iFrameSec = self.iFrameSecMax
         end
-    end,
-    spawnFireballs = function(self)
-        local newFireball = WORLD.statsRaw["fireball"]:newSelf(self.level, self.x, self.y)
-        table.insert(WORLD.enemies, newFireball)
     end,
     --everytime the cur. anim. is paused, we go to the next
     --dance class 101
@@ -192,9 +183,9 @@ return {
             -- spawn one lightning
             WORLD.lightningActive = true
         elseif self.curAnim == "swingFront" then
-            -- switch to idleWithFireballs (which switches to boss AI)
+            -- switch to idle (which switches to boss AI)
             self.anim = ANIMATE.newAnimation(self.media.imgGrid("1-7", 11), 0.1, "pauseAtEnd")
-            self.curAnim = "idleWithFireballs"
+            self.curAnim = "idle"
             self.intro = false
         --elseif self.curAnim == "walking" then
         --    self.anim = ANIMATE.newAnimation(self.media.imgGrid("1-7", 11), 0.1, "pauseAtEnd")
@@ -214,9 +205,10 @@ return {
     statemachine = {
         -- each state has multiple transitions {probability, nextAction} where probability is the probability
         -- that nextAction will be selected as the next action, and an animation() function choosing the fitting animation
-        idleWithFireballs = {
-            {0.5, "jump"},
-            {0.5, "idleWithFireballs"},
+        idle = {
+            {0.2, "jump"},
+            {0.2, "idle"},
+            {0.6, "spawnFireballs"},
             --{0.2, "jump"},
             --{0.5, "throwFireballs"},
             --{0.15, "spawnLightning"},
@@ -240,16 +232,17 @@ return {
                 return {bossX, bossY}
             end
         },
-        idleNoFireballs = {
-            {0.2, "jump"},
-            {0.6, "spawnFireballs"},
-            {0.1, "spawnLightning"},
-            {0.1, "summonEnemies"}
-        },
+        --idleNoFireballs = {
+        --    {0.2, "jump"},
+        --    {0.6, "spawnFireballs"},
+        --    {0.1, "spawnLightning"},
+        --    {0.1, "summonEnemies"}
+        --},
         jump = {
-            {0.5, "idleWithFireballs"}, -- TODO: change that to idle with Fireballs or not
-            {0.5, "jump"},
-            --{0.2, "idleWithFireballs"}, -- TODO: change that to idle with Fireballs or not
+            {0.25, "idle"},
+            {0.25, "jump"},
+            {0.5, "spawnFireballs"},
+            --{0.2, "idle"},
             --{0.1, "jump"},
             --{0.2, "spawnFireballs"},
             --{0.25, "spawnLightning"},
@@ -305,10 +298,30 @@ return {
             end
         },
         spawnFireballs = {
-            {0.15, "idle"}, -- TODO: change that to idle with Fireballs or not
-            {0.15, "jump"},
-            {0.1, "spawnFireballs"},
-            {0.6, "throwFireballs"}
+            {0.3, "idle"},
+            {0.3, "jump"},
+            {0.4, "spawnFireballs"},
+            --{0.15, "idle"},
+            --{0.15, "jump"},
+            --{0.1, "spawnFireballs"},
+            --{0.6, "throwFireballs"},
+            timer = 0,
+            timerMax = 0.42,
+            animation = function(self, grid)
+                return ANIMATE.newAnimation(grid("1-6", 3), 1, "pauseAtEnd")
+            end,
+            spawnFireballs = function(self, dt, bossX, bossY)
+                self.timer = self.timer + dt
+                if self.timer >= self.timerMax then
+                    local newFireball = WORLD.statsRaw["fireball"]:newSelf(self.level, bossX, bossY)
+                    table.insert(WORLD.enemies, newFireball)
+                    self.timer = 0
+                end
+            end,
+            update = function(self, dt, bossX, bossY)
+                self:spawnFireballs(dt, bossX, bossY)
+                return {bossX, bossY}
+            end
         },
         throwFireballs = {
             {0.3, "jump"},
@@ -317,14 +330,14 @@ return {
             {0.25, "summonEnemies"}
         },
         spawnLightning = {
-            {0.2, "idle"}, -- TODO: change that to idle with Fireballs or not
+            {0.2, "idle"},
             {0.2, "jump"},
             {0.2, "spawnFireballs"},
             {0.2, "throwFireballs"},
             {0.2, "summonEnemies"}
         },
         summonEnemies = {
-            {0.4, "idle"}, -- TODO: change that to idle with Fireballs or not
+            {0.4, "idle"},
             {0.25, "spawnFireballs"},
             {0.35, "summonEnemies"}
         }
@@ -382,6 +395,8 @@ return {
                 self.curAnim == "swingFront"
          then
             WORLD:drawScreenShake(-2, 2)
+        elseif self.curAnim == "spawnFireballs" then
+            WORLD:drawScreenShake(-1, 1)
         end
     end
 }
