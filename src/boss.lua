@@ -194,7 +194,7 @@ return {
     ------------ BOSS AI ------------
     -- Boss actions: idle, jump, spawnFireballs, throwFireballs, spawnLightning, summonEnemies
     -- Initially boss is idle. Rules are:
-    -- if idle, then if fireballs there     -> 0% idle, 20% jump, 0% spawnFireballs, 50% throwFireballs, 15% spawnLightning, 15% summonEnemies
+    -- if idle                              -> 0% idle, 20% jump, 0% spawnFireballs, 50% throwFireballs, 15% spawnLightning, 15% summonEnemies
     -- if jumped                            -> 20% idle, 10% jump, 20% spawnFireballs, 0% throwFireballs, 25% spawnLightning, 25% summonEnemies
     -- if spawnFireballs                    -> 15% idle, 15% jump, 10% spawnFireballs, 60% throwFireballs, 0% spawnLightning, 0% summonEnemies
     -- if throwFireballs                    -> 0% idle, 30% jump, 20% spawnFireballs, 0% throwFireballs, 25% spawnLightning, 25% summonEnemies
@@ -206,8 +206,8 @@ return {
         idle = {
             {0.2, "jump"},
             {0.5, "throwFireballs"},
-            {0.15, "spawnLightning"},
-            {0.15, "summonEnemies"},
+            {0.1, "spawnLightning"},
+            {0.2, "summonEnemies"},
             loopCounter = 0,
             animation = function(self, grid) -- must return an animation
                 return ANIMATE.newAnimation(
@@ -223,6 +223,12 @@ return {
                 )
             end,
             update = function(self, _, boss)
+                -- If we have less than 4 fireballs spawn more instead of throw them
+                if boss.fireballCount <= 4 then
+                    self[2][2] = "spawnFireballs"
+                else
+                    self[2][2] = "throwFireballs"
+                end
                 -- don't change position, just return old position
                 return {boss.x, boss.y}
             end
