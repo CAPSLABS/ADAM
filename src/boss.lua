@@ -17,6 +17,7 @@ return {
     gotHit = false,
     intro = true,
     -- spawn things
+    fireballCount = 0,
     lightningTimer = 0,
     lightningTimerMax = 2,
     --the approximate width and height of the boss (smaller then image)
@@ -115,7 +116,7 @@ return {
             end
         end
         -- spawn fireballs after certain duration as long as dancing has not stopped
-        self.statemachine["spawnFireballs"]:spawnFireballs(dt, self.x, self.y)
+        self.statemachine["spawnFireballs"]:spawnFireballs(dt, self)
 
         -- spawn lightning
         if self.curAnim == "charging" then
@@ -208,7 +209,8 @@ return {
         idle = {
             {0.2, "jump"},
             {0.2, "idle"},
-            {0.6, "spawnFireballs"},
+            {0.2, "spawnFireballs"},
+            {0.4, "throwFireballs"},
             --{0.2, "jump"},
             --{0.5, "throwFireballs"},
             --{0.15, "spawnLightning"},
@@ -227,9 +229,9 @@ return {
                     end
                 )
             end,
-            update = function(self, _, bossX, bossY)
+            update = function(self, _, boss)
                 -- don't change position, just return old position
-                return {bossX, bossY}
+                return {boss.x, boss.y}
             end
         },
         --idleNoFireballs = {
@@ -241,7 +243,7 @@ return {
         jump = {
             {0.25, "idle"},
             {0.25, "jump"},
-            {0.5, "spawnFireballs"},
+            {0.5, "throwFireballs"},
             --{0.2, "idle"},
             --{0.1, "jump"},
             --{0.2, "spawnFireballs"},
@@ -256,7 +258,7 @@ return {
             computedApex = false,
             apexX = 0,
             interpolationFactor = 0,
-            update = function(self, dt, bossX, bossY)
+            update = function(self, dt, boss)
                 -- select target point
                 if not self.selectedTargetPoint then
                     self.targetX = math.random(100, 380)
@@ -265,7 +267,7 @@ return {
                 end
                 -- compute apex point which is of form (x,0)
                 if not self.computedApex then
-                    self.apexX = (self.targetX + bossX) / 2
+                    self.apexX = (self.targetX + boss.x) / 2
                     self.computedApex = true
                 end
                 -- compute new positions according to bezier curve of second order (which is a parable)
@@ -275,59 +277,80 @@ return {
                     if self.interpolationFactor <= 1 then
                         -- still within jump: compute new boss coords
                         newBossCoords[1] =
-                            (bossX - 2 * self.apexX + self.targetX) * self.interpolationFactor ^ 2 +
-                            2 * (self.apexX - bossX) * self.interpolationFactor +
-                            bossX
+                            (boss.x - 2 * self.apexX + self.targetX) * self.interpolationFactor ^ 2 +
+                            2 * (self.apexX - boss.x) * self.interpolationFactor +
+                            boss.x
                         -- NOTE: since we always choose apexY = 0, this formula is the simplified version of the above formula
                         newBossCoords[2] =
-                            (bossY + self.targetY) * self.interpolationFactor ^ 2 +
-                            -2 * bossY * self.interpolationFactor +
-                            bossY
+                            (boss.y + self.targetY) * self.interpolationFactor ^ 2 +
+                            -2 * boss.y * self.interpolationFactor +
+                            boss.y
                     else
                         -- jump over, reset values, new coords are where we already are
                         self.selectedTargetPoint = false
                         self.computedApex = false
                         self.interpolationFactor = 0
-                        newBossCoords[1] = bossX
-                        newBossCoords[2] = bossY
+                        newBossCoords[1] = boss.x
+                        newBossCoords[2] = boss.y
                     end
                     return newBossCoords
                 else
-                    return {bossX, bossY}
+                    return {boss.x, boss.y}
                 end
             end
         },
         spawnFireballs = {
             {0.3, "idle"},
             {0.3, "jump"},
-            {0.4, "spawnFireballs"},
+            {0.4, "throwFireballs"},
             --{0.15, "idle"},
             --{0.15, "jump"},
             --{0.1, "spawnFireballs"},
             --{0.6, "throwFireballs"},
             timer = 0,
             timerMax = 0.42,
+            fireballCount = 0,
             animation = function(self, grid)
                 return ANIMATE.newAnimation(grid("1-6", 3), 1, "pauseAtEnd")
             end,
-            spawnFireballs = function(self, dt, bossX, bossY)
+            spawnFireballs = function(self, dt, boss)
                 self.timer = self.timer + dt
                 if self.timer >= self.timerMax then
-                    local newFireball = WORLD.statsRaw["fireball"]:newSelf(self.level, bossX, bossY)
+                    local newFireball = WORLD.statsRaw["fireball"]:newSelf(self.level, boss.x, boss.y)
                     table.insert(WORLD.enemies, newFireball)
+                    boss.fireballCount = boss.fireballCount + 1
                     self.timer = 0
                 end
             end,
-            update = function(self, dt, bossX, bossY)
-                self:spawnFireballs(dt, bossX, bossY)
-                return {bossX, bossY}
+            update = function(self, dt, boss)
+                self:spawnFireballs(dt, boss)
+                return {boss.x, boss.y}
             end
         },
         throwFireballs = {
+            {0.3, "idle"},
             {0.3, "jump"},
-            {0.2, "spawnFireballs"},
-            {0.25, "spawnLightning"},
-            {0.25, "summonEnemies"}
+            {0.4, "spawnFireballs"},
+            --{0.3, "jump"},
+            --{0.2, "spawnFireballs"},
+            --{0.25, "spawnLightning"},
+            --{0.25, "summonEnemies"},
+            alreadyThrown = false,
+            animation = function(self, grid)
+                return ANIMATE.newAnimation(grid("1-13", 19), 0.2, "pauseAtEnd")
+            end,
+            update = function(self, dt, boss)
+                if boss.fireballCount >= 1 and not self.alreadyThrown then
+                    for i, enemy in ipairs(WORLD.enemies) do
+                        local targetProb = math.random(0, 1)
+                        if enemy.name == "fireball" and targetProb <= 0.5 then
+                            enemy.curAnim = "targeting"
+                        end
+                    end
+                    self.alreadyThrown = true
+                end
+                return {boss.x, boss.y}
+            end
         },
         spawnLightning = {
             {0.2, "idle"},
@@ -361,7 +384,6 @@ return {
             end
         end
         assert(nextState ~= "", "bossAI:chooseNextAction, nextState has not been found")
-
         -- Set the corresponding animation for nextState
         self.anim = self.statemachine[nextState]:animation(self.media.imgGrid)
         return nextState
@@ -379,7 +401,8 @@ return {
             end
         end
         -- Update values
-        local updatedValues = self.statemachine[self.curAnim]:update(dt, self.x, self.y)
+        --local updatedValues = self.statemachine[self.curAnim]:update(dt, self.x, self.y)
+        local updatedValues = self.statemachine[self.curAnim]:update(dt, self)
         self.x = updatedValues[1]
         self.y = updatedValues[2]
     end,

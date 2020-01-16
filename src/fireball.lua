@@ -13,6 +13,8 @@ return {
     angle = 0, -- needed for smooth surrounding of boss
     surroundRadius = 75, -- radius of circle for surrounding the boss
     interpolationFactor = 0, -- smth bigger than 0, needed for smooth targeting
+    lastKnownPlayerX = 0,
+    lastKnownPlayerY = 0,
     gotHit = false,
     --the approximate width and height of the fireball within 1 image
     width = 32,
@@ -70,13 +72,18 @@ return {
         self.curAnim = "dyingButCanStillHit"
         self.anim = ANIMATE.newAnimation(self.media.imgGrid("1-4", 1), 0.4, "pauseAtEnd")
     end,
+    dieSilent = function(self)
+        self.curAnim = "dying"
+        self.anim = ANIMATE.newAnimation(self.media.imgGrid("1-4", 1), 0.4, "pauseAtEnd")
+    end,
     update = function(self, dt, bossX, bossY)
         -- update animations
         self.anim:update(dt)
         -- increase angle
         self.angle = self.angle + self.speed * dt
-        if (self.anim.status == "paused") and (self.curAnim == "dyingButCanStillHit") then
+        if (self.anim.status == "paused") and (self.curAnim == "dyingButCanStillHit" or "dying") then
             self.alive = false
+            self.interpolationFactor = 0
         elseif self.curAnim == "dyingButCanStillHit" then
             -- move towards the player while dyingButCanStillHit
             self.y = self.y + self.speed * 150 * dt
@@ -85,10 +92,18 @@ return {
             self.x = bossX + self.surroundRadius * math.cos(self.angle)
             self.y = bossY + self.surroundRadius * math.sin(self.angle)
         elseif self.curAnim == "targeting" then
+            -- remember last player location until we reach height y = 600
+            if self.y <= 600 then
+                self.lastKnownPlayerX = WORLD.player.x
+                self.lastKnownPlayerY = WORLD.player.y
+            end
             -- target the player, this animation is set by the boss
-            self.interpolationFactor = self.interpolationFactor + dt
-            self.x = self.interpolationFactor * self.x + (1 - self.interpolationFactor) * WORLD.player.x
-            self.y = self.interpolationFactor * self.y + (1 - self.interpolationFactor) * WORLD.player.y
+            self.interpolationFactor = self.interpolationFactor + dt / 15
+            self.x = (1 - self.interpolationFactor) * self.x + self.interpolationFactor * self.lastKnownPlayerX
+            self.y = (1 - self.interpolationFactor) * self.y + self.interpolationFactor * self.lastKnownPlayerY
+            if self.interpolationFactor >= 0.2 then
+                self:dieSilent()
+            end
         end
 
         if self.gotHit then
