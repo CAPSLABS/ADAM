@@ -120,7 +120,11 @@ return {
             if self.curAnim == "dying" then
                 self.alive = false
             else
-                self:dance(dt)
+                -- TODO: this is only off for debugging
+                --self:dance(dt)
+                -- TODO: remove this after finishing AI
+                self.intro = false
+                self.curAnim = "idleWithFireballs"
             end
         end
         -- spawn fireballs after certain duration as long as dancing has not stopped
@@ -159,8 +163,6 @@ return {
             -- if facingUp is paused, switch to look left animation
             self.anim = ANIMATE.newAnimation(self.media.imgGrid("1-1", 2), 1, "pauseAtEnd")
             self.curAnim = "facingLeft"
-            self.intro = false
-            self.curAnim = "idleWithFireballs"
         elseif self.curAnim == "facingLeft" then
             -- switch from facingLeft to charging animation
             self.anim = ANIMATE.newAnimation(self.media.imgGrid("1-6", 3), 1, "pauseAtEnd")
@@ -221,69 +223,89 @@ return {
     -- if spawnLightning                    -> 20% idle, 20% jump, 20% spawnFireballs, 20% throwFireballs, 0% spawnLightning, 20% summonEnemies
     -- if summonEnemies                     -> 40% idle, 0% jump, 25% spawnFireballs, 0% throwFireballs, 0% spawnLightning, 35% summonEnemies
     statemachine = {
-        states = {
-            -- each state has multiple transitions {probability, nextAction} where probability is the probability
-            -- that nextAction will be selected as the next action
-            idleWithFireballs = {
-                {0.2, "jump"},
-                {0.5, "throwFireballs"},
-                {0.15, "spawnLightning"},
-                {0.15, "summonEnemies"}
-            },
-            idleNoFireballs = {
-                {0.2, "jump"},
-                {0.6, "spawnFireballs"},
-                {0.1, "spawnLightning"},
-                {0.1, "summonEnemies"}
-            },
-            jump = {
-                {0.2, "idle"},
-                {0.1, "jump"},
-                {0.2, "spawnFireballs"},
-                {0.25, "spawnLightning"},
-                {0.25, "summonEnemies"}
-            },
-            spawnFireballs = {
-                {0.15, "idle"},
-                {0.15, "jump"},
-                {0.1, "spawnFireballs"},
-                {0.6, "throwFireballs"}
-            },
-            throwFireballs = {
-                {0.3, "jump"},
-                {0.2, "spawnFireballs"},
-                {0.25, "spawnLightning"},
-                {0.25, "summonEnemies"}
-            },
-            spawnLightning = {
-                {0.2, "idle"},
-                {0.2, "jump"},
-                {0.2, "spawnFireballs"},
-                {0.2, "throwFireballs"},
-                {0.2, "summonEnemies"}
-            },
-            summonEnemies = {
-                {0.4, "idle"},
-                {0.25, "spawnFireballs"},
-                {0.35, "summonEnemies"}
-            }
+        -- each state has multiple transitions {probability, nextAction} where probability is the probability
+        -- that nextAction will be selected as the next action
+        idleWithFireballs = {
+            {0.5, "jump"},
+            {0.5, "idleWithFireballs"}
+            --{0.2, "jump"},
+            --{0.5, "throwFireballs"},
+            --{0.15, "spawnLightning"},
+            --{0.15, "summonEnemies"}
+        },
+        idleNoFireballs = {
+            {0.2, "jump"},
+            {0.6, "spawnFireballs"},
+            {0.1, "spawnLightning"},
+            {0.1, "summonEnemies"}
+        },
+        jump = {
+            {0.2, "idle"}, -- TODO: change that to idle with Fireballs or not
+            {0.1, "jump"},
+            {0.2, "spawnFireballs"},
+            {0.25, "spawnLightning"},
+            {0.25, "summonEnemies"}
+        },
+        spawnFireballs = {
+            {0.15, "idle"}, -- TODO: change that to idle with Fireballs or not
+            {0.15, "jump"},
+            {0.1, "spawnFireballs"},
+            {0.6, "throwFireballs"}
+        },
+        throwFireballs = {
+            {0.3, "jump"},
+            {0.2, "spawnFireballs"},
+            {0.25, "spawnLightning"},
+            {0.25, "summonEnemies"}
+        },
+        spawnLightning = {
+            {0.2, "idle"}, -- TODO: change that to idle with Fireballs or not
+            {0.2, "jump"},
+            {0.2, "spawnFireballs"},
+            {0.2, "throwFireballs"},
+            {0.2, "summonEnemies"}
+        },
+        summonEnemies = {
+            {0.4, "idle"}, -- TODO: change that to idle with Fireballs or not
+            {0.25, "spawnFireballs"},
+            {0.35, "summonEnemies"}
         }
     },
     loopCounter = 0,
     chooseNextAction = function(self)
-        self.anim =
-            ANIMATE.newAnimation(
-            self.media.imgGrid("1-2", 15),
-            0.3,
-            function(anim, loops)
-                self.loopCounter = self.loopCounter + loops
-                if self.loopCounter >= 4 then
-                    self.loopCounter = 0
-                    anim:pauseAtEnd()
-                end
+        -- Throw random number, then check which transition it leads to
+        local probability = math.random(0, 1)
+        local summedProbability = 0
+        local nextState = ""
+        for i, transitionInfo in ipairs(self.statemachine[self.curAnim]) do
+            summedProbability = summedProbability + transitionInfo[1]
+            assert(summedProbability <= 1, "bossAI:chooseNextAction, summedProbability was over 1")
+            if probability <= summedProbability then
+                nextState = transitionInfo[2]
             end
-        )
-        return "idleWFireballs"
+        end
+        assert(nextState ~= "", "bossAI:chooseNextAction, nextState has not been found")
+
+        -- Set animation according to choice of next state
+        if nextState == "idleWithFireballs" then
+            -- This happens if idleWFireballs was chosen
+            self.anim =
+                ANIMATE.newAnimation(
+                self.media.imgGrid("1-2", 15),
+                0.3,
+                function(anim, loops)
+                    self.loopCounter = self.loopCounter + loops
+                    if self.loopCounter >= 4 then
+                        self.loopCounter = 0
+                        anim:pauseAtEnd()
+                    end
+                end
+            )
+        else
+            -- TODO: Implement animation change of all other actions
+            print("choice of nextState not implemented yet")
+        end
+        return nextState
     end,
     bossAI = function(self, dt)
         -- Switch the animation if it is paused
@@ -296,6 +318,8 @@ return {
                 self.curAnim = self:chooseNextAction()
             end
         end
+        -- TODO: Here potential things that need to be computed
+        -- TODO: For each action maybe a function for more order
     end,
     ------------ DRAWING ------------
 
