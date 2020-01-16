@@ -14,6 +14,8 @@ return {
     exploding = false,
     -- true if current level condition has been satisfied
     wonLevel = false,
+    -- true if spawning should be active
+    spawn = true,
     -- effect stuff
     lightningAlpha = 1,
     lightningActive = false,
@@ -354,33 +356,30 @@ return {
         -- level 9:  defeat the troll king
         {
             enemies = {
-                --goblin = {
-                --    timer = 0.3,
-                --    timerMax = 0.3,
-                --    killToWin = false,
-                --    spawnFct = function(self, runtime, dt)
-                --        -- returns the next timerMax value (waiting time until next goblin spawns)
-                --        -- Sigmoid mirrored on y axis shifted by 2 along x axis
-                --        -- They don't spawn as fast
-                --        return (1 / (1 + math.exp(0.02 * runtime))) + 0.5
-                --    end
-                --},
-                --zombie = {
-                --    timer = 4,
-                --    timerMax = 4,
-                --    killToWin = false,
-                --    spawnFct = function(self, runtime, dt)
-                --        return (1 / (1 + math.exp(0.08 * runtime))) + 2.8
-                --    end
-                --},
-                --lizard = {
-                --    timer = 12,
-                --    timerMax = 12,
-                --    killToWin = false,
-                --    spawnFct = function(self, runtime, dt)
-                --        return (1 / (1 + math.exp(0.09 * runtime))) + 4.5
-                --    end
-                --},
+                goblin = {
+                    timer = 0.3,
+                    timerMax = 0.3,
+                    killToWin = false,
+                    spawnFct = function(self, runtime, dt)
+                        return 0.05
+                    end
+                },
+                zombie = {
+                    timer = 2,
+                    timerMax = 2,
+                    killToWin = false,
+                    spawnFct = function(self, runtime, dt)
+                        return 0.8
+                    end
+                },
+                lizard = {
+                    timer = 4,
+                    timerMax = 4,
+                    killToWin = false,
+                    spawnFct = function(self, runtime, dt)
+                        return 1.5
+                    end
+                },
                 boss = {
                     timer = 0,
                     timerMax = 0,
@@ -569,13 +568,15 @@ return {
     end,
     spawnEnemies = function(self, dt)
         self.runtime = self.runtime + dt
-        for enemyName, enemySpawnInfo in pairs(self.levels[self.currentLvl].enemies) do
-            enemySpawnInfo.timer = enemySpawnInfo.timer - dt
-            if enemySpawnInfo.timer <= 0 and not self.wonLevel then
-                enemySpawnInfo.timerMax = enemySpawnInfo:spawnFct(self.runtime, dt)
-                local newEnemy = self.statsRaw[enemyName]:newSelf(self.currentLvl)
-                table.insert(self.enemies, newEnemy)
-                enemySpawnInfo.timer = enemySpawnInfo.timerMax
+        if self.spawn then
+            for enemyName, enemySpawnInfo in pairs(self.levels[self.currentLvl].enemies) do
+                enemySpawnInfo.timer = enemySpawnInfo.timer - dt
+                if enemySpawnInfo.timer <= 0 and not self.wonLevel then
+                    enemySpawnInfo.timerMax = enemySpawnInfo:spawnFct(self.runtime, dt)
+                    local newEnemy = self.statsRaw[enemyName]:newSelf(self.currentLvl)
+                    table.insert(self.enemies, newEnemy)
+                    enemySpawnInfo.timer = enemySpawnInfo.timerMax
+                end
             end
         end
     end,
@@ -822,9 +823,7 @@ return {
                 enemy:die()
             end
             -- stop enemies from spawning
-            for enemyName, enemySpawnInfo in pairs(self.levels[self.currentLvl].enemies) do
-                --enemySpawnInfo.timer = 10000
-            end
+            WORLD.spawn = false
         end
         if self.wonLevel then
             if
