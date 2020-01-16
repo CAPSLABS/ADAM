@@ -93,17 +93,6 @@ return {
         if self.intro then
             self:updateIntroShit(dt)
         else
-            -- what happens at each animation
-            --if (self.curAnim == "walking") then
-            --    self.y = self.y + (self.speed * 200 * dt)
-            --    if self.y > (WORLD.y - 190) then
-            --        self.curAnim = "attack"
-            --        self.anim = ANIMATE.newAnimation(self.media.imgGrid("1-6", 19), 0.3, "pauseAtEnd")
-            --    end
-            --elseif (self.curAnim == "attack") and (self.anim.status == "paused") then
-            --    WORLD.cityHealth = WORLD.cityHealth - self.dmg
-            --    self.anim = ANIMATE.newAnimation(self.media.imgGrid("1-6", 19), 0.3, "pauseAtEnd")
-            --end
             self:bossAI(dt)
         end
 
@@ -224,14 +213,32 @@ return {
     -- if summonEnemies                     -> 40% idle, 0% jump, 25% spawnFireballs, 0% throwFireballs, 0% spawnLightning, 35% summonEnemies
     statemachine = {
         -- each state has multiple transitions {probability, nextAction} where probability is the probability
-        -- that nextAction will be selected as the next action
+        -- that nextAction will be selected as the next action, and an animation() function choosing the fitting animation
         idleWithFireballs = {
             {0.5, "jump"},
-            {0.5, "idleWithFireballs"}
+            {0.5, "idleWithFireballs"},
             --{0.2, "jump"},
             --{0.5, "throwFireballs"},
             --{0.15, "spawnLightning"},
             --{0.15, "summonEnemies"}
+            loopCounter = 0,
+            animation = function(self, grid) -- must return an animation
+                return ANIMATE.newAnimation(
+                    grid("1-2", 15),
+                    0.3,
+                    function(anim, loops)
+                        self.loopCounter = self.loopCounter + loops
+                        if self.loopCounter >= 4 then
+                            self.loopCounter = 0
+                            anim:pauseAtEnd()
+                        end
+                    end
+                )
+            end,
+            update = function(self, _, bossX, bossY)
+                -- don't change position, just return old position
+                return {bossX, bossY}
+            end
         },
         idleNoFireballs = {
             {0.2, "jump"},
@@ -240,11 +247,62 @@ return {
             {0.1, "summonEnemies"}
         },
         jump = {
-            {0.2, "idle"}, -- TODO: change that to idle with Fireballs or not
-            {0.1, "jump"},
-            {0.2, "spawnFireballs"},
-            {0.25, "spawnLightning"},
-            {0.25, "summonEnemies"}
+            {0.5, "idleWithFireballs"}, -- TODO: change that to idle with Fireballs or not
+            {0.5, "jump"},
+            --{0.2, "idleWithFireballs"}, -- TODO: change that to idle with Fireballs or not
+            --{0.1, "jump"},
+            --{0.2, "spawnFireballs"},
+            --{0.25, "spawnLightning"},
+            --{0.25, "summonEnemies"},
+            animation = function(self, grid)
+                return ANIMATE.newAnimation(grid("1-6", 15), {["1-5"] = 0.05, ["6-6"] = 1}, "pauseAtEnd")
+            end,
+            selectedTargetPoint = false,
+            targetX = 0,
+            targetY = 0,
+            computedApex = false,
+            apexX = 0,
+            interpolationFactor = 0,
+            update = function(self, dt, bossX, bossY)
+                -- select target point
+                if not self.selectedTargetPoint then
+                    self.targetX = math.random(100, 380)
+                    self.targetY = math.random(100, 630)
+                    self.selectedTargetPoint = true
+                end
+                -- compute apex point which is of form (x,0)
+                if not self.computedApex then
+                    self.apexX = (self.targetX + bossX) / 2
+                    self.computedApex = true
+                end
+                -- compute new positions according to bezier curve of second order (which is a parable)
+                if self.selectedTargetPoint and self.computedApex then
+                    local newBossCoords = {0, 0}
+                    self.interpolationFactor = self.interpolationFactor + 0.4 * dt
+                    if self.interpolationFactor <= 1 then
+                        -- still within jump: compute new boss coords
+                        newBossCoords[1] =
+                            (bossX - 2 * self.apexX + self.targetX) * self.interpolationFactor ^ 2 +
+                            2 * (self.apexX - bossX) * self.interpolationFactor +
+                            bossX
+                        -- NOTE: since we always choose apexY = 0, this formula is the simplified version of the above formula
+                        newBossCoords[2] =
+                            (bossY + self.targetY) * self.interpolationFactor ^ 2 +
+                            -2 * bossY * self.interpolationFactor +
+                            bossY
+                    else
+                        -- jump over, reset values, new coords are where we already are
+                        self.selectedTargetPoint = false
+                        self.computedApex = false
+                        self.interpolationFactor = 0
+                        newBossCoords[1] = bossX
+                        newBossCoords[2] = bossY
+                    end
+                    return newBossCoords
+                else
+                    return {bossX, bossY}
+                end
+            end
         },
         spawnFireballs = {
             {0.15, "idle"}, -- TODO: change that to idle with Fireballs or not
@@ -271,40 +329,28 @@ return {
             {0.35, "summonEnemies"}
         }
     },
-    loopCounter = 0,
     chooseNextAction = function(self)
         -- Throw random number, then check which transition it leads to
         local probability = math.random(0, 1)
         local summedProbability = 0
         local nextState = ""
         for i, transitionInfo in ipairs(self.statemachine[self.curAnim]) do
-            summedProbability = summedProbability + transitionInfo[1]
-            assert(summedProbability <= 1, "bossAI:chooseNextAction, summedProbability was over 1")
-            if probability <= summedProbability then
-                nextState = transitionInfo[2]
+            if
+                type(transitionInfo) == "table" and type(transitionInfo[1]) == "number" and
+                    type(transitionInfo[2]) == "string"
+             then
+                summedProbability = summedProbability + transitionInfo[1]
+                assert(summedProbability <= 1, "bossAI:chooseNextAction, summedProbability was over 1")
+                if probability <= summedProbability then
+                    nextState = transitionInfo[2]
+                    break
+                end
             end
         end
         assert(nextState ~= "", "bossAI:chooseNextAction, nextState has not been found")
 
-        -- Set animation according to choice of next state
-        if nextState == "idleWithFireballs" then
-            -- This happens if idleWFireballs was chosen
-            self.anim =
-                ANIMATE.newAnimation(
-                self.media.imgGrid("1-2", 15),
-                0.3,
-                function(anim, loops)
-                    self.loopCounter = self.loopCounter + loops
-                    if self.loopCounter >= 4 then
-                        self.loopCounter = 0
-                        anim:pauseAtEnd()
-                    end
-                end
-            )
-        else
-            -- TODO: Implement animation change of all other actions
-            print("choice of nextState not implemented yet")
-        end
+        -- Set the corresponding animation for nextState
+        self.anim = self.statemachine[nextState]:animation(self.media.imgGrid)
         return nextState
     end,
     bossAI = function(self, dt)
@@ -316,10 +362,13 @@ return {
             else
                 print("choose next action since paused")
                 self.curAnim = self:chooseNextAction()
+                print("next action is: " .. self.curAnim)
             end
         end
-        -- TODO: Here potential things that need to be computed
-        -- TODO: For each action maybe a function for more order
+        -- Update values
+        local updatedValues = self.statemachine[self.curAnim]:update(dt, self.x, self.y)
+        self.x = updatedValues[1]
+        self.y = updatedValues[2]
     end,
     ------------ DRAWING ------------
 
