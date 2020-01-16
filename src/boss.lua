@@ -207,9 +207,9 @@ return {
         -- each state has multiple transitions {probability, nextAction} where probability is the probability
         -- that nextAction will be selected as the next action, and an animation() function choosing the fitting animation
         idle = {
-            {0.2, "jump"},
-            {0.2, "idle"},
-            {0.2, "spawnFireballs"},
+            {0.1, "jump"},
+            {0.4, "spawnLightning"},
+            {0.1, "spawnFireballs"},
             {0.4, "throwFireballs"},
             --{0.2, "jump"},
             --{0.5, "throwFireballs"},
@@ -243,7 +243,8 @@ return {
         jump = {
             {0.25, "idle"},
             {0.25, "jump"},
-            {0.5, "throwFireballs"},
+            {0.25, "throwFireballs"},
+            {0.25, "spawnLightning"},
             --{0.2, "idle"},
             --{0.1, "jump"},
             --{0.2, "spawnFireballs"},
@@ -344,7 +345,7 @@ return {
                 if boss.fireballCount >= 1 and not self.alreadyThrown then
                     for i, enemy in ipairs(WORLD.enemies) do
                         local tmp = math.random()
-                        if enemy.name == "fireball" and tmp <= 0.5 then
+                        if enemy.name == "fireball" and tmp <= 0.6 then
                             enemy.curAnim = "targeting"
                             boss.fireballCount = boss.fireballCount - 1
                         end
@@ -359,12 +360,27 @@ return {
             {0.2, "jump"},
             {0.2, "spawnFireballs"},
             {0.2, "throwFireballs"},
-            {0.2, "summonEnemies"}
+            {0.2, "summonEnemies"},
+            animation = function(self, grid)
+                if math.random() >= 0.5 then
+                    return ANIMATE.newAnimation(grid("6-9", 10), 0.1, "pauseAtEnd")
+                else
+                    return ANIMATE.newAnimation(grid("6-9", 12), 0.1, "pauseAtEnd")
+                end
+            end,
+            update = function(self, dt, boss)
+                WORLD.lightningActive = true
+                return {boss.x, boss.y}
+            end
         },
         summonEnemies = {
             {0.4, "idle"},
             {0.25, "spawnFireballs"},
-            {0.35, "summonEnemies"}
+            {0.35, "summonEnemies"},
+            animation = function(self, grid)
+            end,
+            update = function(self, dt, boss)
+            end
         }
     },
     chooseNextAction = function(self)
