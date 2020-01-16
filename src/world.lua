@@ -554,10 +554,7 @@ return {
                 enemy:update(dt)
             else
                 assert(self.currentLvl == 9, "updateEnemies, tried calling fireball enemy in lvl " .. self.currentLvl)
-                assert(
-                    self.enemies[1].name == "boss",
-                    "updateEnemies: first enemy name was not boss it was " .. self.enemies[1].name
-                )
+                -- first enemy is usually boss, but if he dies right in this moment, then it can also be a fireball
                 enemy:update(dt, self.enemies[1].x, self.enemies[1].y + 10)
             end
             if not enemy.alive then

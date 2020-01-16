@@ -1,6 +1,6 @@
 return {
     name = "boss",
-    hp = 10,
+    hp = 200,
     dmg = 1,
     speed = 0.3,
     x = 0,
@@ -109,11 +109,11 @@ return {
             if self.curAnim == "dying" then
                 self.alive = false
             else
-                -- TODO: this is only off for debugging
-                --self:dance(dt)
                 -- TODO: remove this after finishing AI
-                self.intro = false
-                self.curAnim = "idle"
+                --self.intro = false
+                --self.curAnim = "idle"
+                -- TODO: this is only off for debugging
+                self:dance(dt)
             end
         end
         -- spawn fireballs after certain duration as long as dancing has not stopped
@@ -235,9 +235,9 @@ return {
         },
         jump = {
             {0.2, "idle"},
-            {0.1, "jump"},
-            {0.2, "spawnFireballs"},
-            {0.25, "spawnLightning"},
+            {0.15, "jump"},
+            {0.25, "spawnFireballs"},
+            {0.15, "spawnLightning"},
             {0.25, "summonEnemies"},
             animation = function(self, grid)
                 return ANIMATE.newAnimation(grid("1-6", 15), {["1-5"] = 0.05, ["6-6"] = 1}, "pauseAtEnd")
@@ -358,8 +358,9 @@ return {
         },
         summonEnemies = {
             {0.4, "idle"},
+            {0.1, "jump"},
             {0.25, "spawnFireballs"},
-            {0.35, "summonEnemies"},
+            {0.25, "summonEnemies"},
             animation = function(self, grid)
                 return ANIMATE.newAnimation(grid("1-6", 13), {["1-5"] = 0.3, ["6-6"] = 1}, "pauseAtEnd")
             end,
@@ -414,8 +415,8 @@ return {
         return nextState
     end,
     bossAI = function(self, dt)
-        if self.curAnim == "dying" then
-            if self.anim.status == "paused" then
+        if self.anim.status == "paused" then
+            if self.curAnim == "dying" then
                 -- He ded
                 self.alive = false
                 return
