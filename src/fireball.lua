@@ -72,7 +72,7 @@ return {
         self.curAnim = "dyingButCanStillHit"
         self.anim = ANIMATE.newAnimation(self.media.imgGrid("1-4", 1), 0.4, "pauseAtEnd")
     end,
-    dieSilent = function(self)
+    dieNonHurting = function(self)
         self.curAnim = "dying"
         self.anim = ANIMATE.newAnimation(self.media.imgGrid("1-4", 1), 0.4, "pauseAtEnd")
     end,
@@ -102,7 +102,7 @@ return {
             self.x = (1 - self.interpolationFactor) * self.x + self.interpolationFactor * self.lastKnownPlayerX
             self.y = (1 - self.interpolationFactor) * self.y + self.interpolationFactor * self.lastKnownPlayerY
             if self.interpolationFactor >= 0.2 then
-                self:dieSilent()
+                self:dieNonHurting()
             end
         end
 

@@ -318,12 +318,12 @@ return {
                 if self.timer >= self.timerMax then
                     local newFireball = WORLD.statsRaw["fireball"]:newSelf(self.level, boss.x, boss.y)
                     table.insert(WORLD.enemies, newFireball)
-                    boss.fireballCount = boss.fireballCount + 1
                     self.timer = 0
                 end
             end,
             update = function(self, dt, boss)
                 self:spawnFireballs(dt, boss)
+                boss.fireballCount = boss.fireballCount + 1
                 return {boss.x, boss.y}
             end
         },
@@ -335,16 +335,18 @@ return {
             --{0.2, "spawnFireballs"},
             --{0.25, "spawnLightning"},
             --{0.25, "summonEnemies"},
-            alreadyThrown = false,
+            alreadyThrown = false, -- needed to stop throwing fireballs every time update is called
             animation = function(self, grid)
+                self.alreadyThrown = false
                 return ANIMATE.newAnimation(grid("1-13", 19), 0.2, "pauseAtEnd")
             end,
             update = function(self, dt, boss)
                 if boss.fireballCount >= 1 and not self.alreadyThrown then
                     for i, enemy in ipairs(WORLD.enemies) do
-                        local targetProb = math.random(0, 1)
-                        if enemy.name == "fireball" and targetProb <= 0.5 then
+                        local tmp = math.random()
+                        if enemy.name == "fireball" and tmp <= 0.5 then
                             enemy.curAnim = "targeting"
+                            boss.fireballCount = boss.fireballCount - 1
                         end
                     end
                     self.alreadyThrown = true
@@ -367,7 +369,7 @@ return {
     },
     chooseNextAction = function(self)
         -- Throw random number, then check which transition it leads to
-        local probability = math.random(0, 1)
+        local probability = math.random()
         local summedProbability = 0
         local nextState = ""
         for i, transitionInfo in ipairs(self.statemachine[self.curAnim]) do
