@@ -101,6 +101,13 @@ return {
             self:updateIFrames(dt)
         end
     end,
+    updateIFrames = function(self, dt)
+        self.iFrameSec = self.iFrameSec - (1 * dt)
+        if self.iFrameSec <= 0 then
+            self.gotHit = false
+            self.iFrameSec = self.iFrameSecMax
+        end
+    end,
     ------------ INTRO STUFF ------------
 
     updateIntroShit = function(self, dt)
@@ -128,13 +135,6 @@ return {
                 self.lightningTimerMax = self.lightningTimerMax - (self.lightningTimer / 3)
                 self.lightningTimer = 0
             end
-        end
-    end,
-    updateIFrames = function(self, dt)
-        self.iFrameSec = self.iFrameSec - (1 * dt)
-        if self.iFrameSec <= 0 then
-            self.gotHit = false
-            self.iFrameSec = self.iFrameSecMax
         end
     end,
     --everytime the cur. anim. is paused, we go to the next
@@ -214,6 +214,7 @@ return {
                     grid("1-2", 15),
                     0.3,
                     function(anim, loops)
+                        -- wait until the idle animation looped 4 times
                         self.loopCounter = self.loopCounter + loops
                         if self.loopCounter >= 4 then
                             self.loopCounter = 0
@@ -301,6 +302,7 @@ return {
                 return ANIMATE.newAnimation(grid("1-6", 3), 1, "pauseAtEnd")
             end,
             spawnFireballs = function(self, dt, boss)
+                -- spawn a fireball every 0.48 seconds until the end of the animation
                 self.timer = self.timer + dt
                 if self.timer >= self.timerMax then
                     local newFireball = WORLD.statsRaw["fireball"]:newSelf(self.level, boss.x, boss.y)
@@ -325,10 +327,10 @@ return {
                 return ANIMATE.newAnimation(grid("1-13", 19), 0.2, "pauseAtEnd")
             end,
             update = function(self, dt, boss)
+                -- throw 60% of the fireballs at the player
                 if boss.fireballCount >= 1 and not self.alreadyThrown then
                     for i, enemy in ipairs(WORLD.enemies) do
-                        local tmp = math.random()
-                        if enemy.name == "fireball" and tmp <= 0.6 then
+                        if enemy.name == "fireball" and math.random() <= 0.6 then
                             enemy.curAnim = "targeting"
                             boss.fireballCount = boss.fireballCount - 1
                         end
@@ -352,6 +354,7 @@ return {
                 end
             end,
             update = function(self, dt, boss)
+                -- changing this flags triggers lightning until the end of the animation
                 WORLD.lightningActive = true
                 return {boss.x, boss.y}
             end
@@ -365,6 +368,7 @@ return {
                 return ANIMATE.newAnimation(grid("1-6", 13), {["1-5"] = 0.3, ["6-6"] = 1}, "pauseAtEnd")
             end,
             update = function(self, dt, boss)
+                -- spawn speed is in level description
                 WORLD.spawn = true
                 return {boss.x, boss.y}
             end
@@ -395,10 +399,7 @@ return {
         local summedProbability = 0
         local nextState = ""
         for i, transitionInfo in ipairs(self.statemachine[self.curAnim]) do
-            if
-                type(transitionInfo) == "table" and type(transitionInfo[1]) == "number" and
-                    type(transitionInfo[2]) == "string"
-             then
+            if type(transitionInfo) == "table" then --and type(transitionInfo[1]) == "number" and type(transitionInfo[2]) == "string"
                 summedProbability = summedProbability + transitionInfo[1]
                 assert(summedProbability <= 1, "bossAI:chooseNextAction, summedProbability was over 1")
                 if probability <= summedProbability then
