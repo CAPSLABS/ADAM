@@ -25,3 +25,5 @@ OPTIONAL
 - slowdown/acceleration when changing direction/starting to move
 - respawning in current level with money as was when starting that level
 - structure assets
+- aimate fire
+- hit feedback a la https://www.reddit.com/r/PixelArt/comments/eqtlz8/hitspark_tutorial_hope_it_helps_spice_up_your_game/
