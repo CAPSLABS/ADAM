@@ -65,6 +65,7 @@ function InitGame(lvl, gamestate)
     WORLD.enemies = {}
     WORLD.drops = {}
     WORLD.wonLevel = false
+    WORLD.spawn = true
     WORLD.currentLvl = lvl
     WORLD.player.hearts = WORLD.player.maxHearts
     GAMESTATE = gamestate

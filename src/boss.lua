@@ -17,8 +17,7 @@ return {
     gotHit = false,
     intro = true,
     -- spawn things
-    timer = 0, -- changing variable for fireball spawning
-    timerMax = 0.5, -- fixed spawn starting value
+    fireballCount = 0,
     lightningTimer = 0,
     lightningTimerMax = 2,
     --the approximate width and height of the boss (smaller then image)
@@ -55,6 +54,7 @@ return {
         baby.anim = ANIMATE.newAnimation(self.media.imgGrid("1-1", 1), 2.2, "pauseAtEnd")
         baby.curAnim = "facingUp"
         baby.level = level
+        WORLD.spawn = false -- stop the spawning of enemies
         return baby
     end,
     getHit = function(self, dmg, dt)
@@ -101,6 +101,13 @@ return {
             self:updateIFrames(dt)
         end
     end,
+    updateIFrames = function(self, dt)
+        self.iFrameSec = self.iFrameSec - (1 * dt)
+        if self.iFrameSec <= 0 then
+            self.gotHit = false
+            self.iFrameSec = self.iFrameSecMax
+        end
+    end,
     ------------ INTRO STUFF ------------
 
     updateIntroShit = function(self, dt)
@@ -109,19 +116,16 @@ return {
             if self.curAnim == "dying" then
                 self.alive = false
             else
-                -- TODO: this is only off for debugging
-                --self:dance(dt)
                 -- TODO: remove this after finishing AI
-                self.intro = false
-                self.curAnim = "idleWithFireballs"
+                --self.intro = false
+                --self.curAnim = "idle"
+                -- TODO: this is only off for debugging
+                self:dance(dt)
             end
         end
         -- spawn fireballs after certain duration as long as dancing has not stopped
-        self.timer = self.timer + dt
-        if self.timer >= self.timerMax then
-            self:spawnFireballs()
-            self.timer = 0
-        end
+        self.statemachine["spawnFireballs"]:spawnFireballs(dt, self)
+
         -- spawn lightning
         if self.curAnim == "charging" then
             -- while charging spawn lightning continuously faster
@@ -132,17 +136,6 @@ return {
                 self.lightningTimer = 0
             end
         end
-    end,
-    updateIFrames = function(self, dt)
-        self.iFrameSec = self.iFrameSec - (1 * dt)
-        if self.iFrameSec <= 0 then
-            self.gotHit = false
-            self.iFrameSec = self.iFrameSecMax
-        end
-    end,
-    spawnFireballs = function(self)
-        local newFireball = WORLD.statsRaw["fireball"]:newSelf(self.level, self.x, self.y)
-        table.insert(WORLD.enemies, newFireball)
     end,
     --everytime the cur. anim. is paused, we go to the next
     --dance class 101
@@ -192,20 +185,16 @@ return {
             -- spawn one lightning
             WORLD.lightningActive = true
         elseif self.curAnim == "swingFront" then
-            -- switch to idleWithFireballs (which switches to boss AI)
+            -- switch to idle (which switches to boss AI)
             self.anim = ANIMATE.newAnimation(self.media.imgGrid("1-7", 11), 0.1, "pauseAtEnd")
-            self.curAnim = "idleWithFireballs"
+            self.curAnim = "idle"
             self.intro = false
-        --elseif self.curAnim == "walking" then
-        --    self.anim = ANIMATE.newAnimation(self.media.imgGrid("1-7", 11), 0.1, "pauseAtEnd")
-        --    self.intro = false
         end
     end,
     ------------ BOSS AI ------------
     -- Boss actions: idle, jump, spawnFireballs, throwFireballs, spawnLightning, summonEnemies
     -- Initially boss is idle. Rules are:
-    -- if idle, then if fireballs there     -> 0% idle, 20% jump, 0% spawnFireballs, 50% throwFireballs, 15% spawnLightning, 15% summonEnemies
-    -- if idle, then if not fireballs there -> 0% idle, 20% jump, 60% spawnFireballs, 0% throwFireballs, 10% spawnLightning, 10% summonEnemies
+    -- if idle                              -> 0% idle, 20% jump, 0% spawnFireballs, 50% throwFireballs, 15% spawnLightning, 15% summonEnemies
     -- if jumped                            -> 20% idle, 10% jump, 20% spawnFireballs, 0% throwFireballs, 25% spawnLightning, 25% summonEnemies
     -- if spawnFireballs                    -> 15% idle, 15% jump, 10% spawnFireballs, 60% throwFireballs, 0% spawnLightning, 0% summonEnemies
     -- if throwFireballs                    -> 0% idle, 30% jump, 20% spawnFireballs, 0% throwFireballs, 25% spawnLightning, 25% summonEnemies
@@ -214,19 +203,18 @@ return {
     statemachine = {
         -- each state has multiple transitions {probability, nextAction} where probability is the probability
         -- that nextAction will be selected as the next action, and an animation() function choosing the fitting animation
-        idleWithFireballs = {
-            {0.5, "jump"},
-            {0.5, "idleWithFireballs"},
-            --{0.2, "jump"},
-            --{0.5, "throwFireballs"},
-            --{0.15, "spawnLightning"},
-            --{0.15, "summonEnemies"}
+        idle = {
+            {0.2, "jump"},
+            {0.5, "throwFireballs"},
+            {0.1, "spawnLightning"},
+            {0.2, "summonEnemies"},
             loopCounter = 0,
             animation = function(self, grid) -- must return an animation
                 return ANIMATE.newAnimation(
                     grid("1-2", 15),
                     0.3,
                     function(anim, loops)
+                        -- wait until the idle animation looped 4 times
                         self.loopCounter = self.loopCounter + loops
                         if self.loopCounter >= 4 then
                             self.loopCounter = 0
@@ -235,25 +223,23 @@ return {
                     end
                 )
             end,
-            update = function(self, _, bossX, bossY)
+            update = function(self, _, boss)
+                -- If we have less than 4 fireballs spawn more instead of throw them
+                if boss.fireballCount <= 4 then
+                    self[2][2] = "spawnFireballs"
+                else
+                    self[2][2] = "throwFireballs"
+                end
                 -- don't change position, just return old position
-                return {bossX, bossY}
+                return {boss.x, boss.y}
             end
         },
-        idleNoFireballs = {
-            {0.2, "jump"},
-            {0.6, "spawnFireballs"},
-            {0.1, "spawnLightning"},
-            {0.1, "summonEnemies"}
-        },
         jump = {
-            {0.5, "idleWithFireballs"}, -- TODO: change that to idle with Fireballs or not
-            {0.5, "jump"},
-            --{0.2, "idleWithFireballs"}, -- TODO: change that to idle with Fireballs or not
-            --{0.1, "jump"},
-            --{0.2, "spawnFireballs"},
-            --{0.25, "spawnLightning"},
-            --{0.25, "summonEnemies"},
+            {0.2, "idle"},
+            {0.15, "jump"},
+            {0.25, "spawnFireballs"},
+            {0.15, "spawnLightning"},
+            {0.25, "summonEnemies"},
             animation = function(self, grid)
                 return ANIMATE.newAnimation(grid("1-6", 15), {["1-5"] = 0.05, ["6-6"] = 1}, "pauseAtEnd")
             end,
@@ -263,7 +249,7 @@ return {
             computedApex = false,
             apexX = 0,
             interpolationFactor = 0,
-            update = function(self, dt, bossX, bossY)
+            update = function(self, dt, boss)
                 -- select target point
                 if not self.selectedTargetPoint then
                     self.targetX = math.random(100, 380)
@@ -272,7 +258,7 @@ return {
                 end
                 -- compute apex point which is of form (x,0)
                 if not self.computedApex then
-                    self.apexX = (self.targetX + bossX) / 2
+                    self.apexX = (self.targetX + boss.x) / 2
                     self.computedApex = true
                 end
                 -- compute new positions according to bezier curve of second order (which is a parable)
@@ -282,63 +268,138 @@ return {
                     if self.interpolationFactor <= 1 then
                         -- still within jump: compute new boss coords
                         newBossCoords[1] =
-                            (bossX - 2 * self.apexX + self.targetX) * self.interpolationFactor ^ 2 +
-                            2 * (self.apexX - bossX) * self.interpolationFactor +
-                            bossX
+                            (boss.x - 2 * self.apexX + self.targetX) * self.interpolationFactor ^ 2 +
+                            2 * (self.apexX - boss.x) * self.interpolationFactor +
+                            boss.x
                         -- NOTE: since we always choose apexY = 0, this formula is the simplified version of the above formula
                         newBossCoords[2] =
-                            (bossY + self.targetY) * self.interpolationFactor ^ 2 +
-                            -2 * bossY * self.interpolationFactor +
-                            bossY
+                            (boss.y + self.targetY) * self.interpolationFactor ^ 2 +
+                            -2 * boss.y * self.interpolationFactor +
+                            boss.y
                     else
                         -- jump over, reset values, new coords are where we already are
                         self.selectedTargetPoint = false
                         self.computedApex = false
                         self.interpolationFactor = 0
-                        newBossCoords[1] = bossX
-                        newBossCoords[2] = bossY
+                        newBossCoords[1] = boss.x
+                        newBossCoords[2] = boss.y
                     end
                     return newBossCoords
                 else
-                    return {bossX, bossY}
+                    return {boss.x, boss.y}
                 end
             end
         },
         spawnFireballs = {
-            {0.15, "idle"}, -- TODO: change that to idle with Fireballs or not
+            {0.15, "idle"},
             {0.15, "jump"},
             {0.1, "spawnFireballs"},
-            {0.6, "throwFireballs"}
+            {0.6, "throwFireballs"},
+            timer = 0,
+            timerMax = 0.48,
+            fireballCount = 0,
+            animation = function(self, grid)
+                return ANIMATE.newAnimation(grid("1-6", 3), 1, "pauseAtEnd")
+            end,
+            spawnFireballs = function(self, dt, boss)
+                -- spawn a fireball every 0.48 seconds until the end of the animation
+                self.timer = self.timer + dt
+                if self.timer >= self.timerMax then
+                    local newFireball = WORLD.statsRaw["fireball"]:newSelf(self.level, boss.x, boss.y)
+                    table.insert(WORLD.enemies, newFireball)
+                    self.timer = 0
+                end
+            end,
+            update = function(self, dt, boss)
+                self:spawnFireballs(dt, boss)
+                boss.fireballCount = boss.fireballCount + 1
+                return {boss.x, boss.y}
+            end
         },
         throwFireballs = {
             {0.3, "jump"},
             {0.2, "spawnFireballs"},
             {0.25, "spawnLightning"},
-            {0.25, "summonEnemies"}
+            {0.25, "summonEnemies"},
+            alreadyThrown = false, -- needed to stop throwing fireballs every time update is called
+            animation = function(self, grid)
+                self.alreadyThrown = false
+                return ANIMATE.newAnimation(grid("1-13", 19), 0.2, "pauseAtEnd")
+            end,
+            update = function(self, dt, boss)
+                -- throw 60% of the fireballs at the player
+                if boss.fireballCount >= 1 and not self.alreadyThrown then
+                    for i, enemy in ipairs(WORLD.enemies) do
+                        if enemy.name == "fireball" and math.random() <= 0.6 then
+                            enemy.curAnim = "targeting"
+                            boss.fireballCount = boss.fireballCount - 1
+                        end
+                    end
+                    self.alreadyThrown = true
+                end
+                return {boss.x, boss.y}
+            end
         },
         spawnLightning = {
-            {0.2, "idle"}, -- TODO: change that to idle with Fireballs or not
+            {0.2, "idle"},
             {0.2, "jump"},
             {0.2, "spawnFireballs"},
             {0.2, "throwFireballs"},
-            {0.2, "summonEnemies"}
+            {0.2, "summonEnemies"},
+            animation = function(self, grid)
+                if math.random() >= 0.5 then
+                    return ANIMATE.newAnimation(grid("6-9", 10), 0.1, "pauseAtEnd")
+                else
+                    return ANIMATE.newAnimation(grid("6-9", 12), 0.1, "pauseAtEnd")
+                end
+            end,
+            update = function(self, dt, boss)
+                -- changing this flags triggers lightning until the end of the animation
+                WORLD.lightningActive = true
+                return {boss.x, boss.y}
+            end
         },
         summonEnemies = {
-            {0.4, "idle"}, -- TODO: change that to idle with Fireballs or not
+            {0.4, "idle"},
+            {0.1, "jump"},
             {0.25, "spawnFireballs"},
-            {0.35, "summonEnemies"}
+            {0.25, "summonEnemies"},
+            animation = function(self, grid)
+                return ANIMATE.newAnimation(grid("1-6", 13), {["1-5"] = 0.3, ["6-6"] = 1}, "pauseAtEnd")
+            end,
+            update = function(self, dt, boss)
+                -- spawn speed is in level description
+                WORLD.spawn = true
+                return {boss.x, boss.y}
+            end
+        },
+        dying = {
+            animation = function(self, grid)
+                return ANIMATE.newAnimation(
+                    grid("1-6", 21),
+                    {["1-2"] = 0.5, ["3-4"] = 0.7, ["5-5"] = 1.1, ["6-6"] = 1.5},
+                    "pauseAtEnd"
+                )
+            end,
+            update = function(self, dt, boss)
+                boss.alive = false
+                return {boss.x, boss.y}
+            end
         }
     },
     chooseNextAction = function(self)
+        -- Edge case: Somehow it is possible to be dying when entering this function, in that case stay dead.
+        -- Don't rise from the dead. Get some help.
+        if self.curAnim == "dying" then
+            WORLD.spawn = false
+            return "dying"
+        end
         -- Throw random number, then check which transition it leads to
-        local probability = math.random(0, 1)
+        local probability = math.random()
         local summedProbability = 0
         local nextState = ""
         for i, transitionInfo in ipairs(self.statemachine[self.curAnim]) do
-            if
-                type(transitionInfo) == "table" and type(transitionInfo[1]) == "number" and
-                    type(transitionInfo[2]) == "string"
-             then
+            if type(transitionInfo) == "table" then --and type(transitionInfo[1]) == "number" and type(transitionInfo[2]) == "string"
                 summedProbability = summedProbability + transitionInfo[1]
                 assert(summedProbability <= 1, "bossAI:chooseNextAction, summedProbability was over 1")
                 if probability <= summedProbability then
@@ -348,27 +409,28 @@ return {
             end
         end
         assert(nextState ~= "", "bossAI:chooseNextAction, nextState has not been found")
-
+        -- the boss level normally does not spawn enemies. If it should, it is activated, and by this line deactivated again
+        WORLD.spawn = false
         -- Set the corresponding animation for nextState
         self.anim = self.statemachine[nextState]:animation(self.media.imgGrid)
         return nextState
     end,
     bossAI = function(self, dt)
-        -- Switch the animation if it is paused
         if self.anim.status == "paused" then
             if self.curAnim == "dying" then
+                -- He ded
                 self.alive = false
                 return
             else
-                print("choose next action since paused")
+                -- Switch the animation if it is paused
                 self.curAnim = self:chooseNextAction()
-                print("next action is: " .. self.curAnim)
             end
+        else
+            -- Update values
+            local updatedValues = self.statemachine[self.curAnim]:update(dt, self)
+            self.x = updatedValues[1]
+            self.y = updatedValues[2]
         end
-        -- Update values
-        local updatedValues = self.statemachine[self.curAnim]:update(dt, self.x, self.y)
-        self.x = updatedValues[1]
-        self.y = updatedValues[2]
     end,
     ------------ DRAWING ------------
 
@@ -382,6 +444,8 @@ return {
                 self.curAnim == "swingFront"
          then
             WORLD:drawScreenShake(-2, 2)
+        elseif self.curAnim == "spawnFireballs" then
+            WORLD:drawScreenShake(-1, 1)
         end
     end
 }
