@@ -7,8 +7,8 @@ return {
         light = "assets/forestLayered/light.png",
         middle = "assets/forestLayered/middle.png",
         fore = "assets/forestLayered/fore.png",
-        sensei = "assets/mage.png",
-        senseiAngry = "assets/mageAngry.png",
+        sensei = "assets/cha_sprites/mage.png",
+        senseiAngry = "assets/cha_sprites/mageAngry.png",
         done = "assets/hud/done_288x96.png"
     },
     sensei = nil,
