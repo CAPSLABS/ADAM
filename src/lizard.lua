@@ -120,7 +120,7 @@ return {
             WORLD.player.money = WORLD.player.money + self.reward
             if
                 WORLD.levels[WORLD.currentLvl].winType == "kill" and
-                    WORLD.levels[WORLD.currentLvl].enemies.goblin.killToWin and
+                    WORLD.levels[WORLD.currentLvl].enemies.lizard.killToWin and
                     (WORLD.levels[WORLD.currentLvl].enemies.lizard.counter <
                         WORLD.levels[WORLD.currentLvl].enemies.lizard.goal)
              then

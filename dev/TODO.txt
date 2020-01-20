@@ -5,7 +5,6 @@
 - texte überarbeiten für general publique 
 
 
-- tooltips (for the main menu and skills)  (P)
 - keyboard control for shop and main menu (P)
 - HUD HEARTS DOWN, eventuell city hp als text in die city hp (p)
 - balancing spawn funcs of endless mode (P)
