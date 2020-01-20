@@ -136,8 +136,8 @@ return {
                 }
             },
             winType = "endure",
-            goal = 120, -- runtime to be reached to win
-            goalMax = 120
+            goal = 90, -- runtime to be reached to win
+            goalMax = 90
             -- runtime is counted via self.runtime
         },
         --level 3: collect 10 hints
@@ -224,8 +224,8 @@ return {
                 }
             },
             winType = "endure",
-            goal = 120, -- runtime to be reached to win
-            goalMax = 120
+            goal = 150, -- runtime to be reached to win
+            goalMax = 150
             -- runtime is counted via self.runtime
         },
         --level 6: Survive 2 min
@@ -844,6 +844,7 @@ return {
                     self:nextEndlessMode()
                 else
                     InitGame(self.currentLvl, 6)
+                    self.player:reset()
                 end
             end
         end
