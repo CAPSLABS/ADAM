@@ -111,6 +111,7 @@ return {
                     killToWin = true, -- defeating goblins is necessary to win
                     timer = 0.4, -- inital value is value of timerMax, a changing variable
                     timerMax = 0.4, -- initial value until first mob comes, marks the actual countdown time
+                    timerReset = 0.4, -- for resetting timer and timerMax if we die
                     spawnFct = function(self, runtime, dt)
                         -- returns the next timerMax value (waiting time until next goblin spawns)
                         -- Sigmoid mirrored on y axis shifted by 2 along x axis
@@ -127,6 +128,7 @@ return {
                 goblin = {
                     timer = 0.4, -- inital value is value of timerMax, a changing variable
                     timerMax = 0.4, -- initial value until first mob comes, marks the actual countdown time
+                    timerReset = 0.4,
                     spawnFct = function(self, runtime, dt)
                         -- returns the next timerMax value (waiting time until next goblin spawns)
                         -- Sigmoid mirrored on y axis shifted by 2 along x axis
@@ -146,6 +148,7 @@ return {
                 goblin = {
                     timer = 0.2,
                     timerMax = 0.2,
+                    timerReset = 0.2,
                     spawnFct = function(self, runtime, dt)
                         -- Sigmoid mirrored on y axis shifted up by 0.5 (minimum is 0.5)
                         -- This task should be completed within 2 minutes or else the player has a problem
@@ -164,6 +167,7 @@ return {
                 goblin = {
                     timer = 5, -- inital value is value of timerMax, a changing variable
                     timerMax = 5, -- initial value until first mob comes, marks the actual countdown time
+                    timerReset = 5,
                     --counter = 0, -- counts how many goblins have been murdered in this level
                     --goal = 10, -- counts how many goblins we need to murder in this level
                     killToWin = false, -- defeating goblins is necessary to win
@@ -177,6 +181,7 @@ return {
                 zombie = {
                     timer = 0.4,
                     timerMax = 0.4,
+                    timerReset = 0.4,
                     counter = 0,
                     goal = 7,
                     killToWin = true,
@@ -197,6 +202,7 @@ return {
                 goblin = {
                     timer = 0.4, -- inital value is value of timerMax, a changing variable
                     timerMax = 0.4, -- initial value until first mob comes, marks the actual countdown time
+                    timerReset = 0.4,
                     spawnFct = function(self, runtime, dt)
                         if runtime <= 60 then
                             -- Normal spawning
@@ -215,6 +221,7 @@ return {
                 zombie = {
                     timer = 3,
                     timerMax = 3,
+                    timerReset = 3,
                     spawnFct = function(self, runtime, dt)
                         -- Slow spawn rate of 3 at the beginning, strong ascent around 60,
                         -- maximum spawn rate of ~2 at second 70, then descent back to 3 till about 80
@@ -235,6 +242,7 @@ return {
                     -- wait 5 seconds
                     timer = 5, -- inital value is value of timerMax, a changing variable
                     timerMax = 5, -- initial value until first mob comes, marks the actual countdown time#
+                    timerReset = 5,
                     spawnWaveIndex = 1,
                     spawnWavePattern = {0.2, 0.13, 0.12, 0.1, 0.1, 0.1},
                     currentDuration = 0, -- counts the duration of the current spawn wave
@@ -274,6 +282,7 @@ return {
                 zombie = {
                     timer = 3,
                     timerMax = 3,
+                    timerReset = 3,
                     spawnFct = function(self, runtime, dt)
                         -- Slow spawn rate of 3 at the beginning, strong ascent around 60,
                         -- maximum spawn rate of ~2 at second 70, then descent back to 3 till about 80
@@ -293,6 +302,7 @@ return {
                 goblin = {
                     timer = 7,
                     timerMax = 7,
+                    timerReset = 7,
                     killToWin = false,
                     spawnFct = function(self, runtime, dt)
                         -- returns the next timerMax value (waiting time until next goblin spawns)
@@ -304,6 +314,7 @@ return {
                 lizard = {
                     timer = 0.4,
                     timerMax = 0.4,
+                    timerReset = 0.4,
                     counter = 0,
                     goal = 7,
                     killToWin = true,
@@ -324,6 +335,7 @@ return {
                 goblin = {
                     timer = 0.3,
                     timerMax = 0.3,
+                    timerReset = 0.3,
                     killToWin = false,
                     spawnFct = function(self, runtime, dt)
                         -- returns the next timerMax value (waiting time until next goblin spawns)
@@ -335,6 +347,7 @@ return {
                 zombie = {
                     timer = 4,
                     timerMax = 4,
+                    timerReset = 4,
                     killToWin = false,
                     spawnFct = function(self, runtime, dt)
                         return (1 / (1 + math.exp(0.08 * runtime))) + 2.8
@@ -343,6 +356,7 @@ return {
                 lizard = {
                     timer = 12,
                     timerMax = 12,
+                    timerReset = 12,
                     killToWin = false,
                     spawnFct = function(self, runtime, dt)
                         return (1 / (1 + math.exp(0.09 * runtime))) + 4.5
@@ -351,6 +365,7 @@ return {
                 door = {
                     timer = 0,
                     timerMax = 0,
+                    timerReset = 0,
                     killToWin = true,
                     counter = 0,
                     goal = 1,
@@ -367,6 +382,7 @@ return {
                 goblin = {
                     timer = 0.3,
                     timerMax = 0.3,
+                    timerReset = 0.3,
                     killToWin = false,
                     spawnFct = function(self, runtime, dt)
                         return 0.05
@@ -375,6 +391,7 @@ return {
                 zombie = {
                     timer = 2,
                     timerMax = 2,
+                    timerReset = 2,
                     killToWin = false,
                     spawnFct = function(self, runtime, dt)
                         return 0.8
@@ -383,6 +400,7 @@ return {
                 lizard = {
                     timer = 4,
                     timerMax = 4,
+                    timerReset = 4,
                     killToWin = false,
                     spawnFct = function(self, runtime, dt)
                         return 1.5
@@ -391,6 +409,7 @@ return {
                 boss = {
                     timer = 0,
                     timerMax = 0,
+                    timerReset = 0,
                     killToWin = true,
                     counter = 0,
                     goal = 1,
@@ -861,6 +880,10 @@ return {
         elseif self.levels[self.currentLvl].winType == "collect" then
             self.levels[self.currentLvl].goal = self.levels[self.currentLvl].goalMax
         end
+        for _, info in pairs(self.levels[self.currentLvl].enemies) do
+            info.timer = info.timerReset
+            info.timerMax = info.timerReset
+        end
     end,
     ------------ENDLESS MODE -------------
     nextEndlessMode = function(self)
@@ -1124,11 +1147,12 @@ return {
         for heart in Range(self.player.hearts) do
             love.graphics.draw(
                 self.media.hud.heart,
-                --self.media.hudPos.heartX + self.media.hudPos.heartDistance,
-                self.media.hudPos.heartX + (self.media.hudPos.heartDistance * heart - 1),
-                --self.media.hudPos.heartY + (self.media.hudPos.heartDistance * heart),
-                self.media.hudPos.heartY,
+                self.media.hudPos.heartX + self.media.hudPos.heartDistance,
+                --self.media.hudPos.heartX + (self.media.hudPos.heartDistance * heart - 1),
+                self.media.hudPos.heartY + self.media.hudPos.heartDistance * heart - 1,
+                --self.media.hudPos.heartY,
                 0,
+                0.5,
                 0.5
             )
         end
