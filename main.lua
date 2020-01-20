@@ -78,6 +78,9 @@ function InitGame(lvl, gamestate)
             STORY:processNextLine()
         end
     end
+    if GAMESTATE == 2 then
+        WORLD.player.startOfLvlMoney = WORLD.player.money
+    end
 end
 
 ------------ UPDATING --------------
@@ -104,7 +107,6 @@ function love.update(dt)
             CREDITS:update(dt)
         end
     elseif GAMESTATE == 2 then --GAME
-        MENU:checkRestartInput()
         WORLD:checkPlayerActionInput(dt)
         WORLD.player:update(dt)
         WORLD:updateHealth()
@@ -124,7 +126,7 @@ function love.update(dt)
         WORLD:updateExplosion(dt, 240, 850, WORLD.media["explosion"].maxRuntime)
     elseif GAMESTATE == 6 then --STORY
         STORY:updateStory(dt)
-    elseif GAMESTATE == 7 then --STORY
+    elseif GAMESTATE == 7 then --CREDITS
         CREDITS:update(dt)
     end
 end

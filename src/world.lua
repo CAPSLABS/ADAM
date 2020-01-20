@@ -35,7 +35,9 @@ return {
         fantasyfont = nil,
         bigfantasyfont = nil,
         surprise = {
-            img = "assets/what.jpg"
+            img = nil,
+            imgP = "assets/deathscreen/whatP.jpg",
+            imgD = "assets/deathscreen/whatD.jpg"
         },
         hud = {
             berserk = "assets/hud/berserk/berserk.png",
@@ -134,7 +136,8 @@ return {
                 }
             },
             winType = "endure",
-            goal = 120 -- runtime to be reached to win
+            goal = 120, -- runtime to be reached to win
+            goalMax = 120
             -- runtime is counted via self.runtime
         },
         --level 3: collect 10 hints
@@ -152,6 +155,7 @@ return {
             },
             counter = 0, -- collected hints counter
             goal = 10,
+            goalMax = 10,
             winType = "collect" -- collect 10 hints
         },
         --level 4: Kill 10 zombies
@@ -220,7 +224,8 @@ return {
                 }
             },
             winType = "endure",
-            goal = 120 -- runtime to be reached to win
+            goal = 120, -- runtime to be reached to win
+            goalMax = 120
             -- runtime is counted via self.runtime
         },
         --level 6: Survive 2 min
@@ -278,7 +283,8 @@ return {
                 }
             },
             winType = "endure",
-            goal = 120 -- runtime to be reached to win
+            goal = 120, -- runtime to be reached to win
+            goalMax=120
             -- runtime is counted via self.runtime
         },
         -- level 7: kill 10 lizzies
@@ -426,7 +432,8 @@ return {
                 --}
             },
             winType = "endure",
-            goal = 10
+            goal = 10,
+            goalMax = 10
         },
         --menu (always last)
         {
@@ -526,7 +533,8 @@ return {
         self.player.anim = self.player.upLeftAnim
     end,
     loadMedia = function(self)
-        self.media.surprise.img = love.graphics.newImage(self.media.surprise.img)
+        self.media.surprise.imgP = love.graphics.newImage(self.media.surprise.imgP)
+        self.media.surprise.imgD = love.graphics.newImage(self.media.surprise.imgD)
         self.media.explosion.img = love.graphics.newImage(self.media.explosion.img)
         self.media.defaultfont = love.graphics.getFont()
         self.media.readfont = love.graphics.newFont("assets/font/Bagnard.otf", 20)
@@ -840,6 +848,21 @@ return {
             end
         end
     end,
+    reset  = function(self) --cleans up tables, despawning enemies, goal counter
+        self.enemies = {}
+        if self.levels[self.currentLvl].winType== "kill" then
+            for name, enemyInfo in pairs(self.levels[self.currentLvl].enemies) do
+                if enemyInfo.killToWin then
+                    enemyInfo.counter=0
+                end
+            end
+        elseif self.levels[self.currentLvl].winType== "endure" then
+            self.levels[self.currentLvl].goal = self.levels[self.currentLvl].goalMax
+        elseif self.levels[self.currentLvl].winType== "collect" then
+            self.levels[self.currentLvl].goal = self.levels[self.currentLvl].goalMax
+        end
+
+    end,
     ------------ENDLESS MODE -------------
     nextEndlessMode = function(self)
         if not self.shoppedThisIteration then
@@ -850,6 +873,7 @@ return {
 
             self:resetTimer()
             self:updateIterationValues()
+            self.player:reset(false)
             self:updateEnvironment() --set map and music
             InitGame(10, 2)
         end
