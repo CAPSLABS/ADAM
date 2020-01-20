@@ -284,7 +284,7 @@ return {
             },
             winType = "endure",
             goal = 120, -- runtime to be reached to win
-            goalMax=120
+            goalMax = 120
             -- runtime is counted via self.runtime
         },
         -- level 7: kill 10 lizzies
@@ -848,20 +848,19 @@ return {
             end
         end
     end,
-    reset  = function(self) --cleans up tables, despawning enemies, goal counter
+    reset = function(self) --cleans up tables, despawning enemies, goal counter
         self.enemies = {}
-        if self.levels[self.currentLvl].winType== "kill" then
+        if self.levels[self.currentLvl].winType == "kill" then
             for name, enemyInfo in pairs(self.levels[self.currentLvl].enemies) do
                 if enemyInfo.killToWin then
-                    enemyInfo.counter=0
+                    enemyInfo.counter = 0
                 end
             end
-        elseif self.levels[self.currentLvl].winType== "endure" then
+        elseif self.levels[self.currentLvl].winType == "endure" then
             self.levels[self.currentLvl].goal = self.levels[self.currentLvl].goalMax
-        elseif self.levels[self.currentLvl].winType== "collect" then
+        elseif self.levels[self.currentLvl].winType == "collect" then
             self.levels[self.currentLvl].goal = self.levels[self.currentLvl].goalMax
         end
-
     end,
     ------------ENDLESS MODE -------------
     nextEndlessMode = function(self)
@@ -1125,7 +1124,9 @@ return {
         for heart in Range(self.player.hearts) do
             love.graphics.draw(
                 self.media.hud.heart,
+                --self.media.hudPos.heartX + self.media.hudPos.heartDistance,
                 self.media.hudPos.heartX + (self.media.hudPos.heartDistance * heart - 1),
+                --self.media.hudPos.heartY + (self.media.hudPos.heartDistance * heart),
                 self.media.hudPos.heartY,
                 0,
                 0.5
