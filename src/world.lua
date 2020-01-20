@@ -29,6 +29,8 @@ return {
     shoppedThisIteration = false,
     iteration = 1,
     media = {
+        readfont = nil,
+        bigreadfont = nil,
         defaultfont = nil,
         fantasyfont = nil,
         bigfantasyfont = nil,
