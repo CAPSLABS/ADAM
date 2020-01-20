@@ -49,7 +49,7 @@ function love.load()
     WORLD:loadPlayer()
     SHOP:loadBacking()
     MUSIC:load()
-    MUSIC:changeVolume(0.2)
+    MUSIC:changeVolume(0.1)
     MUSIC.tracks.mainMenu:play()
 end
 
@@ -69,8 +69,9 @@ function InitGame(lvl, gamestate)
     WORLD.currentLvl = lvl
     WORLD.player.hearts = WORLD.player.maxHearts
     GAMESTATE = gamestate
+
     if GAMESTATE == 6 then
-        love.graphics.setFont(WORLD.media.fantasyfont)
+        love.graphics.setFont(WORLD.media.readfont)
         if STORY.loaded == false then
             STORY:loadStory()
         else
