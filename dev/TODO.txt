@@ -20,3 +20,4 @@ IDEAS:
 - let the whole story be read out by voice actors
 - since the format is (accidentaly) way to good for it, explore mobile port possibilitys
 - slowdown/acceleration when changing direction/starting to move
+- pause menu for volume change
