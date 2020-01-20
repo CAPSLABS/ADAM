@@ -3,7 +3,6 @@
 - make people wiggle when they talk (D) (needs delta)
 - add boss to endless mode (view lvl 9 zeile 383)
 - texte überarbeiten für general publique 
-- respawning in current level with money as was when starting that level (D)
 
 
 - tooltips (for the main menu and skills)  (P)

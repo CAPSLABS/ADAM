@@ -125,19 +125,18 @@ return {
             end
         end
     end,
-    -- Controls during game or during gameover
-    checkRestartInput = function(self)
-        if love.keyboard.isDown("escape") then
-            love.event.push("quit")
-        elseif love.keyboard.isDown("r") and (WORLD.player.alive == false) then
-            love.event.quit("restart")
-        end
-    end,
+    -- Controls during during gameover
     checkGameOverInput = function(self)
         if love.keyboard.isDown("escape") then
             love.event.push("quit")
         elseif love.keyboard.isDown("r") then
-            love.event.quit("restart")
+            if WORLD.endlessmode then
+                love.event.quit("restart")
+            else
+                WORLD.player:reset(true)
+                WORLD:reset()
+                InitGame(WORLD.currentLvl, 2)
+            end
         elseif love.keyboard.isDown("f") then
             self.respectPaid = true
             self.firstFPress = true

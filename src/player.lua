@@ -3,6 +3,7 @@ return {
     alive = true,
     hearts = 3,
     maxHearts = 3,
+    startOfLvlMoney = 0,
     money = 0,
     speed = 230,
     --the approximate width and height of the character (smaller than image)
@@ -395,6 +396,25 @@ return {
     end,
     die = function(self)
         self.alive = false
+        if math.random(0, 1) == 1 then
+            WORLD.media.surprise.img = WORLD.media.surprise.imgD
+        else
+            WORLD.media.surprise.img = WORLD.media.surprise.imgP
+        end
         GAMESTATE = 3
+    end,
+    reset = function(self, moneyreset)
+        if moneyreset == true then
+            self.money = self.startOfLvlMoney
+        end
+        self.sonicRings = {}
+        self.booms = {}
+        self.gotHit = false
+        self.iFrameSec = self.iFrameSecMax
+        self.burstCooldown = PLAYERRAW.burstCooldown
+        self.berserkCooldown = PLAYERRAW.berserkCooldown
+        self.fireCooldown = PLAYERRAW.fireCooldown
+        self.boomCooldown = PLAYERRAW.boomCooldown
+        self.goFastCooldown = PLAYERRAW.goFastCooldown
     end
 }
