@@ -14,6 +14,7 @@ return {
     parsed = false,
     loaded = false,
     firstLvl = true,
+    map9changed = true,
     --giving_instructions = true,
     cast = {
         --all paths are transformed to speaker objects
@@ -231,8 +232,14 @@ return {
         self.currentLine = ""
     end,
     mapchange = function(self)
-        if map.currentLvl == 9 then --todo find out when AFTER level 9 text this is called
-            CREDITS:load()
+        if map.currentLvl == 9 then
+            if not self.map9changed then
+                self.map9changed = true
+                WORLD.map = 1
+                LoadMap()
+            else
+                CREDITS:load()
+            end
         else
             WORLD.map = WORLD.map + 1
             LoadMap()
