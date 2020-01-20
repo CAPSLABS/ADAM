@@ -471,6 +471,9 @@ return {
                 SUIT.Label("The sphere damages enemies and saves you from harm!", 26, 400, 320, 0)
             elseif self.burstHovered then
                 SUIT.Label("Press [Space] to detonate an all hitting explosion!", 26, 340, 320, 0)
+            else
+                SUIT.Label("What do you want to be taught?", 26, 340, 320, 0)
+                SUIT.Label("Upgrading a skill will halve its cooldown!", 26, 400, 320, 0)
             end
         end
     end,
