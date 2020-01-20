@@ -23,6 +23,7 @@ return {
         doneY = 850
     },
     prices = {
+        --boom = {50, 200, 12, 123, 234, 345},
         boom2 = 50,
         boom3 = 200,
         fire1 = 10,
@@ -38,6 +39,11 @@ return {
         burst2 = 300,
         burst3 = 300
     },
+    boomHovered = false,
+    fireHovered = false,
+    berserkHovered = false,
+    fastHovered = false,
+    burstHovered = false,
     loadBacking = function(self)
         for key, img in pairs(self.media) do
             self.media[key] = love.graphics.newImage(img)
@@ -62,12 +68,16 @@ return {
         end
     end,
     updateShopShit = function(self, dt)
+        -- Updates timer for the too broke message
         if self.tooBroke then
             self:timeTooBrokeMessage(dt)
         end
+
+        -- Check if boom button of next respective level is hit or hovered
         if WORLD.player.boomLevel == 1 then
             SUIT.ImageButton(WORLD.media.hud.boomUsed, self.pos.baseX, self.pos.baseY)
-            if SUIT.ImageButton(WORLD.media.hud.boom, self.pos.baseX + (self.pos.distanceX), self.pos.baseY).hit then
+            local button = SUIT.ImageButton(WORLD.media.hud.boom, self.pos.baseX + (self.pos.distanceX), self.pos.baseY)
+            if button.hit then
                 if self:buy(self.prices.boom2) then
                     WORLD.player:lvlUpBoom()
                 else
@@ -76,10 +86,13 @@ return {
                 end
             end
             SUIT.ImageButton(WORLD.media.hud.boomUsed, self.pos.baseX + (self.pos.distanceX * 2), self.pos.baseY)
+            self.boomHovered = button.hovered
         elseif WORLD.player.boomLevel == 2 then
             SUIT.ImageButton(WORLD.media.hud.boomUsed, self.pos.baseX, self.pos.baseY)
             SUIT.ImageButton(WORLD.media.hud.boomUsed, self.pos.baseX + (self.pos.distanceX), self.pos.baseY)
-            if SUIT.ImageButton(WORLD.media.hud.boom, self.pos.baseX + (self.pos.distanceX * 2), self.pos.baseY).hit then
+            local button =
+                SUIT.ImageButton(WORLD.media.hud.boom, self.pos.baseX + (self.pos.distanceX * 2), self.pos.baseY)
+            if button.hit then
                 if self:buy(self.prices.boom3) then
                     WORLD.player:lvlUpBoom()
                 else
@@ -87,14 +100,17 @@ return {
                     self.sensei = self.media.senseiAngry
                 end
             end
+            self.boomHovered = button.hovered
         elseif WORLD.player.boomLevel == 3 then
             SUIT.ImageButton(WORLD.media.hud.boomUsed, self.pos.baseX, self.pos.baseY)
             SUIT.ImageButton(WORLD.media.hud.boomUsed, self.pos.baseX + (self.pos.distanceX), self.pos.baseY)
             SUIT.ImageButton(WORLD.media.hud.boomUsed, self.pos.baseX + (self.pos.distanceX * 2), self.pos.baseY)
         end
 
+        -- Check if fire button of next respective level is hit or hovered
         if WORLD.player.fireLevel == 0 then
-            if SUIT.ImageButton(WORLD.media.hud.fire, self.pos.baseX, self.pos.baseY + (self.pos.distanceY)).hit then
+            local button = SUIT.ImageButton(WORLD.media.hud.fire, self.pos.baseX, self.pos.baseY + (self.pos.distanceY))
+            if button.hit then
                 if self:buy(self.prices.fire1) then
                     WORLD.player:lvlUpFire()
                 else
@@ -112,15 +128,16 @@ return {
                 self.pos.baseX + (self.pos.distanceX * 2),
                 self.pos.baseY + (self.pos.distanceY)
             )
+            self.fireHovered = button.hovered
         elseif WORLD.player.fireLevel == 1 then
             SUIT.ImageButton(WORLD.media.hud.fireUsed, self.pos.baseX, self.pos.baseY + (self.pos.distanceY))
-            if
+            local button =
                 SUIT.ImageButton(
-                    WORLD.media.hud.fire,
-                    self.pos.baseX + (self.pos.distanceX * 1),
-                    self.pos.baseY + (self.pos.distanceY)
-                ).hit
-             then
+                WORLD.media.hud.fire,
+                self.pos.baseX + (self.pos.distanceX * 1),
+                self.pos.baseY + (self.pos.distanceY)
+            )
+            if button.hit then
                 if self:buy(self.prices.fire2) then
                     WORLD.player:lvlUpFire()
                 else
@@ -133,6 +150,7 @@ return {
                 self.pos.baseX + (self.pos.distanceX * 2),
                 self.pos.baseY + (self.pos.distanceY)
             )
+            self.fireHovered = button.hovered
         elseif WORLD.player.fireLevel == 2 then
             SUIT.ImageButton(WORLD.media.hud.fireUsed, self.pos.baseX, self.pos.baseY + (self.pos.distanceY))
             SUIT.ImageButton(
@@ -140,13 +158,13 @@ return {
                 self.pos.baseX + (self.pos.distanceX * 1),
                 self.pos.baseY + (self.pos.distanceY)
             )
-            if
+            local button =
                 SUIT.ImageButton(
-                    WORLD.media.hud.fire,
-                    self.pos.baseX + (self.pos.distanceX * 2),
-                    self.pos.baseY + (self.pos.distanceY)
-                ).hit
-             then
+                WORLD.media.hud.fire,
+                self.pos.baseX + (self.pos.distanceX * 2),
+                self.pos.baseY + (self.pos.distanceY)
+            )
+            if button.hit then
                 if self:buy(self.prices.fire3) then
                     WORLD.player:lvlUpFire()
                 else
@@ -154,6 +172,7 @@ return {
                     self.sensei = self.media.senseiAngry
                 end
             end
+            self.fireHovered = button.hovered
         elseif WORLD.player.fireLevel == 3 then
             SUIT.ImageButton(WORLD.media.hud.fireUsed, self.pos.baseX, self.pos.baseY + (self.pos.distanceY))
             SUIT.ImageButton(
@@ -167,14 +186,16 @@ return {
                 self.pos.baseY + (self.pos.distanceY)
             )
         end
+
+        -- Check if fire button of next respective level is hit or hovered
         if WORLD.player.berserkLevel == 0 then
-            if
+            local button =
                 SUIT.ImageButton(
-                    WORLD.media.hud.berserk,
-                    self.pos.baseX + (self.pos.distanceX * 0),
-                    self.pos.baseY + (self.pos.distanceY * 2)
-                ).hit
-             then
+                WORLD.media.hud.berserk,
+                self.pos.baseX + (self.pos.distanceX * 0),
+                self.pos.baseY + (self.pos.distanceY * 2)
+            )
+            if button.hit then
                 if self:buy(self.prices.berserk1) then
                     WORLD.player:lvlUpBerserk()
                 else
@@ -192,19 +213,20 @@ return {
                 self.pos.baseX + (self.pos.distanceX * 2),
                 self.pos.baseY + (self.pos.distanceY * 2)
             )
+            self.berserkHovered = button.hovered
         elseif WORLD.player.berserkLevel == 1 then
             SUIT.ImageButton(
                 WORLD.media.hud.berserkUsed,
                 self.pos.baseX + (self.pos.distanceX * 0),
                 self.pos.baseY + (self.pos.distanceY * 2)
             )
-            if
+            local button =
                 SUIT.ImageButton(
-                    WORLD.media.hud.berserk,
-                    self.pos.baseX + (self.pos.distanceX * 1),
-                    self.pos.baseY + (self.pos.distanceY * 2)
-                ).hit
-             then
+                WORLD.media.hud.berserk,
+                self.pos.baseX + (self.pos.distanceX * 1),
+                self.pos.baseY + (self.pos.distanceY * 2)
+            )
+            if button.hit then
                 if self:buy(self.prices.berserk2) then
                     WORLD.player:lvlUpBerserk()
                 else
@@ -217,6 +239,7 @@ return {
                 self.pos.baseX + (self.pos.distanceX * 2),
                 self.pos.baseY + (self.pos.distanceY * 2)
             )
+            self.berserkHovered = button.hovered
         elseif WORLD.player.berserkLevel == 2 then
             SUIT.ImageButton(
                 WORLD.media.hud.berserkUsed,
@@ -228,13 +251,13 @@ return {
                 self.pos.baseX + (self.pos.distanceX * 1),
                 self.pos.baseY + (self.pos.distanceY * 2)
             )
-            if
+            local button =
                 SUIT.ImageButton(
-                    WORLD.media.hud.berserk,
-                    self.pos.baseX + (self.pos.distanceX * 2),
-                    self.pos.baseY + (self.pos.distanceY * 2)
-                ).hit
-             then
+                WORLD.media.hud.berserk,
+                self.pos.baseX + (self.pos.distanceX * 2),
+                self.pos.baseY + (self.pos.distanceY * 2)
+            )
+            if button.hit then
                 if self:buy(self.prices.berserk3) then
                     WORLD.player:lvlUpBerserk()
                 else
@@ -242,6 +265,7 @@ return {
                     self.sensei = self.media.senseiAngry
                 end
             end
+            self.berserkHovered = button.hovered
         elseif WORLD.player.berserkLevel == 3 then
             SUIT.ImageButton(
                 WORLD.media.hud.berserkUsed,
@@ -260,8 +284,11 @@ return {
             )
         end
 
+        -- Check if fire button of next respective level is hit or hovered
         if WORLD.player.goFastLevel == 0 then
-            if SUIT.ImageButton(WORLD.media.hud.fast, self.pos.baseX, self.pos.baseY + (self.pos.distanceY * 3)).hit then
+            local button =
+                SUIT.ImageButton(WORLD.media.hud.fast, self.pos.baseX, self.pos.baseY + (self.pos.distanceY * 3))
+            if button.hit then
                 if self:buy(self.prices.fast1) then
                     WORLD.player:lvlUpFast()
                 else
@@ -279,16 +306,16 @@ return {
                 self.pos.baseX + (self.pos.distanceX * 2),
                 self.pos.baseY + (self.pos.distanceY * 3)
             )
+            self.fastHovered = button.hovered
         elseif WORLD.player.goFastLevel == 1 then
             SUIT.ImageButton(WORLD.media.hud.fastUsed, self.pos.baseX, self.pos.baseY + (self.pos.distanceY * 3))
-
-            if
+            local button =
                 SUIT.ImageButton(
-                    WORLD.media.hud.fast,
-                    self.pos.baseX + (self.pos.distanceX),
-                    self.pos.baseY + (self.pos.distanceY * 3)
-                ).hit
-             then
+                WORLD.media.hud.fast,
+                self.pos.baseX + (self.pos.distanceX),
+                self.pos.baseY + (self.pos.distanceY * 3)
+            )
+            if button.hit then
                 if self:buy(self.prices.fast2) then
                     WORLD.player:lvlUpFast()
                 else
@@ -301,6 +328,7 @@ return {
                 self.pos.baseX + (self.pos.distanceX * 2),
                 self.pos.baseY + (self.pos.distanceY * 3)
             )
+            self.fastHovered = button.hovered
         elseif WORLD.player.goFastLevel == 2 then
             SUIT.ImageButton(WORLD.media.hud.fastUsed, self.pos.baseX, self.pos.baseY + (self.pos.distanceY * 3))
             SUIT.ImageButton(
@@ -308,13 +336,13 @@ return {
                 self.pos.baseX + (self.pos.distanceX),
                 self.pos.baseY + (self.pos.distanceY * 3)
             )
-            if
+            local button =
                 SUIT.ImageButton(
-                    WORLD.media.hud.fast,
-                    self.pos.baseX + (self.pos.distanceX * 2),
-                    self.pos.baseY + (self.pos.distanceY * 3)
-                ).hit
-             then
+                WORLD.media.hud.fast,
+                self.pos.baseX + (self.pos.distanceX * 2),
+                self.pos.baseY + (self.pos.distanceY * 3)
+            )
+            if button.hit then
                 if self:buy(self.prices.fast3) then
                     WORLD.player:lvlUpFast()
                 else
@@ -322,6 +350,7 @@ return {
                     self.sensei = self.media.senseiAngry
                 end
             end
+            self.fastHovered = button.hovered
         elseif WORLD.player.goFastLevel == 3 then
             SUIT.ImageButton(WORLD.media.hud.fastUsed, self.pos.baseX, self.pos.baseY + (self.pos.distanceY * 3))
             SUIT.ImageButton(
@@ -337,7 +366,9 @@ return {
         end
 
         if WORLD.player.burstLevel == 0 then
-            if SUIT.ImageButton(WORLD.media.hud.explo, self.pos.baseX, self.pos.baseY + (self.pos.distanceY * 4)).hit then
+            local button =
+                SUIT.ImageButton(WORLD.media.hud.explo, self.pos.baseX, self.pos.baseY + (self.pos.distanceY * 4))
+            if button.hit then
                 if self:buy(self.prices.burst1) then
                     WORLD.player:lvlUpBurst()
                 else
@@ -355,16 +386,16 @@ return {
                 self.pos.baseX + (self.pos.distanceX * 2),
                 self.pos.baseY + (self.pos.distanceY * 4)
             )
+            self.burstHovered = button.hovered
         elseif WORLD.player.burstLevel == 1 then
             SUIT.ImageButton(WORLD.media.hud.exploUsed, self.pos.baseX, self.pos.baseY + (self.pos.distanceY * 4))
-
-            if
+            local button =
                 SUIT.ImageButton(
-                    WORLD.media.hud.explo,
-                    self.pos.baseX + (self.pos.distanceX),
-                    self.pos.baseY + (self.pos.distanceY * 4)
-                ).hit
-             then
+                WORLD.media.hud.explo,
+                self.pos.baseX + (self.pos.distanceX),
+                self.pos.baseY + (self.pos.distanceY * 4)
+            )
+            if button.hit then
                 if self:buy(self.prices.burst2) then
                     WORLD.player:lvlUpBurst()
                 else
@@ -377,21 +408,21 @@ return {
                 self.pos.baseX + (self.pos.distanceX * 2),
                 self.pos.baseY + (self.pos.distanceY * 4)
             )
+            self.burstHovered = button.hovered
         elseif WORLD.player.burstLevel == 2 then
             SUIT.ImageButton(WORLD.media.hud.exploUsed, self.pos.baseX, self.pos.baseY + (self.pos.distanceY * 4))
-
             SUIT.ImageButton(
                 WORLD.media.hud.exploUsed,
                 self.pos.baseX + (self.pos.distanceX),
                 self.pos.baseY + (self.pos.distanceY * 4)
             )
-            if
+            local button =
                 SUIT.ImageButton(
-                    WORLD.media.hud.explo,
-                    self.pos.baseX + (self.pos.distanceX * 2),
-                    self.pos.baseY + (self.pos.distanceY * 4)
-                ).hit
-             then
+                WORLD.media.hud.explo,
+                self.pos.baseX + (self.pos.distanceX * 2),
+                self.pos.baseY + (self.pos.distanceY * 4)
+            )
+            if button.hit then
                 if self:buy(self.prices.burst3) then
                     WORLD.player:lvlUpBurst()
                 else
@@ -399,9 +430,9 @@ return {
                     self.sensei = self.media.senseiAngry
                 end
             end
+            self.burstHovered = button.hovered
         elseif WORLD.player.burstLevel == 3 then
             SUIT.ImageButton(WORLD.media.hud.exploUsed, self.pos.baseX, self.pos.baseY + (self.pos.distanceY * 4))
-
             SUIT.ImageButton(
                 WORLD.media.hud.exploUsed,
                 self.pos.baseX + (self.pos.distanceX),
@@ -428,8 +459,19 @@ return {
             SUIT.Label("AND HOW DO YOU PLAN TO PAY FOR THIS?!", 26, 360, 320, 0)
             WORLD:drawScreenShake(-5, 5)
         else
-            SUIT.Label("It's dangerous to fight alone", 26, 340, 320, 0)
-            SUIT.Label("What do you want to be taught?", 26, 400, 320, 0)
+            if self.boomHovered then
+                SUIT.Label("Press [A] to throw deadly boomerangs in a straight line!", 26, 340, 320, 0)
+            elseif self.fireHovered then
+                SUIT.Label("Press [S] to release a scorching fire cone in front of you!", 26, 340, 320, 0)
+            elseif self.berserkHovered then
+                SUIT.Label("Press [D] to go into a furious berserk mode!", 26, 340, 320, 0)
+                SUIT.Label("In this mode you can shoot boomerangs incredibly fast!", 26, 400, 320, 0)
+            elseif self.fastHovered then
+                SUIT.Label("Press [F] to generate a protective sphere and get increasingly faster!", 26, 340, 320, 0)
+                SUIT.Label("The sphere damages enemies and saves you from harm!", 26, 400, 320, 0)
+            elseif self.burstHovered then
+                SUIT.Label("Press [Space] to detonate an all hitting explosion!", 26, 340, 320, 0)
+            end
         end
     end,
     drawShopShit = function(self)
@@ -498,9 +540,11 @@ return {
 
         love.graphics.draw(WORLD.media.hud.money, self.pos.moneyX, self.pos.moneyY + self.pos.distanceY, 0, 0.5)
         if WORLD.player.boomLevel == 1 then
+            --love.graphics.print(self.prices.boom[1], self.pos.moneyX + 100, self.pos.moneyY + 110)
             love.graphics.print(self.prices.boom2, self.pos.moneyX + 100, self.pos.moneyY + 110)
         elseif WORLD.player.boomLevel == 2 then
             love.graphics.print(self.prices.boom3, self.pos.moneyX + 100, self.pos.moneyY + 110)
+        --love.graphics.print(self.prices.boom[2], self.pos.moneyX + 100, self.pos.moneyY + 110)
         end
 
         love.graphics.draw(WORLD.media.hud.money, self.pos.moneyX, self.pos.moneyY + (self.pos.distanceY * 2), 0, 0.5)
