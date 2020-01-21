@@ -105,6 +105,7 @@ return {
             SUIT.ImageButton(WORLD.media.hud.boomUsed, self.pos.baseX, self.pos.baseY)
             SUIT.ImageButton(WORLD.media.hud.boomUsed, self.pos.baseX + (self.pos.distanceX), self.pos.baseY)
             SUIT.ImageButton(WORLD.media.hud.boomUsed, self.pos.baseX + (self.pos.distanceX * 2), self.pos.baseY)
+            self.boomHovered = false
         end
 
         -- Check if fire button of next respective level is hit or hovered
@@ -185,6 +186,7 @@ return {
                 self.pos.baseX + (self.pos.distanceX * 2),
                 self.pos.baseY + (self.pos.distanceY)
             )
+            self.fireHovered = false
         end
 
         -- Check if fire button of next respective level is hit or hovered
@@ -282,6 +284,7 @@ return {
                 self.pos.baseX + (self.pos.distanceX * 2),
                 self.pos.baseY + (self.pos.distanceY * 2)
             )
+            self.berserkHovered = false
         end
 
         -- Check if fire button of next respective level is hit or hovered
@@ -363,6 +366,7 @@ return {
                 self.pos.baseX + (self.pos.distanceX * 2),
                 self.pos.baseY + (self.pos.distanceY * 3)
             )
+            self.fastHovered = false
         end
 
         if WORLD.player.burstLevel == 0 then
@@ -443,7 +447,9 @@ return {
                 self.pos.baseX + (self.pos.distanceX * 2),
                 self.pos.baseY + (self.pos.distanceY * 4)
             )
+            self.burstHovered = false
         end
+        -- done button
         if SUIT.ImageButton(self.media.done, self.pos.doneX - (self.media.done:getWidth() / 2), self.pos.doneY).hit then
             if WORLD.endlessmode == true then
                 WORLD.shoppedThisIteration = true

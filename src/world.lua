@@ -74,19 +74,19 @@ return {
         },
         hudPos = {
             --SKILLS:
-            xOffset = 30,
+            xOffset = 75,
             yOffset = 850,
-            skillDistance = 90,
+            skillDistance = 80,
             healthX = 100,
             healthY = 920,
             moneyX = 310,
             moneyY = 5,
             heartX = -50,
-            heartY = 5,
+            heartY = 755,
             heartDistance = 40,
-            letterX = 35,
-            letterY = 855,
-            letterDistance = 90,
+            letterX = 80, --xoffset + 5
+            letterY = 855, --yoffset + 5
+            letterDistance = 80, --same as skillDistance
             -- KILL COUNTERS
             counterX = 420,
             counterY = 110
@@ -426,33 +426,59 @@ return {
                 goblin = {
                     timer = 0.3,
                     timerMax = 1,
-                    killToWin = false,
+                    timerOffset = 1,
                     spawnFct = function(self, runtime, dt)
-                        return (1 / (1 + math.exp(0.03 * runtime))) + 0.65
+                        -- each minute we go down 0.1
+                        local nextTimerMax = -0.00167 * runtime + self.timerOffset
+                        if nextTimerMax > 0 then
+                            return nextTimerMax
+                        else
+                            return 0.08
+                        end
                     end
                 },
                 zombie = {
                     timer = 30,
-                    timerMax = 4,
-                    killToWin = false,
+                    timerMax = 3.7,
+                    timerOffset = 3.7,
                     spawnFct = function(self, runtime, dt)
-                        return (1 / (1 + math.exp(0.08 * runtime))) + 1.8
+                        -- each minute we go down 0.1
+                        local nextTimerMax = -0.00167 * runtime + self.timerOffset
+                        if nextTimerMax > 0.5 then
+                            return nextTimerMax
+                        else
+                            return 0.5
+                        end
                     end
                 },
                 lizard = {
-                    timer = 205,
-                    timerMax = 12,
-                    killToWin = false,
+                    timer = 70, -- end of wave 4
+                    timerMax = 5.5,
+                    timerOffset = 5.5,
+                    startedSpawning = false,
                     spawnFct = function(self, runtime, dt)
-                        return (1 / (1 + math.exp(0.09 * runtime))) + 3.5
+                        -- each minute we go down 0.2
+                        self.startedSpawning = true
+                        local nextTimerMax = -0.0033 * runtime + self.timerOffset
+                        if nextTimerMax > 1 then
+                            return nextTimerMax
+                        else
+                            return 1
+                        end
+                    end
+                },
+                boss = {
+                    timer = 10000,
+                    timerMax = 10000,
+                    timerOffset = 10000,
+                    spawnFct = function(self, runtime, dt)
+                        return self.timerOffset
                     end
                 }
-                -- boss = {
-                --}
             },
             winType = "endure",
-            goal = 10,
-            goalMax = 10
+            goal = 30,
+            goalMax = 30
         },
         --menu (always last)
         {
@@ -463,11 +489,9 @@ return {
         }
     },
     timerG = 0.3,
-    timerMaxG = 1,
     timerZ = 30,
-    timerMaxZ = 4,
-    timerL = 205,
-    timerMaxL = 12,
+    timerL = 70,
+    timerB = 10000,
     statsRaw = {
         goblin = require("src.goblin"),
         zombie = require("src.zombie"),
@@ -582,7 +606,7 @@ return {
             if enemy.name ~= "fireball" then
                 enemy:update(dt)
             else
-                assert(self.currentLvl == 9, "updateEnemies, tried calling fireball enemy in lvl " .. self.currentLvl)
+                assert(self.currentLvl >= 9, "updateEnemies, tried calling fireball enemy in lvl " .. self.currentLvl)
                 -- first enemy is usually boss, but if he dies right in this moment, then it can also be a fireball
                 enemy:update(dt, self.enemies[1].x, self.enemies[1].y + 10)
             end
@@ -859,7 +883,7 @@ return {
                     480 - (self.media.hud.borderSmall:getHeight() / 2)
                 ).hit
              then
-                if self.endlessmode == true then
+                if self.endlessmode then
                     self:nextEndlessMode()
                 else
                     InitGame(self.currentLvl, 6)
@@ -868,7 +892,14 @@ return {
         end
     end,
     reset = function(self) --cleans up tables, despawning enemies, goal counter
+        -- despawn everything that was on the field
         self.enemies = {}
+        self.drops = {}
+        self.player.booms = {}
+        self.player.fires = {}
+        self.player.sonicRings = {}
+
+        -- reset goals
         if self.levels[self.currentLvl].winType == "kill" then
             for name, enemyInfo in pairs(self.levels[self.currentLvl].enemies) do
                 if enemyInfo.killToWin then
@@ -880,6 +911,8 @@ return {
         elseif self.levels[self.currentLvl].winType == "collect" then
             self.levels[self.currentLvl].goal = self.levels[self.currentLvl].goalMax
         end
+
+        --reset timers
         for _, info in pairs(self.levels[self.currentLvl].enemies) do
             info.timer = info.timerReset
             info.timerMax = info.timerReset
@@ -892,9 +925,8 @@ return {
             InitGame(WORLD.currentLvl, 4)
         else
             self.shoppedThisIteration = false
-
-            self:resetTimer()
             self:updateIterationValues()
+            self:resetTimer()
             self.player:reset(false)
             self:updateEnvironment() --set map and music
             InitGame(10, 2)
@@ -902,18 +934,57 @@ return {
     end,
     updateIterationValues = function(self)
         self.levels[10].goal = self.levels[10].goal * 1.5
-        --TODO update SPAWN FUNCTIONS!
         self.iteration = self.iteration + 1
     end,
     resetTimer = function(self)
+        -- update timer for goblin: each iteration timerOffset is set down 0.05.
+        -- In each iteration the first goblin comes after timerG time.
+        -- The goblins from the second one onwards start at timerOffset timing.
         self.levels[10].enemies.goblin.timer = self.timerG
-        self.levels[10].enemies.goblin.timerMax = self.timerMaxG
+        self.levels[10].enemies.goblin.timerOffset = self.levels[10].enemies.goblin.timerOffset - 0.08
+        self.levels[10].enemies.goblin.timerMax = self.levels[10].enemies.goblin.timerOffset
 
+        -- Update timer for zombies:
+        -- Reduce their initial spawn time by 6 seconds every time (reaches 0 after 5 waves)
+        if self.timerZ >= 0 then
+            self.timerZ = self.timerZ - 6
+        end
         self.levels[10].enemies.zombie.timer = self.timerZ
-        self.levels[10].enemies.zombie.timerMax = self.timerZ
+        self.levels[10].enemies.zombie.timerOffset = self.levels[10].enemies.zombie.timerOffset - 0.07
+        self.levels[10].enemies.zombie.timerMax = self.levels[10].enemies.zombie.timerOffset
 
+        -- Update timer for Lizzies
+        -- Start spawning after waiting 70 seconds (so from wave 4 onwards)
+        if self.levels[10].enemies.lizard.startedSpawning then
+            self.timerL = self.timerL / 2
+        end
         self.levels[10].enemies.lizard.timer = self.timerL
-        self.levels[10].enemies.lizard.timerMax = self.timerL
+        self.levels[10].enemies.lizard.timerOffset = self.levels[10].enemies.lizard.timerOffset - 0.1
+        self.levels[10].enemies.lizard.timerMax = self.levels[10].enemies.lizard.timerOffset
+
+        -- Update timer for boss
+        -- Starts spawning at wave 5, then every second level, starting from level 9 with enemies
+        if self.iteration >= 5 then
+            if self.iteration % 2 == 1 then
+                if self.iteration >= 9 then
+                    -- all odd levels greater equal 9 spawn the boss and enemies
+                    WORLD.spawn = true
+                else
+                    -- levels 5 and 7 spawn the boss without enemies
+                    WORLD.spawn = false
+                end
+                self.levels[10].enemies.boss.timer = 0
+            else
+                -- all even levels greater 5 are normal
+                WORLD.spawn = true
+                self.levels[10].enemies.boss.timer = self.timerB
+            end
+            -- in every level above 5, we half the spawn time of the boss, so in wave 12 the boss will spawn every 78 seconds
+            if self.levels[10].enemies.boss.timerOffset >= 80 then
+                self.levels[10].enemies.boss.timerOffset = self.levels[10].enemies.boss.timerOffset / 2
+                self.levels[10].enemies.boss.timerMax = self.levels[10].enemies.boss.timerOffset
+            end
+        end
     end,
     updateEnvironment = function(self)
         if self.iteration <= 3 then

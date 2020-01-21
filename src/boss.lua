@@ -83,6 +83,10 @@ return {
                 WORLD.levels[WORLD.currentLvl].enemies.boss.counter =
                     WORLD.levels[WORLD.currentLvl].enemies.boss.counter + 1
             end
+            -- spawn enemies in endless mode when dead
+            if WORLD.endlessmode then
+                WORLD.spawn = true
+            end
         end
         self.anim = ANIMATE.newAnimation(self.media.imgGrid("1-6", 21), 0.3, "pauseAtEnd")
     end,
@@ -296,7 +300,7 @@ return {
             {0.1, "spawnFireballs"},
             {0.6, "throwFireballs"},
             timer = 0,
-            timerMax = 0.48,
+            timerMax = 0.487, -- is a prime number to prevent overlapping of fireballs
             fireballCount = 0,
             animation = function(self, grid)
                 return ANIMATE.newAnimation(grid("1-6", 3), 1, "pauseAtEnd")
