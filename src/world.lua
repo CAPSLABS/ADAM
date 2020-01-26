@@ -840,7 +840,7 @@ return {
                     480 - (self.media.hud.borderSmall:getHeight() / 2)
                 ).hit
              then
-                if self.endlessmode == true then
+                if self.endlessmode then
                     self:nextEndlessMode()
                 else
                     InitGame(self.currentLvl, 6)

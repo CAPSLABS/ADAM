@@ -39,7 +39,7 @@ return {
     booms = {},
     -- s
     fireLevel = 0,
-    fireCooldown = 10,
+    fireCooldown = 6,
     canFire = true,
     fires = {},
     -- d
@@ -48,7 +48,7 @@ return {
     canBerserk = true,
     -- f
     goFastLevel = 0,
-    goFastCooldown = 10,
+    goFastCooldown = 12,
     canGoFast = true,
     sonicAcceleration = 12,
     currentAcceleration = 0,
@@ -61,7 +61,7 @@ return {
     bursting = false,
     explosionMaxRuntime = 1.3,
     -- MODES
-    fireDuration = 3,
+    fireDuration = 3.5,
     berserkDuration = 3,
     inBerserk = false,
     berserkAlpha = 0,
