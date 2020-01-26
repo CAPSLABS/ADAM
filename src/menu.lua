@@ -51,6 +51,7 @@ return {
             elseif love.keyboard.isDown("3") then
                 InitGame(3, 2)
                 WORLD.player:lvlUpFire()
+                WORLD.player:lvlUpBerserk()
                 WORLD.player:lvlUpFast()
             elseif love.keyboard.isDown("4") then
                 InitGame(4, 2)
