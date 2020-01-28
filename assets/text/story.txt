@@ -184,7 +184,7 @@ THE TROLL KING ! ! !
 ~none~NEXTLEVEL
 ~shop~MUSIC
 ~none~SAGE
-~none~MAPCHANGE
+~special~MAPCHANGE
 And so, ADAM became AAAA and stopped Christopher. 
 In the heat of the battle, the JEWEL got destroyed. 
 But the village was safe once again. 
@@ -200,4 +200,5 @@ ADAM:  found an even more precious treasure:
 ADAM: The treasure of friendship!
 SAGE: -winks- The real treasure is the money we made on the way.
 And so, AAAA returned home richer than ever before: With friends.
-~none~MAPCHANGE
+~credits~MAPCHANGE
+bla
