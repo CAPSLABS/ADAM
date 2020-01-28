@@ -4,8 +4,6 @@
 --		@authors David, Phil
 --]]
 
---local BUTTONS = {}
-
 return {
     -- Whether F has been pressed in the game over screen
     respectPaid = false,
@@ -16,14 +14,9 @@ return {
     enterPressed = false,
     gameOpenFadeIn = true,
     slider = {value = 0.1, min = 0, max = 1},
-    --startGameButton = nil,
-    --buttons = {},
-    ----------------- LOADING -----------------
-    --loadMainMenuButtons = function(self)
-    --    --table.insert(BUTTONS, SUIT.ImageButton(WORLD.media.hud.borderSmall, self:getBorderX(), self:getBorderY(1)))
-    --    --self.startGameButton = SUIT.Button("start game lol", 100, 100, 100, 100)
-    --    self.startGameButton = SUIT.ImageButton(WORLD.media.hud.borderSmall, self:getBorderX(), self:getBorderY(1))
-    --end,
+    -- The id of the SUIT widget we are currently focussing
+    currentButtonId = 1,
+    focussedButtonBorderWidth = 5,
     ----------------- UPDATING -----------------
     -- Title screen menu Text
     updateMenu = function(self, dt)
@@ -36,17 +29,13 @@ return {
     end,
     -- Menu after pressing enter on title screen once
     mainMenu = function(self)
-        if SUIT.ImageButton(WORLD.media.hud.borderSmall, self:getBorderX(), self:getBorderY(1)).hit then
-        --print("mainMenu")
-        --if self.startGameButton.hit then
-        --if BUTTONS[1].hit then
-            --print("hit")
+        if SUIT.ImageButton(WORLD.media.hud.borderSmall, {id=1}, self:getBorderX(), self:getBorderY(1)).hit then
             self:startGame()
-        elseif SUIT.ImageButton(WORLD.media.hud.borderSmall, self:getBorderX(), self:getBorderY(2)).hit then
+        elseif SUIT.ImageButton(WORLD.media.hud.borderSmall, {id=2}, self:getBorderX(), self:getBorderY(2)).hit then
             WORLD.endlessmode = true
             MUSIC:startMusic("villageBattle")
             InitGame(10, 2)
-        elseif SUIT.ImageButton(WORLD.media.hud.borderSmall, self:getBorderX(), self:getBorderY(3)).hit then
+        elseif SUIT.ImageButton(WORLD.media.hud.borderSmall, {id=3}, self:getBorderX(), self:getBorderY(3)).hit then
             CREDITS:load()
         end
         MUSIC:changeVolume(self.slider.value)
@@ -59,7 +48,7 @@ return {
     end,
     -- Controls in Debug mode
     checkDebugInput = function(self)
-        if DEBUG == true then
+        if DEBUG then
             STORY.firstLvl = false
             if love.keyboard.isDown("1") then
                 --STORY.firstLvl = nil
@@ -197,11 +186,35 @@ return {
     end,
     drawMenu = function(self)
         if self.enterPressed then
+            self:drawFocussedButtonBorder()
             SUIT:draw()
             self:writeButtons()
         else
             self:drawTitle()
         end
+    end,
+    drawFocussedButtonBorder = function(self)
+        love.graphics.setColor(1,0,0)
+        if 0 < self.currentButtonId and self.currentButtonId < 4 then
+            love.graphics.rectangle(
+                "fill",
+                self:getBorderX() - self.focussedButtonBorderWidth,
+                self:getBorderY(self.currentButtonId) - self.focussedButtonBorderWidth,
+                WORLD.media.hud.borderSmall:getWidth() + 2 * self.focussedButtonBorderWidth,
+                WORLD.media.hud.borderSmall:getHeight() + 2 * self.focussedButtonBorderWidth
+            )
+        elseif self.currentButtonId == 4 then
+            love.graphics.rectangle(
+                "fill",
+                self:getBorderX() + 80 - self.focussedButtonBorderWidth,
+                self:getBorderY(self.currentButtonId) + 80 - self.focussedButtonBorderWidth,
+                200 + 2 * self.focussedButtonBorderWidth,
+                20 + 2 * self.focussedButtonBorderWidth
+            )
+        else
+            print("Drawing currentButtonId " .. self.currentButtonId .. " failed.")
+        end
+        love.graphics.setColor(255,255,255)
     end,
     writeButtons = function(self)
         love.graphics.printf(
