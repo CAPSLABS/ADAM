@@ -233,6 +233,7 @@ return {
     end,
     mapchange = function(self)
         if map.currentLvl == 9 then
+            print("trig")
             if not self.map9changed then
                 self.map9changed = true
                 WORLD.map = 1
