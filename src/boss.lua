@@ -334,7 +334,7 @@ return {
                 -- throw 60% of the fireballs at the player
                 if boss.fireballCount >= 1 and not self.alreadyThrown then
                     for i, enemy in ipairs(WORLD.enemies) do
-                        if enemy.name == "fireball" and math.random() <= 0.6 then
+                        if enemy.name == "fireball" and enemy.curAnim ~= "dyingButCanStillHit" and enemy.curAnim ~= "dying" and math.random() <= 0.6 then
                             enemy.curAnim = "targeting"
                             boss.fireballCount = boss.fireballCount - 1
                         end
