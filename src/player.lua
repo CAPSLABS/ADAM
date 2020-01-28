@@ -396,7 +396,7 @@ return {
     end,
     die = function(self)
         self.alive = false
-        if math.random(0, 1) == 1 then
+        if math.random(0, 1) >= 1 then
             WORLD.media.surprise.img = WORLD.media.surprise.imgD
         else
             WORLD.media.surprise.img = WORLD.media.surprise.imgP

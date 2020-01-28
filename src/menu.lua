@@ -3,6 +3,9 @@
 --		@date 4.8.2019
 --		@authors David, Phil
 --]]
+
+--local BUTTONS = {}
+
 return {
     -- Whether F has been pressed in the game over screen
     respectPaid = false,
@@ -13,8 +16,16 @@ return {
     enterPressed = false,
     gameOpenFadeIn = true,
     slider = {value = 0.1, min = 0, max = 1},
+    --startGameButton = nil,
+    --buttons = {},
+    ----------------- LOADING -----------------
+    --loadMainMenuButtons = function(self)
+    --    --table.insert(BUTTONS, SUIT.ImageButton(WORLD.media.hud.borderSmall, self:getBorderX(), self:getBorderY(1)))
+    --    --self.startGameButton = SUIT.Button("start game lol", 100, 100, 100, 100)
+    --    self.startGameButton = SUIT.ImageButton(WORLD.media.hud.borderSmall, self:getBorderX(), self:getBorderY(1))
+    --end,
     ----------------- UPDATING -----------------
-    -- Menu Text
+    -- Title screen menu Text
     updateMenu = function(self, dt)
         if love.keyboard.isDown("return") then
             self.enterPressed = true
@@ -23,8 +34,13 @@ return {
             self:mainMenu()
         end
     end,
+    -- Menu after pressing enter on title screen once
     mainMenu = function(self)
         if SUIT.ImageButton(WORLD.media.hud.borderSmall, self:getBorderX(), self:getBorderY(1)).hit then
+        --print("mainMenu")
+        --if self.startGameButton.hit then
+        --if BUTTONS[1].hit then
+            --print("hit")
             self:startGame()
         elseif SUIT.ImageButton(WORLD.media.hud.borderSmall, self:getBorderX(), self:getBorderY(2)).hit then
             WORLD.endlessmode = true
@@ -41,6 +57,7 @@ return {
     getBorderY = function(self, segment)
         return WORLD.y / 5 * segment - WORLD.y / 8
     end,
+    -- Controls in Debug mode
     checkDebugInput = function(self)
         if DEBUG == true then
             STORY.firstLvl = false

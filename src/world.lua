@@ -576,9 +576,9 @@ return {
         self.player.anim = self.player.upLeftAnim
     end,
     loadMedia = function(self)
+        self.media.explosion.img = love.graphics.newImage(self.media.explosion.img)
         self.media.surprise.imgP = love.graphics.newImage(self.media.surprise.imgP)
         self.media.surprise.imgD = love.graphics.newImage(self.media.surprise.imgD)
-        self.media.explosion.img = love.graphics.newImage(self.media.explosion.img)
         self.media.defaultfont = love.graphics.getFont()
         self.media.readfont = love.graphics.newFont("assets/font/Bagnard.otf", 20)
         self.media.bigreadfont = love.graphics.newFont("assets/font/Bagnard.otf", 30)

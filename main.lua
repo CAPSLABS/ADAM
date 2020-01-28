@@ -40,7 +40,7 @@ function love.load()
     WORLD:loadHud()
     WORLD:loadItems()
     LoadMap()
-
+    --MENU:loadMainMenuButtons()
     PLAYERRAW = require("src.player")
     WORLD.player = Shallowcopy(PLAYERRAW)
     if DEBUG then

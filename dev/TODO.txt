@@ -3,11 +3,13 @@
 - make people wiggle when they talk (D) (needs delta)
 - texte überarbeiten für general publique 
 
-- balancing spawn funcs of endless mode (P)
+- test balancing of spawn funcs in endless mode (P)
 - latency für airhorn fixen (P)
-- sfx (P)
+- sfx / cooldown feedback (P)
+- menu navigation via keys (P)
 
 IDEAS: 
+- make lvl 2 - 5 more interesting
 - animate fire
 - hit feedback a la https://www.reddit.com/r/PixelArt/comments/eqtlz8/hitspark_tutorial_hope_it_helps_spice_up_your_game/
 - mutant goblins with double update rate (or other enemy mutants)
@@ -16,3 +18,4 @@ IDEAS:
 - since the format is (accidentaly) way too good for it, explore mobile port possibilities
 - slowdown/acceleration when changing direction/starting to move
 - pause menu for volume change
+- tutorial
