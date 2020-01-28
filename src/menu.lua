@@ -60,25 +60,31 @@ return {
     -- Controls in Debug mode
     checkDebugInput = function(self)
         if DEBUG == true then
+            STORY.firstLvl = false
             if love.keyboard.isDown("1") then
-                InitGame(1, 2)
+                --STORY.firstLvl = nil
+                self:startGame()
             elseif love.keyboard.isDown("2") then
-                InitGame(2, 2)
                 WORLD.player:lvlUpFire()
+                STORY.storyIndex = 20
+                InitGame(1, 6)
             elseif love.keyboard.isDown("3") then
-                InitGame(3, 2)
+                STORY.storyIndex = 41
                 WORLD.player:lvlUpFire()
                 WORLD.player:lvlUpBerserk()
                 WORLD.player:lvlUpFast()
+                InitGame(2, 6)
             elseif love.keyboard.isDown("4") then
-                InitGame(4, 2)
+                STORY.storyIndex = 65
                 WORLD.player:lvlUpBoom()
                 WORLD.player:lvlUpFire()
                 WORLD.player:lvlUpFire()
                 WORLD.player:lvlUpFast()
                 WORLD.player:lvlUpBerserk()
+                InitGame(3, 6)
             elseif love.keyboard.isDown("5") then
-                InitGame(5, 2)
+                STORY.storyIndex = 84
+                STORY:mapchange()
                 WORLD.player:lvlUpBoom()
                 WORLD.player:lvlUpFire()
                 WORLD.player:lvlUpFire()
@@ -86,8 +92,10 @@ return {
                 WORLD.player:lvlUpFast()
                 WORLD.player:lvlUpBerserk()
                 WORLD.player:lvlUpBurst()
+                InitGame(4, 6)
             elseif love.keyboard.isDown("6") then
-                InitGame(6, 2)
+                STORY.storyIndex = 109
+                STORY:mapchange()
                 WORLD.player:lvlUpBoom()
                 WORLD.player:lvlUpFire()
                 WORLD.player:lvlUpFire()
@@ -96,44 +104,21 @@ return {
                 WORLD.player:lvlUpBerserk()
                 WORLD.player:lvlUpBerserk()
                 WORLD.player:lvlUpBurst()
+                InitGame(5, 6)
             elseif love.keyboard.isDown("7") then
-                InitGame(7, 2)
-                WORLD.player:lvlUpBoom()
-                WORLD.player:lvlUpBoom()
-                WORLD.player:lvlUpFire()
-                WORLD.player:lvlUpFire()
-                WORLD.player:lvlUpFast()
-                WORLD.player:lvlUpFast()
-                WORLD.player:lvlUpBerserk()
-                WORLD.player:lvlUpBerserk()
-                WORLD.player:lvlUpBurst()
-                WORLD.player:lvlUpBurst()
+                STORY.storyIndex = 128
+                STORY:mapchange()
+                InitGame(6, 6)
             elseif love.keyboard.isDown("8") then
-                InitGame(8, 2)
-                WORLD.player:lvlUpBoom()
-                WORLD.player:lvlUpBoom()
-                WORLD.player:lvlUpFire()
-                WORLD.player:lvlUpFire()
-                WORLD.player:lvlUpFast()
-                WORLD.player:lvlUpFast()
-                WORLD.player:lvlUpBerserk()
-                WORLD.player:lvlUpBerserk()
-                WORLD.player:lvlUpBurst()
-                WORLD.player:lvlUpBurst()
+                STORY.storyIndex = 159
+                STORY:mapchange()
+                STORY:mapchange()
+                InitGame(7, 6)
             elseif love.keyboard.isDown("9") then
-                InitGame(9, 2)
-                WORLD.player:lvlUpBoom()
-                WORLD.player:lvlUpBoom()
-                WORLD.player:lvlUpFire()
-                WORLD.player:lvlUpFire()
-                WORLD.player:lvlUpFire()
-                WORLD.player:lvlUpFast()
-                WORLD.player:lvlUpFast()
-                WORLD.player:lvlUpFast()
-                WORLD.player:lvlUpBerserk()
-                WORLD.player:lvlUpBerserk()
-                WORLD.player:lvlUpBurst()
-                WORLD.player:lvlUpBurst()
+                STORY.storyIndex = 171
+                STORY:mapchange()
+                STORY:mapchange()
+                InitGame(8, 6)
             elseif love.keyboard.isDown("s") then
                 GAMESTATE = 4
             elseif love.keyboard.isDown("l") then

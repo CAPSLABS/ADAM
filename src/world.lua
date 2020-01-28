@@ -231,8 +231,8 @@ return {
                 }
             },
             winType = "endure",
-            goal = 150, -- runtime to be reached to win
-            goalMax = 150
+            goal = 145, -- runtime to be reached to win
+            goalMax = 145
             -- runtime is counted via self.runtime
         },
         --level 6: Survive 2 min
@@ -292,8 +292,8 @@ return {
                 }
             },
             winType = "endure",
-            goal = 120, -- runtime to be reached to win
-            goalMax = 120
+            goal = 145, -- runtime to be reached to win
+            goalMax = 145
             -- runtime is counted via self.runtime
         },
         -- level 7: kill 10 lizzies
@@ -1063,9 +1063,24 @@ return {
                 elseif enemy.name == "boss" then
                     enemy.anim:draw(enemy.media.img, enemy.x, enemy.y)
                     enemy:drawDanceEffects()
-                else
+                elseif enemy.name ~= "fireball" then
                     -- draw normal animations
                     enemy.anim:draw(enemy.media.img, enemy.x, enemy.y)
+                end
+            end
+        end
+    end,
+    drawFire = function(self)
+        if self.currentLvl == 9 then
+            for i, enemy in ipairs(self.enemies) do
+                if enemy.name=="fireball" then
+                    if enemy.gotHit then
+                        love.graphics.setColor(1, 0, 0, 1)
+                        enemy.anim:draw(enemy.media.img, enemy.x, enemy.y)
+                        love.graphics.setColor(255, 255, 255, 255)
+                    else
+                        enemy.anim:draw(enemy.media.img, enemy.x, enemy.y)
+                    end
                 end
             end
         end

@@ -14,8 +14,8 @@ require("src.story")
 
 SUIT = require "src.suit"
 ANIMATE = require "src.anim8"
---DEBUG = true
-DEBUG = false
+DEBUG = true
+--DEBUG = false
 
 --1=menu, 2=game, 3=gameOver, 4=shop, 5=explosion, 6 = story
 GAMESTATES = {1, 2, 3, 4, 5}
@@ -44,7 +44,7 @@ function love.load()
     PLAYERRAW = require("src.player")
     WORLD.player = Shallowcopy(PLAYERRAW)
     if DEBUG then
-        WORLD.player.money = 1000
+        WORLD.player.money = 10000
     end
     WORLD:loadPlayer()
     SHOP:loadBacking()
@@ -158,6 +158,7 @@ function love.draw()
         WORLD:drawItemStuff()
         WORLD:drawHud()
         WORLD:drawWinScreen()
+        WORLD:drawFire()
         WORLD:drawLightning()
     elseif GAMESTATE == 3 then --GAME OVER
         MENU:drawPaidRespect(WORLD.media.surprise.img)
