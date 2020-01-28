@@ -452,6 +452,7 @@ return {
         end
         -- done button
         if SUIT.ImageButton(self.media.done, self.pos.doneX - (self.media.done:getWidth() / 2), self.pos.doneY).hit then
+            love.graphics.setBackgroundColor(0, 0, 0, 0)
             if WORLD.endlessmode == true then
                 WORLD.shoppedThisIteration = true
                 WORLD:nextEndlessMode()

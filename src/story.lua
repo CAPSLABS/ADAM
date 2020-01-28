@@ -14,7 +14,7 @@ return {
     parsed = false,
     loaded = false,
     firstLvl = true,
-    map9changed = true,
+    map9changed = false,
     --giving_instructions = true,
     cast = {
         --all paths are transformed to speaker objects
@@ -126,7 +126,7 @@ return {
             self:removeSpeakers(self.cast[character])
             self.parsed = true --causes the next line to be auto read-in
         elseif action == "MAPCHANGE" then
-            self:mapchange()
+            self:mapchange(character)
             self.parsed = true
         elseif action == "SAGE" then
             self:startShopping()
@@ -231,17 +231,14 @@ return {
         self.canGoOn = true
         self.currentLine = ""
     end,
-    mapchange = function(self)
-        if map.currentLvl == 9 then
-            print("trig")
-            if not self.map9changed then
-                self.map9changed = true
-                WORLD.map = 1
-                LoadMap()
-            else
-                CREDITS:load()
-            end
+    mapchange = function(self, extraInfo)
+        if extraInfo == "special" then
+            WORLD.map = 1
+            LoadMap()
+        elseif extraInfo == "credits" then
+            CREDITS:load()
         else
+            print("trigged")
             WORLD.map = WORLD.map + 1
             LoadMap()
         end

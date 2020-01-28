@@ -1,6 +1,6 @@
 return {
     name = "boss",
-    hp = 200,
+    hp = 1,
     dmg = 1,
     speed = 0.3,
     x = 0,
