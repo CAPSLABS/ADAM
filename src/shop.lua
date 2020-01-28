@@ -9,7 +9,8 @@ return {
         fore = "assets/forestLayered/fore.png",
         sensei = "assets/cha_sprites/mage.png",
         senseiAngry = "assets/cha_sprites/mageAngry.png",
-        done = "assets/hud/done_288x96.png"
+        done = "assets/hud/done_288x96.png",
+        wall = "assets/hud/wall.png"
     },
     sensei = nil,
     pos = {
@@ -458,6 +459,13 @@ return {
                 InitGame(WORLD.currentLvl, 6)
             end
         end
+
+        --if WORLD.endlessmode then
+        --print("brr")
+        --if SUIT.ImageButton(self.media.wall, 26, 100).hit then
+        --print("ha")
+        --end
+        --end
     end,
     broUBroke = function(self)
         love.graphics.setFont(WORLD.media.fantasyfont)
@@ -481,6 +489,7 @@ return {
                 SUIT.Label("What do you want to be taught?", 26, 340, 320, 0)
                 SUIT.Label("Upgrading a skill will halve its cooldown!", 26, 400, 320, 0)
             end
+            SUIT.Label("DAILY SPECIAL: repair the city walls!!", 26, 100, 320, 0)
         end
     end,
     drawShopShit = function(self)
