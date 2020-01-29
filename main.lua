@@ -14,8 +14,8 @@ require("src.story")
 
 SUIT = require "src.suit"
 ANIMATE = require "src.anim8"
---DEBUG = true
-DEBUG = false
+DEBUG = true
+--DEBUG = false
 
 --1=menu, 2=game, 3=gameOver, 4=shop, 5=explosion, 6 = story
 GAMESTATES = {1, 2, 3, 4, 5}
@@ -40,7 +40,7 @@ function love.load()
     WORLD:loadHud()
     WORLD:loadItems()
     LoadMap()
-    --MENU:loadMainMenuButtons()
+    
     PLAYERRAW = require("src.player")
     WORLD.player = Shallowcopy(PLAYERRAW)
     if DEBUG then
@@ -188,6 +188,68 @@ function love.draw()
             WORLD:drawHitBoxes(WORLD.player.x + 32, WORLD.player.y + 32)
         end
     end
+end
+
+function love.keypressed(key)
+    if GAMESTATE == 1 then
+        -- When we passed the title screen
+        if MENU.enterPressed then
+            if key == "down" then
+                if MENU.currentButtonId < 4 then
+                    MENU.currentButtonId = MENU.currentButtonId + 1
+                end
+            elseif key == "up" then
+                if MENU.currentButtonId > 1 then
+                    MENU.currentButtonId = MENU.currentButtonId - 1
+                end
+            elseif key == "return" then
+                if MENU.currentButtonId == 1 then
+                    MENU:startGame()
+                elseif MENU.currentButtonId == 2 then
+                    WORLD.endlessmode = true
+                    MUSIC:startMusic("villageBattle")
+                    InitGame(10, 2)
+                elseif MENU.currentButtonId == 3 then
+                    CREDITS:load()
+                else
+                    print("currentButtonId ".. MENU.currentButtonId .. " not valid.")
+                end
+            elseif key == "left" then
+                MENU:decreaseVolume()
+            elseif key == "right" then
+                MENU:increaseVolume()
+            end
+        end
+    elseif GAMESTATE == 4 then
+        if key == "down" then
+            if 1 <= SHOP.currentRow and SHOP.currentRow <= 5 then
+                SHOP.currentRow = SHOP.currentRow + 1
+            end
+        elseif key == "up" then
+            if 2 <= SHOP.currentRow and SHOP.currentRow <= 6 then
+                SHOP.currentRow = SHOP.currentRow - 1
+            end
+        elseif key == "return" then
+            -- getSkillFromRow returns the name of the skill in the shop, the according player lvl of that skill, and the lvl function of that skill
+            if SHOP.currentRow ~= 6 then
+                local skillName, skillLevel, skillFct = SHOP:getSkillFromRow()
+                if SHOP:buy(SHOP.prices[skillName][skillLevel + 1]) then
+                    skillFct(WORLD.player)
+                else
+                    SHOP.tooBroke = true
+                    SHOP.sensei = SHOP.media.senseiAngry
+                end
+            else
+                if WORLD.endlessmode == true then
+                    WORLD.shoppedThisIteration = true
+                    WORLD:nextEndlessMode()
+                else
+                    InitGame(WORLD.currentLvl, 6)
+                end
+            end
+        end
+    end
+
 end
 
 function love.keyreleased(key)

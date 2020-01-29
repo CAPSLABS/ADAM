@@ -1,4 +1,9 @@
-the first time in endless mode, when you transition into the sage mode at the end of the timer, the button is immidiaely registered as hit
+- the first time in endless mode, when you transition into the sage mode at the end of the timer, the button is immidiaely registered as hit
 and calls all subsequent function (before it is actually hit...) - in following iterations this is not the case
-cooldowns dont reset upon restart even though restart is called
-not on all occasions does the font  flip to the explanation mode ("kill 10 x in reg font)
+
+- cooldowns dont reset upon restart even though restart is called
+
+- not on all occasions does the font  flip to the explanation mode ("kill 10 x in reg font)
+
+- if in debug mode, after we opened the shop and are done, game crashes in world.lua:1272 because self.currentLvl = 12: investigate this
+
