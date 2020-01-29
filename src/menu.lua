@@ -18,6 +18,18 @@ return {
     currentButtonId = 1,
     focussedButtonBorderWidth = 5,
     ----------------- UPDATING -----------------
+    decreaseVolume = function(self,dt)
+        if MENU.currentButtonId == 4 and MENU.slider.value - 0.1 > 0 then
+            MENU.slider.value = MENU.slider.value - 0.1
+            MUSIC:changeVolume(MENU.slider.value)
+        end
+    end,
+    increaseVolume = function(self,dt)
+        if MENU.currentButtonId == 4 and MENU.slider.value + 0.1 < 1 then
+            MENU.slider.value = MENU.slider.value + 0.1
+            MUSIC:changeVolume(MENU.slider.value)
+        end
+    end,
     -- Title screen menu Text
     updateMenu = function(self, dt)
         if love.keyboard.isDown("return") then
@@ -27,7 +39,7 @@ return {
             self:mainMenu()
         end
     end,
-    -- Menu after pressing enter on title screen once
+    -- Menu after pressing enter on title screen once - controls using mouse
     mainMenu = function(self)
         if SUIT.ImageButton(WORLD.media.hud.borderSmall, {id=1}, self:getBorderX(), self:getBorderY(1)).hit then
             self:startGame()

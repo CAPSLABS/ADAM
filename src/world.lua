@@ -1131,11 +1131,6 @@ return {
         self:drawSkillBorders()
         self:drawMoney()
         self:drawKillCounters()
-        --if self.currentLvl == 8 or self.currentLvl == 9 then
-        --    self:drawKillCounters(true)
-        --else
-        --    self:drawKillCounters(false)
-        --end
         self:drawLevelTimer()
         self:drawCollectCounter()
         if self.endlessmode == true then
