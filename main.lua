@@ -220,6 +220,15 @@ function love.keypressed(key)
                 MENU:increaseVolume()
             end
         end
+    elseif GAMESTATE == 2 then
+        if WORLD.wonLevel and key == "return" then
+            if WORLD.endlessmode then
+                WORLD:nextEndlessMode()
+            else
+                InitGame(WORLD.currentLvl, 6)
+                WORLD.player:reset()
+            end
+        end
     elseif GAMESTATE == 4 then
         if key == "down" then
             if 1 <= SHOP.currentRow and SHOP.currentRow <= 5 then
@@ -233,11 +242,13 @@ function love.keypressed(key)
             -- getSkillFromRow returns the name of the skill in the shop, the according player lvl of that skill, and the lvl function of that skill
             if SHOP.currentRow ~= 6 then
                 local skillName, skillLevel, skillFct = SHOP:getSkillFromRow()
-                if SHOP:buy(SHOP.prices[skillName][skillLevel + 1]) then
-                    skillFct(WORLD.player)
-                else
-                    SHOP.tooBroke = true
-                    SHOP.sensei = SHOP.media.senseiAngry
+                if skillLevel < #SHOP.prices[skillName] then
+                    if SHOP:buy(SHOP.prices[skillName][skillLevel + 1]) then
+                        skillFct(WORLD.player)
+                    else
+                        SHOP.tooBroke = true
+                        SHOP.sensei = SHOP.media.senseiAngry
+                    end
                 end
             else
                 if WORLD.endlessmode == true then

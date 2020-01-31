@@ -1,18 +1,21 @@
 return {
+    -- player object
     player = nil,
-    -- all enemies currently on the field
     -- change to 2 or 3
     map = 1,
+    -- all enemies currently on the field
     enemies = {},
     -- all dropped items currently on the field
     drops = {},
     x = 32 * 15,
     y = 32 * 30,
+    -- level we are currently playing
     currentLvl = nil,
+    -- total runtime of a level
     runtime = 0,
     -- true if explosion animation runs
     exploding = false,
-    -- true if current level condition has been satisfied
+    -- true if current level winning condition has been satisfied
     wonLevel = false,
     -- true if spawning should be active
     spawn = true,
@@ -89,7 +92,9 @@ return {
             letterDistance = 80, --same as skillDistance
             -- KILL COUNTERS
             counterX = 420,
-            counterY = 110
+            counterY = 110,
+            -- Width of focussed buttons
+            focussedButtonBorderWidth = 5
         },
         explosion = {
             img = "assets/hud/explo/explosion.png",
@@ -102,7 +107,7 @@ return {
         }
     },
     levels = {
-        --level1: Kill 10 goblins - tutorial
+        --level 1: Kill 10 goblins - tutorial
         {
             enemies = {
                 goblin = {
@@ -896,9 +901,10 @@ return {
         -- despawn everything that was on the field
         self.enemies = {}
         self.drops = {}
-        self.player.booms = {}
-        self.player.fires = {}
-        self.player.sonicRings = {}
+        self.player:reset(false)
+        --self.player.booms = {}
+        --self.player.fires = {}
+        --self.player.sonicRings = {}
 
         -- reset goals
         if self.levels[self.currentLvl].winType == "kill" then
@@ -1455,7 +1461,18 @@ return {
         if self.wonLevel then
             love.graphics.setFont(WORLD.media.bigfantasyfont)
             love.graphics.print("YOU WIN!", 152, 250)
-            SUIT.draw() -- draw continue button
+            -- draw red rectangle as marking box around continue button
+            love.graphics.setColor(1,0,0)
+            love.graphics.rectangle(
+                "fill",
+                240 - (self.media.hud.borderSmall:getWidth() / 2) - self.media.hudPos.focussedButtonBorderWidth,
+                480 - (self.media.hud.borderSmall:getHeight() / 2) - self.media.hudPos.focussedButtonBorderWidth,
+                WORLD.media.hud.borderSmall:getWidth() + 2 * self.media.hudPos.focussedButtonBorderWidth,
+                WORLD.media.hud.borderSmall:getHeight() + 2 * self.media.hudPos.focussedButtonBorderWidth
+            )
+            love.graphics.setColor(255,255,255)
+            -- draw continue button
+            SUIT.draw()
             love.graphics.printf("CONTINUE", 0, 450, 480, "center")
         end
     end,

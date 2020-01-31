@@ -199,7 +199,7 @@ return {
     end,
     startLevel = function(self)
         self:prepareNextStep()
-        if self.firstLvl == true then
+        if self.firstLvl then
             self.firstLvl = false
             WORLD.currentLvl = 1
             InitGame(WORLD.currentLvl, 2)

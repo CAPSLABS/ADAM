@@ -294,6 +294,7 @@ return {
         else
             print("Shit failed bitch")
         end
+        love.graphics.setLineWidth(1)
         love.graphics.setColor(255,255,255)
     end,
     getSkillFromRow = function(self)
@@ -308,7 +309,7 @@ return {
             return "fast", WORLD.player.goFastLevel, WORLD.player.lvlUpFast
         elseif self.currentRow == 5 then
             return "burst", WORLD.player.burstLevel, WORLD.player.lvlUpBurst
-        else 
+        else
             print("skill self.currentRow is not known with value: " .. self.currentRow)
         end
     end,
