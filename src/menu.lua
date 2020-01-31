@@ -61,21 +61,25 @@ return {
     -- Controls in Debug mode
     checkDebugInput = function(self)
         if DEBUG then
-            STORY.firstLvl = false
+            -- cannot have STORY.firstLvl = false here and STORY.firstLvl = true for lvl 1 because the explosion
+            -- animation of the beginning lets us call this function during the animation, setting STORY.firstLvl to 
+            -- false if don't hold the button 1 pressed
             if love.keyboard.isDown("1") then
-                --STORY.firstLvl = nil
                 self:startGame()
             elseif love.keyboard.isDown("2") then
+                STORY.firstLvl = false
                 WORLD.player:lvlUpFire()
                 STORY.storyIndex = 20
                 InitGame(1, 6)
             elseif love.keyboard.isDown("3") then
+                STORY.firstLvl = false
                 STORY.storyIndex = 41
                 WORLD.player:lvlUpFire()
                 WORLD.player:lvlUpBerserk()
                 WORLD.player:lvlUpFast()
                 InitGame(2, 6)
             elseif love.keyboard.isDown("4") then
+                STORY.firstLvl = false
                 STORY.storyIndex = 65
                 WORLD.player:lvlUpBoom()
                 WORLD.player:lvlUpFire()
@@ -84,6 +88,7 @@ return {
                 WORLD.player:lvlUpBerserk()
                 InitGame(3, 6)
             elseif love.keyboard.isDown("5") then
+                STORY.firstLvl = false
                 STORY.storyIndex = 84
                 STORY:mapchange()
                 WORLD.player:lvlUpBoom()
@@ -95,6 +100,7 @@ return {
                 WORLD.player:lvlUpBurst()
                 InitGame(4, 6)
             elseif love.keyboard.isDown("6") then
+                STORY.firstLvl = false
                 STORY.storyIndex = 109
                 STORY:mapchange()
                 WORLD.player:lvlUpBoom()
@@ -107,23 +113,26 @@ return {
                 WORLD.player:lvlUpBurst()
                 InitGame(5, 6)
             elseif love.keyboard.isDown("7") then
+                STORY.firstLvl = false
                 STORY.storyIndex = 128
                 STORY:mapchange()
                 InitGame(6, 6)
             elseif love.keyboard.isDown("8") then
+                STORY.firstLvl = false
                 STORY.storyIndex = 159
                 STORY:mapchange()
                 STORY:mapchange()
                 InitGame(7, 6)
             elseif love.keyboard.isDown("9") then
+                STORY.firstLvl = false
                 STORY.storyIndex = 171
                 STORY:mapchange()
                 STORY:mapchange()
                 InitGame(8, 6)
             elseif love.keyboard.isDown("s") then
                 GAMESTATE = 4
-            elseif love.keyboard.isDown("l") then
-                GAMESTATE = 5
+            --elseif love.keyboard.isDown("l") then
+            --    GAMESTATE = 7
             elseif love.keyboard.isDown("0") then
                 InitGame(1, 6)
             end
@@ -181,7 +190,7 @@ return {
         love.graphics.print(" Press 1 to play only level 1!", 10, 740)
         love.graphics.print(" Press 2 to play only level 2!", 10, 760)
         love.graphics.print(" Press S to open the shop!", 10, 780)
-        love.graphics.print(" Press 6 to start the STORY!", 10, 800)
+        love.graphics.print(" Press Enter to start the STORY!", 10, 800)
     end,
     drawPaidRespect = function(self, imgPath)
         if self.respectPaid then
