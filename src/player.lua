@@ -40,12 +40,16 @@ return {
     -- s
     fireLevel = 0,
     fireCooldown = 6,
+    fireDuration = 3.5,
     canFire = true,
     fires = {},
     -- d
     berserkLevel = 0,
     berserkCooldown = 10,
     canBerserk = true,
+    berserkDuration = 3,
+    inBerserk = false,
+    berserkAlpha = 0,
     -- f
     goFastLevel = 0,
     goFastCooldown = 12,
@@ -54,20 +58,14 @@ return {
     currentAcceleration = 0,
     sonicRingMaxRuntime = 2,
     sonicRings = {},
+    sonicDuration = 2,
+    inSonic = false,
     -- space
     burstLevel = 0,
     burstCooldown = 20,
     canBurst = true,
     bursting = false,
     explosionMaxRuntime = 1.3,
-    -- MODES
-    fireDuration = 3.5,
-    berserkDuration = 3,
-    inBerserk = false,
-    berserkAlpha = 0,
-    --
-    sonicDuration = 2,
-    inSonic = false,
     -- i frames
     gotHit = false,
     iFrameSec = 1.5,
@@ -132,7 +130,7 @@ return {
     end,
     --a
     throwBoom = function(self, dt)
-        if self.inBerserk == false then
+        if not self.inBerserk then
             if self.canBoom then
                 table.insert(
                     self.booms,
@@ -404,11 +402,23 @@ return {
         GAMESTATE = 3
     end,
     reset = function(self, moneyreset)
-        if moneyreset == true then
+        if moneyreset then
             self.money = self.startOfLvlMoney
         end
-        self.sonicRings = {}
+        if self.inBerserk then
+            self.inBerserk = false
+            self.canBerserk = true
+            self.berserkDuration = PLAYERRAW.berserkDuration
+        end
+        if self.inSonic then
+            self.inSonic = false
+            self.canGoFast = true
+            self.sonicDuration = PLAYERRAW.sonicDuration
+            self.currentAcceleration = PLAYERRAW.currentAcceleration
+        end
+        self.fires = {}
         self.booms = {}
+        self.sonicRings = {}
         self.gotHit = false
         self.iFrameSec = self.iFrameSecMax
         self.burstCooldown = PLAYERRAW.burstCooldown
