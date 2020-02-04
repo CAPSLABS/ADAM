@@ -1,7 +1,5 @@
-- MAPCHANGE calls: story fadeout / play intro music once, then loop credit theme (D)
-- buyable city hp (D)
 - make people wiggle when they talk (D) (needs delta)
-- texte überarbeiten für general publique 
+- texte überarbeiten für general publique (D)
 
 - test balancing of spawn funcs in endless mode (P)
 - latency für airhorn fixen (P)

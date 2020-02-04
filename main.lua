@@ -14,8 +14,8 @@ require("src.story")
 
 SUIT = require "src.suit"
 ANIMATE = require "src.anim8"
-DEBUG = true
---DEBUG = false
+--DEBUG = true
+DEBUG = false
 
 --1=menu, 2=game, 3=gameOver, 4=shop, 5=explosion, 6 = story
 GAMESTATES = {1, 2, 3, 4, 5}
@@ -40,7 +40,7 @@ function love.load()
     WORLD:loadHud()
     WORLD:loadItems()
     LoadMap()
-    
+
     PLAYERRAW = require("src.player")
     WORLD.player = Shallowcopy(PLAYERRAW)
     if DEBUG then
@@ -58,7 +58,7 @@ function LoadMap()
 end
 
 function InitGame(lvl, gamestate)
-    if WORLD.endlessmode == false or WORLD.iteration == 1 then
+    if WORLD.endlessmode ~= true then
         WORLD.cityHealth = 100
     end
     WORLD.runtime = 0
@@ -169,9 +169,9 @@ function love.draw()
         love.graphics.print("Press R to restart.", 100, 175)
         love.graphics.print("Press F to pay respect.", 100, 200)
     elseif GAMESTATE == 4 then --SHOP
+        SHOP:drawShopShit()
         SHOP:broUBroke()
         SUIT.draw()
-        SHOP:drawShopShit()
     elseif GAMESTATE == 6 then --STORY
         _G.map:draw()
         STORY:drawStory()
@@ -212,7 +212,7 @@ function love.keypressed(key)
                 elseif MENU.currentButtonId == 3 then
                     CREDITS:load()
                 else
-                    print("currentButtonId ".. MENU.currentButtonId .. " not valid.")
+                    print("currentButtonId " .. MENU.currentButtonId .. " not valid.")
                 end
             elseif key == "left" then
                 MENU:decreaseVolume()
@@ -260,7 +260,6 @@ function love.keypressed(key)
             end
         end
     end
-
 end
 
 function love.keyreleased(key)

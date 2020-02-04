@@ -3,6 +3,11 @@ return {
     tooBrokeMsgTimerMax = 2,
     tooBrokeMsgTimer = 2,
     focussedIconBorderWidth = 3,
+    specialCategory = nil,
+    specialText = nil,
+    specialPrice = nil,
+    wallPerc = nil,
+    clicked = false,
     media = {
         back = "assets/forestLayered/back.png",
         light = "assets/forestLayered/light.png",
@@ -11,7 +16,7 @@ return {
         sensei = "assets/cha_sprites/mage.png",
         senseiAngry = "assets/cha_sprites/mageAngry.png",
         done = "assets/hud/done_288x96.png",
-        wall = "assets/hud/wall.png"
+        wall = "assets/hud/borderedWall.png"
     },
     sensei = nil,
     pos = {
@@ -25,11 +30,11 @@ return {
         doneY = 850
     },
     prices = {
-        boom = {0,50,200},
-        fire = {10,50,200},
-        berserk = {10,50,200},
-        fast = {10,50,200},
-        burst = {30,300,300},
+        boom = {0, 50, 200},
+        fire = {10, 50, 200},
+        berserk = {10, 50, 200},
+        fast = {10, 50, 200},
+        burst = {30, 300, 300}
     },
     currentRow = 1,
     boomHovered = false,
@@ -70,8 +75,15 @@ return {
         -- or else the extra button will not be drawn!
 
         -- Check if boom button of next respective level is hit or hovered
+
         if WORLD.player.boomLevel < 3 then
-            local button = SUIT.ImageButton(WORLD.media.hud.boom, {id=14}, self.pos.baseX + (self.pos.distanceX * (WORLD.player.boomLevel)), self.pos.baseY)
+            local button =
+                SUIT.ImageButton(
+                WORLD.media.hud.boom,
+                {id = 14},
+                self.pos.baseX + (self.pos.distanceX * (WORLD.player.boomLevel)),
+                self.pos.baseY
+            )
             if button.hit then
                 if self:buy(self.prices.boom[WORLD.player.boomLevel + 1]) then
                     WORLD.player:lvlUpBoom()
@@ -84,13 +96,19 @@ return {
         else
             self.boomHovered = false
         end
-        SUIT.ImageButton(WORLD.media.hud.boomUsed, {id=11}, self.pos.baseX, self.pos.baseY)
-        SUIT.ImageButton(WORLD.media.hud.boomUsed, {id=12}, self.pos.baseX + (self.pos.distanceX), self.pos.baseY)
-        SUIT.ImageButton(WORLD.media.hud.boomUsed, {id=13}, self.pos.baseX + (self.pos.distanceX * 2), self.pos.baseY)
+        SUIT.ImageButton(WORLD.media.hud.boomUsed, {id = 11}, self.pos.baseX, self.pos.baseY)
+        SUIT.ImageButton(WORLD.media.hud.boomUsed, {id = 12}, self.pos.baseX + (self.pos.distanceX), self.pos.baseY)
+        SUIT.ImageButton(WORLD.media.hud.boomUsed, {id = 13}, self.pos.baseX + (self.pos.distanceX * 2), self.pos.baseY)
 
         -- Check if fire button of next respective level is hit or hovered
         if WORLD.player.fireLevel < 3 then
-            local button = SUIT.ImageButton(WORLD.media.hud.fire, {id=24}, self.pos.baseX + (self.pos.distanceX * (WORLD.player.fireLevel)), self.pos.baseY + self.pos.distanceY)
+            local button =
+                SUIT.ImageButton(
+                WORLD.media.hud.fire,
+                {id = 24},
+                self.pos.baseX + (self.pos.distanceX * (WORLD.player.fireLevel)),
+                self.pos.baseY + self.pos.distanceY
+            )
             if button.hit then
                 if self:buy(self.prices.fire[WORLD.player.fireLevel + 1]) then
                     WORLD.player:lvlUpFire()
@@ -103,13 +121,29 @@ return {
         else
             self.fireHovered = false
         end
-        SUIT.ImageButton(WORLD.media.hud.fireUsed, {id=21}, self.pos.baseX, self.pos.baseY + self.pos.distanceY)
-        SUIT.ImageButton(WORLD.media.hud.fireUsed, {id=22}, self.pos.baseX + (self.pos.distanceX), self.pos.baseY + self.pos.distanceY)
-        SUIT.ImageButton(WORLD.media.hud.fireUsed, {id=23}, self.pos.baseX + (self.pos.distanceX * 2), self.pos.baseY + self.pos.distanceY)
-        
+        SUIT.ImageButton(WORLD.media.hud.fireUsed, {id = 21}, self.pos.baseX, self.pos.baseY + self.pos.distanceY)
+        SUIT.ImageButton(
+            WORLD.media.hud.fireUsed,
+            {id = 22},
+            self.pos.baseX + (self.pos.distanceX),
+            self.pos.baseY + self.pos.distanceY
+        )
+        SUIT.ImageButton(
+            WORLD.media.hud.fireUsed,
+            {id = 23},
+            self.pos.baseX + (self.pos.distanceX * 2),
+            self.pos.baseY + self.pos.distanceY
+        )
+
         -- Check if berserk button of next respective level is hit or hovered
         if WORLD.player.berserkLevel < 3 then
-            local button = SUIT.ImageButton(WORLD.media.hud.berserk, {id=34}, self.pos.baseX + (self.pos.distanceX * (WORLD.player.berserkLevel)), self.pos.baseY + 2*self.pos.distanceY)
+            local button =
+                SUIT.ImageButton(
+                WORLD.media.hud.berserk,
+                {id = 34},
+                self.pos.baseX + (self.pos.distanceX * (WORLD.player.berserkLevel)),
+                self.pos.baseY + 2 * self.pos.distanceY
+            )
             if button.hit then
                 if self:buy(self.prices.berserk[WORLD.player.berserkLevel + 1]) then
                     WORLD.player:lvlUpBerserk()
@@ -122,13 +156,34 @@ return {
         else
             self.berserkHovered = false
         end
-        SUIT.ImageButton(WORLD.media.hud.berserkUsed, {id=31}, self.pos.baseX, self.pos.baseY + 2*self.pos.distanceY)
-        SUIT.ImageButton(WORLD.media.hud.berserkUsed, {id=32}, self.pos.baseX + (self.pos.distanceX), self.pos.baseY + 2*self.pos.distanceY)
-        SUIT.ImageButton(WORLD.media.hud.berserkUsed, {id=33}, self.pos.baseX + (self.pos.distanceX * 2), self.pos.baseY + 2*self.pos.distanceY)
+        SUIT.ImageButton(
+            WORLD.media.hud.berserkUsed,
+            {id = 31},
+            self.pos.baseX,
+            self.pos.baseY + 2 * self.pos.distanceY
+        )
+        SUIT.ImageButton(
+            WORLD.media.hud.berserkUsed,
+            {id = 32},
+            self.pos.baseX + (self.pos.distanceX),
+            self.pos.baseY + 2 * self.pos.distanceY
+        )
+        SUIT.ImageButton(
+            WORLD.media.hud.berserkUsed,
+            {id = 33},
+            self.pos.baseX + (self.pos.distanceX * 2),
+            self.pos.baseY + 2 * self.pos.distanceY
+        )
 
         -- Check if sonic button of next respective level is hit or hovered
         if WORLD.player.goFastLevel < 3 then
-            local button = SUIT.ImageButton(WORLD.media.hud.fast, {id=44}, self.pos.baseX + (self.pos.distanceX * (WORLD.player.goFastLevel)), self.pos.baseY + 3*self.pos.distanceY)
+            local button =
+                SUIT.ImageButton(
+                WORLD.media.hud.fast,
+                {id = 44},
+                self.pos.baseX + (self.pos.distanceX * (WORLD.player.goFastLevel)),
+                self.pos.baseY + 3 * self.pos.distanceY
+            )
             if button.hit then
                 if self:buy(self.prices.fast[WORLD.player.goFastLevel + 1]) then
                     WORLD.player:lvlUpFast()
@@ -141,13 +196,29 @@ return {
         else
             self.fastHovered = false
         end
-        SUIT.ImageButton(WORLD.media.hud.fastUsed, {id=41}, self.pos.baseX, self.pos.baseY + 3*self.pos.distanceY)
-        SUIT.ImageButton(WORLD.media.hud.fastUsed, {id=42}, self.pos.baseX + (self.pos.distanceX), self.pos.baseY + 3*self.pos.distanceY)
-        SUIT.ImageButton(WORLD.media.hud.fastUsed, {id=43}, self.pos.baseX + (self.pos.distanceX * 2), self.pos.baseY + 3*self.pos.distanceY)
+        SUIT.ImageButton(WORLD.media.hud.fastUsed, {id = 41}, self.pos.baseX, self.pos.baseY + 3 * self.pos.distanceY)
+        SUIT.ImageButton(
+            WORLD.media.hud.fastUsed,
+            {id = 42},
+            self.pos.baseX + (self.pos.distanceX),
+            self.pos.baseY + 3 * self.pos.distanceY
+        )
+        SUIT.ImageButton(
+            WORLD.media.hud.fastUsed,
+            {id = 43},
+            self.pos.baseX + (self.pos.distanceX * 2),
+            self.pos.baseY + 3 * self.pos.distanceY
+        )
 
         -- Check if burst button of next respective level is hit or hovered
         if WORLD.player.burstLevel < 3 then
-            local button = SUIT.ImageButton(WORLD.media.hud.explo, {id=54}, self.pos.baseX + (self.pos.distanceX * (WORLD.player.burstLevel)), self.pos.baseY + 4*self.pos.distanceY)
+            local button =
+                SUIT.ImageButton(
+                WORLD.media.hud.explo,
+                {id = 54},
+                self.pos.baseX + (self.pos.distanceX * (WORLD.player.burstLevel)),
+                self.pos.baseY + 4 * self.pos.distanceY
+            )
             if button.hit then
                 if self:buy(self.prices.burst[WORLD.player.burstLevel + 1]) then
                     WORLD.player:lvlUpBurst()
@@ -160,27 +231,90 @@ return {
         else
             self.burstHovered = false
         end
-        SUIT.ImageButton(WORLD.media.hud.exploUsed, {id=51}, self.pos.baseX, self.pos.baseY + 4*self.pos.distanceY)
-        SUIT.ImageButton(WORLD.media.hud.exploUsed, {id=52}, self.pos.baseX + (self.pos.distanceX), self.pos.baseY + 4*self.pos.distanceY)
-        SUIT.ImageButton(WORLD.media.hud.exploUsed, {id=53}, self.pos.baseX + (self.pos.distanceX * 2), self.pos.baseY + 4*self.pos.distanceY)
+        SUIT.ImageButton(WORLD.media.hud.exploUsed, {id = 51}, self.pos.baseX, self.pos.baseY + 4 * self.pos.distanceY)
+        SUIT.ImageButton(
+            WORLD.media.hud.exploUsed,
+            {id = 52},
+            self.pos.baseX + (self.pos.distanceX),
+            self.pos.baseY + 4 * self.pos.distanceY
+        )
+        SUIT.ImageButton(
+            WORLD.media.hud.exploUsed,
+            {id = 53},
+            self.pos.baseX + (self.pos.distanceX * 2),
+            self.pos.baseY + 4 * self.pos.distanceY
+        )
 
         -- done button
-        if SUIT.ImageButton(self.media.done, {id=61}, self.pos.doneX - (self.media.done:getWidth() / 2), self.pos.doneY).hit then
+        if
+            SUIT.ImageButton(
+                self.media.done,
+                {id = 61},
+                self.pos.doneX - (self.media.done:getWidth() / 2),
+                self.pos.doneY
+            ).hit
+         then
             love.graphics.setBackgroundColor(0, 0, 0, 0)
             if WORLD.endlessmode == true then
+                self.clicked = false
+                self.todaysSpecial = nil
                 WORLD.shoppedThisIteration = true
                 WORLD:nextEndlessMode()
             else
                 InitGame(WORLD.currentLvl, 6)
             end
         end
+        if WORLD.endlessmode then
+            if (self.clicked == false) then
+                if WORLD.player.money > 10 then
+                    self:cityHealth()
+                end
+            end
+        end
+    end,
+    cityHealth = function(self)
+        self:setWallCategory()
+        love.graphics.setFont(WORLD.media.fantasyfont)
+        SUIT.Label("TODAYS SPECIAL:\n" .. self.wallPerc .. " % CITY HEALTH!\n" .. self.specialText, 0, 250, 450, 0)
 
-        --if WORLD.endlessmode then
-        --print("brr")
-        --if SUIT.ImageButton(self.media.wall, 26, 100).hit then
-        --print("ha")
-        --end
-        --end
+        if SUIT.ImageButton(self.media.wall, {id = 62}, 180, 170).hit then
+            self.clicked = true
+            WORLD.player.money = WORLD.player.money * self.specialPrice
+            WORLD.cityHealth = WORLD.cityHealth + (WORLD.cityHealth * self.wallPercMultiplier)
+            if WORLD.cityHealth > WORLD.cityHealthMax then
+                WORLD.cityHealth = WORLD.cityHealthMax
+            end
+            WORLD:updateHealth()
+        end
+    end,
+    setWallCategory = function(self)
+        if self.specialCategory == nil then
+            --self.specialCategory = math.random(0, 3)
+            self.specialCategory = 3
+            if self.specialCategory == 0 then
+                self.specialText = "FREE OF CHARGE!"
+                self.wallPerc = "0"
+                self.wallPercMultiplier = 1
+                self.specialPrice = 1
+            elseif self.specialCategory == 1 then
+                self.specialText = "A THIRD OF YOUR MONEY!"
+                self.wallPerc = "10"
+                self.wallPercMultiplier = 0.1
+                self.specialPrice = 0.66
+            elseif self.specialCategory == 2 then
+                self.specialText = "HALF YOUR MONEY!"
+                self.specialPrice = 0.5
+                self.wallPercMultiplier = 0.2
+                self.wallPerc = "20"
+            elseif self.specialCategory == 3 then
+                self.specialText = "ALL THE MONEYS!"
+                self.wallPerc = "30"
+                self.wallPercMultiplier = 0.3
+                self.specialPrice = 0
+            else
+                print("this is broken")
+            end
+        end
     end,
     broUBroke = function(self)
         love.graphics.setFont(WORLD.media.fantasyfont)
@@ -204,7 +338,6 @@ return {
                 SUIT.Label("What do you want to be taught?", 26, 340, 320, 0)
                 SUIT.Label("Upgrading a skill will halve its cooldown!", 26, 400, 320, 0)
             end
-            SUIT.Label("DAILY SPECIAL: repair the city walls!!", 26, 100, 320, 0)
         end
     end,
     drawShopShit = function(self)
@@ -216,6 +349,10 @@ return {
         love.graphics.draw(SHOP.sensei, 250, 100, 0, 4, 4)
 
         self:drawFocussedIconBorder()
+
+        if WORLD.endlessmode then
+            WORLD:drawHealthBar()
+        end
 
         love.graphics.draw(WORLD.media.hud.silver, self.pos.baseX + (self.pos.distanceX), self.pos.baseY)
         love.graphics.draw(WORLD.media.hud.gold, self.pos.baseX + (self.pos.distanceX * 2), self.pos.baseY)
@@ -263,12 +400,12 @@ return {
             self.pos.baseX + (self.pos.distanceX * 2),
             self.pos.baseY + (self.pos.distanceY * 4)
         )
-        
+
         self:drawPrices()
     end,
     drawFocussedIconBorder = function(self)
         -- set color to red
-        love.graphics.setColor(1,0,0)
+        love.graphics.setColor(1, 0, 0)
         love.graphics.setLineWidth(self.focussedIconBorderWidth)
         if 1 <= self.currentRow and self.currentRow <= 5 then
             -- draw red rectangle
@@ -295,7 +432,7 @@ return {
             print("Shit failed bitch")
         end
         love.graphics.setLineWidth(1)
-        love.graphics.setColor(255,255,255)
+        love.graphics.setColor(255, 255, 255)
     end,
     getSkillFromRow = function(self)
         -- Goal: given currentRow, get all relevat info for that skill
@@ -323,31 +460,51 @@ return {
         -- boom cost
         love.graphics.draw(WORLD.media.hud.money, self.pos.moneyX, self.pos.moneyY + self.pos.distanceY, 0, 0.5)
         if WORLD.player.boomLevel < 3 then
-            love.graphics.print(self.prices.boom[WORLD.player.boomLevel + 1], self.pos.moneyX + 100, self.pos.moneyY + 110)
+            love.graphics.print(
+                self.prices.boom[WORLD.player.boomLevel + 1],
+                self.pos.moneyX + 100,
+                self.pos.moneyY + 110
+            )
         end
 
         -- fire cost
         love.graphics.draw(WORLD.media.hud.money, self.pos.moneyX, self.pos.moneyY + (self.pos.distanceY * 2), 0, 0.5)
         if WORLD.player.fireLevel < 3 then
-            love.graphics.print(self.prices.fire[WORLD.player.fireLevel + 1], self.pos.moneyX + 100, self.pos.moneyY + self.pos.distanceY + 110)
+            love.graphics.print(
+                self.prices.fire[WORLD.player.fireLevel + 1],
+                self.pos.moneyX + 100,
+                self.pos.moneyY + self.pos.distanceY + 110
+            )
         end
 
         -- berserk cost
         love.graphics.draw(WORLD.media.hud.money, self.pos.moneyX, self.pos.moneyY + (self.pos.distanceY * 3), 0, 0.5)
         if WORLD.player.berserkLevel < 3 then
-            love.graphics.print(self.prices.berserk[WORLD.player.berserkLevel + 1], self.pos.moneyX + 100, self.pos.moneyY + 2*self.pos.distanceY + 110)
+            love.graphics.print(
+                self.prices.berserk[WORLD.player.berserkLevel + 1],
+                self.pos.moneyX + 100,
+                self.pos.moneyY + 2 * self.pos.distanceY + 110
+            )
         end
 
         -- go fast cost
         love.graphics.draw(WORLD.media.hud.money, self.pos.moneyX, self.pos.moneyY + (self.pos.distanceY * 4), 0, 0.5)
         if WORLD.player.goFastLevel < 3 then
-            love.graphics.print(self.prices.fast[WORLD.player.goFastLevel + 1], self.pos.moneyX + 100, self.pos.moneyY + 3*self.pos.distanceY + 110)
+            love.graphics.print(
+                self.prices.fast[WORLD.player.goFastLevel + 1],
+                self.pos.moneyX + 100,
+                self.pos.moneyY + 3 * self.pos.distanceY + 110
+            )
         end
 
         -- burst cost
         love.graphics.draw(WORLD.media.hud.money, self.pos.moneyX, self.pos.moneyY + (self.pos.distanceY * 5), 0, 0.5)
         if WORLD.player.burstLevel < 3 then
-            love.graphics.print(self.prices.burst[WORLD.player.burstLevel + 1], self.pos.moneyX + 100, self.pos.moneyY + 4*self.pos.distanceY + 110)
+            love.graphics.print(
+                self.prices.burst[WORLD.player.burstLevel + 1],
+                self.pos.moneyX + 100,
+                self.pos.moneyY + 4 * self.pos.distanceY + 110
+            )
         end
     end
 }

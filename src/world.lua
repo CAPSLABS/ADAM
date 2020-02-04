@@ -493,6 +493,7 @@ return {
             winType = "collect"
         }
     },
+    --some default values to reset back to for enemy spawntimers/stats:
     timerG = 0.3,
     timerZ = 30,
     timerL = 70,
