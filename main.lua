@@ -174,6 +174,7 @@ function love.draw()
         SUIT.draw()
     elseif GAMESTATE == 6 then --STORY
         _G.map:draw()
+        STORY:update()
         STORY:drawStory()
     elseif GAMESTATE == 7 then --CREDITS
         love.graphics.setColor(255, 255, 255, FADER.alpha)

@@ -8,7 +8,6 @@ return {
     speakerDist = 80,
     speakerXLeft = -55,
     speakerXRight = 290,
-    speakerY = 600,
     currentLine = "",
     canGoOn = true,
     parsed = false,
@@ -81,6 +80,18 @@ return {
     keyUpdate = function(self, key)
         if key == "return" then
             self.canGoOn = true
+        end
+    end,
+    update = function(self, dt)
+        for name, each_speaker in pairs(self.leftSpeakers) do
+            if each_speaker.inAnimation then
+                each_speaker:update()
+            end
+        end
+        for name, each_speaker in pairs(self.rightSpeakers) do
+            if each_speaker.inAnimation then
+                each_speaker:update()
+            end
         end
     end,
     updateStory = function(self, dt)
@@ -159,7 +170,7 @@ return {
                 each_speaker.drawable,
                 each_speaker.currentQuad,
                 self.speakerXLeft + (self.speakerDist * i),
-                self.speakerY,
+                each_speaker.y,
                 0,
                 4,
                 4
@@ -172,7 +183,7 @@ return {
                 each_speaker.drawable,
                 each_speaker.currentQuad,
                 self.speakerXRight - (self.speakerDist * i),
-                self.speakerY,
+                each_speaker.y,
                 0,
                 4,
                 4
@@ -216,12 +227,12 @@ return {
         local speaker = string.lower(Split(line, ":")[1])
         for name, speakerObj in pairs(self.leftSpeakers) do
             if name == speaker then
-                speakerObj:wiggleAnim()
+                speakerObj:setWiggleAnim()
             end
         end
         for name, speakerObj in pairs(self.rightSpeakers) do
             if name == speaker then
-                speakerObj:wiggleAnim()
+                speakerObj:setWiggleAnim()
             end
         end
     end,
