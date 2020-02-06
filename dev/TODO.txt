@@ -1,5 +1,5 @@
-- make people wiggle when they talk (D) (needs delta)
 - texte überarbeiten für general publique (D)
+- enter to continue (D)
 
 - test balancing of spawn funcs in endless mode (P)
 - latency für airhorn fixen (P)

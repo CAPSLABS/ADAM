@@ -34,6 +34,7 @@ The following command should allow you to get the latest stable version:
 [please see the instructions for downloading LÖVE and running games here](https://love2d.org/wiki/Getting_Started). 
 After downloading LÖVE you can download the game folder and drag it on top of the love.exe!
 
-## Run the game:  
-`love awesomedefenderactionmurderer`
+## Run the game in Terminal:  
+`cd awesomedefenderactionmurderer`
+`love .`
 
