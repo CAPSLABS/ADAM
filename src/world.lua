@@ -211,15 +211,13 @@ return {
                     spawnFct = function(self, runtime, dt)
                         if runtime <= 60 then
                             -- Normal spawning
-                            local tmp = (1 / (1 + math.exp(0.02 * runtime))) + 0.8
-                            return tmp
+                            return (1 / (1 + math.exp(0.02 * runtime))) + 0.8
                         elseif 60 < runtime and runtime <= 61 then
                             -- 20 seconds of peace from goblins from seconds 60 to 80
                             return 20
                         else
                             -- Boom! There comes the storm from second 80 to 120
-                            local tmp = (1 / (1 + math.exp(0.1 * runtime))) + 0.65
-                            return tmp
+                            return (1 / (1 + math.exp(0.1 * runtime))) + 0.65
                         end
                     end
                 },
@@ -230,8 +228,7 @@ return {
                     spawnFct = function(self, runtime, dt)
                         -- Slow spawn rate of 3 at the beginning, strong ascent around 60,
                         -- maximum spawn rate of ~2 at second 70, then descent back to 3 till about 80
-                        local tmp = -math.exp(-0.01 * (runtime - 70) ^ 2) + 3
-                        return tmp
+                        return -math.exp(-0.01 * (runtime - 70) ^ 2) + 3
                     end
                 }
             },
@@ -248,9 +245,6 @@ return {
                     timer = 5, -- inital value is value of timerMax, a changing variable
                     timerMax = 5, -- initial value until first mob comes, marks the actual countdown time#
                     timerReset = 5,
-                    spawnWaveIndex = 1,
-                    spawnWavePattern = {0.2, 0.13, 0.12, 0.1, 0.1, 0.1},
-                    currentDuration = 0, -- counts the duration of the current spawn wave
                     spawnFct = function(self, runtime, dt)
                         if runtime <= 6 then
                             return 0.2
@@ -276,11 +270,9 @@ return {
                             return 0.08
                         elseif runtime <= 62 then
                             return 30
-                        elseif runtime <= 120 then
+                        elseif runtime <= 145 then
                             -- Boom! There comes the storm from second 90 to 120
                             return (1 / (1 + math.exp(0.1 * runtime))) + 0.5
-                        else
-                            return "goblin spawn failed"
                         end
                     end
                 },
@@ -291,8 +283,7 @@ return {
                     spawnFct = function(self, runtime, dt)
                         -- Slow spawn rate of 3 at the beginning, strong ascent around 60,
                         -- maximum spawn rate of ~2 at second 70, then descent back to 3 till about 80
-                        local tmp = -math.exp(-0.01 * (runtime - 70) ^ 2) + 3
-                        return tmp
+                        return -math.exp(-0.01 * (runtime - 70) ^ 2) + 3
                     end
                 }
             },
