@@ -61,7 +61,7 @@ return {
         }
     },
     loadStory = function(self)
-        local raw = Read_file("assets/text/story.txt")
+        local raw = Read_file("/assets/text/story.txt")
         self.storyText = Split(raw, "\n")
         self:loadSpeakerObjects()
         self.loaded = true
@@ -258,6 +258,5 @@ return {
         self.leftSpeakers = {}
         self.rightSpeakers = {}
         love.graphics.setFont(WORLD.media.fantasyfont)
-        print("set to fantasyfont!")
     end
 }
