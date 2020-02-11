@@ -7,7 +7,7 @@ return {
     specialText = nil,
     specialPrice = nil,
     wallPerc = nil,
-    clicked = false,
+    clicked = false, -- if we bought city hp in current shop session
     media = {
         back = "assets/forestLayered/back.png",
         light = "assets/forestLayered/light.png",
@@ -27,9 +27,12 @@ return {
         distanceX = 80,
         distanceY = 80,
         doneX = (WORLD.x / 2),
-        doneY = 850
+        doneY = 850,
+        wallX = 55, -- always baseX - 15
+        wallY = 235,
     },
     prices = {
+        wall = {1000}, -- price changes
         boom = {0, 50, 200},
         fire = {10, 50, 200},
         berserk = {10, 50, 200},
@@ -80,7 +83,6 @@ return {
             local button =
                 SUIT.ImageButton(
                 WORLD.media.hud.boom,
-                {id = 14},
                 self.pos.baseX + (self.pos.distanceX * (WORLD.player.boomLevel)),
                 self.pos.baseY
             )
@@ -96,16 +98,15 @@ return {
         else
             self.boomHovered = false
         end
-        SUIT.ImageButton(WORLD.media.hud.boomUsed, {id = 11}, self.pos.baseX, self.pos.baseY)
-        SUIT.ImageButton(WORLD.media.hud.boomUsed, {id = 12}, self.pos.baseX + (self.pos.distanceX), self.pos.baseY)
-        SUIT.ImageButton(WORLD.media.hud.boomUsed, {id = 13}, self.pos.baseX + (self.pos.distanceX * 2), self.pos.baseY)
+        SUIT.ImageButton(WORLD.media.hud.boomUsed, self.pos.baseX, self.pos.baseY)
+        SUIT.ImageButton(WORLD.media.hud.boomUsed, self.pos.baseX + (self.pos.distanceX), self.pos.baseY)
+        SUIT.ImageButton(WORLD.media.hud.boomUsed, self.pos.baseX + (self.pos.distanceX * 2), self.pos.baseY)
 
         -- Check if fire button of next respective level is hit or hovered
         if WORLD.player.fireLevel < 3 then
             local button =
                 SUIT.ImageButton(
                 WORLD.media.hud.fire,
-                {id = 24},
                 self.pos.baseX + (self.pos.distanceX * (WORLD.player.fireLevel)),
                 self.pos.baseY + self.pos.distanceY
             )
@@ -121,16 +122,14 @@ return {
         else
             self.fireHovered = false
         end
-        SUIT.ImageButton(WORLD.media.hud.fireUsed, {id = 21}, self.pos.baseX, self.pos.baseY + self.pos.distanceY)
+        SUIT.ImageButton(WORLD.media.hud.fireUsed, self.pos.baseX, self.pos.baseY + self.pos.distanceY)
         SUIT.ImageButton(
             WORLD.media.hud.fireUsed,
-            {id = 22},
             self.pos.baseX + (self.pos.distanceX),
             self.pos.baseY + self.pos.distanceY
         )
         SUIT.ImageButton(
             WORLD.media.hud.fireUsed,
-            {id = 23},
             self.pos.baseX + (self.pos.distanceX * 2),
             self.pos.baseY + self.pos.distanceY
         )
@@ -140,7 +139,6 @@ return {
             local button =
                 SUIT.ImageButton(
                 WORLD.media.hud.berserk,
-                {id = 34},
                 self.pos.baseX + (self.pos.distanceX * (WORLD.player.berserkLevel)),
                 self.pos.baseY + 2 * self.pos.distanceY
             )
@@ -158,19 +156,16 @@ return {
         end
         SUIT.ImageButton(
             WORLD.media.hud.berserkUsed,
-            {id = 31},
             self.pos.baseX,
             self.pos.baseY + 2 * self.pos.distanceY
         )
         SUIT.ImageButton(
             WORLD.media.hud.berserkUsed,
-            {id = 32},
             self.pos.baseX + (self.pos.distanceX),
             self.pos.baseY + 2 * self.pos.distanceY
         )
         SUIT.ImageButton(
             WORLD.media.hud.berserkUsed,
-            {id = 33},
             self.pos.baseX + (self.pos.distanceX * 2),
             self.pos.baseY + 2 * self.pos.distanceY
         )
@@ -180,7 +175,6 @@ return {
             local button =
                 SUIT.ImageButton(
                 WORLD.media.hud.fast,
-                {id = 44},
                 self.pos.baseX + (self.pos.distanceX * (WORLD.player.goFastLevel)),
                 self.pos.baseY + 3 * self.pos.distanceY
             )
@@ -196,16 +190,14 @@ return {
         else
             self.fastHovered = false
         end
-        SUIT.ImageButton(WORLD.media.hud.fastUsed, {id = 41}, self.pos.baseX, self.pos.baseY + 3 * self.pos.distanceY)
+        SUIT.ImageButton(WORLD.media.hud.fastUsed,  self.pos.baseX, self.pos.baseY + 3 * self.pos.distanceY)
         SUIT.ImageButton(
             WORLD.media.hud.fastUsed,
-            {id = 42},
             self.pos.baseX + (self.pos.distanceX),
             self.pos.baseY + 3 * self.pos.distanceY
         )
         SUIT.ImageButton(
             WORLD.media.hud.fastUsed,
-            {id = 43},
             self.pos.baseX + (self.pos.distanceX * 2),
             self.pos.baseY + 3 * self.pos.distanceY
         )
@@ -215,7 +207,6 @@ return {
             local button =
                 SUIT.ImageButton(
                 WORLD.media.hud.explo,
-                {id = 54},
                 self.pos.baseX + (self.pos.distanceX * (WORLD.player.burstLevel)),
                 self.pos.baseY + 4 * self.pos.distanceY
             )
@@ -231,16 +222,14 @@ return {
         else
             self.burstHovered = false
         end
-        SUIT.ImageButton(WORLD.media.hud.exploUsed, {id = 51}, self.pos.baseX, self.pos.baseY + 4 * self.pos.distanceY)
+        SUIT.ImageButton(WORLD.media.hud.exploUsed, self.pos.baseX, self.pos.baseY + 4 * self.pos.distanceY)
         SUIT.ImageButton(
             WORLD.media.hud.exploUsed,
-            {id = 52},
             self.pos.baseX + (self.pos.distanceX),
             self.pos.baseY + 4 * self.pos.distanceY
         )
         SUIT.ImageButton(
             WORLD.media.hud.exploUsed,
-            {id = 53},
             self.pos.baseX + (self.pos.distanceX * 2),
             self.pos.baseY + 4 * self.pos.distanceY
         )
@@ -249,13 +238,12 @@ return {
         if
             SUIT.ImageButton(
                 self.media.done,
-                {id = 61},
                 self.pos.doneX - (self.media.done:getWidth() / 2),
                 self.pos.doneY
             ).hit
          then
             love.graphics.setBackgroundColor(0, 0, 0, 0)
-            if WORLD.endlessmode == true then
+            if WORLD.endlessmode then
                 self.clicked = false
                 self.todaysSpecial = nil
                 WORLD.shoppedThisIteration = true
@@ -264,56 +252,47 @@ return {
                 InitGame(WORLD.currentLvl, 6)
             end
         end
-        if WORLD.endlessmode then
-            if (self.clicked == false) then
-                if WORLD.player.money > 10 then
-                    self:cityHealth()
-                end
-            end
+        if WORLD.endlessmode and not self.clicked and WORLD.player.money > 10 then
+            self:cityHealth()
         end
     end,
     cityHealth = function(self)
         self:setWallCategory()
         love.graphics.setFont(WORLD.media.fantasyfont)
         SUIT.Label("TODAYS SPECIAL:\n" .. self.wallPerc .. " % CITY HEALTH!\n" .. self.specialText, 0, 250, 450, 0)
-
-        if SUIT.ImageButton(self.media.wall, {id = 62}, 180, 170).hit then
+        if SUIT.ImageButton(self.media.wall, self.pos.wallX, self.pos.wallY).hit then
             self.clicked = true
-            WORLD.player.money = WORLD.player.money * self.specialPrice
-            WORLD.cityHealth = WORLD.cityHealth + (WORLD.cityHealth * self.wallPercMultiplier)
-            if WORLD.cityHealth > WORLD.cityHealthMax then
-                WORLD.cityHealth = WORLD.cityHealthMax
-            end
-            WORLD:updateHealth()
+            SHOP:buy(self.prices.wall[1])
+            WORLD.player:buySpecialOffer()
         end
     end,
     setWallCategory = function(self)
         if self.specialCategory == nil then
-            --self.specialCategory = math.random(0, 3)
-            self.specialCategory = 3
+            self.specialCategory = math.random(0, 3)
             if self.specialCategory == 0 then
                 self.specialText = "FREE OF CHARGE!"
                 self.wallPerc = "0"
                 self.wallPercMultiplier = 1
-                self.specialPrice = 1
+                self.specialPrice = 0
             elseif self.specialCategory == 1 then
                 self.specialText = "A THIRD OF YOUR MONEY!"
                 self.wallPerc = "10"
                 self.wallPercMultiplier = 0.1
-                self.specialPrice = 0.66
+                self.specialPrice = math.floor(WORLD.player.money * 0.66666667)
             elseif self.specialCategory == 2 then
                 self.specialText = "HALF YOUR MONEY!"
-                self.specialPrice = 0.5
                 self.wallPercMultiplier = 0.2
                 self.wallPerc = "20"
+                self.specialPrice = math.ceil(WORLD.player.money * 0.5)
             elseif self.specialCategory == 3 then
                 self.specialText = "ALL THE MONEYS!"
                 self.wallPerc = "30"
                 self.wallPercMultiplier = 0.3
-                self.specialPrice = 0
+                self.specialPrice = WORLD.player.money
             else
                 print("this is broken")
             end
+            self.prices.wall[1] = self.specialPrice
         end
     end,
     broUBroke = function(self)
@@ -341,73 +320,39 @@ return {
         end
     end,
     drawShopShit = function(self)
+        self:drawBackground()
+        self:drawFocussedIconBorder()
+        SUIT.draw()
+        if WORLD.endlessmode then
+            WORLD:drawHealthBar()
+        end
+        self:drawIconBorders()
+        self:drawPrices()
+    end,
+    drawBackground = function(self)
         love.graphics.setBackgroundColor(0.45, 0.31, 0.2, 0)
         love.graphics.draw(SHOP.media.back, 0, 0, 0, 2, 2)
         love.graphics.draw(SHOP.media.light, 0, 0, 0, 2, 2)
         love.graphics.draw(SHOP.media.middle, 0, 0, 0, 2, 2)
         love.graphics.draw(SHOP.media.fore, 0, 0, 0, 2, 2)
         love.graphics.draw(SHOP.sensei, 250, 100, 0, 4, 4)
-
-        self:drawFocussedIconBorder()
-
-        if WORLD.endlessmode then
-            WORLD:drawHealthBar()
-        end
-
-        love.graphics.draw(WORLD.media.hud.silver, self.pos.baseX + (self.pos.distanceX), self.pos.baseY)
-        love.graphics.draw(WORLD.media.hud.gold, self.pos.baseX + (self.pos.distanceX * 2), self.pos.baseY)
-
-        love.graphics.draw(
-            WORLD.media.hud.silver,
-            self.pos.baseX + (self.pos.distanceX),
-            self.pos.baseY + (self.pos.distanceY)
-        )
-        love.graphics.draw(
-            WORLD.media.hud.gold,
-            self.pos.baseX + (self.pos.distanceX * 2),
-            self.pos.baseY + (self.pos.distanceY)
-        )
-
-        love.graphics.draw(
-            WORLD.media.hud.silver,
-            self.pos.baseX + (self.pos.distanceX),
-            self.pos.baseY + (self.pos.distanceY * 2)
-        )
-        love.graphics.draw(
-            WORLD.media.hud.gold,
-            self.pos.baseX + (self.pos.distanceX * 2),
-            self.pos.baseY + (self.pos.distanceY * 2)
-        )
-
-        love.graphics.draw(
-            WORLD.media.hud.silver,
-            self.pos.baseX + (self.pos.distanceX),
-            self.pos.baseY + (self.pos.distanceY * 3)
-        )
-        love.graphics.draw(
-            WORLD.media.hud.gold,
-            self.pos.baseX + (self.pos.distanceX * 2),
-            self.pos.baseY + (self.pos.distanceY * 3)
-        )
-
-        love.graphics.draw(
-            WORLD.media.hud.silver,
-            self.pos.baseX + (self.pos.distanceX),
-            self.pos.baseY + (self.pos.distanceY * 4)
-        )
-        love.graphics.draw(
-            WORLD.media.hud.gold,
-            self.pos.baseX + (self.pos.distanceX * 2),
-            self.pos.baseY + (self.pos.distanceY * 4)
-        )
-
-        self:drawPrices()
     end,
     drawFocussedIconBorder = function(self)
         -- set color to red
         love.graphics.setColor(1, 0, 0)
         love.graphics.setLineWidth(self.focussedIconBorderWidth)
-        if 1 <= self.currentRow and self.currentRow <= 5 then
+        if self.currentRow == 0 then
+            if not self.clicked then
+                -- draw red rectangle
+                love.graphics.rectangle(
+                    "line",
+                    self.pos.wallX - self.focussedIconBorderWidth,
+                    self.pos.wallY - self.focussedIconBorderWidth,
+                    self.media.wall:getWidth() + 2 * self.focussedIconBorderWidth,
+                    self.media.wall:getHeight() + 2 * self.focussedIconBorderWidth
+                )
+            end
+        elseif 1 <= self.currentRow and self.currentRow <= 5 then
             -- draw red rectangle
             local _, level, _ = self:getSkillFromRow()
             if level < 3 then
@@ -436,7 +381,9 @@ return {
     end,
     getSkillFromRow = function(self)
         -- Goal: given currentRow, get all relevat info for that skill
-        if self.currentRow == 1 then
+        if self.currentRow == 0 then
+            return "wall", 0, WORLD.player.buySpecialOffer
+        elseif self.currentRow == 1 then
             return "boom", WORLD.player.boomLevel, WORLD.player.lvlUpBoom
         elseif self.currentRow == 2 then
             return "fire", WORLD.player.fireLevel, WORLD.player.lvlUpFire
@@ -449,6 +396,60 @@ return {
         else
             print("skill self.currentRow is not known with value: " .. self.currentRow)
         end
+    end,
+    --findNextClickableIcon = function(self)
+    --    for i = 0, 6 do
+    --        if 
+    --    end
+    --end,
+    drawIconBorders = function(self)
+        -- draw frame borders
+        love.graphics.draw(WORLD.media.hud.silver, self.pos.baseX + (self.pos.distanceX), self.pos.baseY)
+        love.graphics.draw(WORLD.media.hud.gold, self.pos.baseX + (self.pos.distanceX * 2), self.pos.baseY)
+        
+        love.graphics.draw(
+            WORLD.media.hud.silver,
+            self.pos.baseX + (self.pos.distanceX),
+            self.pos.baseY + (self.pos.distanceY)
+        )
+        love.graphics.draw(
+            WORLD.media.hud.gold,
+            self.pos.baseX + (self.pos.distanceX * 2),
+            self.pos.baseY + (self.pos.distanceY)
+        )
+
+        love.graphics.draw(
+            WORLD.media.hud.silver,
+            self.pos.baseX + (self.pos.distanceX),
+            self.pos.baseY + (self.pos.distanceY * 2)
+        )
+        love.graphics.draw(
+            WORLD.media.hud.gold,
+            self.pos.baseX + (self.pos.distanceX * 2),
+            self.pos.baseY + (self.pos.distanceY * 2)
+        )
+
+        love.graphics.draw(
+            WORLD.media.hud.silver,
+            self.pos.baseX + (self.pos.distanceX),
+            self.pos.baseY + (self.pos.distanceY * 3)
+        )
+        love.graphics.draw(
+            WORLD.media.hud.gold,
+            self.pos.baseX + (self.pos.distanceX * 2),
+            self.pos.baseY + (self.pos.distanceY * 3)
+        )
+
+        love.graphics.draw(
+            WORLD.media.hud.silver,
+            self.pos.baseX + (self.pos.distanceX),
+            self.pos.baseY + (self.pos.distanceY * 4)
+        )
+        love.graphics.draw(
+            WORLD.media.hud.gold,
+            self.pos.baseX + (self.pos.distanceX * 2),
+            self.pos.baseY + (self.pos.distanceY * 4)
+        )
     end,
     drawPrices = function(self)
         love.graphics.setFont(WORLD.media.bigfantasyfont)

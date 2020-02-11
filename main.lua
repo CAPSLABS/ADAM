@@ -58,7 +58,7 @@ function LoadMap()
 end
 
 function InitGame(lvl, gamestate)
-    if WORLD.endlessmode ~= true then
+    if not WORLD.endlessmode then
         WORLD.cityHealth = 100
     end
     WORLD.runtime = 0
@@ -69,6 +69,9 @@ function InitGame(lvl, gamestate)
     WORLD.currentLvl = lvl
     WORLD.player.hearts = WORLD.player.maxHearts
     GAMESTATE = gamestate
+
+    -- resets buyable city hp in endlessmode
+    SHOP.clicked = false
 
     if GAMESTATE == 6 then
         love.graphics.setFont(WORLD.media.readfont)
@@ -171,7 +174,6 @@ function love.draw()
     elseif GAMESTATE == 4 then --SHOP
         SHOP:drawShopShit()
         SHOP:broUBroke()
-        SUIT.draw()
     elseif GAMESTATE == 6 then --STORY
         _G.map:draw()
         STORY:update()
@@ -232,11 +234,11 @@ function love.keypressed(key)
         end
     elseif GAMESTATE == 4 then
         if key == "down" then
-            if 1 <= SHOP.currentRow and SHOP.currentRow <= 5 then
+            if 0 <= SHOP.currentRow and SHOP.currentRow <= 5 then
                 SHOP.currentRow = SHOP.currentRow + 1
             end
         elseif key == "up" then
-            if 2 <= SHOP.currentRow and SHOP.currentRow <= 6 then
+            if 1 <= SHOP.currentRow and SHOP.currentRow <= 6 then
                 SHOP.currentRow = SHOP.currentRow - 1
             end
         elseif key == "return" then

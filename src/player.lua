@@ -431,5 +431,15 @@ return {
         self.fireCooldown = PLAYERRAW.fireCooldown
         self.boomCooldown = PLAYERRAW.boomCooldown
         self.goFastCooldown = PLAYERRAW.goFastCooldown
-    end
+    end,
+    -- i know this seems to be an odd place for such a pretty function, but trust me, i can explain!
+    buySpecialOffer = function(self)
+        WORLD.cityHealth = WORLD.cityHealth + (WORLD.cityHealth * SHOP.wallPercMultiplier)
+        if WORLD.cityHealth > WORLD.cityHealthMax then
+            WORLD.cityHealth = WORLD.cityHealthMax
+        end
+        SHOP.clicked = true
+        WORLD:updateHealth()
+        return true
+    end,
 }
