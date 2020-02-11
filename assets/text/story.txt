@@ -122,7 +122,7 @@ WILLIAM: It’s that stupid Christopher Larmowe.
 CHRISTOPHER: AND I WOULD HAVE GOTTEN MY JEWEL, TOO, IF IT WEREN’T FOR YOU MEEDLING KIDS.
 CHRISTOPHER: BEWARE, MY STRONGEST WAVE OF ENEMY APPROACHES!
 ~mountainBattle~MUSIC
-~none~INSTRUCTIONS-
+~none~INSTRUCTIONS
 Christophers ultimate onslaught: Hold the residency for two minutes! -
 ~none~NEXTLEVEL
 ~mountain~MUSIC

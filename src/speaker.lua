@@ -66,7 +66,6 @@ return {
         if self.y > 600 then
             self.y = 600
             self.inAnimation = false
-            print(self.y)
             self.verticalDirection = nil
         end
 

@@ -249,7 +249,6 @@ return {
         elseif extraInfo == "credits" then
             CREDITS:load()
         else
-            print("trigged")
             WORLD.map = WORLD.map + 1
             LoadMap()
         end
@@ -259,5 +258,6 @@ return {
         self.leftSpeakers = {}
         self.rightSpeakers = {}
         love.graphics.setFont(WORLD.media.fantasyfont)
+        print("set to fantasyfont!")
     end
 }
