@@ -1192,7 +1192,7 @@ return {
                 self.media.hudPos.yOffset
             )
         end
-        if self.player.canBurst == true and (self.player.burstLevel ~= 0) then
+        if self.player.canBurst and (self.player.burstLevel ~= 0) then
             love.graphics.draw(
                 self.media.hud.explo,
                 self.media.hudPos.xOffset + (4 * self.media.hudPos.skillDistance),

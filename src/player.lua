@@ -416,6 +416,11 @@ return {
             self.sonicDuration = PLAYERRAW.sonicDuration
             self.currentAcceleration = PLAYERRAW.currentAcceleration
         end
+        if self.bursting then
+            self.bursting = false
+            self.canBurst = true
+            WORLD.exploding = false
+        end
         self.fires = {}
         self.booms = {}
         self.sonicRings = {}
