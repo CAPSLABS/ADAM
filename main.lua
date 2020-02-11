@@ -234,12 +234,24 @@ function love.keypressed(key)
         end
     elseif GAMESTATE == 4 then
         if key == "down" then
-            if 0 <= SHOP.currentRow and SHOP.currentRow <= 5 then
-                SHOP.currentRow = SHOP.currentRow + 1
+            if WORLD.endlessmode then
+                if 0 <= SHOP.currentRow and SHOP.currentRow <= 5 then
+                    SHOP.currentRow = SHOP.currentRow + 1
+                end   
+            else
+                if 1 <= SHOP.currentRow and SHOP.currentRow <= 5 then
+                    SHOP.currentRow = SHOP.currentRow + 1
+                end
             end
         elseif key == "up" then
-            if 1 <= SHOP.currentRow and SHOP.currentRow <= 6 then
-                SHOP.currentRow = SHOP.currentRow - 1
+            if WORLD.endlessmode then
+                if 1 <= SHOP.currentRow and SHOP.currentRow <= 6 then
+                    SHOP.currentRow = SHOP.currentRow - 1
+                end
+            else 
+                if 2 <= SHOP.currentRow and SHOP.currentRow <= 6 then
+                    SHOP.currentRow = SHOP.currentRow - 1
+                end    
             end
         elseif key == "return" then
             -- getSkillFromRow returns the name of the skill in the shop, the according player lvl of that skill, and the lvl function of that skill
@@ -254,7 +266,7 @@ function love.keypressed(key)
                     end
                 end
             else
-                if WORLD.endlessmode == true then
+                if WORLD.endlessmode then
                     WORLD.shoppedThisIteration = true
                     WORLD:nextEndlessMode()
                 else

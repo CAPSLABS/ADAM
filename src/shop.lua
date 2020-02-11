@@ -28,7 +28,7 @@ return {
         distanceY = 80,
         doneX = (WORLD.x / 2),
         doneY = 850,
-        wallX = 55, -- always baseX - 15
+        wallX = 45,
         wallY = 235,
     },
     prices = {
@@ -78,7 +78,6 @@ return {
         -- or else the extra button will not be drawn!
 
         -- Check if boom button of next respective level is hit or hovered
-
         if WORLD.player.boomLevel < 3 then
             local button =
                 SUIT.ImageButton(
@@ -397,10 +396,8 @@ return {
             print("skill self.currentRow is not known with value: " .. self.currentRow)
         end
     end,
+    -- TODO: Quality of life: If skill maxed, then cursor should find next clickable icon and go there
     --findNextClickableIcon = function(self)
-    --    for i = 0, 6 do
-    --        if 
-    --    end
     --end,
     drawIconBorders = function(self)
         -- draw frame borders

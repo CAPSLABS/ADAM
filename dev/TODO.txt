@@ -1,10 +1,8 @@
 - texte überarbeiten für general publique (D)
-- enter to continue (D)
 
 - test balancing of spawn funcs in endless mode (P)
 - latency für airhorn fixen (P)
 - sfx / cooldown feedback (P)
-- menu navigation via keys (P) - is there, but we need to be able to continue at the end of a level
 
 IDEAS: 
 - make lvl 2 - 5 more interesting
