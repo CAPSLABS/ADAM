@@ -1,90 +1,103 @@
-%----------
-char introduction: L and ADAM are in a village, ADAM has a boomerang weapon
-villager arrives and announces goblin attack
-%----------
-
-A quiet day in the life of ADAM, A Distinctively Average Man. Until...
-
+~lilith~MUSIC
+A quiet day in the life of ADAM, A Distinctively Average Man. 
+Until...
+~adam~RIGHT
+~lilith~LEFT
 ADAM: Lilith Lilith Lilith look what I have!!!
-LILITH: Aw did you find a cheap plastic boomerang in the forest?
-LILITH: Did you?? Who is a good boy!!
+LILITH: Aw did you find a cheap plastic boomerang in the forest? Did you?? Who is a good boy? 
 ADAM: Yes! I can throw this plastic boomerang by pressing ’A’ and then a copy reappears in my hands!
 ADAM: I got it from a weird old guy in the forest for ALL OF OUR MONEY
 LILITH: ...
 LILITH: NO!! BAD BOY!!!
 ADAM: I can finally have my dream adventure! Kill all the monsters!
 LILITH: There are no monsters in this village you idiot!
+~lilith~EXIT
+~villager~LEFT
+~lilith~RIGHT
 VILLAGER: Actually, I happen to be dying of monsters.
-LILITH: You don't sound like it
+LILITH: You don’t sound like it
 VILLAGER: -clears throat- ARGH! I am dying of monsters!!
 ADAM: N I C E 
 ~none~INSTRUCTIONS
 Kill ten enemies who are attacking the village!
-
+~villageBattle~MUSIC
 ~none~NEXTLEVEL
-%----------
-ADAM becomes adam properly, SAGE gets in the story, explain money
-%----------
-
+~lilith~MUSIC
+~adam~RIGHT
 ADAM: I am Awesome!
+~lilith~LEFT
 LILITH: Where did the monsters come from?!
+~adam~TURN
 ADAM: I am a Defender!!
 LILITH: Why did they attack us??!?
+~adam~TURN
 ADAM: I am an Action Murderer!!!
+~adam~TURN
+ADAM: !!!
+~adam~TURN
 ADAM: AWESOME DEFENDER ACTION MURDERER!!!
 LILITH: Why did they conveniently leave money on the ground after being slain??
-ADAM: C
-ool! We can get more stuff from old weird forest dude!
+ADAM: Cool! Money! We can get more stuff from old weird forest dude!
 ~shop~MUSIC
 ~none~SAGE
 ~villager~LEFT
 ~adam~RIGHT
 VILLAGER: ADAM quick! There is more of them!
-
 ~villageBattle~MUSIC
 ~none~INSTRUCTIONS
-Stop the goblins from destroying the village for two minutes!
-
-
+Stop the goblins from destroying the village!
 ~none~NEXTLEVEL
 ~shop~MUSIC
 ~none~SAGE
+~lilith~LEFT
+~adam~RIGHT
 ADAM: Whew who knew fighting monsters was tiring
 LILITH: You did a super good job, here, have a snack
+~adam~TURN
+ADAM: !!!
+~adam~TURN
 ADAM: -munches happily-
+~william~MUSIC
+~william~LEFT
+~lilith~EXIT
+~lilith~RIGHT
 WILLIAM: Sacrè Bleaoueux, you two saved my villàge! 
-LILITH: Oh no our landlord! And we don't have any money!
+LILITH: Oh no our landlord! And we don’t have any money!
 WILLIAM. Let me introduce le myself, I am William...
-ADAM: -still munching- 'e know 'ho you a'e
+ADAM: -still munching- ’e know ’ho you a’e
 WILLIAM: Cormanthor. . .
 LILITH: You own the entire village and are the richest person ever
 WILLIAM: Salamancoliòn.  .   .
-VILLAGER: Plus there are like 4 people in this village
+~villager~RIGHT
+VILLAGER: Plus, there are like, only 4 people in this village...
 WILLIAM: Shakespear!! And I want to hire you to investigate this attacks!
 WILLIAM: And to protect my jewel that gives infinite wealth
 LILITH: Your what that what now
-WILLIAM: IT'S À SECRÈT
+WILLIAM: IT’S À SECRÈT
 ADAM: Maybe if I hit the monsters really hard they will give me hints!!
 ~villageBattle~MUSIC
 ~none~INSTRUCTIONS
 Figure out what is going on by collecting ten hints! 
-
-
 ~none~NEXTLEVEL
-%----------
-they move location and go to the CASTLE
-%----------
 ~shop~MUSIC
 ~none~SAGE
+~lilith~RIGHT
+~adam~RIGHT
+~adam~TURN
+LILITH: ...
 LILITH: How did that even work...
 ADAM: Well Lilith you have to hit the monsters really hard
 ADAM: And then hints come out
-LILITH: This game doesn't make any sense
+LILITH: This game doesn’t make any sense
+~sage~LEFT
+~adam~TURN
 SAGE: For this many hints I can tell you this:
 SAGE: These are clearly the pawns of the goblin king! 
 SAGE: He lives in the mountains and loves money! 
 SAGE: Something with Money Power must have awakened him...
-LILITH: This game isn't even trying anymore
+LILITH: This game isn’t even trying anymore
+~william~LEFT
+~sage~EXIT
 WILLIAM: My jèwel! We need to go to my chàteaueux to protect it!
 (after a few hours of travelling)
 ~mountain~MUSIC
@@ -94,3 +107,4 @@ ADAM: Oh no!! other monsters!
 ~mountainBattle~MUSIC
 ~none~INSTRUCTIONS
 Kill ten new enemies who are destroying the residency!
+~none~NEXTLEVEL
