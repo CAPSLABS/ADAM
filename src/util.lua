@@ -12,16 +12,12 @@ function Shallowcopy(orig)
   return copy
 end
 
-local open = io.open
-
 function Read_file(path)
-  local file = open(path, "rb") -- r read mode and b binary mode
-  if not file then
-    return nil
-  end
-  local content = file:read "*a" -- *a or *all reads the whole file
+  local file = love.filesystem.newFile(path)
+  file:open("r")
+  local data = file:read()
   file:close()
-  return content
+  return data
 end
 
 function Split(s, sep)

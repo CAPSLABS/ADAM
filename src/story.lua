@@ -61,7 +61,7 @@ return {
         }
     },
     loadStory = function(self)
-        local raw = Read_file("assets/text/story.txt")
+        local raw = Read_file("/assets/text/story.txt")
         self.storyText = Split(raw, "\n")
         self:loadSpeakerObjects()
         self.loaded = true
@@ -249,7 +249,6 @@ return {
         elseif extraInfo == "credits" then
             CREDITS:load()
         else
-            print("trigged")
             WORLD.map = WORLD.map + 1
             LoadMap()
         end

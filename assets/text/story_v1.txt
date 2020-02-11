@@ -1,0 +1,204 @@
+~lilith~MUSIC
+A quiet day in the village of our hero, ADAM. One morning, ADAM went to his grandmas attic and was excited to find a treasure chest.
+~adam~RIGHT
+ADAM: Look what I’ve found! 
+ADAM: I can throw this plastic boomerang by pressing ’A’ and then a copy reappears in my hands!
+~lilith~LEFT
+LILITH: Doesn’t that pollute the environment?
+~lilith~TURN
+LILITH: Oh, what is this?!
+~lilith~EXIT
+~villager~LEFT
+VILLAGER: ARGH! HELP! I am dying!
+~lilith~RIGHT
+LILITH: Is that the sound of a dying giraffe?
+VILLAGER: -clears throat- I am dying!!!
+~villageBattle~MUSIC
+~none~INSTRUCTIONS
+Kill ten enemies who are attacking the village!
+~none~NEXTLEVEL
+~lilith~MUSIC
+~adam~RIGHT
+ADAM: Wow! That was close! 
+ADAM: I never thought I could be an Awesome Defender Action Murderer.
+~lilith~LEFT
+LILITH: Wow! So much pollution! Did you find out why they attacked us?
+ADAM: No. They just ran at us.
+LILITH: Well, did you ask them?
+ADAM: No. And I am afraid there will be more.
+~villager~LEFT
+VILLAGER: Oh No! What do we do?!
+LILITH: I know of a sage who can teach you how to really be an Awesome Defender Action Murderer, ADAM!
+~shop~MUSIC
+~none~SAGE
+~villager~LEFT
+~adam~RIGHT
+VILLAGER: OH GOD! THERE’S MORE GOBLINS! SO MANY!
+~villageBattle~MUSIC
+~none~INSTRUCTIONS
+Stop the goblins from destroying the village for two minutes!
+~none~NEXTLEVEL
+~shop~MUSIC
+~none~SAGE
+~william~MUSIC
+~william~LEFT
+~lilith~RIGHT
+WILLIAM: Bonjour, Lilith, belle Lilith! Merci for your help! 
+WILLIAM: I am William ...
+WILLIAM: Cormanthor ...
+WILLIAM: Shearspake . . . 
+LILITH: We have ADAM to thank for being an AWESOME DEFENDER.
+~adam~RIGHT
+ADAM: ACTION MURDERER!
+LILITH: Yes...
+LILITH: Say, William, you never work, how come you are so ...
+WILLIAM: Dashing?
+LILITH: No, rich!
+UNKNOWN: Because of the JEWEL, you bafoons!
+LILITH, WILLIAM, ADAM: Who speaks there?
+WILLIAM: I know this voice from somewhere... 
+WILLIAM: Sacre Bleu! More enemies! Maybe they carry hints on what is going on?
+~villageBattle~MUSIC
+~none~INSTRUCTIONS
+Figure out what is going on by collecting ten hints! 
+~none~NEXTLEVEL
+~shop~MUSIC
+~none~SAGE
+~william~MUSIC
+~william~LEFT
+~lilith~RIGHT
+WILLIAM: The minting on those coins. They have been paid by... 
+WILLIAM: Could it be??? No!
+LILITH: What is that JEWEL that voice was talking about earlier?
+WILLIAM: If they are after my jewels, they will attack my residency in the mountains.
+WILLIAM: Quick! We have to go there!
+(after a few hours of travelling)
+~mountain~MUSIC
+~none~MAPCHANGE
+WILLIAM: My chateu is just over there! But, what is this?!
+WILLIAM: Oh no, they are already coming!!!
+~mountainBattle~MUSIC
+~none~INSTRUCTIONS
+Kill ten new enemies who are destroying the residency!
+~none~NEXTLEVEL
+~shop~MUSIC
+~sage~LEFT
+~adam~RIGHT
+SAGE: I decided to tag along, so that I can ...
+~lilith~RIGHT
+LILITH: Get more coin?
+SAGE: ...train ADAM!
+~none~SAGE
+~mountain~MUSIC
+~william~LEFT
+~adam~RIGHT
+~lilith~RIGHT
+WILLIAM: My Jewel! It’s still here! Dieu merci!!!
+LILITH: Why would they want to steal your jewel? It’s only a status symbol.
+WILLIAM: Obviously because the jewels is the key to infinite wealth!!! HAHAHAHAHAHA
+LILITH: ...
+WILLIAM: Just kidding! It’s a family heirloom.
+LILITH: ...
+WILLIAM: And maybe it produces a little wealth, every now and then?
+LILITH: ...
+ADAM: Brb, more zombies incoming
+~mountainBattle~MUSIC
+~none~INSTRUCTIONS
+Stop the enemies from destroying the residency for two minutes! 
+~none~NEXTLEVEL
+~shop~MUSIC
+~none~SAGE
+~mountain~MUSIC
+~adam~RIGHT
+~lilith~RIGHT
+ADAM: I’m Back’ 
+LILITH: Welcome back. William, you said you knew where those weird coins come from.
+LILITH: Who is paying this onslaught?
+?: ME, you fools! The great...
+~christopher~LEFT
+CHRISTOPHER: Me!
+~william~RIGHT
+WILLIAM: It’s that stupid Christopher Larmowe.
+CHRISTOPHER: AND I WOULD HAVE GOTTEN MY JEWEL, TOO, IF IT WEREN’T FOR YOU MEEDLING KIDS.
+CHRISTOPHER: BEWARE, MY STRONGEST WAVE OF ENEMY APPROACHES!
+~mountainBattle~MUSIC
+~none~INSTRUCTIONS
+Christophers ultimate onslaught: Hold the residency for two minutes! -
+~none~NEXTLEVEL
+~mountain~MUSIC
+~adam~RIGHT
+ADAM: We need to stop this. Where are these monsters coming from?
+LILITH: CHRISTOPHER has paid them to attack us. He is after the jewel.
+WILLIAM: We could ask the sage where he is. He helps everyone for the right amount of coins!
+ADAM: True...
+~shop~MUSIC
+~none~SAGE
+~sage~RIGHT
+~adam~RIGHT
+SAGE: By the way! You are a good customer, so I will give you a hint.
+SAGE: CHRISTOPHER is in the cave behind the mountains.
+SAGE: But I am afraid you will have to buy my best moves if you want to stand a chance against him.
+And so, our band of heroes travels to the cave!
+~none~MAPCHANGE
+~cave~MUSIC
+~william~LEFT
+WILLIAM: Wow! What a scary place.
+~adam~RIGHT
+ADAM: Just shut up.
+~lilith~LEFT
+LILITH: Why the aggression? Maybe you are not a murderer, maybe you are just an ASSHOLE.
+ADAM: I am also not a DEFENDER anymore, I am an ATTACKER
+LILITH: That makes you an AWESOME ATTACKER ACTION ASSHOLE, or short
+WILLIAM: AAAA!
+LILITH: Correct!
+WILLIAM: [...] AAARGH... MORE ENEMIES!’ 
+~caveBattle~MUSIC
+~none~INSTRUCTIONS
+Kill ten new enemies who are trying to stop you!
+~none~NEXTLEVEL
+~shop~MUSIC
+~none~SAGE
+~cave~MUSIC
+Restlessly, AAAA and his friends fought their way through the cave, until they reached a heavy door.
+~adam~LEFT
+~william~RIGHT
+ADAM: ’ This is it. Here he is.’ 
+WILLIAM: ’ I always knew, CHRISTOPHER was a good-for-nothing. Let’s end this!’ 
+~caveBattle~MUSIC
+~none~INSTRUCTIONS
+Destroy the heavy door to get to Christopher!
+~none~NEXTLEVEL
+~shop~MUSIC
+~none~SAGE
+~cave~MUSIC
+~christopher~LEFT
+~adam~RIGHT
+CHRISTOPHER: So, you found me. 
+CHRISTOPHER: This is where I would hold a lengthy monologue revealing my evil plan, but you already figured me out.
+ADAM: I will stop you. I am AAAA
+CHRISTOPHER: But first, you got to stop my strongest ally. 
+CHRISTOPHER: The troll king! ! !
+~finalBattle~MUSIC
+~none~INSTRUCTIONS
+THE TROLL KING ! ! !
+~none~NEXTLEVEL
+~shop~MUSIC
+~none~SAGE
+~special~MAPCHANGE
+And so, ADAM became AAAA and stopped Christopher. 
+In the heat of the battle, the JEWEL got destroyed. 
+But the village was safe once again. 
+~lilith~LEFT
+~adam~RIGHT
+LILITH: What a bummer, the wealth producing jewel would’ve been a nice reward. 
+LILITH: It seems like it’s over and it was all without gain.
+ADAM: Yeah. The jewel is an insane treasure... 
+ADAM: But in this cave full of monsters, the four of us...
+~sage~LEFT
+~william~LEFT
+ADAM:  found an even more precious treasure: 
+ADAM: The treasure of friendship!
+SAGE: -winks- The real treasure is the money we made on the way.
+And so, AAAA returned home richer than ever before: With friends.
+~credits~MAPCHANGE
+bla

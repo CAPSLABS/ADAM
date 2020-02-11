@@ -1,6 +1,0 @@
-- the first time in endless mode, when you transition into the sage mode at the end of the timer, the button is immidiaely registered as hit
-and calls all subsequent function (before it is actually hit...) - in following iterations this is not the case
-
-- not on all occasions does the font flip to the explanation mode ("kill 10 x in reg font)
-
-- when starting the game from a higher directory (ie, "love awesomedefenderactionmurderer" instead of love ., the game cant find any assets)
