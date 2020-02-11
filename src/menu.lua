@@ -3,7 +3,6 @@
 --		@date 4.8.2019
 --		@authors David, Phil
 --]]
-
 return {
     -- Whether F has been pressed in the game over screen
     respectPaid = false,
@@ -18,13 +17,16 @@ return {
     currentButtonId = 1,
     focussedButtonBorderWidth = 5,
     ----------------- UPDATING -----------------
-    decreaseVolume = function(self,dt)
-        if MENU.currentButtonId == 4 and MENU.slider.value - 0.1 > 0 then
+    decreaseVolume = function(self, dt)
+        if MENU.currentButtonId == 4 then
             MENU.slider.value = MENU.slider.value - 0.1
             MUSIC:changeVolume(MENU.slider.value)
+            if MENU.slider.value < 0 then
+                MENU.slider.value = 0
+            end
         end
     end,
-    increaseVolume = function(self,dt)
+    increaseVolume = function(self, dt)
         if MENU.currentButtonId == 4 and MENU.slider.value + 0.1 < 1 then
             MENU.slider.value = MENU.slider.value + 0.1
             MUSIC:changeVolume(MENU.slider.value)
@@ -41,13 +43,13 @@ return {
     end,
     -- Menu after pressing enter on title screen once - controls using mouse
     mainMenu = function(self)
-        if SUIT.ImageButton(WORLD.media.hud.borderSmall, {id=1}, self:getBorderX(), self:getBorderY(1)).hit then
+        if SUIT.ImageButton(WORLD.media.hud.borderSmall, {id = 1}, self:getBorderX(), self:getBorderY(1)).hit then
             self:startGame()
-        elseif SUIT.ImageButton(WORLD.media.hud.borderSmall, {id=2}, self:getBorderX(), self:getBorderY(2)).hit then
+        elseif SUIT.ImageButton(WORLD.media.hud.borderSmall, {id = 2}, self:getBorderX(), self:getBorderY(2)).hit then
             WORLD.endlessmode = true
             MUSIC:startMusic("villageBattle")
             InitGame(10, 2)
-        elseif SUIT.ImageButton(WORLD.media.hud.borderSmall, {id=3}, self:getBorderX(), self:getBorderY(3)).hit then
+        elseif SUIT.ImageButton(WORLD.media.hud.borderSmall, {id = 3}, self:getBorderX(), self:getBorderY(3)).hit then
             CREDITS:load()
         end
         MUSIC:changeVolume(self.slider.value)
@@ -62,7 +64,7 @@ return {
     checkDebugInput = function(self)
         if DEBUG then
             -- cannot have STORY.firstLvl = false here and STORY.firstLvl = true for lvl 1 because the explosion
-            -- animation of the beginning lets us call this function during the animation, setting STORY.firstLvl to 
+            -- animation of the beginning lets us call this function during the animation, setting STORY.firstLvl to
             -- false if don't hold the button 1 pressed
             if love.keyboard.isDown("1") then
                 self:startGame()
@@ -130,9 +132,9 @@ return {
                 STORY:mapchange()
                 InitGame(8, 6)
             elseif love.keyboard.isDown("s") then
+                --elseif love.keyboard.isDown("l") then
+                --    GAMESTATE = 7
                 GAMESTATE = 4
-            --elseif love.keyboard.isDown("l") then
-            --    GAMESTATE = 7
             elseif love.keyboard.isDown("0") then
                 InitGame(1, 6)
             end
@@ -215,7 +217,7 @@ return {
         end
     end,
     drawFocussedButtonBorder = function(self)
-        love.graphics.setColor(1,0,0)
+        love.graphics.setColor(1, 0, 0)
         if 0 < self.currentButtonId and self.currentButtonId < 4 then
             love.graphics.rectangle(
                 "fill",
@@ -235,7 +237,7 @@ return {
         else
             print("Drawing currentButtonId " .. self.currentButtonId .. " failed.")
         end
-        love.graphics.setColor(255,255,255)
+        love.graphics.setColor(255, 255, 255)
     end,
     writeButtons = function(self)
         love.graphics.printf(
