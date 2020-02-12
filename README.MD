@@ -1,8 +1,9 @@
 Welcome to ADAM, the **A**wesome **D**efender **A**ction **M**urderer Game
 
 
-I used [TILED](https://www.mapeditor.org/) for creating the levels. 
+We used [TILED](https://www.mapeditor.org/) for creating the levels. 
 Art is taken from [OpenGameArt](https://opengameart.org/). (see Attribution.txt for details)
+This game is build using the [LÖVE](https://love2d.org/) framework and is written in [Lua](https://www.lua.org/) 5.3
 
 This is a Work in progress! 
 
@@ -11,30 +12,38 @@ The game published under GNU GPLv3, so feel free to copy and modify the code as 
 
 How to install and play this, you ask?
 
+### LINUX
 
-## From scratch: download source and requirements:
 In terminal, do:  
 
 `git clone https://gitlab.com/DavidLeonardWenzel/awesomedefenderactionmurderer.git`
 
+If you have LUA and LOVE installed skip the following steps, otherwise to install LUA and LOVE do:    
 
-If you have LUA and LOVE installed skip the following steps, otherwise do:    
 **ARCH:**  
 `sudo pacman -S lua`  
 `sudo pacman -S love`  
+
 **UBUNTU:**   
 `sudo apt install lua5.3`    
-The following command should allow you to get the latest stable version:  
-(which is usually newer than the default apt-package)  
+The following command should allow you to get the latest stable version of love (which is usually newer than the default apt-package):
 `sudo add-apt-repository ppa:bartbes/love-stable`  
 `sudo apt-get update`  
 `sudo apt install love`
 
-**WINDOWS:**  
-[please see the instructions for downloading LÖVE and running games here](https://love2d.org/wiki/Getting_Started). 
-After downloading LÖVE you can download the game folder and drag it on top of the love.exe!
-
-## Run the game in Terminal:  
+Then, to run the game in the terminal:
 `cd awesomedefenderactionmurderer`  
 `love .`
 
+### WINDOWS
+
+For Windows we have created a .exe file that can be downloaded from gitlab. 
+1. Visit [https://gitlab.com/DavidLeonardWenzel/awesomedefenderactionmurderer/-/tree/master/bin](https://gitlab.com/DavidLeonardWenzel/awesomedefenderactionmurderer/-/tree/master/bin). You should see some .dll files, as well as ADAM.exe.
+2. On the site in the upper right corner there is a download symbol. Click on it.
+3. Download the source folder as a .zip file.
+4. Unpack the .zip file.
+5. Start ADAM.exe to play!
+
+### MAC
+
+We do not support Mac yet.

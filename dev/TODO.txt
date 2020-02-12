@@ -2,6 +2,8 @@
 - latency für airhorn fixen (P)
 - sfx / cooldown feedback (P)
 
+- README UPDATEN
+
 IDEAS: 
 - make lvl 2 - 5 more interesting
 - animate fire
@@ -14,3 +16,4 @@ IDEAS:
 - pause menu for volume change
 - tutorial
 - if game finished, then on title screen player and lilith and pierre walk randomly instead 
+- randomize which title possibility is displayed in title screen (average/awesome/asshole)
