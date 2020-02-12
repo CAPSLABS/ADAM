@@ -442,5 +442,5 @@ return {
         SHOP.clicked = true
         WORLD:updateHealth()
         return true
-    end,
+    end
 }
