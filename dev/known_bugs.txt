@@ -1,0 +1,6 @@
+- shop: screenshake missing - DONE
+- shop: skill description missing when selecting with keys
+- shop: category never resets
+- shop: free of charge heals city completely instead of 30%
+- shader reset
+- shop: diverging behaviour during buying city hp when selecting via keys and selecting via mouse

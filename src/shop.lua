@@ -320,6 +320,7 @@ return {
     end,
     drawShopShit = function(self)
         self:drawBackground()
+        self:broUBroke()
         self:drawFocussedIconBorder()
         SUIT.draw()
         if WORLD.endlessmode then

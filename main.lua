@@ -173,7 +173,6 @@ function love.draw()
         love.graphics.print("Press F to pay respect.", 100, 200)
     elseif GAMESTATE == 4 then --SHOP
         SHOP:drawShopShit()
-        SHOP:broUBroke()
     elseif GAMESTATE == 6 then --STORY
         _G.map:draw()
         STORY:update()
