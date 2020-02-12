@@ -40,7 +40,8 @@ return {
         burst = {30, 300, 300}
     },
     currentRow = 1,
-    hovered = {false, false, false, false, false, false}, -- one for each button
+    -- one for each button: BEWARE last one is for the wall button, but is connected with currentRow = 0
+    hovered = {false, false, false, false, false, false, false}, 
     loadBacking = function(self)
         for key, img in pairs(self.media) do
             self.media[key] = love.graphics.newImage(img)
@@ -267,10 +268,15 @@ return {
         end
         love.graphics.setFont(WORLD.media.fantasyfont)
         SUIT.Label("TODAYS SPECIAL:\n" .. self.wallPerc .. " % CITY HEALTH!\n" .. self.specialText, 0, 250, 450, 0)
-        if SUIT.ImageButton(self.media.wall, self.pos.wallX, self.pos.wallY).hit then
+        local button = SUIT.ImageButton(self.media.wall, self.pos.wallX, self.pos.wallY)
+        if button.hit then
             self.clicked = true
             SHOP:buy(self.prices.wall[1])
             WORLD.player:buySpecialOffer()
+        end
+        self.hovered[7] = button.hovered or (self.currentRow == 0)
+        if self.hovered[7] then
+            self.currentRow = 0
         end
     end,
     setWallCategory = function(self)
