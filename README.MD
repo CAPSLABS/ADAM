@@ -28,14 +28,15 @@ The following command should allow you to get the latest stable version of LÖVE
 `sudo apt-get update`  
 `sudo apt install love`
 
-Then, to run the game in the terminal:
+Then, to run the game in the terminal:  
 `cd awesomedefenderactionmurderer`  
 `love .`
 
 ### WINDOWS
 
 For Windows we have created an .exe file that can be downloaded from gitlab. 
-1. Visit [https://gitlab.com/DavidLeonardWenzel/awesomedefenderactionmurderer/-/tree/master/bin](https://gitlab.com/DavidLeonardWenzel/awesomedefenderactionmurderer/-/tree/master/bin). You should see some .dll files, as well as ADAM.exe.
+1. Visit [https://gitlab.com/DavidLeonardWenzel/awesomedefenderactionmurderer/-/tree/master/bin](https://gitlab.com/DavidLeonardWenzel/awesomedefenderactionmurderer/-/tree/master/bin).  
+    You should see some .dll files, as well as ADAM.exe.
 2. On the site in the upper right corner there is a download symbol. Click on it.
 3. Download the source folder as a .zip file.
 4. Unpack the .zip file. Go into the extracted folder named 'ADAM'.
