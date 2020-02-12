@@ -94,7 +94,6 @@ function love.update(dt)
     if GAMESTATE == 1 then --MENU
         if MENU.gameOpenFadeIn then
             local done = FADER:fadeIn(dt)
-            print(FADER.alpha)
             if done then
                 MENU.gameOpenFadeIn = false
             end
