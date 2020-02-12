@@ -280,14 +280,15 @@ function love.keypressed(key)
                 end
             end
         end
+    elseif GAMESTATE == 6 then
+        if key == "return" and GAMESTATE == 6 then
+            STORY:processNextLine()
+        end
     end
 end
 
 function love.keyreleased(key)
     if key == "escape" then
         love.event.quit()
-    end
-    if key == "return" and GAMESTATE == 6 then
-        STORY:processNextLine()
     end
 end
