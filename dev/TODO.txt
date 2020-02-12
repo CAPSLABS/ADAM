@@ -1,5 +1,3 @@
-- texte überarbeiten für general publique (D)
-
 - test balancing of spawn funcs in endless mode (P)
 - latency für airhorn fixen (P)
 - sfx / cooldown feedback (P)

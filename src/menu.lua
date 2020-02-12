@@ -16,6 +16,10 @@ return {
     -- The id of the SUIT widget we are currently focussing
     currentButtonId = 1,
     focussedButtonBorderWidth = 5,
+    a = nil,
+    d = nil,
+    a2 = nil,
+    m = nil,
     ----------------- UPDATING -----------------
     decreaseVolume = function(self, dt)
         if MENU.currentButtonId == 4 then
@@ -176,13 +180,32 @@ return {
         WORLD.player.bursting = true
         WORLD.exploding = true
     end,
+    setTitle = function(self)
+        local rand = math.random(0, 2)
+        if rand == 0 then
+            self.a = "A - wesome"
+            self.d = "D - efender"
+            self.a2 = "A - ction"
+            self.m = "M - urderer"
+        elseif rand == 1 then
+            self.a = "A"
+            self.d = "D - istinctively"
+            self.a2 = "A - verage"
+            self.m = "M - an"
+        elseif rand == 2 then
+            self.a = "A - wesome"
+            self.d = "A - ttacker"
+            self.a2 = "A - ction"
+            self.m = "A - sshole"
+        end
+    end,
     ----------------- DRAWING -----------------
     drawTitle = function(self)
         love.graphics.setFont(WORLD.media.bigfantasyfont)
-        love.graphics.print("A - wesome", 115, 250)
-        love.graphics.print("D - efender", 115, 300)
-        love.graphics.print("A - ction", 115, 350)
-        love.graphics.print("M - urderer", 115, 400)
+        love.graphics.print(self.a, 105, 250)
+        love.graphics.print(self.d, 105, 300)
+        love.graphics.print(self.a2, 105, 350)
+        love.graphics.print(self.m, 105, 400)
         love.graphics.print("Press ENTER!", 100, 600)
     end,
     drawDebugMenu = function(self)
