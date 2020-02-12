@@ -9,7 +9,6 @@ return {
     speakerXLeft = -55,
     speakerXRight = 290,
     currentLine = "",
-    canGoOn = true,
     parsed = false,
     loaded = false,
     firstLvl = true,
@@ -77,11 +76,6 @@ return {
             -- here self.cast[key] are the correct, different objects, for eg lilith has the values of lilith
         end
     end,
-    keyUpdate = function(self, key)
-        if key == "return" then
-            self.canGoOn = true
-        end
-    end,
     update = function(self, dt)
         for name, each_speaker in pairs(self.leftSpeakers) do
             if each_speaker.inAnimation then
@@ -94,18 +88,8 @@ return {
             end
         end
     end,
-    updateStory = function(self, dt)
-        if love.keyboard.isDown("return") then
-            if self.canGoOn then
-                self.canGoOn = false
-                self:processNextLine()
-            end
-        end
-    end,
     processNextLine = function(self)
-        print(self.storyIndex)
         local line = self.storyText[self.storyIndex]
-        print(line)
         local identifier = string.sub(line, 1, 1)
         if identifier == "~" then
             self:parse(line)
@@ -241,7 +225,6 @@ return {
     prepareNextStep = function(self)
         self.leftSpeakers = {}
         self.rightSpeakers = {}
-        self.canGoOn = true
         self.currentLine = ""
     end,
     mapchange = function(self, extraInfo)

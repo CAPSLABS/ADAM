@@ -128,7 +128,7 @@ function love.update(dt)
         WORLD:updateEnemies(dt)
         WORLD:updateExplosion(dt, 240, 850, WORLD.media["explosion"].maxRuntime)
     elseif GAMESTATE == 6 then --STORY
-        STORY:updateStory(dt)
+        STORY:update()
     elseif GAMESTATE == 7 then --CREDITS
         CREDITS:update(dt)
     end
@@ -176,7 +176,6 @@ function love.draw()
         SHOP:broUBroke()
     elseif GAMESTATE == 6 then --STORY
         _G.map:draw()
-        STORY:update()
         STORY:drawStory()
     elseif GAMESTATE == 7 then --CREDITS
         love.graphics.setColor(255, 255, 255, FADER.alpha)
@@ -285,7 +284,7 @@ function love.keyreleased(key)
     if key == "escape" then
         love.event.quit()
     end
-    if GAMESTATE == 6 then
-        STORY:keyUpdate(key)
+    if key == "return" and GAMESTATE == 6 then
+        STORY:processNextLine()
     end
 end
