@@ -78,10 +78,8 @@ function InitGame(lvl, gamestate)
     if GAMESTATE == 6 then
         love.graphics.setFont(WORLD.media.readfont)
         if STORY.loaded == false then
-            print("main: loadstory")
             STORY:loadStory()
         else
-            print("main: processNextLine")
             STORY:processNextLine()
         end
     end
@@ -281,7 +279,7 @@ function love.keypressed(key)
             end
         end
     elseif GAMESTATE == 6 then
-        if key == "return" and GAMESTATE == 6 then
+        if key == "return" then
             STORY:processNextLine()
         end
     end
