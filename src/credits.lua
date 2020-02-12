@@ -9,7 +9,6 @@ return {
     timerTillNextLineMax = 1,
     scrollSpeed = 1.7, --multiplier for text movin up
     currentLinesDisplayed = {}, --remove and add lines here, these are getting drawn
-    --maybe make them an object containin text and y pos and center everything?
     load = function(self)
         if not self.loaded then
             GAMESTATE = 7
@@ -25,7 +24,9 @@ return {
             local done = FADER:fadeToBlack(dt)
             if done then
                 love.graphics.setFont(WORLD.media.bigreadfont)
+                love.graphics.setColor(255, 255, 255, 1)
                 self.fade2BlackDone = true
+
                 FADER.alpha = 1
             end
         elseif not self.rollingDone then
@@ -46,7 +47,8 @@ return {
             self.scrollSpeed = 1.7
             self.currentLinesDisplayed = {}
             MUSIC:startMusic("mainMenu")
-            MENU.gameOpenFadeIn = false
+            MENU.gameOpenFadeIn = true
+            FADER.alpha = 0
             love.graphics.setFont(WORLD.media.bigfantasyfont) --this should probably be triggered upon transitioning to GAMESTATE 1
             GAMESTATE = 1
         end
@@ -74,6 +76,11 @@ return {
         end
     end,
     draw = function(self)
+        if not self.fade2BlackDone then
+            _G.map:draw()
+            --WORLD:drawEnemyStuff()
+            love.graphics.setColor(255, 255, 255, FADER.alpha)
+        end
         for i, line in ipairs(self.currentLinesDisplayed) do
             love.graphics.printf(line.text, 20, line.y, WORLD.x - 50, "center")
         end

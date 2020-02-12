@@ -71,18 +71,18 @@ return {
             elseif love.keyboard.isDown("2") then
                 STORY.firstLvl = false
                 WORLD.player:lvlUpFire()
-                STORY.storyIndex = 20
+                STORY.storyIndex = 25
                 InitGame(1, 6)
             elseif love.keyboard.isDown("3") then
                 STORY.firstLvl = false
-                STORY.storyIndex = 41
+                STORY.storyIndex = 50
                 WORLD.player:lvlUpFire()
                 WORLD.player:lvlUpBerserk()
                 WORLD.player:lvlUpFast()
                 InitGame(2, 6)
             elseif love.keyboard.isDown("4") then
                 STORY.firstLvl = false
-                STORY.storyIndex = 65
+                STORY.storyIndex = 82
                 WORLD.player:lvlUpBoom()
                 WORLD.player:lvlUpFire()
                 WORLD.player:lvlUpFire()
@@ -91,7 +91,7 @@ return {
                 InitGame(3, 6)
             elseif love.keyboard.isDown("5") then
                 STORY.firstLvl = false
-                STORY.storyIndex = 84
+                STORY.storyIndex = 111
                 STORY:mapchange()
                 WORLD.player:lvlUpBoom()
                 WORLD.player:lvlUpFire()
@@ -103,7 +103,7 @@ return {
                 InitGame(4, 6)
             elseif love.keyboard.isDown("6") then
                 STORY.firstLvl = false
-                STORY.storyIndex = 109
+                STORY.storyIndex = 133
                 STORY:mapchange()
                 WORLD.player:lvlUpBoom()
                 WORLD.player:lvlUpFire()
@@ -116,18 +116,18 @@ return {
                 InitGame(5, 6)
             elseif love.keyboard.isDown("7") then
                 STORY.firstLvl = false
-                STORY.storyIndex = 128
+                STORY.storyIndex = 162
                 STORY:mapchange()
                 InitGame(6, 6)
             elseif love.keyboard.isDown("8") then
                 STORY.firstLvl = false
-                STORY.storyIndex = 159
+                STORY.storyIndex = 197
                 STORY:mapchange()
                 STORY:mapchange()
                 InitGame(7, 6)
             elseif love.keyboard.isDown("9") then
                 STORY.firstLvl = false
-                STORY.storyIndex = 171
+                STORY.storyIndex = 214
                 STORY:mapchange()
                 STORY:mapchange()
                 InitGame(8, 6)

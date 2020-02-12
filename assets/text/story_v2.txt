@@ -54,7 +54,7 @@ Stop the goblins from destroying the village!
 ADAM: Whew who knew fighting monsters was tiring
 LILITH: You did a super good job, here, have a snack
 ~adam~TURN
-ADAM: *haps*
+ADAM: -chomp-
 ~adam~TURN
 ADAM: -munches happily-
 ~william~MUSIC
@@ -121,7 +121,7 @@ SAGE: I know what will cheer you up! Buy more stuff!!
 LILITH: Did you follow us all the way here?
 SAGE: of course! ADAM is my favourite costumer!
 SAGE: ...my only costumer
-SAGE: ...ok, people just don't buy murder weapons like they used to
+SAGE: ...ok, people just don’t buy murder weapons like they used to
 LILITH: ok boomer
 ~sage~EXIT
 ~william~LEFT
@@ -133,11 +133,11 @@ Stop the enemies from destroying the residency for two minutes!
 ~lilith~LEFT
 ~adam~RIGHT
 LILITH: They just keep coming...
-ADAM: I really dont like the zombies
+ADAM: I really don’t like the zombies
 LILITH: Aw, do you want another treat?
-ADAM: Yes but don't patronize me I'm tired
+ADAM: Yes but don’t patronize me I’m tired
 ~adam~TURN
-ADAM: *haps*
+ADAM: -chomp-
 ~adam~TURN
 ADAM: -munches but grumpily-
 ~lilith~EXIT
@@ -157,33 +157,35 @@ GOBLIN KING: BEHOLD MY ULTIMATE ONSLAUGHT
 ADAM: Ok, here I go again!
 ~mountainBattle~MUSIC
 ~none~INSTRUCTIONS-
-Goblin King's ultimate onslaught: Hold the residency! 
+Goblin King’s ultimate onslaught: Hold the residency! 
 ~none~NEXTLEVEL
 ~mountain~MUSIC
 ~adam~RIGHT
 ~lilith~LEFT
-LILITH: The goblin king's voice was coming from the mountains...
+LILITH: The goblin king’s voice was coming from the mountains...
 LILITH: He must be hiding in the caves!
-ADAM: Maybe it's time to stop being a defender, and become an ATTACKER
-ADAM: Let's go to the caves!
+ADAM: Maybe it’s time to stop being a defender, and become an ATTACKER
+ADAM: Let’s go to the caves!
 ~sage~LEFT
 ~lilith~EXIT
 SAGE: Before you go: BUY STUFF!!
 ~shop~MUSIC
 ~none~SAGE
-~adam~LEFT
-~lilith~LEFT
-~william~RIGHT
-WILLIAM: -looking back towards the castle-
+~none~MAPCHANGE
+~lilith~RIGHT
+~adam~RIGHT
+~william~LEFT
+WILLIAM: ...
 ~william~TURN
+WILLIAM: -looking back towards the castle-
 WILLIAM: Oh dear, the goblins ruined my pretty walls!
 ~william~TURN
-WILLIAM: ADAM could you be more careful next time, it's marble!
+WILLIAM: ADAM could you be more careful next time, it’s marble!
 ADAM: Just shut up, I bet you are not even french
 WILLIAM: !!! sàcre bleh!!!
-~lilith~TURN
 LILITH: ADAM calm down now, you are a murderer not an ASSHOLE
-ADAM: Don't tell me what to do!!
+~adam~TURN
+ADAM: Don’t tell me what to do!!
 LILITH: So you would be an AWESOME ATTACKER ACTION ASSHOLE, or short-
 WILLIAM: AAAA!
 LILITH: Exactly!
@@ -191,4 +193,21 @@ WILLIAM: No I mean: AAAA! More enemies!
 ~caveBattle~MUSIC
 ~none~INSTRUCTIONS
 Kill ten new enemies who are trying to stop you!
+~none~NEXTLEVEL
+~shop~MUSIC
+~none~SAGE
+~cave~MUSIC
+~lilith~RIGHT
+LILITH: Look! A door! 
+~william~RIGHT
+WILLIAM: Speak friend and enter? What does it mean?
+~sage~RIGHT
+SAGE: It is clearly a riddle!
+LILITH: More like a franchise infringement
+WILLIAM: Curious... what does ’friend’ mean?
+~adam~LEFT
+ADAM: I don’t like riddles! Im going to shoot the door down!
+~caveBattle~MUSIC
+~none~INSTRUCTIONS
+Destroy the heavy door to get to the Goblin King
 ~none~NEXTLEVEL
