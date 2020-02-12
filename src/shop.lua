@@ -7,7 +7,7 @@ return {
     specialText = nil,
     specialPrice = nil,
     wallPerc = nil,
-    clicked = false, -- if we bought city hp in current shop session
+    clicked = false, -- if we bought anything in current shop session
     media = {
         back = "assets/forestLayered/back.png",
         light = "assets/forestLayered/light.png",
@@ -29,7 +29,7 @@ return {
         doneX = (WORLD.x / 2),
         doneY = 850,
         wallX = 45,
-        wallY = 235,
+        wallY = 235
     },
     prices = {
         wall = {1000}, -- price changes
@@ -57,6 +57,7 @@ return {
         if money - price >= 0 then
             WORLD.player.money = WORLD.player.money - price
             transaction = true
+            self.clicked = true
         end
         return transaction
     end,
@@ -153,11 +154,7 @@ return {
         else
             self.berserkHovered = false
         end
-        SUIT.ImageButton(
-            WORLD.media.hud.berserkUsed,
-            self.pos.baseX,
-            self.pos.baseY + 2 * self.pos.distanceY
-        )
+        SUIT.ImageButton(WORLD.media.hud.berserkUsed, self.pos.baseX, self.pos.baseY + 2 * self.pos.distanceY)
         SUIT.ImageButton(
             WORLD.media.hud.berserkUsed,
             self.pos.baseX + (self.pos.distanceX),
@@ -189,7 +186,7 @@ return {
         else
             self.fastHovered = false
         end
-        SUIT.ImageButton(WORLD.media.hud.fastUsed,  self.pos.baseX, self.pos.baseY + 3 * self.pos.distanceY)
+        SUIT.ImageButton(WORLD.media.hud.fastUsed, self.pos.baseX, self.pos.baseY + 3 * self.pos.distanceY)
         SUIT.ImageButton(
             WORLD.media.hud.fastUsed,
             self.pos.baseX + (self.pos.distanceX),
@@ -234,17 +231,12 @@ return {
         )
 
         -- done button
-        if
-            SUIT.ImageButton(
-                self.media.done,
-                self.pos.doneX - (self.media.done:getWidth() / 2),
-                self.pos.doneY
-            ).hit
-         then
+        if SUIT.ImageButton(self.media.done, self.pos.doneX - (self.media.done:getWidth() / 2), self.pos.doneY).hit then
             love.graphics.setBackgroundColor(0, 0, 0, 0)
             if WORLD.endlessmode then
                 self.clicked = false
                 self.todaysSpecial = nil
+                self.specialCategory = nil
                 WORLD.shoppedThisIteration = true
                 WORLD:nextEndlessMode()
             else
@@ -256,7 +248,9 @@ return {
         end
     end,
     cityHealth = function(self)
-        self:setWallCategory()
+        if self.specialCategory == nil then
+            self:setWallCategory()
+        end
         love.graphics.setFont(WORLD.media.fantasyfont)
         SUIT.Label("TODAYS SPECIAL:\n" .. self.wallPerc .. " % CITY HEALTH!\n" .. self.specialText, 0, 250, 450, 0)
         if SUIT.ImageButton(self.media.wall, self.pos.wallX, self.pos.wallY).hit then
@@ -266,33 +260,31 @@ return {
         end
     end,
     setWallCategory = function(self)
-        if self.specialCategory == nil then
-            self.specialCategory = math.random(0, 3)
-            if self.specialCategory == 0 then
-                self.specialText = "FREE OF CHARGE!"
-                self.wallPerc = "0"
-                self.wallPercMultiplier = 1
-                self.specialPrice = 0
-            elseif self.specialCategory == 1 then
-                self.specialText = "A THIRD OF YOUR MONEY!"
-                self.wallPerc = "10"
-                self.wallPercMultiplier = 0.1
-                self.specialPrice = math.floor(WORLD.player.money * 0.66666667)
-            elseif self.specialCategory == 2 then
-                self.specialText = "HALF YOUR MONEY!"
-                self.wallPercMultiplier = 0.2
-                self.wallPerc = "20"
-                self.specialPrice = math.ceil(WORLD.player.money * 0.5)
-            elseif self.specialCategory == 3 then
-                self.specialText = "ALL THE MONEYS!"
-                self.wallPerc = "30"
-                self.wallPercMultiplier = 0.3
-                self.specialPrice = WORLD.player.money
-            else
-                print("this is broken")
-            end
-            self.prices.wall[1] = self.specialPrice
+        self.specialCategory = math.random(0, 3)
+        if self.specialCategory == 0 then
+            self.specialText = "FREE OF CHARGE!"
+            self.wallPerc = "0"
+            self.wallPercMultiplier = 0
+            self.specialPrice = 0
+        elseif self.specialCategory == 1 then
+            self.specialText = "A THIRD OF YOUR MONEY!"
+            self.wallPerc = "10"
+            self.wallPercMultiplier = 0.1
+            self.specialPrice = math.floor(WORLD.player.money * 0.3)
+        elseif self.specialCategory == 2 then
+            self.specialText = "HALF YOUR MONEY!"
+            self.wallPercMultiplier = 0.2
+            self.wallPerc = "20"
+            self.specialPrice = math.ceil(WORLD.player.money * 0.5)
+        elseif self.specialCategory == 3 then
+            self.specialText = "ALL THE MONEYS!"
+            self.wallPerc = "30"
+            self.wallPercMultiplier = 0.3
+            self.specialPrice = WORLD.player.money
+        else
+            print("this is broken")
         end
+        self.prices.wall[1] = self.specialPrice
     end,
     broUBroke = function(self)
         love.graphics.setFont(WORLD.media.fantasyfont)
@@ -403,7 +395,7 @@ return {
         -- draw frame borders
         love.graphics.draw(WORLD.media.hud.silver, self.pos.baseX + (self.pos.distanceX), self.pos.baseY)
         love.graphics.draw(WORLD.media.hud.gold, self.pos.baseX + (self.pos.distanceX * 2), self.pos.baseY)
-        
+
         love.graphics.draw(
             WORLD.media.hud.silver,
             self.pos.baseX + (self.pos.distanceX),
