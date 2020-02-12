@@ -40,11 +40,7 @@ return {
         burst = {30, 300, 300}
     },
     currentRow = 1,
-    boomHovered = false,
-    fireHovered = false,
-    berserkHovered = false,
-    fastHovered = false,
-    burstHovered = false,
+    hovered = {false, false, false, false, false, false}, -- one for each button
     loadBacking = function(self)
         for key, img in pairs(self.media) do
             self.media[key] = love.graphics.newImage(img)
@@ -94,9 +90,11 @@ return {
                     self.sensei = self.media.senseiAngry
                 end
             end
-            self.boomHovered = button.hovered
-        else
-            self.boomHovered = false
+            -- button counts as hovered if it really was hovered or selected via keys
+            self.hovered[1] = button.hovered or (self.currentRow == 1)
+            if self.hovered[1] then
+                self.currentRow = 1
+            end
         end
         SUIT.ImageButton(WORLD.media.hud.boomUsed, self.pos.baseX, self.pos.baseY)
         SUIT.ImageButton(WORLD.media.hud.boomUsed, self.pos.baseX + (self.pos.distanceX), self.pos.baseY)
@@ -118,9 +116,10 @@ return {
                     self.sensei = self.media.senseiAngry
                 end
             end
-            self.fireHovered = button.hovered
-        else
-            self.fireHovered = false
+            self.hovered[2] = button.hovered or (self.currentRow == 2)
+            if self.hovered[2] then
+                self.currentRow = 2
+            end
         end
         SUIT.ImageButton(WORLD.media.hud.fireUsed, self.pos.baseX, self.pos.baseY + self.pos.distanceY)
         SUIT.ImageButton(
@@ -150,9 +149,10 @@ return {
                     self.sensei = self.media.senseiAngry
                 end
             end
-            self.berserkHovered = button.hovered
-        else
-            self.berserkHovered = false
+            self.hovered[3] = button.hovered or (self.currentRow == 3)
+            if self.hovered[3] then
+                self.currentRow = 3
+            end
         end
         SUIT.ImageButton(WORLD.media.hud.berserkUsed, self.pos.baseX, self.pos.baseY + 2 * self.pos.distanceY)
         SUIT.ImageButton(
@@ -182,9 +182,10 @@ return {
                     self.sensei = self.media.senseiAngry
                 end
             end
-            self.fastHovered = button.hovered
-        else
-            self.fastHovered = false
+            self.hovered[4] = button.hovered or (self.currentRow == 4)
+            if self.hovered[4] then
+                self.currentRow = 4
+            end
         end
         SUIT.ImageButton(WORLD.media.hud.fastUsed, self.pos.baseX, self.pos.baseY + 3 * self.pos.distanceY)
         SUIT.ImageButton(
@@ -214,9 +215,10 @@ return {
                     self.sensei = self.media.senseiAngry
                 end
             end
-            self.burstHovered = button.hovered
-        else
-            self.burstHovered = false
+            self.hovered[5] = button.hovered or (self.currentRow == 5)
+            if self.hovered[5] then
+                self.currentRow = 5
+            end
         end
         SUIT.ImageButton(WORLD.media.hud.exploUsed, self.pos.baseX, self.pos.baseY + 4 * self.pos.distanceY)
         SUIT.ImageButton(
@@ -231,7 +233,8 @@ return {
         )
 
         -- done button
-        if SUIT.ImageButton(self.media.done, self.pos.doneX - (self.media.done:getWidth() / 2), self.pos.doneY).hit then
+        local doneButton = SUIT.ImageButton(self.media.done, self.pos.doneX - (self.media.done:getWidth() / 2), self.pos.doneY)
+        if doneButton.hit then
             love.graphics.setBackgroundColor(0, 0, 0, 0)
             if WORLD.endlessmode then
                 self.clicked = false
@@ -243,8 +246,19 @@ return {
                 InitGame(WORLD.currentLvl, 6)
             end
         end
+        self.hovered[6] = doneButton.hovered or (self.currentRow == 6)
+        if self.hovered[6] then
+            self.currentRow = 6
+        end
         if WORLD.endlessmode and not self.clicked and WORLD.player.money > 10 then
             self:cityHealth()
+        end
+
+        -- set all to false that are not the currentRow
+        for i = 1,6 do 
+            if self.hovered[i] and i ~= self.currentRow then
+                self.hovered[i] = false
+            end
         end
     end,
     cityHealth = function(self)
@@ -292,17 +306,17 @@ return {
             SUIT.Label("AND HOW DO YOU PLAN TO PAY FOR THIS?!", 26, 360, 320, 0)
             WORLD:drawScreenShake(-5, 5)
         else
-            if self.boomHovered then
+            if self.hovered[1] then
                 SUIT.Label("Press [A] to throw deadly boomerangs in a straight line!", 26, 340, 320, 0)
-            elseif self.fireHovered then
+            elseif self.hovered[2] then
                 SUIT.Label("Press [S] to release a scorching fire cone in front of you!", 26, 340, 320, 0)
-            elseif self.berserkHovered then
+            elseif self.hovered[3] then
                 SUIT.Label("Press [D] to go into a furious berserk mode!", 26, 340, 320, 0)
                 SUIT.Label("In this mode you can shoot boomerangs incredibly fast!", 26, 400, 320, 0)
-            elseif self.fastHovered then
+            elseif self.hovered[4] then
                 SUIT.Label("Press [F] to generate a protective sphere and get increasingly faster!", 26, 340, 320, 0)
                 SUIT.Label("The sphere damages enemies and saves you from harm!", 26, 400, 320, 0)
-            elseif self.burstHovered then
+            elseif self.hovered[5] then
                 SUIT.Label("Press [Space] to detonate an all hitting explosion!", 26, 340, 320, 0)
             else
                 SUIT.Label("What do you want to be taught?", 26, 340, 320, 0)

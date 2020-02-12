@@ -14,7 +14,7 @@ require("src.story")
 
 SUIT = require "src.suit"
 ANIMATE = require "src.anim8"
-DEBUG = true
+--DEBUG = true
 DEBUG = false
 
 --1=menu, 2=game, 3=gameOver, 4=shop, 5=explosion, 6 = story
@@ -237,20 +237,24 @@ function love.keypressed(key)
             if WORLD.endlessmode then
                 if 0 <= SHOP.currentRow and SHOP.currentRow <= 5 then
                     SHOP.currentRow = SHOP.currentRow + 1
+                    SHOP.hovered[SHOP.currentRow] = true
                 end
             else
                 if 1 <= SHOP.currentRow and SHOP.currentRow <= 5 then
                     SHOP.currentRow = SHOP.currentRow + 1
+                    SHOP.hovered[SHOP.currentRow] = true
                 end
             end
         elseif key == "up" then
             if WORLD.endlessmode then
                 if 1 <= SHOP.currentRow and SHOP.currentRow <= 6 then
                     SHOP.currentRow = SHOP.currentRow - 1
+                    SHOP.hovered[SHOP.currentRow] = true
                 end
             else
                 if 2 <= SHOP.currentRow and SHOP.currentRow <= 6 then
                     SHOP.currentRow = SHOP.currentRow - 1
+                    SHOP.hovered[SHOP.currentRow] = true
                 end
             end
         elseif key == "return" then
