@@ -121,13 +121,13 @@ return {
                 InitGame(6, 6)
             elseif love.keyboard.isDown("8") then
                 STORY.firstLvl = false
-                STORY.storyIndex = 195
+                STORY.storyIndex = 197
                 STORY:mapchange()
                 STORY:mapchange()
                 InitGame(7, 6)
             elseif love.keyboard.isDown("9") then
                 STORY.firstLvl = false
-                STORY.storyIndex = 171
+                STORY.storyIndex = 214
                 STORY:mapchange()
                 STORY:mapchange()
                 InitGame(8, 6)

@@ -133,7 +133,7 @@ Stop the enemies from destroying the residency for two minutes!
 ~lilith~LEFT
 ~adam~RIGHT
 LILITH: They just keep coming...
-ADAM: I really dont like the zombies
+ADAM: I really don’t like the zombies
 LILITH: Aw, do you want another treat?
 ADAM: Yes but don’t patronize me I’m tired
 ~adam~TURN
@@ -193,4 +193,21 @@ WILLIAM: No I mean: AAAA! More enemies!
 ~caveBattle~MUSIC
 ~none~INSTRUCTIONS
 Kill ten new enemies who are trying to stop you!
+~none~NEXTLEVEL
+~shop~MUSIC
+~none~SAGE
+~cave~MUSIC
+~lilith~RIGHT
+LILITH: Look! A door! 
+~william~RIGHT
+WILLIAM: Speak friend and enter? What does it mean?
+~sage~RIGHT
+SAGE: It is clearly a riddle!
+LILITH: More like a franchise infringement
+WILLIAM: Curious... what does ’friend’ mean?
+~adam~LEFT
+ADAM: I don’t like riddles! Im going to shoot the door down!
+~caveBattle~MUSIC
+~none~INSTRUCTIONS
+Destroy the heavy door to get to the Goblin King
 ~none~NEXTLEVEL
