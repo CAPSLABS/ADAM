@@ -3,18 +3,25 @@ David L. Wenzel
 Phillip Tse
  
  
- 
 --- ART ---
 David L. Wenzel 
 Phillip Tse
  
  
+--- MUSIC ---
+ozzed (Battle music) 
+http://ozzed.net
  
-SPECIAL THANKS TO https://opengameart.org/
+Scott Arc (All other music)
+https://scottarc.bandcamp.com
  
   
+--- SPECIAL THANKS --- 
+hwiks 
+ 
+Thank you, https://opengameart.org/
    
-Especially all the LPC participants:
+Thank you, LPC community:
  
 Casper Nilsson
 Daniel Eddeland 
@@ -51,13 +58,3 @@ Nila122
 neo4cat6
 Gaurav0 (Sprite Generator)
 sanderfrenken (Sprite Generator #2)
-
-
---- MUSIC ---
-ozzed (Battle music) 
-http://ozzed.net
- 
-  
-   
-Scott Arc (All other music)
-https://scottarc.bandcamp.com

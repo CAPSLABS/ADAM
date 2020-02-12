@@ -94,6 +94,7 @@ function love.update(dt)
     if GAMESTATE == 1 then --MENU
         if MENU.gameOpenFadeIn then
             local done = FADER:fadeIn(dt)
+            print(FADER.alpha)
             if done then
                 MENU.gameOpenFadeIn = false
             end
@@ -140,13 +141,13 @@ end
 
 function love.draw()
     if GAMESTATE == 1 then --MENU
-        _G.map:draw()
-        WORLD:drawEnemyStuff()
         if MENU.gameOpenFadeIn then
             love.graphics.setColor(255, 255, 255, FADER.alpha)
         elseif WORLD.exploding then
             WORLD:drawScreenShake(-5, 5)
         end
+        _G.map:draw()
+        WORLD:drawEnemyStuff()
         if DEBUG then
             MENU:drawDebugMenu()
         else
@@ -179,7 +180,6 @@ function love.draw()
         _G.map:draw()
         STORY:drawStory()
     elseif GAMESTATE == 7 then --CREDITS
-        love.graphics.setColor(255, 255, 255, FADER.alpha)
         CREDITS:draw()
     end
 
