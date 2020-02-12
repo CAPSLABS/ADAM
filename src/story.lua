@@ -61,7 +61,7 @@ return {
         }
     },
     loadStory = function(self)
-        local raw = Read_file("/assets/text/story.txt")
+        local raw = Read_file("/assets/text/story_v2.txt")
         self.storyText = Split(raw, "\n")
         self:loadSpeakerObjects()
         self.loaded = true
@@ -103,7 +103,9 @@ return {
         end
     end,
     processNextLine = function(self)
+        print(self.storyIndex)
         local line = self.storyText[self.storyIndex]
+        print(line)
         local identifier = string.sub(line, 1, 1)
         if identifier == "~" then
             self:parse(line)

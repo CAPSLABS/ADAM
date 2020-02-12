@@ -54,7 +54,7 @@ Stop the goblins from destroying the village!
 ADAM: Whew who knew fighting monsters was tiring
 LILITH: You did a super good job, here, have a snack
 ~adam~TURN
-ADAM: !!!
+ADAM: *haps*
 ~adam~TURN
 ADAM: -munches happily-
 ~william~MUSIC
@@ -107,4 +107,88 @@ ADAM: Oh no!! other monsters!
 ~mountainBattle~MUSIC
 ~none~INSTRUCTIONS
 Kill ten new enemies who are destroying the residency!
+~none~NEXTLEVEL
+~adam~RIGHT
+ADAM: I didnt think it was possible, but I am starting to get tired of fighting monsters
+~lilith~RIGHT
+LILITH: at least we made it to the castle
+~sage~LEFT
+SAGE: I know what will cheer you up! Buy more stuff!!
+~shop~MUSIC
+~none~SAGE
+~sage~LEFT
+~lilith~RIGHT
+LILITH: Did you follow us all the way here?
+SAGE: of course! ADAM is my favourite costumer!
+SAGE: ...my only costumer
+SAGE: ...ok, people just don't buy murder weapons like they used to
+LILITH: ok boomer
+~sage~EXIT
+~william~LEFT
+WILLIAM: ADAM, qÙick!! The goblìns are attacking again!
+~mountainBattle~MUSIC
+~none~INSTRUCTIONS
+Stop the enemies from destroying the residency for two minutes!
+~none~NEXTLEVEL
+~lilith~LEFT
+~adam~RIGHT
+LILITH: They just keep coming...
+ADAM: I really dont like the zombies
+LILITH: Aw, do you want another treat?
+ADAM: Yes but don't patronize me I'm tired
+~adam~TURN
+ADAM: *haps*
+~adam~TURN
+ADAM: -munches but grumpily-
+~lilith~EXIT
+~sage~LEFT
+SAGE: Buy stuff!!
+~shop~MUSIC
+~none~SAGE
+~mountain~MUSIC
+~lilith~RIGHT
+~adam~RIGHT
+~william~LEFT
+WILLIAM: The jewel is still safe at least! Dieu mercì 
+LILITH: So it just... creates wealth?
+WILLIAM: Lòads of it! Look, just holding it in my hands made my pockets fill with coins!
+LILITH: Interesting...
+GOBLIN KING: BEHOLD MY ULTIMATE ONSLAUGHT
+ADAM: Ok, here I go again!
+~mountainBattle~MUSIC
+~none~INSTRUCTIONS-
+Goblin King's ultimate onslaught: Hold the residency! 
+~none~NEXTLEVEL
+~mountain~MUSIC
+~adam~RIGHT
+~lilith~LEFT
+LILITH: The goblin king's voice was coming from the mountains...
+LILITH: He must be hiding in the caves!
+ADAM: Maybe it's time to stop being a defender, and become an ATTACKER
+ADAM: Let's go to the caves!
+~sage~LEFT
+~lilith~EXIT
+SAGE: Before you go: BUY STUFF!!
+~shop~MUSIC
+~none~SAGE
+~adam~LEFT
+~lilith~LEFT
+~william~RIGHT
+WILLIAM: -looking back towards the castle-
+~william~TURN
+WILLIAM: Oh dear, the goblins ruined my pretty walls!
+~william~TURN
+WILLIAM: ADAM could you be more careful next time, it's marble!
+ADAM: Just shut up, I bet you are not even french
+WILLIAM: !!! sàcre bleh!!!
+~lilith~TURN
+LILITH: ADAM calm down now, you are a murderer not an ASSHOLE
+ADAM: Don't tell me what to do!!
+LILITH: So you would be an AWESOME ATTACKER ACTION ASSHOLE, or short-
+WILLIAM: AAAA!
+LILITH: Exactly!
+WILLIAM: No I mean: AAAA! More enemies!
+~caveBattle~MUSIC
+~none~INSTRUCTIONS
+Kill ten new enemies who are trying to stop you!
 ~none~NEXTLEVEL
