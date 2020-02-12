@@ -237,7 +237,7 @@ function love.keypressed(key)
             if WORLD.endlessmode then
                 if 0 <= SHOP.currentRow and SHOP.currentRow <= 5 then
                     SHOP.currentRow = SHOP.currentRow + 1
-                end   
+                end
             else
                 if 1 <= SHOP.currentRow and SHOP.currentRow <= 5 then
                     SHOP.currentRow = SHOP.currentRow + 1
@@ -248,10 +248,10 @@ function love.keypressed(key)
                 if 1 <= SHOP.currentRow and SHOP.currentRow <= 6 then
                     SHOP.currentRow = SHOP.currentRow - 1
                 end
-            else 
+            else
                 if 2 <= SHOP.currentRow and SHOP.currentRow <= 6 then
                     SHOP.currentRow = SHOP.currentRow - 1
-                end    
+                end
             end
         elseif key == "return" then
             -- getSkillFromRow returns the name of the skill in the shop, the according player lvl of that skill, and the lvl function of that skill
@@ -266,7 +266,11 @@ function love.keypressed(key)
                     end
                 end
             else
+                love.graphics.setBackgroundColor(0, 0, 0, 0)
                 if WORLD.endlessmode then
+                    SHOP.clicked = false
+                    SHOP.todaysSpecial = nil
+                    SHOP.specialCategory = nil
                     WORLD.shoppedThisIteration = true
                     WORLD:nextEndlessMode()
                 else
