@@ -65,6 +65,7 @@ return {
         self.storyText = Split(raw, "\n")
         self:loadSpeakerObjects()
         self.loaded = true
+        print("loadStory: processNextLine")
         self:processNextLine()
         love.graphics.setFont(WORLD.media.readfont)
         MUSIC.tracks.mainMenu:stop()
@@ -98,14 +99,14 @@ return {
         if love.keyboard.isDown("return") then
             if self.canGoOn then
                 self.canGoOn = false
+                print("updateStory: processNextLine")
                 self:processNextLine()
             end
         end
     end,
     processNextLine = function(self)
-        print(self.storyIndex)
         local line = self.storyText[self.storyIndex]
-        print(line)
+        print(self.storyIndex .. ": " .. line)
         local identifier = string.sub(line, 1, 1)
         if identifier == "~" then
             self:parse(line)
@@ -116,6 +117,7 @@ return {
         self.storyIndex = self.storyIndex + 1
         if self.parsed then
             self.parsed = false
+            print("processNextLine: processNextLine")
             self:processNextLine()
         end
     end,

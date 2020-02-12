@@ -71,13 +71,17 @@ function InitGame(lvl, gamestate)
     GAMESTATE = gamestate
 
     -- resets buyable city hp in endlessmode
-    SHOP.clicked = false
+    if WORLD.endlessmode then
+        SHOP.clicked = false
+    end
 
     if GAMESTATE == 6 then
         love.graphics.setFont(WORLD.media.readfont)
         if STORY.loaded == false then
+            print("main: loadstory")
             STORY:loadStory()
         else
+            print("main: processNextLine")
             STORY:processNextLine()
         end
     end

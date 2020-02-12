@@ -4,3 +4,4 @@
 - shop: free of charge heals city completely instead of 30%
 - shader reset
 - shop: diverging behaviour during buying city hp when selecting via keys and selecting via mouse
+- story/shop: in story, after first shopping, if ending shop with keys, some part of the story skips
