@@ -109,6 +109,7 @@ ADAM: Oh no!! other monsters!
 Kill ten new enemies who are destroying the residency!
 ~none~NEXTLEVEL
 ~adam~RIGHT
+~mountain~MUSIC
 ADAM: I didnt think it was possible, but I am starting to get tired of fighting monsters
 ~lilith~RIGHT
 LILITH: at least we made it to the castle
@@ -116,6 +117,7 @@ LILITH: at least we made it to the castle
 SAGE: I know what will cheer you up! Buy more stuff!!
 ~shop~MUSIC
 ~none~SAGE
+~mountain~MUSIC
 ~sage~LEFT
 ~lilith~RIGHT
 LILITH: Did you follow us all the way here?
@@ -156,7 +158,7 @@ LILITH: Interesting...
 GOBLIN KING: BEHOLD MY ULTIMATE ONSLAUGHT
 ADAM: Ok, here I go again!
 ~mountainBattle~MUSIC
-~none~INSTRUCTIONS-
+~none~INSTRUCTIONS
 Goblin King’s ultimate onslaught: Hold the residency! 
 ~none~NEXTLEVEL
 ~mountain~MUSIC
