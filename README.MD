@@ -14,7 +14,7 @@ Under Linux, you can start the game directly using the source code!
   
 **UBUNTU:**   
 `sudo apt install lua5.3`    
-The following command should allow you to get the latest stable version of love (which is usually newer than the default apt-package):
+The following command should allow you to get the latest stable version of LÖVE (which is usually newer than the default apt-package):
 `sudo add-apt-repository ppa:bartbes/love-stable`  
 `sudo apt-get update`  
 `sudo apt install love`
@@ -29,7 +29,7 @@ For Windows we have created a .exe file that can be downloaded from gitlab.
 1. Visit [https://gitlab.com/DavidLeonardWenzel/adam/-/tree/master/bin](https://gitlab.com/DavidLeonardWenzel/adam/-/tree/master/bin). You should see some .dll files, as well as ADAM.exe.
 2. On the site in the upper right corner there is a download symbol. Click on it.
 3. Download the source folder as a .zip file.
-4. Unpack the .zip file.
+4. Unpack the .zip file. Go into the extracted folder named 'ADAM'.
 5. Start ADAM.exe to play!
 
 ### MAC
@@ -37,6 +37,7 @@ For Windows we have created a .exe file that can be downloaded from gitlab.
 We do not support Mac yet.
 
 ---
+This game is build using the [LÖVE](https://love2d.org/) framework and is written in [Lua](https://www.lua.org/) 5.3.   
 Game art was created using [pixilart](https://www.pixilart.com/) and [Tiled Map Editor](https://www.mapeditor.org/).  
 Spritesheets were created using [opengameart](https://opengameart.org/).   
 Game Music was created by [ozzed](http://ozzed.net) and [Scott Arrc](https://scottarc.bandcamp.com]).  
