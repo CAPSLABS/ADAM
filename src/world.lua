@@ -574,6 +574,7 @@ return {
     end,
     loadMedia = function(self)
         self.media.explosion.img = love.graphics.newImage(self.media.explosion.img)
+        self.media.surprise.img = love.graphics.newImage(self.media.surprise.imgP)
         self.media.surprise.imgP = love.graphics.newImage(self.media.surprise.imgP)
         self.media.surprise.imgD = love.graphics.newImage(self.media.surprise.imgD)
         self.media.defaultfont = love.graphics.getFont()
@@ -833,7 +834,15 @@ return {
         self.healthPerc = self.cityHealth / self.cityHealthMax
         if self.healthPerc < 0 then
             self.alive = false
+            self:selectDeathScreen()
             GAMESTATE = 3
+        end
+    end,
+    selectDeathScreen = function(self)
+        if math.random(0, 1) >= 1 then
+            self.media.surprise.img = self.media.surprise.imgD
+        else
+            self.media.surprise.img = self.media.surprise.imgP
         end
     end,
     winCondition = function(self, counter, goal)

@@ -15,7 +15,7 @@ require("src.story")
 SUIT = require "src.suit"
 ANIMATE = require "src.anim8"
 DEBUG = false
-DEBUG = true
+--DEBUG = true
 
 --1=menu, 2=game, 3=gameOver, 4=shop, 5=explosion, 6 = story
 GAMESTATES = {1, 2, 3, 4, 5}
@@ -167,7 +167,7 @@ function love.draw()
         WORLD:drawFire()
         WORLD:drawLightning()
     elseif GAMESTATE == 3 then --GAME OVER
-        MENU:drawPaidRespect(WORLD.media.surprise.img)
+        MENU:drawPaidRespect()
         love.graphics.setFont(WORLD.media.fantasyfont)
         love.graphics.setColor(1, 0, 0, 1)
         love.graphics.print("YOU DIED", 100, 100)

@@ -217,17 +217,17 @@ return {
         love.graphics.print(" Press S to open the shop!", 10, 780)
         love.graphics.print(" Press Enter to start the STORY!", 10, 800)
     end,
-    drawPaidRespect = function(self, imgPath)
+    drawPaidRespect = function(self)
         if self.respectPaid then
             local randomAngle = love.math.random(-3.14, 3.14)
             local transformation = love.math.newTransform(240, 480, randomAngle, 1.3, 1.3, 240, 480)
             love.graphics.applyTransform(transformation)
-            love.graphics.draw(imgPath)
+            love.graphics.draw(WORLD.media.surprise.img)
             self.respectPaid = false
         else
             --TODO: Behalte tranformation selbst wenn F nicht mehr gedrückt
             love.graphics.setBackgroundColor(0, 0, 0, 0)
-            love.graphics.draw(imgPath)
+            love.graphics.draw(WORLD.media.surprise.img)
         end
     end,
     drawMenu = function(self)
