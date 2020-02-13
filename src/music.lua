@@ -44,6 +44,7 @@ return {
         for key, track in pairs(self.tracks) do
             track:setVolume(volume)
         end
+        self.airhorn:setVolume(volume)
     end,
     stopPrevious = function(self)
         for key, track in pairs(self.tracks) do

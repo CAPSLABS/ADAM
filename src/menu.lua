@@ -12,7 +12,7 @@ return {
     lastInput = nil,
     enterPressed = false,
     gameOpenFadeIn = true,
-    slider = {value = 0.1, min = 0, max = 1},
+    slider = {value = 0.2, min = 0, max = 1},
     -- The id of the SUIT widget we are currently focussing
     currentButtonId = 1,
     focussedButtonBorderWidth = 5,
