@@ -1,29 +1,17 @@
-Welcome to ADAM, the **A**wesome **D**efender **A**ction **M**urderer Game
-
-
-We used [TILED](https://www.mapeditor.org/) for creating the levels. 
-Art is taken from [OpenGameArt](https://opengameart.org/). (see Attribution.txt for details)
-This game is build using the [LÖVE](https://love2d.org/) framework and is written in [Lua](https://www.lua.org/) 5.3
-
-This is a Work in progress! 
-
+Welcome to ADAM, an open-source Shoot 'em up game!  
 The game published under GNU GPLv3, so feel free to copy and modify the code as you wish, but keep it open! =D
 
-
-How to install and play this, you ask?
+How to install and play this, you ask?  
 
 ### LINUX
-
-In terminal, do:  
-
-`git clone https://gitlab.com/DavidLeonardWenzel/awesomedefenderactionmurderer.git`
-
-If you have LUA and LOVE installed skip the following steps, otherwise to install LUA and LOVE do:    
-
+Under Linux, you can start the game directly using the source code!  
+## 1. Install Lua & Love:    
+(if you aleady have LUA and LOVE installed skip this step)     
+  
 **ARCH:**  
 `sudo pacman -S lua`  
 `sudo pacman -S love`  
-
+  
 **UBUNTU:**   
 `sudo apt install lua5.3`    
 The following command should allow you to get the latest stable version of love (which is usually newer than the default apt-package):
@@ -31,14 +19,14 @@ The following command should allow you to get the latest stable version of love 
 `sudo apt-get update`  
 `sudo apt install love`
 
-Then, to run the game in the terminal:
-`cd awesomedefenderactionmurderer`  
-`love .`
+## 2. Clone and run source!
+`git clone https://gitlab.com/DavidLeonardWenzel/adam.git`
+`love adam`  
 
 ### WINDOWS
 
 For Windows we have created a .exe file that can be downloaded from gitlab. 
-1. Visit [https://gitlab.com/DavidLeonardWenzel/awesomedefenderactionmurderer/-/tree/master/bin](https://gitlab.com/DavidLeonardWenzel/awesomedefenderactionmurderer/-/tree/master/bin). You should see some .dll files, as well as ADAM.exe.
+1. Visit [https://gitlab.com/DavidLeonardWenzel/adam/-/tree/master/bin](https://gitlab.com/DavidLeonardWenzel/adam/-/tree/master/bin). You should see some .dll files, as well as ADAM.exe.
 2. On the site in the upper right corner there is a download symbol. Click on it.
 3. Download the source folder as a .zip file.
 4. Unpack the .zip file.
@@ -47,3 +35,9 @@ For Windows we have created a .exe file that can be downloaded from gitlab.
 ### MAC
 
 We do not support Mac yet.
+
+---
+Game art was created using [pixilart](https://www.pixilart.com/) and [Tiled Map Editor](https://www.mapeditor.org/).  
+Spritesheets were created using [opengameart](https://opengameart.org/).   
+Game Music was created by [ozzed](http://ozzed.net) and [Scott Arrc](https://scottarc.bandcamp.com]).  
+Please check the credits and Attribution.txt for more details!
