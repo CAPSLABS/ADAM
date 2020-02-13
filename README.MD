@@ -5,7 +5,7 @@ How to install and play this, you ask?
 
 ### LINUX
 Under Linux, you can start the game directly using the source code!  
-## 1. Install Lua & Love:    
+##### 1. Install Lua & Love:    
 (if you aleady have LUA and LOVE installed skip this step)     
   
 **ARCH:**  
@@ -19,8 +19,8 @@ The following command should allow you to get the latest stable version of LÖVE
 `sudo apt-get update`  
 `sudo apt install love`
 
-## 2. Clone and run source!
-`git clone https://gitlab.com/DavidLeonardWenzel/adam.git`
+##### 2. Clone and run source!
+`git clone https://gitlab.com/DavidLeonardWenzel/adam.git`  
 `love adam`  
 
 ### WINDOWS
