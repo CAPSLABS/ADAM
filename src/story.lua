@@ -176,13 +176,13 @@ return {
             )
             i = i + 1
         end
-        love.graphics.draw(WORLD.media.hud.border, self.borderX, self.borderY)
+        love.graphics.draw(WORLD.HUD.media.hud.border, self.borderX, self.borderY)
 
         love.graphics.printf(
             self.currentLine,
             self.borderX + 30,
             self.borderY + 40,
-            WORLD.media.hud.border:getWidth() - 50,
+            WORLD.HUD.media.hud.border:getWidth() - 50,
             "center"
         )
     end,
