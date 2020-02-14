@@ -7,17 +7,19 @@
 --
 --      @date 30.6.2019
 --      @authors David L. Wenzel, Phillip Tse
---]]
-require("src.mapLoader")
+--]] require(
+    "src.mapLoader"
+)
 require("src.util")
 require("src.story")
+require("src.world.world")
 
 SUIT = require "src.suit"
 ANIMATE = require "src.anim8"
 DEBUG = false
---DEBUG = true
+-- DEBUG = true
 
---1=menu, 2=game, 3=gameOver, 4=shop, 5=explosion, 6 = story
+-- 1=menu, 2=game, 3=gameOver, 4=shop, 5=explosion, 6 = story
 GAMESTATES = {1, 2, 3, 4, 5}
 GAMESTATE = GAMESTATES[1]
 math.randomseed(os.time())
@@ -25,7 +27,7 @@ math.randomseed(os.time())
 ------------ LOADING --------------
 
 function love.load()
-    WORLD = require("src.world")
+    WORLD = World:Create()
     MENU = require("src.menu")
     MENU:setTitle()
     SHOP = require("src.shop")
@@ -33,8 +35,8 @@ function love.load()
     MUSIC = require("src.music")
     FADER = require("src.fader")
     CREDITS = require("src.credits")
-    WORLD.currentLvl = #WORLD.levels --this should point to menu
-    --make sure this points to last level in WORLD, which is MENU
+    WORLD.currentLvl = #WORLD.levels -- this should point to menu
+    -- make sure this points to last level in WORLD, which is MENU
     WORLD:loadMenu()
     WORLD:loadEnemies()
     WORLD:loadMedia()
@@ -92,7 +94,7 @@ end
 ------------ UPDATING --------------
 
 function love.update(dt)
-    if GAMESTATE == 1 then --MENU
+    if GAMESTATE == 1 then -- MENU
         if MENU.gameOpenFadeIn then
             local done = FADER:fadeIn(dt)
             if done then
@@ -107,32 +109,32 @@ function love.update(dt)
         end
         MENU:updateMenu(dt)
         WORLD:spawnEnemies(dt)
-        WORLD:updateEnemies(dt) --moves, animates&deletes enemies
+        WORLD:updateEnemies(dt) -- moves, animates&deletes enemies
 
         if WORLD.credits then
             CREDITS:update(dt)
         end
-    elseif GAMESTATE == 2 then --GAME
+    elseif GAMESTATE == 2 then -- GAME
         WORLD:checkPlayerActionInput(dt)
         WORLD.player:update(dt)
         WORLD:updateHealth()
         WORLD:checkWinCondition(dt)
         WORLD:spawnEnemies(dt)
-        WORLD:updateEnemies(dt) --moves, an
+        WORLD:updateEnemies(dt) -- moves, an
         WORLD:handleCollisions()
         WORLD:updateExplosion(dt, WORLD.player.x + 32, WORLD.player.y + 32, WORLD.player.explosionMaxRuntime)
-    elseif GAMESTATE == 3 then --GAME OVER
+    elseif GAMESTATE == 3 then -- GAME OVER
         MENU:checkGameOverInput()
         MENU:playAirhornSound()
-    elseif GAMESTATE == 4 then --SHOP
+    elseif GAMESTATE == 4 then -- SHOP
         SHOP:updateShopShit(dt)
-    elseif GAMESTATE == 5 then --Intro Sequence
+    elseif GAMESTATE == 5 then -- Intro Sequence
         WORLD:spawnEnemies(dt)
         WORLD:updateEnemies(dt)
         WORLD:updateExplosion(dt, 240, 850, WORLD.media["explosion"].maxRuntime)
-    elseif GAMESTATE == 6 then --STORY
+    elseif GAMESTATE == 6 then -- STORY
         STORY:update()
-    elseif GAMESTATE == 7 then --CREDITS
+    elseif GAMESTATE == 7 then -- CREDITS
         CREDITS:update(dt)
     end
 end
@@ -140,7 +142,7 @@ end
 ------------ DRAWING --------------
 
 function love.draw()
-    if GAMESTATE == 1 then --MENU
+    if GAMESTATE == 1 then -- MENU
         if MENU.gameOpenFadeIn then
             love.graphics.setColor(255, 255, 255, FADER.alpha)
         elseif WORLD.exploding then
@@ -156,7 +158,7 @@ function love.draw()
         if WORLD.exploding then
             WORLD:drawExplosionStuff(240, 850)
         end
-    elseif GAMESTATE == 2 then --GAME
+    elseif GAMESTATE == 2 then -- GAME
         _G.map:draw()
         WORLD:drawExplosionStuff(WORLD.player.x + 32, WORLD.player.y + 32)
         WORLD:drawEnemyStuff()
@@ -166,7 +168,7 @@ function love.draw()
         WORLD:drawWinScreen()
         WORLD:drawFire()
         WORLD:drawLightning()
-    elseif GAMESTATE == 3 then --GAME OVER
+    elseif GAMESTATE == 3 then -- GAME OVER
         MENU:drawPaidRespect()
         love.graphics.setFont(WORLD.media.fantasyfont)
         love.graphics.setColor(1, 0, 0, 1)
@@ -174,12 +176,12 @@ function love.draw()
         love.graphics.print("Press ESC to quit.", 100, 150)
         love.graphics.print("Press R to restart.", 100, 175)
         love.graphics.print("Press F to pay respect.", 100, 200)
-    elseif GAMESTATE == 4 then --SHOP
+    elseif GAMESTATE == 4 then -- SHOP
         SHOP:drawShopShit()
-    elseif GAMESTATE == 6 then --STORY
+    elseif GAMESTATE == 6 then -- STORY
         _G.map:draw()
         STORY:drawStory()
-    elseif GAMESTATE == 7 then --CREDITS
+    elseif GAMESTATE == 7 then -- CREDITS
         CREDITS:draw()
     end
 

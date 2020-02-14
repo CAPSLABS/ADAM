@@ -47,19 +47,19 @@ return {
     end,
     -- Menu after pressing enter on title screen once - controls using mouse
     mainMenu = function(self)
-        if SUIT.ImageButton(WORLD.media.hud.borderSmall, {id = 1}, self:getBorderX(), self:getBorderY(1)).hit then
+        if SUIT.ImageButton(WORLD.HUD.media.hud.borderSmall, {id = 1}, self:getBorderX(), self:getBorderY(1)).hit then
             self:startGame()
-        elseif SUIT.ImageButton(WORLD.media.hud.borderSmall, {id = 2}, self:getBorderX(), self:getBorderY(2)).hit then
+        elseif SUIT.ImageButton(WORLD.HUD.media.hud.borderSmall, {id = 2}, self:getBorderX(), self:getBorderY(2)).hit then
             WORLD.endlessmode = true
             MUSIC:startMusic("villageBattle")
             InitGame(10, 2)
-        elseif SUIT.ImageButton(WORLD.media.hud.borderSmall, {id = 3}, self:getBorderX(), self:getBorderY(3)).hit then
+        elseif SUIT.ImageButton(WORLD.HUD.media.hud.borderSmall, {id = 3}, self:getBorderX(), self:getBorderY(3)).hit then
             CREDITS:load()
         end
         MUSIC:changeVolume(self.slider.value)
     end,
     getBorderX = function(self)
-        return 240 - WORLD.media.hud.borderSmall:getWidth() / 2
+        return 240 - WORLD.HUD.media.hud.borderSmall:getWidth() / 2
     end,
     getBorderY = function(self, segment)
         return WORLD.y / 5 * segment - WORLD.y / 8
@@ -246,8 +246,8 @@ return {
                 "fill",
                 self:getBorderX() - self.focussedButtonBorderWidth,
                 self:getBorderY(self.currentButtonId) - self.focussedButtonBorderWidth,
-                WORLD.media.hud.borderSmall:getWidth() + 2 * self.focussedButtonBorderWidth,
-                WORLD.media.hud.borderSmall:getHeight() + 2 * self.focussedButtonBorderWidth
+                WORLD.HUD.media.hud.borderSmall:getWidth() + 2 * self.focussedButtonBorderWidth,
+                WORLD.HUD.media.hud.borderSmall:getHeight() + 2 * self.focussedButtonBorderWidth
             )
         elseif self.currentButtonId == 4 then
             love.graphics.rectangle(
@@ -267,25 +267,25 @@ return {
             "STORY MODE",
             self:getBorderX() + 50,
             self:getBorderY(1) + 40,
-            WORLD.media.hud.borderSmall:getWidth()
+            WORLD.HUD.media.hud.borderSmall:getWidth()
         )
         love.graphics.printf(
             "ENDLESS MODE",
             self:getBorderX() + 35,
             self:getBorderY(2) + 40,
-            WORLD.media.hud.borderSmall:getWidth()
+            WORLD.HUD.media.hud.borderSmall:getWidth()
         )
         love.graphics.printf(
             "CREDITS",
             self:getBorderX() + 100,
             self:getBorderY(3) + 40,
-            WORLD.media.hud.borderSmall:getWidth()
+            WORLD.HUD.media.hud.borderSmall:getWidth()
         )
         love.graphics.printf(
             "VOLUME",
             self:getBorderX() + 100,
             self:getBorderY(4) + 40,
-            WORLD.media.hud.borderSmall:getWidth()
+            WORLD.HUD.media.hud.borderSmall:getWidth()
         )
         SUIT.Slider(self.slider, self:getBorderX() + 80, self:getBorderY(4) + 80, 200, 20)
     end

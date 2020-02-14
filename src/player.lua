@@ -210,11 +210,11 @@ return {
     lvlUpBoom = function(self)
         self.boomLevel = self.boomLevel + 1
         if self.boomLevel == 2 then
-            WORLD.media.hudSkillBorder.a = WORLD.media.hud.silver
+            WORLD.HUD.media.hudSkillBorder.a = WORLD.HUD.media.hud.silver
             WORLD.player.boomCooldown = WORLD.player.boomCooldown / 2
             PLAYERRAW.boomCooldown = PLAYERRAW.boomCooldown / 2
         elseif self.boomLevel == 3 then
-            WORLD.media.hudSkillBorder.a = WORLD.media.hud.gold
+            WORLD.HUD.media.hudSkillBorder.a = WORLD.HUD.media.hud.gold
             WORLD.player.boomCooldown = WORLD.player.boomCooldown / 2
             PLAYERRAW.boomCooldown = PLAYERRAW.boomCooldown / 2
         end
@@ -222,11 +222,11 @@ return {
     lvlUpFire = function(self)
         self.fireLevel = self.fireLevel + 1
         if self.fireLevel == 2 then
-            WORLD.media.hudSkillBorder.s = WORLD.media.hud.silver
+            WORLD.HUD.media.hudSkillBorder.s = WORLD.HUD.media.hud.silver
             WORLD.player.fireCooldown = WORLD.player.fireCooldown / 2
             PLAYERRAW.fireCooldown = PLAYERRAW.fireCooldown / 2
         elseif self.fireLevel == 3 then
-            WORLD.media.hudSkillBorder.s = WORLD.media.hud.gold
+            WORLD.HUD.media.hudSkillBorder.s = WORLD.HUD.media.hud.gold
             WORLD.player.fireCooldown = WORLD.player.fireCooldown / 2
             PLAYERRAW.fireCooldown = PLAYERRAW.fireCooldown / 2
         end
@@ -234,11 +234,11 @@ return {
     lvlUpBerserk = function(self)
         self.berserkLevel = self.berserkLevel + 1
         if self.berserkLevel == 2 then
-            WORLD.media.hudSkillBorder.d = WORLD.media.hud.silver
+            WORLD.HUD.media.hudSkillBorder.d = WORLD.HUD.media.hud.silver
             WORLD.player.berserkCooldown = WORLD.player.berserkCooldown / 2
             PLAYERRAW.berserkCooldown = PLAYERRAW.berserkCooldown / 2
         elseif self.berserkLevel == 3 then
-            WORLD.media.hudSkillBorder.d = WORLD.media.hud.gold
+            WORLD.HUD.media.hudSkillBorder.d = WORLD.HUD.media.hud.gold
             WORLD.player.berserkCooldown = WORLD.player.berserkCooldown / 2
             PLAYERRAW.berserkCooldown = PLAYERRAW.berserkCooldown / 2
         end
@@ -246,11 +246,11 @@ return {
     lvlUpFast = function(self)
         self.goFastLevel = self.goFastLevel + 1
         if self.goFastLevel == 2 then
-            WORLD.media.hudSkillBorder.f = WORLD.media.hud.silver
+            WORLD.HUD.media.hudSkillBorder.f = WORLD.HUD.media.hud.silver
             WORLD.player.goFastCooldown = WORLD.player.goFastCooldown / 2
             PLAYERRAW.goFastCooldown = PLAYERRAW.goFastCooldown / 2
         elseif self.goFastLevel == 3 then
-            WORLD.media.hudSkillBorder.f = WORLD.media.hud.gold
+            WORLD.HUD.media.hudSkillBorder.f = WORLD.HUD.media.hud.gold
             WORLD.player.goFastCooldown = WORLD.player.goFastCooldown / 2
             PLAYERRAW.goFastCooldown = PLAYERRAW.goFastCooldown / 2
         end
@@ -258,11 +258,11 @@ return {
     lvlUpBurst = function(self)
         self.burstLevel = self.burstLevel + 1
         if self.burstLevel == 2 then
-            WORLD.media.hudSkillBorder.space = WORLD.media.hud.silver
+            WORLD.HUD.media.hudSkillBorder.space = WORLD.HUD.media.hud.silver
             WORLD.player.burstCooldown = WORLD.player.burstCooldown / 2
             PLAYERRAW.burstCooldown = PLAYERRAW.burstCooldown / 2
         elseif self.burstLevel == 3 then
-            WORLD.media.hudSkillBorder.space = WORLD.media.hud.gold
+            WORLD.HUD.media.hudSkillBorder.space = WORLD.HUD.media.hud.gold
             WORLD.player.burstCooldown = WORLD.player.burstCooldown / 2
             PLAYERRAW.burstCooldown = PLAYERRAW.burstCooldown / 2
         end
