@@ -442,12 +442,12 @@ function World:Create()
         timerL = 70,
         timerB = 10000,
         statsRaw = {
-            goblin = require("src.goblin"),
-            zombie = require("src.zombie"),
-            lizard = require("src.lizard"),
-            door = require("src.door"),
-            boss = require("src.boss"),
-            fireball = require("src.fireball")
+            goblin = require("src.enemies.goblin"),
+            zombie = require("src.enemies.zombie"),
+            lizard = require("src.enemies.lizard"),
+            door = require("src.enemies.door"),
+            boss = require("src.enemies.boss"),
+            fireball = require("src.enemies.fireball")
         },
         itemsRaw = {
             items = require("src.items")
@@ -462,38 +462,6 @@ end
 --media.img(filepath, string)
 --media width (the width of the enemy image in pixels, int)
 --media height (the height of the enemy image in pixels, int)
-function World:loadMenu()
-    local enemyNum = math.random(0, 100)
-    if enemyNum < 70 then
-        local goblin = {
-            timer = 0.0,
-            timerMax = 0.0,
-            spawnFct = function(runtime)
-                return 0.0
-            end
-        }
-        self.levels[#self.levels].enemies["goblin"] = goblin
-    elseif enemyNum < 90 then
-        local zombie = {
-            timer = 0.0,
-            timerMax = 0.0,
-            spawnFct = function(runtime)
-                return 0.0
-            end
-        }
-        self.levels[#self.levels].enemies["zombie"] = zombie
-    else
-        local lizard = {
-            timer = 0.0,
-            timerMax = 0.0,
-            spawnFct = function(runtime)
-                return 0.0
-            end
-        }
-        self.levels[#self.levels].enemies["lizard"] = lizard
-    end
-end
-
 function World:loadEnemies()
     for key, enemy in pairs(self.statsRaw) do
         enemy.media.img = love.graphics.newImage(enemy.media.img)
@@ -530,16 +498,17 @@ function World:loadPlayer()
     --safe away default values to reset to:
     PLAYERRAW = require("src.player")
     self.player = Shallowcopy(PLAYERRAW)
+    --load media:
     for key, imgPath in pairs(self.player.media) do
         self.player.media[key] = love.graphics.newImage(imgPath)
     end
+    --load animations:
     self.player.media.boomGrid =
         ANIMATE.newGrid(48, 48, self.player.media.boom:getWidth(), self.player.media.boom:getHeight())
     self.player.media.playerGrid =
         ANIMATE.newGrid(64, 64, self.player.media.img:getWidth(), self.player.media.img:getHeight())
     self.player.upRightAnim = ANIMATE.newAnimation(self.player.media.playerGrid("1-8", 5), 0.1)
     self.player.upLeftAnim = self.player.upRightAnim:clone():flipH()
-
     self.player.downAnim = ANIMATE.newAnimation(self.player.media.playerGrid("1-9", 11), 0.1)
     self.player.anim = self.player.upLeftAnim
 end
@@ -566,7 +535,6 @@ function World:loadItems()
     end
 end
 ------------ UPDATING --------------
-
 --enemies are expected to implement:
 --update(anim function)
 --alive (bool)
@@ -653,7 +621,8 @@ function World:updateExplosion(dt, startX, startY, maxRuntime)
 end
 
 function World:checkStartGame()
-    --make sure this points to the last level, menu
+    --this function is used called after the explosion, which is a skill or the intro sequence
+    -- only if its the intro sequence the explo should trigger a game start, which is true when we are in the menu:
     if self.currentLvl == #self.levels then
         InitGame(1, 6)
     end

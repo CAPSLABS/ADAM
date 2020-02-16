@@ -88,7 +88,7 @@ function Hud:drawHud(player, currentLevel, currentRunTime, healthInPercent, worl
 end
 
 function Hud:drawSkills()
-    skills = self:getSkillsToDraw()
+    local skills = self:getSkillsToDraw()
     self:drawOnSkillPositions(skills)
     if self.player.inBerserk then
         -- make the boom box bling
@@ -105,7 +105,7 @@ function Hud:drawSkills()
 end
 
 function Hud:drawSkillBorders()
-    skillBorders = self:getSkillBordersToDraw()
+    local skillBorders = self:getSkillBordersToDraw()
     self:drawOnSkillPositions(skillBorders)
 end
 
@@ -120,7 +120,7 @@ function Hud:drawOnSkillPositions(drawableSkillObjects)
 end
 
 function Hud:getSkillsToDraw()
-    skills = {}
+    local skills = {}
     if self.player.canBoom == true then
         table.insert(skills, self.media.hud.boom)
     else
@@ -150,7 +150,7 @@ function Hud:getSkillsToDraw()
 end
 
 function Hud:getSkillBordersToDraw()
-    skillBorders = {}
+    local skillBorders = {}
     if self.media.hudSkillBorder.a then
         table.insert(skillBorders, self.media.hudSkillBorder.a)
     end
@@ -197,7 +197,7 @@ function Hud:drawHearts() --a heart for kids
 end
 
 function Hud:drawButtons()
-    lettersToDraw = {
+    local lettersToDraw = {
         self.media.hud.a,
         self.media.hud.s,
         self.media.hud.d,

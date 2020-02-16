@@ -1,8 +1,9 @@
-- test balancing of spawn funcs in endless mode (P)
+- story: Check for missing points and correct spelling (P)
+- rebalance: player has all silver skills after lvl 3, so fit onto that (raise prices). afterwards the player is getting one skill per level, ab lvl 7 is gut gebalanced (P)
 - latency für airhorn fixen (P)
 - sfx / cooldown feedback (P)
 
-- Final code cleanup (check all todos), maybe comment functions some more (D)
+- gameplay: in lvl 8 (but not always, probably not only restricted to lvl 8) menu.lua:230, bad argument to draw (drawable expected got nil)
 
 IDEAS: 
 - make lvl 2 - 5 more interesting
@@ -13,5 +14,5 @@ IDEAS:
 - since the format is (accidentaly) way too good for it, explore mobile port possibilities
 - slowdown/acceleration when changing direction/starting to move
 - pause menu for volume change and..well, game pauses
-- tutorial
+- tutorial?
 - if game finished, then on title screen player and lilith and pierre walk randomly instead 

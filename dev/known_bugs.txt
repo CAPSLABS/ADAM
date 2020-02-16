@@ -1,3 +1,0 @@
-- story: Check for missing points and correct spelling
-- rebalance: player has all silver skills after lvl 3, so fit onto that (raise prices). afterwards the player is getting one skill per level, ab lvl 7 is gut gebalanced
-- gameplay: in lvl 8 (but not always, probably not only restricted to lvl 8) menu.lua:230, bad argument to draw (drawable expected got nil)

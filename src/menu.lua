@@ -106,7 +106,7 @@ return {
         WORLD.player.bursting = true
         WORLD.exploding = true
     end,
-    setTitle = function(self)
+    load = function(self)
         local rand = math.random(0, 2)
         if rand == 0 then
             self.a = "A - wesome"
@@ -123,6 +123,35 @@ return {
             self.d = "A - ttacker"
             self.a2 = "A - ction"
             self.m = "A - sshole"
+        end
+        local enemyNum = math.random(0, 10)
+        if enemyNum < 7 then
+            local goblin = {
+                timer = 0.0,
+                timerMax = 0.0,
+                spawnFct = function(runtime)
+                    return 0.0
+                end
+            }
+            WORLD.levels[#WORLD.levels].enemies["goblin"] = goblin
+        elseif enemyNum < 9 then
+            local zombie = {
+                timer = 0.0,
+                timerMax = 0.0,
+                spawnFct = function(runtime)
+                    return 0.0
+                end
+            }
+            WORLD.levels[#WORLD.levels].enemies["zombie"] = zombie
+        else
+            local lizard = {
+                timer = 0.0,
+                timerMax = 0.0,
+                spawnFct = function(runtime)
+                    return 0.0
+                end
+            }
+            WORLD.levels[#WORLD.levels].enemies["lizard"] = lizard
         end
     end,
     ----------------- DRAWING -----------------

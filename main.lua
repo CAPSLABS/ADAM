@@ -13,8 +13,8 @@
 -- external libs:
 SUIT = require "src.suit"
 ANIMATE = require "src.anim8"
+--DEBUG = true
 DEBUG = false
-DEBUG = true
 
 -- 1=menu, 2=game, 3=gameOver, 4=shop, 5=explosion, 6 = story, 7 = credits
 GAMESTATE = 1
@@ -33,13 +33,12 @@ function love.load()
     MUSIC = require("src.music")
     FADER = require("src.fader")
     CREDITS = require("src.credits")
-    MENU:setTitle()
-    WORLD:loadMenu()
     WORLD:loadEnemies()
     WORLD:loadMedia()
     WORLD:loadHud()
     WORLD:loadItems()
     WORLD:loadPlayer()
+    MENU:load()
     SHOP:loadBacking()
     MUSIC:load()
     MUSIC:changeVolume(0.2)

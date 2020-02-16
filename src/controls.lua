@@ -12,7 +12,7 @@ return {
                     end
                 elseif key == "return" then
                     if MENU.currentButtonId == 1 then
-                        MENU:startGame()
+                        MENU:startIntroAnim()
                     elseif MENU.currentButtonId == 2 then
                         WORLD.endlessmode = true
                         MUSIC:startMusic("villageBattle")
