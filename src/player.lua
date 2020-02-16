@@ -399,8 +399,12 @@ return {
         GAMESTATE = 3
     end,
     reset = function(self, moneyreset)
+        --reset all values
+        --either safe the current money or reset to the money when starting the level (used when going going game over)
         if moneyreset then
             self.money = self.startOfLvlMoney
+        else
+            self.startOfLvlMoney = self.money
         end
         if self.inBerserk then
             self.inBerserk = false

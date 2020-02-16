@@ -85,3 +85,21 @@ function DisplayTime(time)
   return string.format("%02d:%02d:%02d", hours, minutes, seconds)
   --return string.format("%d:%02d:%02d:%02d", days, hours, minutes, seconds)
 end
+
+function SetDebug()
+  if DEBUG then
+    WORLD.player.money = 10000
+    WORLD.player:lvlUpBoom()
+    WORLD.player:lvlUpFire()
+    WORLD.player:lvlUpFire()
+    WORLD.player:lvlUpFast()
+    WORLD.player:lvlUpFast()
+    WORLD.player:lvlUpBerserk()
+    WORLD.player:lvlUpBerserk()
+    WORLD.player:lvlUpBurst()
+  end
+end
+
+function LoadMap()
+  _G.map = LoadTiledMap("assets/tile/", WORLD.map)
+end

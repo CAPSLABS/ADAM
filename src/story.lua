@@ -10,7 +10,6 @@ return {
     speakerXRight = 290,
     currentLine = "",
     parsed = false,
-    loaded = false,
     firstLvl = true,
     map9changed = false,
     --giving_instructions = true,
@@ -63,10 +62,7 @@ return {
         local raw = Read_file("/assets/text/story_v2.txt")
         self.storyText = Split(raw, "\n")
         self:loadSpeakerObjects()
-        self.loaded = true
-        self:processNextLine()
         love.graphics.setFont(WORLD.media.readfont)
-        MUSIC.tracks.mainMenu:stop()
     end,
     loadSpeakerObjects = function(self)
         for key, value in pairs(self.cast) do

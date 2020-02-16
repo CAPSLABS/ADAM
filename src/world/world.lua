@@ -16,7 +16,7 @@ function World:Create()
         x = 32 * 15,
         y = 32 * 30,
         -- level we are currently playing
-        currentLvl = nil,
+        currentLvl = 11,
         -- total runtime of a level
         runtime = 0,
         -- true if explosion animation runs
@@ -516,7 +516,20 @@ function World:loadEnemies()
     end
 end
 
+function World:resetForLevelStart()
+    self.runtime = 0
+    self.enemies = {}
+    self.drops = {}
+    self.wonLevel = false
+    self.spawn = true
+    self.currentLvl = lvl
+    self.player.hearts = self.player.maxHearts
+end
+
 function World:loadPlayer()
+    --safe away default values to reset to:
+    PLAYERRAW = require("src.player")
+    self.player = Shallowcopy(PLAYERRAW)
     for key, imgPath in pairs(self.player.media) do
         self.player.media[key] = love.graphics.newImage(imgPath)
     end
@@ -870,32 +883,39 @@ function World:checkWinCondition(dt)
     end
 end
 
-function World:reset() --cleans up tables, despawning enemies, goal counter
-    -- despawn everything that was on the field
+function World:reset()
+    --cleans up tables, despawning enemies, goal counter, despawn everything that was on the field
     self.enemies = {}
     self.drops = {}
     self.player:reset(false)
-    --self.player.booms = {}
-    --self.player.fires = {}
-    --self.player.sonicRings = {}
-
-    -- reset goals
-    if self.levels[self.currentLvl].winType == "kill" then
-        for name, enemyInfo in pairs(self.levels[self.currentLvl].enemies) do
-            if enemyInfo.killToWin then
-                enemyInfo.counter = 0
+    self.runtime = 0
+    self.enemies = {}
+    self.drops = {}
+    self.wonLevel = false
+    self.spawn = true
+    self.player.hearts = self.player.maxHearts
+    if not self.endlessmode then
+        self.cityHealth = 100
+        -- reset goals
+        if self.levels[self.currentLvl].winType == "kill" then
+            for name, enemyInfo in pairs(self.levels[self.currentLvl].enemies) do
+                if enemyInfo.killToWin then
+                    enemyInfo.counter = 0
+                end
             end
+        elseif self.levels[self.currentLvl].winType == "endure" then
+            self.levels[self.currentLvl].goal = self.levels[self.currentLvl].goalMax
+        elseif self.levels[self.currentLvl].winType == "collect" then
+            self.levels[self.currentLvl].goal = self.levels[self.currentLvl].goalMax
         end
-    elseif self.levels[self.currentLvl].winType == "endure" then
-        self.levels[self.currentLvl].goal = self.levels[self.currentLvl].goalMax
-    elseif self.levels[self.currentLvl].winType == "collect" then
-        self.levels[self.currentLvl].goal = self.levels[self.currentLvl].goalMax
-    end
-
-    --reset timers
-    for _, info in pairs(self.levels[self.currentLvl].enemies) do
-        info.timer = info.timerReset
-        info.timerMax = info.timerReset
+        --reset timers
+        for _, info in pairs(self.levels[self.currentLvl].enemies) do
+            info.timer = info.timerReset
+            info.timerMax = info.timerReset
+        end
+    else
+        --resets buyable city hp if in endlessmode
+        SHOP.clicked = false
     end
 end
 ------------ENDLESS MODE -------------

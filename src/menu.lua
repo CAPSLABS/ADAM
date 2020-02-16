@@ -64,91 +64,17 @@ return {
     getBorderY = function(self, segment)
         return WORLD.y / 5 * segment - WORLD.y / 8
     end,
-    -- Controls in Debug mode
-    checkDebugInput = function(self)
-        if DEBUG then
-            -- cannot have STORY.firstLvl = false here and STORY.firstLvl = true for lvl 1 because the explosion
-            -- animation of the beginning lets us call this function during the animation, setting STORY.firstLvl to
-            -- false if don't hold the button 1 pressed
-            if love.keyboard.isDown("1") then
-                self:startGame()
-            elseif love.keyboard.isDown("2") then
-                STORY.firstLvl = false
-                WORLD.player:lvlUpFire()
-                STORY.storyIndex = 25
-                InitGame(1, 6)
-            elseif love.keyboard.isDown("3") then
-                STORY.firstLvl = false
-                STORY.storyIndex = 50
-                WORLD.player:lvlUpFire()
-                WORLD.player:lvlUpBerserk()
-                WORLD.player:lvlUpFast()
-                InitGame(2, 6)
-            elseif love.keyboard.isDown("4") then
-                STORY.firstLvl = false
-                STORY.storyIndex = 82
-                WORLD.player:lvlUpBoom()
-                WORLD.player:lvlUpFire()
-                WORLD.player:lvlUpFire()
-                WORLD.player:lvlUpFast()
-                WORLD.player:lvlUpBerserk()
-                InitGame(3, 6)
-            elseif love.keyboard.isDown("5") then
-                STORY.firstLvl = false
-                STORY.storyIndex = 111
-                STORY:mapchange()
-                WORLD.player:lvlUpBoom()
-                WORLD.player:lvlUpFire()
-                WORLD.player:lvlUpFire()
-                WORLD.player:lvlUpFast()
-                WORLD.player:lvlUpFast()
-                WORLD.player:lvlUpBerserk()
-                WORLD.player:lvlUpBurst()
-                InitGame(4, 6)
-            elseif love.keyboard.isDown("6") then
-                STORY.firstLvl = false
-                STORY.storyIndex = 135
-                STORY:mapchange()
-                WORLD.player:lvlUpBoom()
-                WORLD.player:lvlUpFire()
-                WORLD.player:lvlUpFire()
-                WORLD.player:lvlUpFast()
-                WORLD.player:lvlUpFast()
-                WORLD.player:lvlUpBerserk()
-                WORLD.player:lvlUpBerserk()
-                WORLD.player:lvlUpBurst()
-                InitGame(5, 6)
-            elseif love.keyboard.isDown("7") then
-                STORY.firstLvl = false
-                STORY.storyIndex = 164
-                STORY:mapchange()
-                InitGame(6, 6)
-            elseif love.keyboard.isDown("8") then
-                STORY.firstLvl = false
-                STORY.storyIndex = 199
-                STORY:mapchange()
-                STORY:mapchange()
-                InitGame(7, 6)
-            elseif love.keyboard.isDown("9") then
-                STORY.firstLvl = false
-                STORY.storyIndex = 216
-                STORY:mapchange()
-                STORY:mapchange()
-                InitGame(8, 6)
-            elseif love.keyboard.isDown("s") then
-                --elseif love.keyboard.isDown("l") then
-                --    GAMESTATE = 7
-                GAMESTATE = 4
-            elseif love.keyboard.isDown("0") then
-                InitGame(1, 6)
+    fadeIn = function(self, dt)
+        if self.gameOpenFadeIn then
+            local done = FADER:fadeIn(dt)
+            if done then
+                self.gameOpenFadeIn = false
             end
         end
     end,
     -- Controls during during gameover
     checkGameOverInput = function(self)
-        if love.keyboard.isDown("escape") then
-            love.event.push("quit")
-        elseif love.keyboard.isDown("r") then
+        if love.keyboard.isDown("r") then
             if WORLD.endlessmode then
                 love.event.quit("restart")
             else
@@ -176,7 +102,7 @@ return {
             MUSIC.airhorn:stop()
         end
     end,
-    startGame = function(self)
+    startIntroAnim = function(self)
         WORLD.player.bursting = true
         WORLD.exploding = true
     end,

@@ -7,112 +7,71 @@
 --
 --      @date 30.6.2019
 --      @authors David L. Wenzel, Phillip Tse
---]] require(
-    "src.mapLoader"
-)
-require("src.util")
-require("src.story")
-require("src.world.world")
+--]]
+--main components:
 
+-- external libs:
 SUIT = require "src.suit"
 ANIMATE = require "src.anim8"
 DEBUG = false
--- DEBUG = true
+DEBUG = true
 
--- 1=menu, 2=game, 3=gameOver, 4=shop, 5=explosion, 6 = story
-GAMESTATES = {1, 2, 3, 4, 5}
-GAMESTATE = GAMESTATES[1]
-math.randomseed(os.time())
+-- 1=menu, 2=game, 3=gameOver, 4=shop, 5=explosion, 6 = story, 7 = credits
+GAMESTATE = 1
+math.randomseed(os.time()) --to get new random numbers every boot, we use the time besed randomseed
 
 ------------ LOADING --------------
-
 function love.load()
+    require("src.mapLoader")
+    require("src.util")
+    require("src.world.world")
     WORLD = World:Create()
+    CONTROLS = require("src.controls")
     MENU = require("src.menu")
-    MENU:setTitle()
     SHOP = require("src.shop")
     STORY = require("src.story")
     MUSIC = require("src.music")
     FADER = require("src.fader")
     CREDITS = require("src.credits")
-    WORLD.currentLvl = #WORLD.levels -- this should point to menu
-    -- make sure this points to last level in WORLD, which is MENU
+    MENU:setTitle()
     WORLD:loadMenu()
     WORLD:loadEnemies()
     WORLD:loadMedia()
     WORLD:loadHud()
     WORLD:loadItems()
-    LoadMap()
-
-    PLAYERRAW = require("src.player")
-    WORLD.player = Shallowcopy(PLAYERRAW)
-    if DEBUG then
-        WORLD.player.money = 10000
-    end
     WORLD:loadPlayer()
     SHOP:loadBacking()
     MUSIC:load()
     MUSIC:changeVolume(0.2)
     MUSIC.tracks.mainMenu:play()
-end
-
-function LoadMap()
-    _G.map = LoadTiledMap("assets/tile/", WORLD.map)
+    STORY:loadStory()
+    LoadMap()
+    if DEBUG then
+        SetDebug()
+    end
 end
 
 function InitGame(lvl, gamestate)
-    if not WORLD.endlessmode then
-        WORLD.cityHealth = 100
-    end
-    WORLD.runtime = 0
-    WORLD.enemies = {}
-    WORLD.drops = {}
-    WORLD.wonLevel = false
-    WORLD.spawn = true
+    --is used to reset WORLD variables to get into the next level / endless mode / story chapter
     WORLD.currentLvl = lvl
-    WORLD.player.hearts = WORLD.player.maxHearts
     GAMESTATE = gamestate
-
-    -- resets buyable city hp in endlessmode
-    if WORLD.endlessmode then
-        SHOP.clicked = false
-    end
+    WORLD:reset()
 
     if GAMESTATE == 6 then
         love.graphics.setFont(WORLD.media.readfont)
-        if STORY.loaded == false then
-            STORY:loadStory()
-        else
-            STORY:processNextLine()
-        end
-    end
-    if GAMESTATE == 2 then
-        WORLD.player.startOfLvlMoney = WORLD.player.money
+        STORY:processNextLine()
     end
 end
 
 ------------ UPDATING --------------
-
 function love.update(dt)
     if GAMESTATE == 1 then -- MENU
-        if MENU.gameOpenFadeIn then
-            local done = FADER:fadeIn(dt)
-            if done then
-                MENU.gameOpenFadeIn = false
-            end
-        end
-        if WORLD.exploding then
-            WORLD:updateExplosion(dt, 240, 850, WORLD.media["explosion"].maxRuntime)
-        end
-        if DEBUG then
-            MENU:checkDebugInput()
-        end
+        MENU:fadeIn(dt)
         MENU:updateMenu(dt)
         WORLD:spawnEnemies(dt)
         WORLD:updateEnemies(dt) -- moves, animates&deletes enemies
-
-        if WORLD.credits then
-            CREDITS:update(dt)
+        if WORLD.exploding then
+            WORLD:updateExplosion(dt, 240, 850, WORLD.media["explosion"].maxRuntime)
         end
     elseif GAMESTATE == 2 then -- GAME
         WORLD:checkPlayerActionInput(dt)
@@ -120,14 +79,14 @@ function love.update(dt)
         WORLD:updateHealth()
         WORLD:checkWinCondition(dt)
         WORLD:spawnEnemies(dt)
-        WORLD:updateEnemies(dt) -- moves, an
+        WORLD:updateEnemies(dt)
         WORLD:handleCollisions()
         WORLD:updateExplosion(dt, WORLD.player.x + 32, WORLD.player.y + 32, WORLD.player.explosionMaxRuntime)
     elseif GAMESTATE == 3 then -- GAME OVER
         MENU:checkGameOverInput()
         MENU:playAirhornSound()
     elseif GAMESTATE == 4 then -- SHOP
-        SHOP:updateShopShit(dt)
+        SHOP:updateShop(dt)
     elseif GAMESTATE == 5 then -- Intro Sequence
         WORLD:spawnEnemies(dt)
         WORLD:updateEnemies(dt)
@@ -152,6 +111,7 @@ function love.draw()
         WORLD:drawEnemyStuff()
         if DEBUG then
             MENU:drawDebugMenu()
+            WORLD:drawHitBoxes(240, 850)
         else
             MENU:drawMenu()
         end
@@ -168,6 +128,9 @@ function love.draw()
         WORLD:drawWinScreen()
         WORLD:drawFire()
         WORLD:drawLightning()
+        if DEBUG then
+            WORLD:drawHitBoxes(WORLD.player.x + 32, WORLD.player.y + 32)
+        end
     elseif GAMESTATE == 3 then -- GAME OVER
         MENU:drawPaidRespect()
         love.graphics.setFont(WORLD.media.fantasyfont)
@@ -177,117 +140,25 @@ function love.draw()
         love.graphics.print("Press R to restart.", 100, 175)
         love.graphics.print("Press F to pay respect.", 100, 200)
     elseif GAMESTATE == 4 then -- SHOP
-        SHOP:drawShopShit()
+        SHOP:drawShop()
     elseif GAMESTATE == 6 then -- STORY
         _G.map:draw()
         STORY:drawStory()
     elseif GAMESTATE == 7 then -- CREDITS
         CREDITS:draw()
     end
-
-    if DEBUG then
-        -- DrawPerformance()
-        if (GAMESTATE == 1) then
-            WORLD:drawHitBoxes(240, 850)
-        else
-            WORLD:drawHitBoxes(WORLD.player.x + 32, WORLD.player.y + 32)
-        end
-    end
 end
 
 function love.keypressed(key)
     if GAMESTATE == 1 then
         -- When we passed the title screen
-        if MENU.enterPressed then
-            if key == "down" then
-                if MENU.currentButtonId < 4 then
-                    MENU.currentButtonId = MENU.currentButtonId + 1
-                end
-            elseif key == "up" then
-                if MENU.currentButtonId > 1 then
-                    MENU.currentButtonId = MENU.currentButtonId - 1
-                end
-            elseif key == "return" then
-                if MENU.currentButtonId == 1 then
-                    MENU:startGame()
-                elseif MENU.currentButtonId == 2 then
-                    WORLD.endlessmode = true
-                    MUSIC:startMusic("villageBattle")
-                    InitGame(10, 2)
-                elseif MENU.currentButtonId == 3 then
-                    CREDITS:load()
-                else
-                    print("currentButtonId " .. MENU.currentButtonId .. " not valid.")
-                end
-            elseif key == "left" then
-                MENU:decreaseVolume()
-            elseif key == "right" then
-                MENU:increaseVolume()
-            end
-        end
+        CONTROLS:menu(key)
     elseif GAMESTATE == 2 then
-        if WORLD.wonLevel and key == "return" then
-            if WORLD.endlessmode then
-                WORLD:nextEndlessMode()
-            else
-                InitGame(WORLD.currentLvl, 6)
-                WORLD.player:reset()
-            end
-        end
+        CONTROLS:game(key)
     elseif GAMESTATE == 4 then
-        if key == "down" then
-            if WORLD.endlessmode then
-                if 0 <= SHOP.currentRow and SHOP.currentRow <= 5 then
-                    SHOP.currentRow = SHOP.currentRow + 1
-                    SHOP.hovered[SHOP.currentRow] = true
-                end
-            else
-                if 1 <= SHOP.currentRow and SHOP.currentRow <= 5 then
-                    SHOP.currentRow = SHOP.currentRow + 1
-                    SHOP.hovered[SHOP.currentRow] = true
-                end
-            end
-        elseif key == "up" then
-            if WORLD.endlessmode then
-                if 1 <= SHOP.currentRow and SHOP.currentRow <= 6 then
-                    SHOP.currentRow = SHOP.currentRow - 1
-                    SHOP.hovered[SHOP.currentRow] = true
-                end
-            else
-                if 2 <= SHOP.currentRow and SHOP.currentRow <= 6 then
-                    SHOP.currentRow = SHOP.currentRow - 1
-                    SHOP.hovered[SHOP.currentRow] = true
-                end
-            end
-        elseif key == "return" then
-            -- getSkillFromRow returns the name of the skill in the shop, the according player lvl of that skill, and the lvl function of that skill
-            if SHOP.currentRow ~= 6 then
-                local skillName, skillLevel, skillFct = SHOP:getSkillFromRow()
-                if skillLevel < #SHOP.prices[skillName] then
-                    if SHOP:buy(SHOP.prices[skillName][skillLevel + 1]) then
-                        skillFct(WORLD.player)
-                    else
-                        SHOP.tooBroke = true
-                        SHOP.sensei = SHOP.media.senseiAngry
-                    end
-                end
-            else
-                love.graphics.setBackgroundColor(0, 0, 0, 0)
-                if WORLD.endlessmode then
-                    SHOP.clicked = false
-                    SHOP.todaysSpecial = nil
-                    SHOP.specialCategory = nil
-                    WORLD.shoppedThisIteration = true
-                    WORLD:nextEndlessMode()
-                else
-                    InitGame(WORLD.currentLvl, 6)
-                end
-            end
-        end
+        CONTROLS:shop(key)
     elseif GAMESTATE == 6 then
-        if key == "return" then
-            STORY:processNextLine()
-        end
+        CONTROLS:story(key)
     end
 end
 

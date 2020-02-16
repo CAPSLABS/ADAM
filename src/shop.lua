@@ -66,7 +66,7 @@ return {
             self.sensei = self.media.sensei
         end
     end,
-    updateShopShit = function(self, dt)
+    updateShop = function(self, dt)
         -- Updates timer for the too broke message
         if self.tooBroke then
             self:timeTooBrokeMessage(dt)
@@ -331,7 +331,7 @@ return {
             end
         end
     end,
-    drawShopShit = function(self)
+    drawShop = function(self)
         self:drawBackground()
         self:broUBroke()
         self:drawFocussedIconBorder()
@@ -387,7 +387,7 @@ return {
                 self.media.done:getHeight() + 2 * self.focussedIconBorderWidth
             )
         else
-            print("Shit failed bitch")
+            print("drawing icon borders  failed")
         end
         love.graphics.setLineWidth(1)
         love.graphics.setColor(255, 255, 255)

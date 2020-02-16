@@ -95,11 +95,10 @@ return {
         self.anim:update(dt)
 
         if self.intro then
-            self:updateIntroShit(dt)
+            self:updateIntro(dt)
         else
             self:bossAI(dt)
         end
-
         -- check iFrames
         if self.gotHit then
             self:updateIFrames(dt)
@@ -114,7 +113,7 @@ return {
     end,
     ------------ INTRO STUFF ------------
 
-    updateIntroShit = function(self, dt)
+    updateIntro = function(self, dt)
         -- Switch the animation if it is paused
         if self.anim.status == "paused" then
             if self.curAnim == "dying" then

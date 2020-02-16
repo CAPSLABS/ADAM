@@ -66,7 +66,7 @@ function LoadTiledMap(path, luamap)
                             break
                         end
                     end
-                    -- Draw that shit
+                    -- Draw it all:
                     if tid ~= 0 then
                         local quad = self.quads[tid]
                         local xx = x * self.tilesets[currentTileset].tilewidth
