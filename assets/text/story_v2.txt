@@ -40,15 +40,16 @@ LILITH: Why did they conveniently leave money on the ground after being slain??
 ADAM: Cool! Money! We can get more stuff from old weird forest dude!
 ~shop~MUSIC
 ~none~SAGE
+~villageBattle~MUSIC
 ~villager~LEFT
 ~adam~RIGHT
 VILLAGER: ADAM quick! There is more of them!
-~villageBattle~MUSIC
 ~none~INSTRUCTIONS
 Stop the goblins from destroying the village!
 ~none~NEXTLEVEL
 ~shop~MUSIC
 ~none~SAGE
+~lilith~MUSIC
 ~lilith~LEFT
 ~adam~RIGHT
 ADAM: Whew who knew fighting monsters was tiring
@@ -81,6 +82,7 @@ Figure out what is going on by collecting ten hints!
 ~none~NEXTLEVEL
 ~shop~MUSIC
 ~none~SAGE
+~lilith~MUSIC
 ~lilith~RIGHT
 ~adam~RIGHT
 ~adam~TURN
@@ -173,6 +175,7 @@ ADAM: Let’s go to the caves!
 SAGE: Before you go: BUY STUFF!!
 ~shop~MUSIC
 ~none~SAGE
+~cave~MUSIC
 ~none~MAPCHANGE
 ~lilith~RIGHT
 ~adam~RIGHT
@@ -212,4 +215,6 @@ ADAM: I don’t like riddles! Im going to shoot the door down!
 ~caveBattle~MUSIC
 ~none~INSTRUCTIONS
 Destroy the heavy door to get to the Goblin King
+~none~NEXTLEVEL
+dummy text
 ~none~NEXTLEVEL

@@ -44,32 +44,32 @@ return {
                 InitGame(2, 6)
             elseif key == "4" then
                 STORY.firstLvl = false
-                STORY.storyIndex = 82
+                STORY.storyIndex = 83
                 InitGame(3, 6)
             elseif key == "5" then
                 STORY.firstLvl = false
-                STORY.storyIndex = 111
+                STORY.storyIndex = 113
                 STORY:mapchange()
                 InitGame(4, 6)
             elseif key == "6" then
                 STORY.firstLvl = false
-                STORY.storyIndex = 135
+                STORY.storyIndex = 137
                 STORY:mapchange()
                 InitGame(5, 6)
             elseif key == "7" then
                 STORY.firstLvl = false
-                STORY.storyIndex = 164
+                STORY.storyIndex = 166
                 STORY:mapchange()
                 InitGame(6, 6)
             elseif key == "8" then
                 STORY.firstLvl = false
-                STORY.storyIndex = 199
+                STORY.storyIndex = 202
                 STORY:mapchange()
                 STORY:mapchange()
                 InitGame(7, 6)
             elseif key == "9" then
                 STORY.firstLvl = false
-                STORY.storyIndex = 216
+                STORY.storyIndex = 219
                 STORY:mapchange()
                 STORY:mapchange()
                 InitGame(8, 6)
