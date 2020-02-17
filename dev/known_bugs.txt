@@ -1,3 +1,2 @@
 - boom and f skill cooldown does not reset
 - music doesnt restart when clicking R 
-- pressing enter when DONE after a lvl also tries to buy the first upgrade immidiately

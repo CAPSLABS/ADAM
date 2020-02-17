@@ -17,3 +17,4 @@ IDEAS:
 - pause menu for volume change and..well, game pauses
 - tutorial?
 - if game finished, then on title screen player and lilith and pierre walk randomly instead 
+- show hp of things with more than 1 hpl
