@@ -1,2 +1,1 @@
-- boom and f skill cooldown does not reset
 - music doesnt restart when clicking R 

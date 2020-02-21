@@ -406,32 +406,34 @@ return {
         else
             self.startOfLvlMoney = self.money
         end
-        if self.inBerserk then
-            self.inBerserk = false
-            self.canBerserk = true
-            self.berserkDuration = PLAYERRAW.berserkDuration
-        end
-        if self.inSonic then
-            self.inSonic = false
-            self.canGoFast = true
-            self.sonicDuration = PLAYERRAW.sonicDuration
-            self.currentAcceleration = PLAYERRAW.currentAcceleration
-        end
-        if self.bursting then
-            self.bursting = false
-            self.canBurst = true
-            WORLD.exploding = false
-        end
-        self.fires = {}
+        -- clear boom
         self.booms = {}
+        self.canBoom = true
+        self.boomCooldown = PLAYERRAW.boomCooldown
+        -- clear fire
+        self.fires = {}
+        self.canFire = true
+        self.fireCooldown = PLAYERRAW.fireCooldown
+        -- clear berserk
+        self.inBerserk = false
+        self.canBerserk = true
+        self.berserkDuration = PLAYERRAW.berserkDuration
+        self.berserkCooldown = PLAYERRAW.berserkCooldown
+        -- clear go fast
         self.sonicRings = {}
+        self.inSonic = false
+        self.canGoFast = true
+        self.sonicDuration = PLAYERRAW.sonicDuration
+        self.currentAcceleration = PLAYERRAW.currentAcceleration
+        self.goFastCooldown = PLAYERRAW.goFastCooldown
+        -- clear burst
+        self.bursting = false
+        self.canBurst = true
+        self.burstCooldown = PLAYERRAW.burstCooldown
+        WORLD.exploding = false
+        -- clear player status
         self.gotHit = false
         self.iFrameSec = self.iFrameSecMax
-        self.burstCooldown = PLAYERRAW.burstCooldown
-        self.berserkCooldown = PLAYERRAW.berserkCooldown
-        self.fireCooldown = PLAYERRAW.fireCooldown
-        self.boomCooldown = PLAYERRAW.boomCooldown
-        self.goFastCooldown = PLAYERRAW.goFastCooldown
     end,
     -- i know this seems to be an odd place for such a pretty function, but trust me, i can explain!
     buySpecialOffer = function(self)

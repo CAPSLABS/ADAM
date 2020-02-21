@@ -140,7 +140,7 @@ function World:Create()
                         timerMax = 0.4,
                         timerReset = 0.4,
                         counter = 0,
-                        goal = 7,
+                        goal = 10,
                         killToWin = true,
                         spawnFct = function(self, runtime, dt)
                             if self.counter == 0 then
@@ -185,8 +185,8 @@ function World:Create()
                     }
                 },
                 winType = "endure",
-                goal = 145, -- runtime to be reached to win
-                goalMax = 145
+                goal = 150, -- runtime to be reached to win
+                goalMax = 150
                 -- runtime is counted via self.runtime
             },
             --level 6: Survive 2 min
@@ -240,8 +240,8 @@ function World:Create()
                     }
                 },
                 winType = "endure",
-                goal = 145, -- runtime to be reached to win
-                goalMax = 145
+                goal = 150, -- runtime to be reached to win
+                goalMax = 150
                 -- runtime is counted via self.runtime
             },
             -- level 7: kill 10 lizzies
