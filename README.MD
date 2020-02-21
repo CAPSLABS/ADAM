@@ -14,7 +14,7 @@ Under Linux, you can start the game directly using the source code!
   
 **UBUNTU:**   
 `sudo apt install lua5.3`    
-The following command should allow you to get the latest stable version of LÖVE (which is usually newer than the default apt-package):
+The following command should allow you to get the latest stable version of LÖVE (which is usually newer than the default apt-package):  
 `sudo add-apt-repository ppa:bartbes/love-stable`  
 `sudo apt-get update`  
 `sudo apt install love`
