@@ -91,11 +91,11 @@ function Hud:drawSkills()
     local skills = self:getSkillsToDraw()
     self:drawOnSkillPositions(skills)
     if self.player.inBerserk then
-        -- make the boom box bling
+        -- make the berserk box bling
         love.graphics.setColor(1, 0.8313, 0, self.player.berserkAlpha)
         love.graphics.rectangle(
             "fill",
-            self.media.hudPos.xOffset,
+            self.media.hudPos.xOffset + (self.media.hudPos.skillDistance * 2),
             self.media.hudPos.yOffset,
             self.media.hud.boom:getWidth(),
             self.media.hud.boom:getHeight()
@@ -121,22 +121,22 @@ end
 
 function Hud:getSkillsToDraw()
     local skills = {}
-    if self.player.canBoom == true then
+    if self.player.canBoom then
         table.insert(skills, self.media.hud.boom)
     else
         table.insert(skills, self.media.hud.boomUsed)
     end
-    if self.player.canFire == true and (self.player.fireLevel ~= 0) then
+    if self.player.canFire and (self.player.fireLevel ~= 0) then
         table.insert(skills, self.media.hud.fire)
     else
         table.insert(skills, self.media.hud.fireUsed)
     end
-    if self.player.canBerserk == true and (self.player.berserkLevel ~= 0) then
+    if self.player.canBerserk and (self.player.berserkLevel ~= 0) then
         table.insert(skills, self.media.hud.berserk)
     else
         table.insert(skills, self.media.hud.berserkUsed)
     end
-    if self.player.canGoFast == true and (self.player.goFastLevel ~= 0) then
+    if self.player.canGoFast and (self.player.goFastLevel ~= 0) then
         table.insert(skills, self.media.hud.fast)
     else
         table.insert(skills, self.media.hud.fastUsed)

@@ -4,7 +4,7 @@ Until...
 ~adam~RIGHT
 ~lilith~LEFT
 ADAM: Lilith Lilith Lilith look what I have!!!
-LILITH: Aww, did you find a cheap plastic boomerang in the forest? Did you?? Who is a good boy? 
+LILITH: Aww, did you find a cheap plastic boomerang in the forest? Did you?? Who is a good boy??? 
 ADAM: Yes! I can throw this plastic boomerang by pressing ’A’ and then a copy reappears in my hands!
 ADAM: I got it from a weird old guy in the forest for ALL OF OUR MONEY!
 LILITH: ...
@@ -43,7 +43,7 @@ ADAM: Cool! Money! We can get more stuff from old weird forest dude!
 ~villageBattle~MUSIC
 ~villager~LEFT
 ~adam~RIGHT
-VILLAGER: ADAM quick! There is more of them!
+VILLAGER: ADAM, quick! There is more of them!
 ~none~INSTRUCTIONS
 Stop the goblins from destroying the village!
 ~none~NEXTLEVEL
@@ -53,7 +53,7 @@ Stop the goblins from destroying the village!
 ~lilith~LEFT
 ~adam~RIGHT
 ADAM: Whew, who knew fighting monsters was tiring!
-LILITH: You did a super good job, here, have a snack.
+LILITH: You did a super good job! Here, have a snack.
 ~adam~TURN
 ADAM: -chomp-
 ~adam~TURN
