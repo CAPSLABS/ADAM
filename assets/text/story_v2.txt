@@ -4,18 +4,18 @@ Until...
 ~adam~RIGHT
 ~lilith~LEFT
 ADAM: Lilith Lilith Lilith look what I have!!!
-LILITH: Aw did you find a cheap plastic boomerang in the forest? Did you?? Who is a good boy? 
+LILITH: Aww, did you find a cheap plastic boomerang in the forest? Did you?? Who is a good boy? 
 ADAM: Yes! I can throw this plastic boomerang by pressing ’A’ and then a copy reappears in my hands!
-ADAM: I got it from a weird old guy in the forest for ALL OF OUR MONEY
+ADAM: I got it from a weird old guy in the forest for ALL OF OUR MONEY!
 LILITH: ...
 LILITH: NO!! BAD BOY!!!
 ADAM: I can finally have my dream adventure! Kill all the monsters!
-LILITH: There are no monsters in this village you idiot!
+LILITH: There are no monsters in this village, you idiot!
 ~lilith~EXIT
 ~villager~LEFT
 ~lilith~RIGHT
 VILLAGER: Actually, I happen to be dying of monsters.
-LILITH: You don’t sound like it
+LILITH: You don’t sound like it.
 VILLAGER: -clears throat- ARGH! I am dying of monsters!!
 ADAM: N I C E 
 ~none~INSTRUCTIONS
@@ -52,8 +52,8 @@ Stop the goblins from destroying the village!
 ~lilith~MUSIC
 ~lilith~LEFT
 ~adam~RIGHT
-ADAM: Whew who knew fighting monsters was tiring
-LILITH: You did a super good job, here, have a snack
+ADAM: Whew, who knew fighting monsters was tiring!
+LILITH: You did a super good job, here, have a snack.
 ~adam~TURN
 ADAM: -chomp-
 ~adam~TURN
@@ -64,17 +64,17 @@ ADAM: -munches happily-
 ~lilith~RIGHT
 WILLIAM: Sacrè Bleaoueux, you two saved my villàge! 
 LILITH: Oh no our landlord! And we don’t have any money!
-WILLIAM. Let me introduce le myself, I am William...
-ADAM: -still munching- ’e know ’ho you a’e
+WILLIAM: Let me introduce le myself, I am William...
+ADAM: -still munching- ’e know ’ho you a’e.
 WILLIAM: Cormanthor. . .
-LILITH: You own the entire village and are the richest person ever
+LILITH: You own the entire village and are the richest person ever.
 WILLIAM: Salamancoliòn.  .   .
 ~villager~RIGHT
 VILLAGER: Plus, there are like, only 4 people in this village...
 WILLIAM: Shakespear!! And I want to hire you to investigate this attacks!
-WILLIAM: And to protect my jewel that gives infinite wealth
-LILITH: Your what that what now
-WILLIAM: IT’S À SECRÈT
+WILLIAM: And to protect my jewel that gives infinite wealth...
+LILITH: Your what that what now.
+WILLIAM: IT’S À SECRÈT!!!
 ADAM: Maybe if I hit the monsters really hard they will give me hints!!
 ~villageBattle~MUSIC
 ~none~INSTRUCTIONS
@@ -88,16 +88,16 @@ Figure out what is going on by collecting ten hints!
 ~adam~TURN
 LILITH: ...
 LILITH: How did that even work...
-ADAM: Well Lilith you have to hit the monsters really hard
-ADAM: And then hints come out
-LILITH: This game doesn’t make any sense
+ADAM: Well, Lilith, you have to hit the monsters really hard.
+ADAM: And then hints come out!
+LILITH: This game doesn’t make any sense.
 ~sage~LEFT
 ~adam~TURN
 SAGE: For this many hints I can tell you this:
 SAGE: These are clearly the pawns of the goblin king! 
 SAGE: He lives in the mountains and loves money! 
-SAGE: Something with Money Power must have awakened him...
-LILITH: This game isn’t even trying anymore
+SAGE: Something with money power must have awakened him...
+LILITH: This game isn’t even trying anymore.
 ~william~LEFT
 ~sage~EXIT
 WILLIAM: My jèwel! We need to go to my chàteaueux to protect it!
@@ -105,16 +105,16 @@ WILLIAM: My jèwel! We need to go to my chàteaueux to protect it!
 ~mountain~MUSIC
 ~none~MAPCHANGE
 WILLIAM: Almost there! 
-ADAM: Oh no!! other monsters!
+ADAM: Oh no!! Other monsters!
 ~mountainBattle~MUSIC
 ~none~INSTRUCTIONS
 Kill ten new enemies who are destroying the residency!
 ~none~NEXTLEVEL
 ~adam~RIGHT
 ~mountain~MUSIC
-ADAM: I didnt think it was possible, but I am starting to get tired of fighting monsters
+ADAM: I didn't think it was possible, but I am starting to get tired of fighting monsters.
 ~lilith~RIGHT
-LILITH: at least we made it to the castle
+LILITH: At least we made it to the castle!
 ~sage~LEFT
 SAGE: I know what will cheer you up! Buy more stuff!!
 ~shop~MUSIC
@@ -123,23 +123,23 @@ SAGE: I know what will cheer you up! Buy more stuff!!
 ~sage~LEFT
 ~lilith~RIGHT
 LILITH: Did you follow us all the way here?
-SAGE: of course! ADAM is my favourite costumer!
-SAGE: ...my only costumer
-SAGE: ...ok, people just don’t buy murder weapons like they used to
-LILITH: ok boomer
+SAGE: Ff course! ADAM is my favourite costumer!
+SAGE: ...my only costumer...
+SAGE: ...ok people just don’t buy murder weapons like they used to.
+LILITH: ok boomer.
 ~sage~EXIT
 ~william~LEFT
 WILLIAM: ADAM, qÙick!! The goblìns are attacking again!
 ~mountainBattle~MUSIC
 ~none~INSTRUCTIONS
-Stop the enemies from destroying the residency for two minutes!
+Stop the enemies from destroying the residency for two and a half minutes!
 ~none~NEXTLEVEL
 ~lilith~LEFT
 ~adam~RIGHT
 LILITH: They just keep coming...
-ADAM: I really don’t like the zombies
+ADAM: I really don’t like the zombies.
 LILITH: Aw, do you want another treat?
-ADAM: Yes but don’t patronize me I’m tired
+ADAM: Yes, but don’t patronize me, I’m tired.
 ~adam~TURN
 ADAM: -chomp-
 ~adam~TURN
@@ -153,22 +153,22 @@ SAGE: Buy stuff!!
 ~lilith~RIGHT
 ~adam~RIGHT
 ~william~LEFT
-WILLIAM: The jewel is still safe at least! Dieu mercì 
+WILLIAM: The jewel is still safe at least! Dieu mercì!
 LILITH: So it just... creates wealth?
 WILLIAM: Lòads of it! Look, just holding it in my hands made my pockets fill with coins!
 LILITH: Interesting...
-GOBLIN KING: BEHOLD MY ULTIMATE ONSLAUGHT
+GOBLIN KING: BEHOLD MY ULTIMATE ONSLAUGHT!
 ADAM: Ok, here I go again!
 ~mountainBattle~MUSIC
 ~none~INSTRUCTIONS
-Goblin King’s ultimate onslaught: Hold the residency! 
+The Goblin King’s ultimate onslaught: Hold the residency! 
 ~none~NEXTLEVEL
 ~mountain~MUSIC
 ~adam~RIGHT
 ~lilith~LEFT
 LILITH: The goblin king’s voice was coming from the mountains...
 LILITH: He must be hiding in the caves!
-ADAM: Maybe it’s time to stop being a defender, and become an ATTACKER
+ADAM: Maybe it’s time to stop being a defender and become an ATTACKER!
 ADAM: Let’s go to the caves!
 ~sage~LEFT
 ~lilith~EXIT
@@ -186,9 +186,9 @@ WILLIAM: -looking back towards the castle-
 WILLIAM: Oh dear, the goblins ruined my pretty walls!
 ~william~TURN
 WILLIAM: ADAM could you be more careful next time, it’s marble!
-ADAM: Just shut up, I bet you are not even french
-WILLIAM: !!! sàcre bleh!!!
-LILITH: ADAM calm down now, you are a murderer not an ASSHOLE
+ADAM: Just shut up, I bet you are not even french.
+WILLIAM: !!! sàcre bleh !!!
+LILITH: ADAM calm down now, you are a murderer not an ASSHOLE.
 ~adam~TURN
 ADAM: Don’t tell me what to do!!
 LILITH: So you would be an AWESOME ATTACKER ACTION ASSHOLE, or short-
@@ -208,13 +208,13 @@ LILITH: Look! A door!
 WILLIAM: Speak friend and enter? What does it mean?
 ~sage~RIGHT
 SAGE: It is clearly a riddle!
-LILITH: More like a franchise infringement
+LILITH: More like a franchise infringement.
 WILLIAM: Curious... what does ’friend’ mean?
 ~adam~LEFT
 ADAM: I don’t like riddles! Im going to shoot the door down!
 ~caveBattle~MUSIC
 ~none~INSTRUCTIONS
-Destroy the heavy door to get to the Goblin King
+Destroy the heavy door to get to the Goblin King!
 ~none~NEXTLEVEL
 dummy text
 ~none~NEXTLEVEL
