@@ -112,7 +112,7 @@ Kill ten new enemies who are destroying the residency!
 ~none~NEXTLEVEL
 ~adam~RIGHT
 ~mountain~MUSIC
-ADAM: I didn't think it was possible, but I am starting to get tired of fighting monsters.
+ADAM: I didn’t think it was possible, but I am starting to get tired of fighting monsters.
 ~lilith~RIGHT
 LILITH: At least we made it to the castle!
 ~sage~LEFT
@@ -123,7 +123,7 @@ SAGE: I know what will cheer you up! Buy more stuff!!
 ~sage~LEFT
 ~lilith~RIGHT
 LILITH: Did you follow us all the way here?
-SAGE: Ff course! ADAM is my favourite costumer!
+SAGE: Of course! ADAM is my favourite costumer!
 SAGE: ...my only costumer...
 SAGE: ...ok people just don’t buy murder weapons like they used to.
 LILITH: ok boomer.
@@ -136,6 +136,7 @@ Stop the enemies from destroying the residency for two and a half minutes!
 ~none~NEXTLEVEL
 ~lilith~LEFT
 ~adam~RIGHT
+~mountain~MUSIC
 LILITH: They just keep coming...
 ADAM: I really don’t like the zombies.
 LILITH: Aw, do you want another treat?
@@ -216,5 +217,20 @@ ADAM: I don’t like riddles! Im going to shoot the door down!
 ~none~INSTRUCTIONS
 Destroy the heavy door to get to the Goblin King!
 ~none~NEXTLEVEL
-dummy text
+~shop~MUSIC
+~none~SAGE
+~adam~LEFT
+ADAM: Phil, you will now face the boss
+~finalBattle~MUSIC
+~none~INSTRUCTIONS
+THE TROLL KING ! ! !
 ~none~NEXTLEVEL
+~shop~MUSIC
+~none~SAGE
+~special~MAPCHANGE
+And so, the boss is dead without any story
+~lilith~LEFT
+~adam~RIGHT
+LILITH: What a bummer, the story could have had a nice ending
+~credits~MAPCHANGE
+bla

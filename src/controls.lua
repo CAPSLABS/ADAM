@@ -58,18 +58,18 @@ return {
                 InitGame(5, 6)
             elseif key == "7" then
                 STORY.firstLvl = false
-                STORY.storyIndex = 166
+                STORY.storyIndex = 167
                 STORY:mapchange()
                 InitGame(6, 6)
             elseif key == "8" then
                 STORY.firstLvl = false
-                STORY.storyIndex = 202
+                STORY.storyIndex = 203
                 STORY:mapchange()
                 STORY:mapchange()
                 InitGame(7, 6)
             elseif key == "9" then
                 STORY.firstLvl = false
-                STORY.storyIndex = 219
+                STORY.storyIndex = 220
                 STORY:mapchange()
                 STORY:mapchange()
                 InitGame(8, 6)
