@@ -72,27 +72,6 @@ return {
             end
         end
     end,
-    -- Controls during during gameover
-    checkGameOverInput = function(self)
-        if love.keyboard.isDown("r") then
-            if WORLD.endlessmode then
-                love.event.quit("restart")
-            else
-                WORLD.player:reset(true)
-                WORLD:reset()
-                InitGame(WORLD.currentLvl, 2)
-            end
-        elseif love.keyboard.isDown("f") then
-            self.respectPaid = true
-            self.firstFPress = true
-            if self.lastInput == "f" then
-                self.firstFPress = false
-            end
-            self.lastInput = "f"
-        else
-            self.lastInput = "n"
-        end
-    end,
     playAirhornSound = function(self)
         if self.firstFPress then
             if self.lastInput == "f" then
@@ -106,7 +85,7 @@ return {
         WORLD.player.bursting = true
         WORLD.exploding = true
     end,
-    load = function(self)
+    chooseTitle = function(self)
         local rand = math.random(0, 2)
         if rand == 0 then
             self.a = "A - wesome"
@@ -124,35 +103,28 @@ return {
             self.a2 = "A - ction"
             self.m = "A - sshole"
         end
+    end,
+    chooseTitleScreenEnemy = function(self)
         local enemyNum = math.random(0, 10)
+        local enemy = {
+            timer = 0.0,
+            timerMax = 0.0,
+            timerReset = 0.0,
+            spawnFct = function(runtime)
+                return 0.0
+            end
+        }
         if enemyNum < 7 then
-            local goblin = {
-                timer = 0.0,
-                timerMax = 0.0,
-                spawnFct = function(runtime)
-                    return 0.0
-                end
-            }
-            WORLD.levels[#WORLD.levels].enemies["goblin"] = goblin
-        elseif enemyNum < 9 then
-            local zombie = {
-                timer = 0.0,
-                timerMax = 0.0,
-                spawnFct = function(runtime)
-                    return 0.0
-                end
-            }
-            WORLD.levels[#WORLD.levels].enemies["zombie"] = zombie
-        else
-            local lizard = {
-                timer = 0.0,
-                timerMax = 0.0,
-                spawnFct = function(runtime)
-                    return 0.0
-                end
-            }
-            WORLD.levels[#WORLD.levels].enemies["lizard"] = lizard
+            WORLD.levels[#WORLD.levels].enemies["goblin"] = enemy
+        elseif enemyNum < 9 then 
+            WORLD.levels[#WORLD.levels].enemies["zombie"] = enemy
+        else 
+            WORLD.levels[#WORLD.levels].enemies["lizard"] = enemy
         end
+    end,
+    load = function(self)
+        self:chooseTitle()
+        self:chooseTitleScreenEnemy()
     end,
     ----------------- DRAWING -----------------
     drawTitle = function(self)
