@@ -222,7 +222,7 @@ function World:Create()
                                 return 0.08
                             elseif runtime <= 62 then
                                 return 30
-                            elseif runtime <= 145 then
+                            else
                                 -- Boom! There comes the storm from second 90 to 120
                                 return (1 / (1 + math.exp(0.1 * runtime))) + 0.5
                             end
@@ -484,15 +484,15 @@ function World:loadEnemies()
     end
 end
 
-function World:resetForLevelStart()
-    self.runtime = 0
-    self.enemies = {}
-    self.drops = {}
-    self.wonLevel = false
-    self.spawn = true
-    self.currentLvl = lvl
-    self.player.hearts = self.player.maxHearts
-end
+--function World:resetForLevelStart()
+--    self.runtime = 0
+--    self.enemies = {}
+--    self.drops = {}
+--    self.wonLevel = false
+--    self.spawn = true
+--    self.currentLvl = lvl
+--    self.player.hearts = self.player.maxHearts
+--end
 
 function World:loadPlayer()
     --safe away default values to reset to:

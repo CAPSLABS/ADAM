@@ -434,6 +434,9 @@ return {
         -- clear player status
         self.gotHit = false
         self.iFrameSec = self.iFrameSecMax
+        self.verticalDir = 1 -- look up
+        self.anim = self.upLeftAnim
+        self.x = 200
     end,
     -- i know this seems to be an odd place for such a pretty function, but trust me, i can explain!
     buySpecialOffer = function(self)
