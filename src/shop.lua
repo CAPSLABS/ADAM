@@ -33,9 +33,9 @@ return {
     },
     prices = {
         wall = {1000}, -- price changes
-        boom = {0, 50, 200},
+        boom = {0, 100, 250},
         fire = {10, 50, 200},
-        berserk = {10, 50, 200},
+        berserk = {10, 100, 250},
         fast = {10, 50, 200},
         burst = {30, 300, 300}
     },
