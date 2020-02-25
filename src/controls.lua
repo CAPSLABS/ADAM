@@ -92,6 +92,35 @@ return {
             end
         end
     end,
+    gamePlayerInput = function(self, dt)
+        -- MOVEMENT
+        if love.keyboard.isDown("left") then
+            WORLD.player:moveLeft(dt)
+        elseif love.keyboard.isDown("right") then
+            WORLD.player:moveRight(dt)
+        end
+        if love.keyboard.isDown("down") then
+            WORLD.player:changeVerticalDirDown()
+        elseif love.keyboard.isDown("up") then
+            WORLD.player:changeVerticalDirUp()
+        end
+        -- ATTACKS (do not elseif or one cannot activate skills simultaniously!)
+        if love.keyboard.isDown("a") then
+            WORLD.player:throwBoom(dt)
+        end
+        if love.keyboard.isDown("s") and WORLD.player.canFire then
+            WORLD.player:spitFire()
+        end
+        if love.keyboard.isDown("d") and WORLD.player.canBerserk then
+            WORLD.player:goBerserk(dt)
+        end
+        if love.keyboard.isDown("f") and WORLD.player.canGoFast then
+            WORLD.player:gottaGoFast(dt)
+        end
+        if love.keyboard.isDown("space") and WORLD.player.canBurst then
+            WORLD.player:burst(dt)
+        end
+    end,
     story = function(self, key)
         if key == "return" then
             STORY:processNextLine()
@@ -146,6 +175,26 @@ return {
                     InitGame(WORLD.currentLvl, 6)
                 end
             end
+        end
+    end,
+    gameOver = function(self)
+        if love.keyboard.isDown("r") then
+            if WORLD.endlessmode then
+                love.event.quit("restart")
+            else
+                WORLD.player:reset(true)
+                WORLD:reset()
+                InitGame(WORLD.currentLvl, 2)
+            end
+        elseif love.keyboard.isDown("f") then
+            MENU.respectPaid = true
+            MENU.firstFPress = true
+            if MENU.lastInput == "f" then
+                MENU.firstFPress = false
+            end
+            MENU.lastInput = "f"
+        else
+            MENU.lastInput = "n"
         end
     end
 }

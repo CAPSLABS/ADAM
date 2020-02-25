@@ -73,7 +73,7 @@ function love.update(dt)
             WORLD:updateExplosion(dt, 240, 850, WORLD.media["explosion"].maxRuntime)
         end
     elseif GAMESTATE == 2 then -- GAME
-        WORLD:checkPlayerActionInput(dt)
+        CONTROLS:gamePlayerInput(dt)
         WORLD.player:update(dt)
         WORLD:updateHealth()
         WORLD:checkWinCondition(dt)
@@ -82,7 +82,7 @@ function love.update(dt)
         WORLD:handleCollisions()
         WORLD:updateExplosion(dt, WORLD.player.x + 32, WORLD.player.y + 32, WORLD.player.explosionMaxRuntime)
     elseif GAMESTATE == 3 then -- GAME OVER
-        MENU:checkGameOverInput()
+        CONTROLS:gameOver()
         MENU:playAirhornSound()
     elseif GAMESTATE == 4 then -- SHOP
         SHOP:updateShop(dt)

@@ -31,11 +31,11 @@ function Hud:Create()
                 borderSmall = "assets/hud/border/border384.png"
             },
             hudSkillBorder = {
-                a = nil,
-                s = nil,
-                d = nil,
-                f = nil,
-                space = nil
+                a = false,
+                s = false,
+                d = false,
+                f = false,
+                space = false
             },
             hudPos = {
                 --SKILLS:
@@ -111,11 +111,13 @@ end
 
 function Hud:drawOnSkillPositions(drawableSkillObjects)
     for drawableSkillCount = 1, #drawableSkillObjects do
-        love.graphics.draw(
-            drawableSkillObjects[drawableSkillCount],
-            self.media.hudPos.xOffset + (self.media.hudPos.skillDistance * (drawableSkillCount - 1)),
-            self.media.hudPos.yOffset
-        )
+        if drawableSkillObjects[drawableSkillCount] then
+            love.graphics.draw(
+                drawableSkillObjects[drawableSkillCount],
+                self.media.hudPos.xOffset + (self.media.hudPos.skillDistance * (drawableSkillCount - 1)),
+                self.media.hudPos.yOffset
+            )
+        end
     end
 end
 
@@ -153,18 +155,28 @@ function Hud:getSkillBordersToDraw()
     local skillBorders = {}
     if self.media.hudSkillBorder.a then
         table.insert(skillBorders, self.media.hudSkillBorder.a)
+    else 
+        table.insert(skillBorders, false)
     end
     if self.media.hudSkillBorder.s then
         table.insert(skillBorders, self.media.hudSkillBorder.s)
+    else 
+        table.insert(skillBorders, false)
     end
     if self.media.hudSkillBorder.d then
         table.insert(skillBorders, self.media.hudSkillBorder.d)
+    else 
+        table.insert(skillBorders, false)
     end
     if self.media.hudSkillBorder.f then
         table.insert(skillBorders, self.media.hudSkillBorder.f)
+    else 
+        table.insert(skillBorders, false)
     end
     if self.media.hudSkillBorder.space then
         table.insert(skillBorders, self.media.hudSkillBorder.space)
+    else 
+        table.insert(skillBorders, false)
     end
     return skillBorders
 end

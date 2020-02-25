@@ -50,7 +50,16 @@ return {
             MENU.gameOpenFadeIn = true
             FADER.alpha = 0
             love.graphics.setFont(WORLD.media.bigfantasyfont) --this should probably be triggered upon transitioning to GAMESTATE 1
-            GAMESTATE = 1
+            -- go back to title screen
+            MENU.enterPressed = false
+            -- load title text and title screen enemy - not needed since enemy is already loaded
+            --MENU:load()
+            -- set story index back to one so we can start again
+            STORY.storyIndex = 1
+            -- possibly set back player skills to lvl 1?
+            -- reset all his money?
+            -- set world back to gamestate
+            InitGame(#WORLD.levels,1)
         end
     end,
     increaseLineYs = function(self)

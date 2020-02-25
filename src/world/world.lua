@@ -265,7 +265,7 @@ function World:Create()
                         timerMax = 0.4,
                         timerReset = 0.4,
                         counter = 0,
-                        goal = 7,
+                        goal = 10,
                         killToWin = true,
                         spawnFct = function(self, runtime, dt)
                             if self.counter == 0 then
@@ -485,16 +485,6 @@ function World:loadEnemies()
     end
 end
 
---function World:resetForLevelStart()
---    self.runtime = 0
---    self.enemies = {}
---    self.drops = {}
---    self.wonLevel = false
---    self.spawn = true
---    self.currentLvl = lvl
---    self.player.hearts = self.player.maxHearts
---end
-
 function World:loadPlayer()
     --safe away default values to reset to:
     PLAYERRAW = require("src.player")
@@ -623,12 +613,13 @@ function World:updateExplosion(dt, startX, startY, maxRuntime)
 end
 
 function World:checkStartGame()
-    --this function is used called after the explosion, which is a skill or the intro sequence
+    --this function is called after the explosion, which is a skill or the intro sequence
     -- only if its the intro sequence the explo should trigger a game start, which is true when we are in the menu:
     if self.currentLvl == #self.levels then
         InitGame(1, 6)
     end
 end
+
 function World:dropHeart(enemy)
     local heart = Shallowcopy(self.itemsRaw.items["heart"])
     heart.x = enemy.x
@@ -692,6 +683,7 @@ function World:checkSonicRingCollision(enemy, dt)
         end
     end
 end
+
 function World:checkPlayerCollision(enemy, dt)
     -- check player collision:
     if
@@ -752,37 +744,6 @@ function World:handleCollisions(dt)
         end
     end
     self:checkItemCollision(dt)
-end
-
-function World:checkPlayerActionInput(dt)
-    -- MOVEMENT
-    if love.keyboard.isDown("left") then
-        self.player:moveLeft(dt)
-    elseif love.keyboard.isDown("right") then
-        self.player:moveRight(dt)
-    end
-
-    if love.keyboard.isDown("down") then
-        self.player:changeVerticalDirDown()
-    elseif love.keyboard.isDown("up") then
-        self.player:changeVerticalDirUp()
-    end
-    -- ATTACKS (do not elseif or one cannot activate skills simultaniously!)
-    if love.keyboard.isDown("a") then
-        self.player:throwBoom(dt)
-    end
-    if love.keyboard.isDown("s") and self.player.canFire then
-        self.player:spitFire()
-    end
-    if love.keyboard.isDown("d") and self.player.canBerserk then
-        self.player:goBerserk(dt)
-    end
-    if love.keyboard.isDown("f") and self.player.canGoFast then
-        self.player:gottaGoFast(dt)
-    end
-    if love.keyboard.isDown("space") and self.player.canBurst then
-        self.player:burst(dt)
-    end
 end
 
 function World:updateHealth()
@@ -1035,6 +996,7 @@ function World:drawEnemyStuff()
         end
     end
 end
+
 function World:drawFire()
     if self.currentLvl == 9 then
         for i, enemy in ipairs(self.enemies) do
