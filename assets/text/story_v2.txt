@@ -132,7 +132,7 @@ LILITH: ok boomer.
 WILLIAM: ADAM, qÙick!! The goblìns are attacking again!
 ~mountainBattle~MUSIC
 ~none~INSTRUCTIONS
-Stop the enemies from destroying the residency for two and a half minutes!
+Stop the enemies from destroying the residency!
 ~none~NEXTLEVEL
 ~lilith~LEFT
 ~adam~RIGHT
@@ -217,10 +217,31 @@ ADAM: I don’t like riddles! Im going to shoot the door down!
 ~none~INSTRUCTIONS
 Destroy the heavy door to get to the Goblin King!
 ~none~NEXTLEVEL
+~cave~MUSIC
+~lilith~LEFT
+~adam~RIGHT
+LILITH: Good job! The door is down.
+ADAM: Let’s go kick this guy’s butt
+ADAM: ...and then sleep forever
+~sage~LEFT
+SAGE: You will need all the help you can buy!
 ~shop~MUSIC
 ~none~SAGE
-~adam~LEFT
-ADAM: Phil, you will now face the boss
+~cave~MUSIC
+~lilith~RIGHT
+~william~LEFT
+WILLIAM: AaAH! They are everywhere! Lilith, help me escape!
+LILITH: Adam might need our help! He is fighting to protect us!
+WILLIAM: ...
+WILLIAM: You are right.
+WILLIAM: That’s it, I get it know! This is what ’friends’ mean! We help each other!
+WILLIAM: The Troll King is after the jewel, right?!
+WILLIAM: YEET -yeets the jewel-
+LILITH: Are you serious?
+~lilith~EXIT
+~william~EXIT
+~adam~RIGHT
+ADAM: AAAAAAAAAAAA!
 ~finalBattle~MUSIC
 ~none~INSTRUCTIONS
 THE TROLL KING ! ! !
@@ -228,9 +249,29 @@ THE TROLL KING ! ! !
 ~shop~MUSIC
 ~none~SAGE
 ~special~MAPCHANGE
-And so, the boss is dead without any story
-~lilith~LEFT
+~mainMenu~MUSIC
+And so, as all adventures do, this one also comes to an end.
+The goblin kind and his many pawns, who really should unionize, have been defeated.
+And all our heroes arrived at the end of their own journey.
+~lilith~RIGHT
+~william~LEFT
+WILLIAM: Adam, you made it! WE made it! 
+LILITH: shhh... he is sleeping....
+LILITH: I have never seen him this... chill
+~sage~LEFT
+SAGE: Thank you all! I can finally retire with all the money you spent on this adventure
+LILITH: -hiding something in her pockets- Speaking of money, it is a real shame that your jewel got destroyed in the heat of battle
+LILITH: -pockets getting heavier- ...just so sad...
+WILLIAM: It’s ok, I still own the entire villàege
 ~adam~RIGHT
-LILITH: What a bummer, the story could have had a nice ending
+ADAM: -wakes up-!! I did it! 
+ADAM: This was awesome!
+LILITH: Yes you did!! Good boy!!!
+LILITH: So, who are you? A defender? 
+LILITH: Or an attacker?
+ADAM: I think I will just be Adam for a while.
+LILITH: Yeah: Amazing, Destructive, Annoying and Merry
+And so they went back home, tired but laughing, and richer than before:
+With friends
 ~credits~MAPCHANGE
 bla

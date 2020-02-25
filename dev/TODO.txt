@@ -1,4 +1,3 @@
-- rebalance: player has all silver skills after lvl 3, so fit onto that (raise prices). afterwards the player is getting one skill per level, ab lvl 7 is gut gebalanced (P)
 - latency für airhorn fixen (P)
 - sfx / cooldown feedback (P)
 
@@ -13,5 +12,4 @@ IDEAS:
 - slowdown/acceleration when changing direction/starting to move
 - pause menu for volume change and..well, game pauses
 - tutorial?
-- if game finished, then on title screen player and lilith and pierre walk randomly instead 
-- show hp of things with more than 1 hpl
+- show hp of things with more than 1 hp

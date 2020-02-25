@@ -40,6 +40,7 @@ function World:Create()
         media = {
             readfont = nil,
             bigreadfont = nil,
+            smallreadfont= nil,
             defaultfont = nil,
             fantasyfont = nil,
             bigfantasyfont = nil,
@@ -519,6 +520,7 @@ function World:loadMedia()
     self.media.surprise.imgP = love.graphics.newImage(self.media.surprise.imgP)
     self.media.surprise.imgD = love.graphics.newImage(self.media.surprise.imgD)
     self.media.defaultfont = love.graphics.getFont()
+    self.media.smallreadfont = love.graphics.newFont("assets/font/Bagnard.otf", 12)
     self.media.readfont = love.graphics.newFont("assets/font/Bagnard.otf", 20)
     self.media.bigreadfont = love.graphics.newFont("assets/font/Bagnard.otf", 30)
     self.media.fantasyfont = love.graphics.newFont("assets/font/Komi.ttf", 15)

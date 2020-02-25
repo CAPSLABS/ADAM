@@ -9,6 +9,7 @@ return {
     speakerXLeft = -55,
     speakerXRight = 290,
     currentLine = "",
+    instructions = nil,
     parsed = false,
     firstLvl = true,
     map9changed = false,
@@ -181,6 +182,14 @@ return {
             WORLD.HUD.media.hud.border:getWidth() - 50,
             "center"
         )
+
+        love.graphics.setFont(WORLD.media.smallreadfont)
+        love.graphics.printf("ENTER to continue", 310, 930, 200)
+        if self.instructions then
+            love.graphics.setFont(WORLD.media.fantasyfont)
+        else
+            love.graphics.setFont(WORLD.media.readfont)
+        end
     end,
     removeSpeakers = function(self, speaker)
         --todo make "slide away from side" animation
@@ -191,6 +200,7 @@ return {
         end
     end,
     startLevel = function(self)
+        self.instructions = false
         self:prepareNextStep()
         if self.firstLvl then
             self.firstLvl = false
@@ -238,6 +248,7 @@ return {
         -- self.giving_instructions = true
         self.leftSpeakers = {}
         self.rightSpeakers = {}
+        self.instructions = true
         love.graphics.setFont(WORLD.media.fantasyfont)
     end
 }

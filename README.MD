@@ -29,8 +29,8 @@ For Windows we have created a .exe file that can be downloaded from gitlab.
 1. Visit [https://gitlab.com/DavidLeonardWenzel/adam/-/tree/master/bin](https://gitlab.com/DavidLeonardWenzel/adam/-/tree/master/bin). You should see some .dll files, as well as ADAM.exe.
 2. On the site in the upper right corner there is a download symbol. Click on it.
 3. Download the source folder as a .zip file.
-4. Unpack the .zip file. Go into the extracted folder named 'ADAM'.
-5. Start ADAM.exe to play!
+4. Unpack the .zip file. Go into the extracted folder named 'adam'.
+5. Start adam.exe to play!
 
 ### MAC
 
