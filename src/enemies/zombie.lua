@@ -1,7 +1,7 @@
 return {
     name = "zombie",
-    hp = 6,
-    dmg = 1,
+    hp = 8,
+    dmg = 3,
     speed = 0.2,
     x = 0,
     y = 0,

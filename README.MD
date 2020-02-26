@@ -1,5 +1,5 @@
 Welcome to ADAM, an open-source Shoot 'em up game!  
-The game published under GNU GPLv3, so feel free to copy and modify the code as you wish, but keep it open! =D
+The game is published under the GNU GPLv3 license, so feel free to copy and modify the code as you wish, but keep it open! =D
 
 How to install and play this, you ask?  
 
@@ -26,7 +26,7 @@ The following command should allow you to get the latest stable version of LÖVE
 ### WINDOWS
 
 For Windows we have created a .exe file that can be downloaded from gitlab. 
-1. Visit [https://gitlab.com/DavidLeonardWenzel/adam/-/tree/master/bin](https://gitlab.com/DavidLeonardWenzel/adam/-/tree/master/bin). You should see some .dll files, as well as ADAM.exe.
+1. Visit [https://gitlab.com/DavidLeonardWenzel/adam/-/tree/master/bin](https://gitlab.com/DavidLeonardWenzel/adam/-/tree/master/bin). You should see some .dll files, as well as adam.exe.
 2. On the site in the upper right corner there is a download symbol. Click on it.
 3. Download the source folder as a .zip file.
 4. Unpack the .zip file. Go into the extracted folder named 'adam'.
@@ -34,7 +34,7 @@ For Windows we have created a .exe file that can be downloaded from gitlab.
 
 ### MAC
 
-We do not support Mac yet.
+We do not support Mac yet, but you can find instructions on how to run the game from source [here](https://love2d.org/wiki/Getting_Started)
 
 ---
 This game is build using the [LÖVE](https://love2d.org/) framework and is written in [Lua](https://www.lua.org/) 5.3.   

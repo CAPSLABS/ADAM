@@ -91,10 +91,10 @@ return {
             self.a = "A - wesome"
             self.d = "D - efender"
             self.a2 = "A - ction"
-            self.m = "M - urderer"
+            self.m = "M - an"
         elseif rand == 1 then
             self.a = "A"
-            self.d = "D - istinctively"
+            self.d = "D - istinctly"
             self.a2 = "A - verage"
             self.m = "M - an"
         elseif rand == 2 then
@@ -116,9 +116,9 @@ return {
         }
         if enemyNum < 7 then
             WORLD.levels[#WORLD.levels].enemies["goblin"] = enemy
-        elseif enemyNum < 9 then 
+        elseif enemyNum < 9 then
             WORLD.levels[#WORLD.levels].enemies["zombie"] = enemy
-        else 
+        else
             WORLD.levels[#WORLD.levels].enemies["lizard"] = enemy
         end
     end,

@@ -30,8 +30,8 @@ function World:Create()
         lightningActive = false,
         -- Counts keypress after level has been won. Advance to next level if this is >= 0.
         continueButton = nil,
-        cityHealthMax = 100,
-        cityHealth = 100,
+        cityHealthMax = 50,
+        cityHealth = 50,
         healthPerc = 1,
         --endless mode flags:
         endlessmode = false,
@@ -827,7 +827,7 @@ function World:reset()
     self.spawn = true
     self.player.hearts = self.player.maxHearts
     if not self.endlessmode then
-        self.cityHealth = 100
+        self.cityHealth = self.cityHealthMax
         -- reset goals
         if self.levels[self.currentLvl].winType == "kill" then
             for name, enemyInfo in pairs(self.levels[self.currentLvl].enemies) do
