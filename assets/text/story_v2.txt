@@ -1,5 +1,5 @@
 ~lilith~MUSIC
-A quiet day in the life of ADAM, A Distinctively Average Man. 
+A quiet day in the life of ADAM, A Distinctly Average Man. 
 Until...
 ~adam~RIGHT
 ~lilith~LEFT
@@ -14,9 +14,9 @@ LILITH: There are no monsters in this village, you idiot!
 ~lilith~EXIT
 ~villager~LEFT
 ~lilith~RIGHT
-VILLAGER: Actually, I happen to be dying of monsters.
+VILLAGER: Actually, I happen to be under attack by monsters.
 LILITH: You don’t sound like it.
-VILLAGER: -clears throat- ARGH! I am dying of monsters!!
+VILLAGER: -clears throat- ARGH! I am being attacked by monsters!!
 ADAM: N I C E 
 ~none~INSTRUCTIONS
 Kill ten enemies who are attacking the village!
@@ -31,11 +31,11 @@ LILITH: Where did the monsters come from?!
 ADAM: I am a Defender!!
 LILITH: Why did they attack us??!?
 ~adam~TURN
-ADAM: I am an Action Murderer!!!
+ADAM: I am an Action Man!!!
 ~adam~TURN
 ADAM: !!!
 ~adam~TURN
-ADAM: AWESOME DEFENDER ACTION MURDERER!!!
+ADAM: AWESOME DEFENDER ACTION MAN!!!
 LILITH: Why did they conveniently leave money on the ground after being slain??
 ADAM: Cool! Money! We can get more stuff from old weird forest dude!
 ~shop~MUSIC
@@ -43,7 +43,7 @@ ADAM: Cool! Money! We can get more stuff from old weird forest dude!
 ~villageBattle~MUSIC
 ~villager~LEFT
 ~adam~RIGHT
-VILLAGER: ADAM, quick! There is more of them!
+VILLAGER: ADAM, quick! There are more of them!
 ~none~INSTRUCTIONS
 Stop the goblins from destroying the village!
 ~none~NEXTLEVEL
@@ -52,7 +52,7 @@ Stop the goblins from destroying the village!
 ~lilith~MUSIC
 ~lilith~LEFT
 ~adam~RIGHT
-ADAM: Whew, who knew fighting monsters was tiring!
+ADAM: Whew, who knew fighting monsters was so tiring!
 LILITH: You did a super good job! Here, have a snack.
 ~adam~TURN
 ADAM: -chomp-
@@ -65,7 +65,7 @@ ADAM: -munches happily-
 WILLIAM: Sacrè Bleaoueux, you two saved my villàge! 
 LILITH: Oh no our landlord! And we don’t have any money!
 WILLIAM: Let me introduce le myself, I am William...
-ADAM: -still munching- ’e know ’ho you a’e.
+ADAM: -still munching- ’e kno’ hu yu awh.
 WILLIAM: Cormanthor. . .
 LILITH: You own the entire village and are the richest person ever.
 WILLIAM: Salamancoliòn.  .   .
@@ -97,7 +97,7 @@ SAGE: For this many hints I can tell you this:
 SAGE: These are clearly the pawns of the goblin king! 
 SAGE: He lives in the mountains and loves money! 
 SAGE: Something with money power must have awakened him...
-LILITH: This game isn’t even trying anymore.
+LILITH: This game isn’t even trying anymore...
 ~william~LEFT
 ~sage~EXIT
 WILLIAM: My jèwel! We need to go to my chàteaueux to protect it!
@@ -105,7 +105,7 @@ WILLIAM: My jèwel! We need to go to my chàteaueux to protect it!
 ~mountain~MUSIC
 ~none~MAPCHANGE
 WILLIAM: Almost there! 
-ADAM: Oh no!! Other monsters!
+ADAM: Oh no!! Tougher monsters!
 ~mountainBattle~MUSIC
 ~none~INSTRUCTIONS
 Kill ten new enemies who are destroying the residency!
@@ -125,7 +125,7 @@ SAGE: I know what will cheer you up! Buy more stuff!!
 LILITH: Did you follow us all the way here?
 SAGE: Of course! ADAM is my favourite costumer!
 SAGE: ...my only costumer...
-SAGE: ...ok people just don’t buy murder weapons like they used to.
+SAGE: ...ok people just don’t buy big deadly weapons like they used to.
 LILITH: ok boomer.
 ~sage~EXIT
 ~william~LEFT
@@ -189,7 +189,7 @@ WILLIAM: Oh dear, the goblins ruined my pretty walls!
 WILLIAM: ADAM could you be more careful next time, it’s marble!
 ADAM: Just shut up, I bet you are not even french.
 WILLIAM: !!! sàcre bleh !!!
-LILITH: ADAM calm down now, you are a murderer not an ASSHOLE.
+LILITH: ADAM calm down now, you are a man, try not to be an ASSHOLE.
 ~adam~TURN
 ADAM: Don’t tell me what to do!!
 LILITH: So you would be an AWESOME ATTACKER ACTION ASSHOLE, or short-
@@ -222,7 +222,7 @@ Destroy the heavy door to get to the Goblin King!
 ~adam~RIGHT
 LILITH: Good job! The door is down.
 ADAM: Let’s go kick this guy’s butt
-ADAM: ...and then sleep forever
+ADAM: ...and then sleep forever... so tired...
 ~sage~LEFT
 SAGE: You will need all the help you can buy!
 ~shop~MUSIC
@@ -235,7 +235,7 @@ LILITH: Adam might need our help! He is fighting to protect us!
 WILLIAM: ...
 WILLIAM: You are right.
 WILLIAM: That’s it, I get it know! This is what ’friends’ mean! We help each other!
-WILLIAM: The Troll King is after the jewel, right?!
+WILLIAM: The Goblin King is after the jewel, right?!
 WILLIAM: YEET -yeets the jewel-
 LILITH: Are you serious?
 ~lilith~EXIT
@@ -244,14 +244,14 @@ LILITH: Are you serious?
 ADAM: AAAAAAAAAAAA!
 ~finalBattle~MUSIC
 ~none~INSTRUCTIONS
-THE TROLL KING ! ! !
+THE GOBLIN KING ! ! !
 ~none~NEXTLEVEL
 ~shop~MUSIC
 ~none~SAGE
 ~special~MAPCHANGE
 ~mainMenu~MUSIC
-And so, as all adventures do, this one also comes to an end.
-The goblin kind and his many pawns, who really should unionize, have been defeated.
+And so, as all adventures do, our story comes to an end.
+The goblin king and his many pawns, who really should unionize, have been defeated.
 And all our heroes arrived at the end of their own journey.
 ~lilith~RIGHT
 ~william~LEFT

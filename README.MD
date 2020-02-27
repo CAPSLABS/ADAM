@@ -1,7 +1,19 @@
 Welcome to ADAM, an open-source Shoot 'em up game!  
-The game published under GNU GPLv3, so feel free to copy and modify the code as you wish, but keep it open! =D
+The game is published under the GNU GPLv3 license, so feel free to copy and modify the code as you wish, but keep it open! =D
 
 How to install and play this, you ask?  
+
+
+
+### WINDOWS
+
+For Windows we have created a .exe file that can be downloaded from gitlab. 
+1. Visit [https://gitlab.com/DavidLeonardWenzel/adam/-/tree/master/bin](https://gitlab.com/DavidLeonardWenzel/adam/-/tree/master/bin). You should see some .dll files, as well as adam.exe.
+2. On the site in the upper right corner there is a download symbol. Click on it.
+3. Download the source folder as a .zip file.
+4. Unpack the .zip file. Go into the extracted folder named 'adam'.
+5. Start adam.exe to play!
+
 
 ### LINUX
 Under Linux, you can start the game directly using the source code!  
@@ -23,18 +35,16 @@ The following command should allow you to get the latest stable version of LÖVE
 `git clone https://gitlab.com/DavidLeonardWenzel/adam.git`  
 `love adam`  
 
-### WINDOWS
-
-For Windows we have created a .exe file that can be downloaded from gitlab. 
-1. Visit [https://gitlab.com/DavidLeonardWenzel/adam/-/tree/master/bin](https://gitlab.com/DavidLeonardWenzel/adam/-/tree/master/bin). You should see some .dll files, as well as ADAM.exe.
-2. On the site in the upper right corner there is a download symbol. Click on it.
-3. Download the source folder as a .zip file.
-4. Unpack the .zip file. Go into the extracted folder named 'adam'.
-5. Start adam.exe to play!
-
 ### MAC
+Under Mac, it's almost the same as with Linux.
 
-We do not support Mac yet.
+#### 1. Install love via Homebrew:
+`brew cask install love`
+
+##### 2. Clone and run source!
+`git clone https://gitlab.com/DavidLeonardWenzel/adam.git`  
+`love adam`  
+
 
 ---
 This game is build using the [LÖVE](https://love2d.org/) framework and is written in [Lua](https://www.lua.org/) 5.3.   
