@@ -41,10 +41,12 @@ return {
         self.tracks[title]:play()
     end,
     changeVolume = function(self, volume)
-        for key, track in pairs(self.tracks) do
-            track:setVolume(volume)
+        if volume >= 0 then
+            for key, track in pairs(self.tracks) do
+                track:setVolume(volume)
+            end
+            self.airhorn:setVolume(volume)
         end
-        self.airhorn:setVolume(volume)
     end,
     stopPrevious = function(self)
         for key, track in pairs(self.tracks) do
