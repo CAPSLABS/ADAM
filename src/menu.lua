@@ -48,7 +48,7 @@ return {
     -- Menu after pressing enter on title screen once - controls using mouse
     mainMenu = function(self)
         if SUIT.ImageButton(WORLD.HUD.media.hud.borderSmall, {id = 1}, self:getBorderX(), self:getBorderY(1)).hit then
-            self:startGame()
+            self:startIntroAnim()
         elseif SUIT.ImageButton(WORLD.HUD.media.hud.borderSmall, {id = 2}, self:getBorderX(), self:getBorderY(2)).hit then
             WORLD.endlessmode = true
             MUSIC:startMusic("villageBattle")
