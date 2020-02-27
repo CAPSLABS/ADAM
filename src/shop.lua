@@ -291,7 +291,7 @@ return {
             self.specialText = "A THIRD OF YOUR MONEY!"
             self.wallPerc = "10"
             self.wallPercMultiplier = 0.1
-            self.specialPrice = math.floor(WORLD.player.money * 0.3)
+            self.specialPrice = math.floor(WORLD.player.money * 0.33333)
         elseif self.specialCategory == 2 then
             self.specialText = "HALF YOUR MONEY!"
             self.wallPercMultiplier = 0.2

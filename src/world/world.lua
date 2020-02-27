@@ -25,6 +25,8 @@ function World:Create()
         wonLevel = false,
         -- true if spawning should be active
         spawn = true,
+        -- position of boss in enemies table
+        posOfBoss = 1,
         -- effect stuff
         lightningAlpha = 1,
         lightningActive = false,
@@ -536,12 +538,19 @@ end
 --reward (int)
 function World:updateEnemies(dt)
     for i, enemy in ipairs(self.enemies) do
-        if enemy.name ~= "fireball" then
+        if self.currentLvl >= 9 then
+            if enemy.name == "boss" then
+                self.posOfBoss = i
+            end
+            if enemy.name ~= "fireball" then
+                enemy:update(dt)
+            else
+                assert(self.currentLvl >= 9, "updateEnemies, tried calling fireball enemy in lvl " .. self.currentLvl)
+                -- first enemy is usually boss, but if he dies right in this moment, then it can also be a fireball
+                enemy:update(dt, self.enemies[self.posOfBoss].x, self.enemies[self.posOfBoss].y + 10)
+            end
+        else 
             enemy:update(dt)
-        else
-            assert(self.currentLvl >= 9, "updateEnemies, tried calling fireball enemy in lvl " .. self.currentLvl)
-            -- first enemy is usually boss, but if he dies right in this moment, then it can also be a fireball
-            enemy:update(dt, self.enemies[1].x, self.enemies[1].y + 10)
         end
         if not enemy.alive then
             table.remove(self.enemies, i)
@@ -1001,7 +1010,7 @@ function World:drawEnemyStuff()
 end
 
 function World:drawFire()
-    if self.currentLvl == 9 then
+    if self.currentLvl == 9 or self.currentLvl == 10 then
         for i, enemy in ipairs(self.enemies) do
             if enemy.name == "fireball" then
                 if enemy.gotHit then
@@ -1040,9 +1049,8 @@ function World:drawScreenShake(min, max)
     love.graphics.translate(xShift, yShift)
 end
 
---TODO: fix me
 function World:drawLightning()
-    --TODO: color the screen suddenly white, then fade back into standard colors
+    -- color the screen suddenly white, then fade back into standard colors
     if self.lightningActive then
         if self.lightningAlpha >= 0 then
             self.lightningAlpha = self.lightningAlpha - 0.1
