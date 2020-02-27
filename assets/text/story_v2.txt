@@ -221,7 +221,7 @@ Destroy the heavy door to get to the Goblin King!
 ~lilith~LEFT
 ~adam~RIGHT
 LILITH: Good job! The door is down.
-ADAM: Let’s go kick this guy’s butt
+ADAM: Let’s go kick this guy’s butt!
 ADAM: ...and then sleep forever... so tired...
 ~sage~LEFT
 SAGE: You will need all the help you can buy!
@@ -234,7 +234,7 @@ WILLIAM: AaAH! They are everywhere! Lilith, help me escape!
 LILITH: Adam might need our help! He is fighting to protect us!
 WILLIAM: ...
 WILLIAM: You are right.
-WILLIAM: That’s it, I get it know! This is what ’friends’ mean! We help each other!
+WILLIAM: That’s it, I get it know! This is what ’friends’ means! We help each other!
 WILLIAM: The Goblin King is after the jewel, right?!
 WILLIAM: YEET -yeets the jewel-
 LILITH: Are you serious?
@@ -257,12 +257,12 @@ And all our heroes arrived at the end of their own journey.
 ~william~LEFT
 WILLIAM: Adam, you made it! WE made it! 
 LILITH: shhh... he is sleeping....
-LILITH: I have never seen him this... chill
+LILITH: I have never seen him this... chill.
 ~sage~LEFT
-SAGE: Thank you all! I can finally retire with all the money you spent on this adventure
-LILITH: -hiding something in her pockets- Speaking of money, it is a real shame that your jewel got destroyed in the heat of battle
+SAGE: Thank you all! I can finally retire with all the money you spent on this adventure.
+LILITH: -hiding something in her pockets- Speaking of money, it is a real shame that your jewel got destroyed in the heat of battle.
 LILITH: -pockets getting heavier- ...just so sad...
-WILLIAM: It’s ok, I still own the entire villàege
+WILLIAM: It’s ok, I still own the entire villàege.
 ~adam~RIGHT
 ADAM: -wakes up-!! I did it! 
 ADAM: This was awesome!
@@ -270,8 +270,8 @@ LILITH: Yes you did!! Good boy!!!
 LILITH: So, who are you? A defender? 
 LILITH: Or an attacker?
 ADAM: I think I will just be Adam for a while.
-LILITH: Yeah: Amazing, Destructive, Annoying and Merry
+LILITH: Yeah: Amazing, Destructive, Annoying and Merry!
 And so they went back home, tired but laughing, and richer than before:
-With friends
+With friends.
 ~credits~MAPCHANGE
 bla
