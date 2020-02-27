@@ -38,11 +38,11 @@ return {
     end,
     -- Title screen menu Text
     updateMenu = function(self, dt)
-        if love.keyboard.isDown("return") then
-            self.enterPressed = true
-        end
         if self.enterPressed then
             self:mainMenu()
+        end
+        if love.keyboard.isDown("return") then
+            self.enterPressed = true
         end
     end,
     -- Menu after pressing enter on title screen once - controls using mouse
