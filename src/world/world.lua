@@ -491,7 +491,10 @@ function World:loadPlayer()
     self.player = Shallowcopy(PLAYERRAW)
     --load media:
     for key, imgPath in pairs(self.player.media) do
-        self.player.media[key] = love.graphics.newImage(imgPath)
+        -- this if is only needed when game is played through and restarted
+        if type(imgPath) == "string" then 
+            self.player.media[key] = love.graphics.newImage(imgPath)
+        end
     end
     --load animations:
     self.player.media.boomGrid =

@@ -52,12 +52,22 @@ return {
             love.graphics.setFont(WORLD.media.bigfantasyfont) --this should probably be triggered upon transitioning to GAMESTATE 1
             -- go back to title screen
             MENU.enterPressed = false
-            -- load title text and title screen enemy - not needed since enemy is already loaded
+            -- load title text and title screen enemy - not needed since one enemy is already loaded
             --MENU:load()
             -- set story index back to one so we can start again
             STORY.storyIndex = 1
-            -- possibly set back player skills to lvl 1?
-            -- reset all his money?
+            -- set back player skills - loadPlayer() replaces the current player object with a fresh new player object
+            WORLD:loadPlayer()
+            -- only in debug regain all that sweet sweet money
+            if DEBUG then
+                WORLD.player.money = 10000
+            end
+            -- set back skill borders - create fresh hud and load it
+            WORLD.HUD = Hud:Create()
+            WORLD:loadHud()
+            -- reset story, remove all speakers
+            STORY.leftSpeakers = {}
+            STORY.rightSpeakers = {}
             -- set world back to gamestate
             InitGame(#WORLD.levels,1)
         end

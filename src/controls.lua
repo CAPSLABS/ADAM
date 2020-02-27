@@ -34,6 +34,7 @@ return {
             -- false if don't hold the button 1 pressed
             if key == "1" then
                 MENU:startIntroAnim()
+                STORY.firstLvl = true
             elseif key == "2" then
                 STORY.firstLvl = false
                 STORY.storyIndex = 25
@@ -74,11 +75,15 @@ return {
                 STORY:mapchange()
                 InitGame(8, 6)
             elseif key == "s" then
-                --elseif love.keyboard.isDown("l") then
-                --    GAMESTATE = 7
                 GAMESTATE = 4
+            --elseif key == "c" then
+            --    GAMESTAATE = 7
+            elseif key == "e" then
+                WORLD.endlessmode = true
+                MUSIC:startMusic("villageBattle")
+                InitGame(10, 2)
             elseif key == "return" then
-                MENU:startIntroAnim(1, 6)
+                MENU:startIntroAnim()
             end
         end
     end,

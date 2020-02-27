@@ -35,17 +35,20 @@ return {
     -- a
     boomLevel = 1,
     boomCooldown = 1,
+    boomMaxCooldown = 1,
     canBoom = true,
     booms = {},
     -- s
     fireLevel = 0,
     fireCooldown = 6,
+    fireMaxCooldown = 6,
     fireDuration = 3.5,
     canFire = true,
     fires = {},
     -- d
     berserkLevel = 0,
     berserkCooldown = 10,
+    berserkMaxCooldown = 10,
     canBerserk = true,
     berserkDuration = 3,
     inBerserk = false,
@@ -53,6 +56,7 @@ return {
     -- f
     goFastLevel = 0,
     goFastCooldown = 12,
+    goFastMaxCooldown = 12,
     canGoFast = true,
     sonicAcceleration = 12,
     currentAcceleration = 0,
@@ -63,6 +67,7 @@ return {
     -- space
     burstLevel = 0,
     burstCooldown = 20,
+    burstMaxCooldown = 20,
     canBurst = true,
     bursting = false,
     explosionMaxRuntime = 1.3,
@@ -143,7 +148,7 @@ return {
                     }
                 )
                 self.canBoom = false
-                self.boomCooldown = PLAYERRAW.boomCooldown
+                self.boomCooldown = self.boomMaxCooldown
             end
         else --NO LIMITS WEEEEEEE
             table.insert(
@@ -179,7 +184,7 @@ return {
             }
             table.insert(self.fires, newFire)
             self.canFire = false
-            self.fireCooldown = PLAYERRAW.fireCooldown
+            self.fireCooldown = self.fireMaxCooldown
         end
     end,
     --d
@@ -187,7 +192,7 @@ return {
         if self.berserkLevel ~= 0 then
             self.inBerserk = true
             self.canBerserk = false
-            self.berserkCooldown = PLAYERRAW.berserkCooldown
+            self.berserkCooldown = self.berserkMaxCooldown
         end
     end,
     --f
@@ -195,7 +200,7 @@ return {
         if self.goFastLevel ~= 0 then
             self.inSonic = true
             self.canGoFast = false
-            self.goFastCooldown = PLAYERRAW.goFastCooldown
+            self.goFastCooldown = self.goFastMaxCooldown
         end
     end,
     --space
@@ -204,7 +209,7 @@ return {
             WORLD.exploding = true
             self.bursting = true
             self.canBurst = false
-            self.burstCooldown = PLAYERRAW.burstCooldown
+            self.burstCooldown = self.goFastMaxCooldown
         end
     end,
     lvlUpBoom = function(self)
@@ -212,11 +217,11 @@ return {
         if self.boomLevel == 2 then
             WORLD.HUD.media.hudSkillBorder.a = WORLD.HUD.media.hud.silver
             WORLD.player.boomCooldown = WORLD.player.boomCooldown / 2
-            PLAYERRAW.boomCooldown = PLAYERRAW.boomCooldown / 2
+            self.boomMaxCooldown = self.boomMaxCooldown / 2
         elseif self.boomLevel == 3 then
             WORLD.HUD.media.hudSkillBorder.a = WORLD.HUD.media.hud.gold
             WORLD.player.boomCooldown = WORLD.player.boomCooldown / 2
-            PLAYERRAW.boomCooldown = PLAYERRAW.boomCooldown / 2
+            self.boomMaxCooldown = self.boomMaxCooldown / 2
         end
     end,
     lvlUpFire = function(self)
@@ -224,11 +229,11 @@ return {
         if self.fireLevel == 2 then
             WORLD.HUD.media.hudSkillBorder.s = WORLD.HUD.media.hud.silver
             WORLD.player.fireCooldown = WORLD.player.fireCooldown / 2
-            PLAYERRAW.fireCooldown = PLAYERRAW.fireCooldown / 2
+            self.fireMaxCooldown = self.fireMaxCooldown / 2
         elseif self.fireLevel == 3 then
             WORLD.HUD.media.hudSkillBorder.s = WORLD.HUD.media.hud.gold
             WORLD.player.fireCooldown = WORLD.player.fireCooldown / 2
-            PLAYERRAW.fireCooldown = PLAYERRAW.fireCooldown / 2
+            self.fireMaxCooldown = self.fireMaxCooldown / 2
         end
     end,
     lvlUpBerserk = function(self)
@@ -236,11 +241,11 @@ return {
         if self.berserkLevel == 2 then
             WORLD.HUD.media.hudSkillBorder.d = WORLD.HUD.media.hud.silver
             WORLD.player.berserkCooldown = WORLD.player.berserkCooldown / 2
-            PLAYERRAW.berserkCooldown = PLAYERRAW.berserkCooldown / 2
+            self.berserkMaxCooldown = self.berserkMaxCooldown / 2
         elseif self.berserkLevel == 3 then
             WORLD.HUD.media.hudSkillBorder.d = WORLD.HUD.media.hud.gold
             WORLD.player.berserkCooldown = WORLD.player.berserkCooldown / 2
-            PLAYERRAW.berserkCooldown = PLAYERRAW.berserkCooldown / 2
+            self.berserkMaxCooldown = self.berserkMaxCooldown / 2
         end
     end,
     lvlUpFast = function(self)
@@ -248,11 +253,11 @@ return {
         if self.goFastLevel == 2 then
             WORLD.HUD.media.hudSkillBorder.f = WORLD.HUD.media.hud.silver
             WORLD.player.goFastCooldown = WORLD.player.goFastCooldown / 2
-            PLAYERRAW.goFastCooldown = PLAYERRAW.goFastCooldown / 2
+            self.goFastMaxCooldown = self.goFastMaxCooldown / 2
         elseif self.goFastLevel == 3 then
             WORLD.HUD.media.hudSkillBorder.f = WORLD.HUD.media.hud.gold
             WORLD.player.goFastCooldown = WORLD.player.goFastCooldown / 2
-            PLAYERRAW.goFastCooldown = PLAYERRAW.goFastCooldown / 2
+            self.goFastMaxCooldown = self.goFastMaxCooldown / 2
         end
     end,
     lvlUpBurst = function(self)
@@ -260,11 +265,11 @@ return {
         if self.burstLevel == 2 then
             WORLD.HUD.media.hudSkillBorder.space = WORLD.HUD.media.hud.silver
             WORLD.player.burstCooldown = WORLD.player.burstCooldown / 2
-            PLAYERRAW.burstCooldown = PLAYERRAW.burstCooldown / 2
+            self.goFastMaxCooldown = self.goFastMaxCooldown / 2
         elseif self.burstLevel == 3 then
             WORLD.HUD.media.hudSkillBorder.space = WORLD.HUD.media.hud.gold
             WORLD.player.burstCooldown = WORLD.player.burstCooldown / 2
-            PLAYERRAW.burstCooldown = PLAYERRAW.burstCooldown / 2
+            self.goFastMaxCooldown = self.goFastMaxCooldown / 2
         end
     end,
     update = function(self, dt)
@@ -399,8 +404,8 @@ return {
         GAMESTATE = 3
     end,
     reset = function(self, moneyreset)
-        --reset all values
-        --either safe the current money or reset to the money when starting the level (used when going going game over)
+        -- get player ready for the next level
+        -- either safe the current money or reset to the money when starting the level (used when going going game over)
         if moneyreset then
             self.money = self.startOfLvlMoney
         else
@@ -409,27 +414,27 @@ return {
         -- clear boom
         self.booms = {}
         self.canBoom = true
-        self.boomCooldown = PLAYERRAW.boomCooldown
+        self.boomCooldown = self.boomMaxCooldown
         -- clear fire
         self.fires = {}
         self.canFire = true
-        self.fireCooldown = PLAYERRAW.fireCooldown
+        self.fireCooldown = self.fireMaxCooldown
         -- clear berserk
         self.inBerserk = false
         self.canBerserk = true
         self.berserkDuration = PLAYERRAW.berserkDuration
-        self.berserkCooldown = PLAYERRAW.berserkCooldown
+        self.berserkCooldown = self.berserkMaxCooldown
         -- clear go fast
         self.sonicRings = {}
         self.inSonic = false
         self.canGoFast = true
         self.sonicDuration = PLAYERRAW.sonicDuration
         self.currentAcceleration = PLAYERRAW.currentAcceleration
-        self.goFastCooldown = PLAYERRAW.goFastCooldown
+        self.goFastCooldown = self.goFastMaxCooldown
         -- clear burst
         self.bursting = false
         self.canBurst = true
-        self.burstCooldown = PLAYERRAW.burstCooldown
+        self.burstCooldown = self.goFastMaxCooldown
         WORLD.exploding = false
         -- clear player status
         self.gotHit = false
@@ -438,6 +443,16 @@ return {
         self.anim = self.upLeftAnim
         self.x = 200
     end,
+    --clear = function(self)
+    --    -- completely erase all progress made with the player
+    --    -- set back player skills
+    --    self.boomLevel = 1
+    --    self.fireLevel = 0
+    --    self.berserkLevel = 0
+    --    self.goFastLevel = 0
+    --    self.burstLevel = 0
+    --    -- set back player durations 
+    --end,
     -- i know this seems to be an odd place for such a pretty function, but trust me, i can explain!
     buySpecialOffer = function(self)
         WORLD.cityHealth = WORLD.cityHealth + (WORLD.cityHealth * SHOP.wallPercMultiplier)
