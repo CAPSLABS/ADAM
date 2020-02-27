@@ -34,7 +34,12 @@ For Windows we have created a .exe file that can be downloaded from gitlab.
 
 ### MAC
 
-We do not support Mac yet, but you can find instructions on how to run the game from source [here](https://love2d.org/wiki/Getting_Started)
+Under Mac, it's almost the same as with Linux.
+
+#### 1. Install love via Homebrew:
+`brew cask install love`
+
+#### 2. Follow step 2 of the Linux install guide!
 
 ---
 This game is build using the [LÖVE](https://love2d.org/) framework and is written in [Lua](https://www.lua.org/) 5.3.   
