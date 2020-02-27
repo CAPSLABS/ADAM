@@ -1,6 +1,8 @@
 Welcome to ADAM, an open-source Shoot 'em up game!  
 The game is published under the GNU GPLv3 license, so feel free to copy and modify the code as you wish, but keep it open! =D
 
+![Promo Art](dev/promotion/promo.png)
+
 How to install and play this, you ask?  
 
 
