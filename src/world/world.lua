@@ -851,6 +851,7 @@ function World:reset()
             self.levels[self.currentLvl].goal = self.levels[self.currentLvl].goalMax
         elseif self.levels[self.currentLvl].winType == "collect" then
             self.levels[self.currentLvl].goal = self.levels[self.currentLvl].goalMax
+            self.levels[self.currentLvl].counter = 0
         end
         --reset timers
         for _, info in pairs(self.levels[self.currentLvl].enemies) do

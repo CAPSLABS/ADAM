@@ -188,7 +188,6 @@ return {
                 love.event.quit("restart")
             else
                 WORLD.player:reset(true)
-                WORLD:reset()
                 InitGame(WORLD.currentLvl, 2)
             end
         elseif love.keyboard.isDown("f") then
