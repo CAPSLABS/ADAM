@@ -19,8 +19,8 @@ For Windows we have created a .exe file that can be downloaded from gitlab.
 
 ### LINUX
 Under Linux, you can start the game directly using the source code!  
-##### 1. Install Lua & Love:    
-(if you aleady have LUA and LOVE installed skip this step)     
+##### 1. Install Lua & LÖVE:    
+(if you aleady have Lua and LÖVE installed skip this step)     
   
 **ARCH:**  
 `sudo pacman -S lua`  
@@ -38,9 +38,9 @@ The following command should allow you to get the latest stable version of LÖVE
 `love adam`  
 
 ### MAC
-Under Mac, it's almost the same as with Linux.
+Under Mac, it's almost the same as with Linux. Just put the following commands in your terminal:  
 
-#### 1. Install love via Homebrew:
+##### 1. Install love via Homebrew:
 `brew cask install love`
 
 ##### 2. Clone and run source!
@@ -52,5 +52,5 @@ Under Mac, it's almost the same as with Linux.
 This game is build using the [LÖVE](https://love2d.org/) framework and is written in [Lua](https://www.lua.org/) 5.3.   
 Game art was created using [pixilart](https://www.pixilart.com/) and [Tiled Map Editor](https://www.mapeditor.org/).  
 Spritesheets were created using [opengameart](https://opengameart.org/).   
-Game Music was created by [ozzed](http://ozzed.net) and [Scott Arrc](https://scottarc.bandcamp.com]).  
+Game Music was created by [ozzed](http://ozzed.net) and [Scott Arrc](https://scottarc.bandcamp.com).  
 Please check the credits and Attribution.txt for more details!
